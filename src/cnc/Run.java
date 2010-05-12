@@ -1,8 +1,11 @@
-package cnc.operator;
+package cnc;
 
-import cnc.CncLPTDriver;
 import cnc.emulation.Machine2DView;
 import cnc.emulation.VirtuaMachine;
+import cnc.operator.BmpFilePrinter;
+import cnc.operator.CncByteSignalGenerator;
+import cnc.operator.CncCommander;
+import cnc.operator.GCodeInterpreter;
 import cnc.operator.storage.IDataStorage;
 import cnc.operator.storage.TrickyDataStorage;
 import cnc.parser.bmp.BmpParser;
