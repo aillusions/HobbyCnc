@@ -1,6 +1,7 @@
 package Main;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -73,9 +74,9 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 					panelGraphicOutput = new CNCViewPanel();
 					scrollPaneGraphicOutput.setViewportView(panelGraphicOutput);
-					panelGraphicOutput.setBounds(293, 76, 171, 158);
+					//panelGraphicOutput.setBounds(293, 76, 171, 158);
 					panelGraphicOutput.setLayout(null);
-					panelGraphicOutput.setPreferredSize(new java.awt.Dimension(	817, 498));
+					//panelGraphicOutput.setPreferredSize(new java.awt.Dimension(817, 498));
 					panelGraphicOutput.addMouseListener(new MouseAdapter() {
 						public void mousePressed(MouseEvent evt) {
 							panelGraphicOutputMousePressed(evt);
@@ -90,15 +91,12 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 				}
 			}
 			{
-				scrollPanelGCodesEditor = new JScrollPane();
+				txtAreaGCodes = new JTextArea();
+				scrollPanelGCodesEditor = new JScrollPane(txtAreaGCodes);
 				getContentPane().add(scrollPanelGCodesEditor);
-				scrollPanelGCodesEditor.setBounds(605, 12, 174, 298);
+				scrollPanelGCodesEditor.setBounds(605, 12, 174, 298);	
+				scrollPanelGCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);							
 				{
-					txtAreaGCodes = new JTextArea();
-					scrollPanelGCodesEditor.setViewportView(txtAreaGCodes);
-					txtAreaGCodes.setBounds(183, 42, 198, 299);
-					txtAreaGCodes.setPreferredSize(new java.awt.Dimension(210,
-							313));
 					txtAreaGCodes.addKeyListener(new KeyAdapter() {
 						public void keyReleased(KeyEvent evt) {
 							jTextArea1KeyReleased(evt);
@@ -255,15 +253,14 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 	public class CNCViewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
 		private int theGap = 0;
-		private int coordLenght = 400;
-		private float scale = 5;
+		private int coordLenght = 200;
+
 
 		@Override
 		public void paint(Graphics g) {
 			super.paint(g);
 			g.setColor(Color.black);
-			drawCoordinates(g);
-			g.setColor(Color.red);
+			drawCoordinates(g);			
 			DrawPicture(g);
 		}
 
@@ -273,15 +270,33 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			BigDecimalPoint3D prevPos = new BigDecimalPoint3D();
 			for (int i = 0; i < cmdArray.length; i++) {
 				GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);
+				
 				if (gc != null) {
+				
 					BigDecimalPoint3D newPos = gc.getCoord();
-					g.drawLine(Math.round(prevPos.getX().floatValue() * scale),
-							Math.round(prevPos.getY().floatValue() * scale),
-							Math.round(newPos.getX().floatValue() * scale),
-							Math.round(newPos.getY().floatValue() * scale));
+					
+					if(Math.round(prevPos.getZ().floatValue()) <= 0
+					 && Math.round(newPos.getZ().floatValue()) <= 0){
+					 	g.setColor(Color.red);
+					 }else{
+					 	g.setColor(Color.blue);
+					 }
+					 
+					 
+					int prevX = Math.round(prevPos.getX().floatValue() * scale);
+					int prevY = Math.round(prevPos.getY().floatValue() * scale);
+					int newX = Math.round(newPos.getX().floatValue() * scale);
+					int newY = Math.round(newPos.getY().floatValue() * scale);
+					
+					//double panelWidth = panelGraphicOutput.getSize().getWidth();
+					//double panelHeight = panelGraphicOutput.getSize().getHeight();					
+					//panelGraphicOutput.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth), (int)Math.max(newY, panelHeight)));
+					panelGraphicOutput.setPreferredSize(new Dimension(newX,newY));
+						 			
+						panelGraphicOutput.revalidate();
 
+					g.drawLine(prevX, prevY, newX, newY);
 					prevPos = newPos;
-
 				}
 			}
 		}
