@@ -113,6 +113,7 @@ public class TrickyDataStorage implements IDataStorage {
 	public void saveVertex(Vertex v) {
 
 	}
+	@SuppressWarnings(value = "unchecked")
 	public Vertex getNextVertex() {
 		if (mainRec == null) {
 			mainRec = new Rectangle(new Vertex(0, minX, minY, 0), new Vertex(0, maxX, maxY, 0), true);

@@ -23,6 +23,7 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
 import cnc.GCodeAcceptor;
+import cnc.operator.storage.BitMapArrayDataStorage;
 import cnc.operator.storage.IDataStorage;
 import cnc.operator.storage.TrickyDataStorage;
 import cnc.parser.bmp.BmpFilePrinter;
@@ -74,9 +75,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 					panelGraphicOutput = new CNCViewPanel();
 					scrollPaneGraphicOutput.setViewportView(panelGraphicOutput);
-					//panelGraphicOutput.setBounds(293, 76, 171, 158);
 					panelGraphicOutput.setLayout(null);
-					//panelGraphicOutput.setPreferredSize(new java.awt.Dimension(817, 498));
 					panelGraphicOutput.addMouseListener(new MouseAdapter() {
 						public void mousePressed(MouseEvent evt) {
 							panelGraphicOutputMousePressed(evt);
@@ -196,7 +195,8 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			txtAreaGCodes.setText("");
 			panelGraphicOutput.repaint();		
 			
-			IDataStorage store = new TrickyDataStorage();
+			//IDataStorage store = new TrickyDataStorage();
+			IDataStorage store = new BitMapArrayDataStorage();
 			store.clearStorage();
 			
 			BmpParser parser = new BmpParser();

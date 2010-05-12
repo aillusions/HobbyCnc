@@ -72,7 +72,7 @@ public class Vertex {
 
 	@Override
 	public String toString() {
-		return String.format(java.util.Locale.US, "%1$d;%2$f;%3$f;%4$f;%5$b", id, x,y,z,used);
+		return String.format(java.util.Locale.US, "%1$f;%2$f;%3$f;",x,y,z);
 	}
 
 	@Override
