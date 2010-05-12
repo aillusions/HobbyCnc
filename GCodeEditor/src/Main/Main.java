@@ -22,9 +22,9 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
 import cnc.GCodeAcceptor;
-import cnc.operator.BmpFilePrinter;
 import cnc.operator.storage.IDataStorage;
 import cnc.operator.storage.TrickyDataStorage;
+import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 
 public class Main extends javax.swing.JFrame implements GCodeAcceptor {
@@ -257,7 +257,6 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 		private int theGap = 0;
 		private int coordLenght = 400;
 		private float scale = 5;
-		private String gCodes;
 
 		@Override
 		public void paint(Graphics g) {
