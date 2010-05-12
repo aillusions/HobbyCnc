@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>org.hsqldb.jdbcDriver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:hsqldb:mem:testdb</value>
+		</property>
+		<property name="username">
+			<value>sa</value>
+		</property>
+		<property name="password">
+			<value></value>
+		</property>
+	</bean>
+
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="mappingResources">
+			<list>
+				<value>org/my/entity/Client.hbm.xml</value>
+            </list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.HSQLDialect
+				</prop>
+				<prop key="hibernate.cache.provider_class">
+					org.hibernate.cache.HashtableCacheProvider
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">create-drop</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.cglib.use_reflection_optimizer">
+					true
+				</prop>
+			</props>
+		</property>
+
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+	</bean>
+
+	<bean id="clientDao1" class="org.my.dao.through_HibernateTemplate.without_HibernateDaoSupport.ClientDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+	<bean id="clientDao2" class="org.my.dao.through_HibernateTemplate.with_HibernateDaoSupport.sync.ClientDaoImpl2">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="clientDao3" class="org.my.dao.through_HibernateTemplate.with_HibernateDaoSupport.sync.ClientDaoImpl1">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<bean id="clientDao4" class="org.my.dao.through_HibernateTemplate.with_HibernateDaoSupport.async.ClientDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>	
+
+	<bean id="clientDao5" class="org.my.dao.through_TransactionManager.ClientDaoImpl">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+
+<!-- =================Hibernate Transaction Manager============== -->	
+	<bean id="txManager1" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+	    <property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!-- 1. By means of callbacks  -->
+	<bean id="clientService1" class="org.my.service.through_TransactionTemplate.ClientServiceImpl">
+	    <property name="transactionManager" ref="txManager1"/>
+	    <property name="clientDao" ref="clientDao5"/>
+	</bean>
+	<!-- 2. By means of AOP  -->
+		
+		<!-- 2.1.  TransactionProxyFactoryBean -->
+		
+		<bean id="clientService2" class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
+		    <property name="transactionManager" ref="txManager1"/>
+		    <property name="target">
+		      <bean class="org.my.service.through_AOP.ClientServiceImpl">
+		        <property name="clientDao" ref="clientDao5"/>
+		      </bean>
+		    </property>
+		    <property name="transactionAttributes">
+		      <props>
+		        <prop key="*">PROPAGATION_REQUIRED</prop>
+		      </props>
+		    </property>
+		 </bean>
+
+		<!-- 2.2.  Spring AOP -->
+		  <aop:config>
+		    <aop:pointcut id="clientServiceMethods" expression="execution(* org.my.service.through_AOP.ClientServiceImpl.*(..))"/>
+		    <aop:advisor advice-ref="txAdvice1" pointcut-ref="clientServiceMethods"/>
+		  </aop:config>
+		
+		  <tx:advice id="txAdvice1" transaction-manager="txManager1">
+		    <tx:attributes>
+		      <tx:method name="*" propagation="REQUIRED"/>
+		      <!--  
+		      <tx:method name="someOtherBusinessMethod" propagation="REQUIRES_NEW"/>
+		      <tx:method name="*" propagation="SUPPORTS" read-only="true"/>\
+		      -->
+		    </tx:attributes>
+		  </tx:advice>
+		
+		  <bean id="clientService3" class="org.my.service.through_AOP.ClientServiceImpl">
+		    <property name="clientDao" ref="clientDao5"/>
+		  </bean>
+		
+		
+
+ 	
+</beans>

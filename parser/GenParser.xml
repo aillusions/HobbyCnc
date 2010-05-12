@@ -1,0 +1,21 @@
+<project name="AseCCParser" default="run">
+
+	<property name="javacc.home" value="D:/WORK/JAVACC/javacc-4.0" />
+	<property name="src_dir" value="../src" />
+	<property name="gen_path" value="com/epam/illusions/cnc/operator/parser/ase" />
+
+	<path id="cp">
+		<fileset  dir="lib">
+	      <include name="*.jar"/>
+		</fileset>
+		<pathelement path="bin"/>
+
+	</path>
+	<target name="run">
+		<delete>
+			<fileset dir="${src_dir}/${gen_path}" includes="*.*" excludes="*.txt" />
+		</delete>
+		
+		<javacc target="AseCCParser.jj" outputdirectory="${src_dir}/${gen_path}" javacchome="${javacc.home}" />
+	</target>
+</project>

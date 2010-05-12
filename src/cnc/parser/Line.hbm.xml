@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+
+<hibernate-mapping package="cnc.parser" >
+
+    <class name="Line"  table="Lines" lazy="false">
+		<id name="id" column="ID"/>
+		<many-to-one name="point_a" column="point_a" cascade="save-update"   not-null="true"/>
+		<many-to-one name="point_b" column="point_b" cascade="save-update"    not-null="true"/>
+    </class>
+    
+</hibernate-mapping>
+
+

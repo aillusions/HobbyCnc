@@ -1,0 +1,146 @@
+
+options {
+  MULTI=true;
+  STATIC=false;
+}
+
+PARSER_BEGIN(AseCCParser)
+package com.epam.illusions.cnc.operator.parser.ase;
+import com.epam.illusions.cnc.operator.storage.*;
+import com.epam.illusions.cnc.operator.parser.ICncParser;
+public class AseCCParser implements ICncParser {
+
+private IDataStorage storage;
+private int lineCounter;
+
+public void setStorage(IDataStorage stor)
+{
+	storage = stor;
+}
+
+public IDataStorage getStorage()
+{
+	return storage;
+}
+
+public void setLineCounter(int val)
+{
+	lineCounter = val;
+}
+
+}
+
+PARSER_END(AseCCParser)
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN :
+{                   
+  <LBRACE:  	"{">
+| <RBRACE:  	"}">
+| <ASTERISK:	"*">
+}
+
+TOKEN :
+{                                                       
+  <DIGIT: 				["0"-"9"] >
+| <NUMBER: 				(<DIGIT>)+ ( "." (<DIGIT>)+ )? >
+| <MESH_VERTEX:			"MESH_VERTEX"> 
+| <MESH_FACE_LIST:      "MESH_FACE_LIST">
+| <MESH_FACE:			"MESH_FACE">
+| <DSMAX_ASCIIEXPORT: 	"DSMAX_ASCIIEXPORT">
+| <MESH_VERTEX_LIST:	"MESH_VERTEX_LIST">
+| <PROP_RECVSHADOW:   	"PROP_RECVSHADOW">
+| <MESH_SMOOTHING:		"MESH_SMOOTHING">
+| <MESH_MTLID:			"MESH_MTLID">
+| <ID:  				(["a"-"z","A"-"Z","_"])*>
+| <SERVSYMB: 			["\"", "-", ":", "{", "}", "(", ")", ","]>
+}
+
+void Start() : 
+	{	
+		if( storage == null)
+		{
+			throw new RuntimeException("Storage must be set!");
+		}
+		storage.clearStorage();
+	}
+{
+
+  	Object3D()  <EOF>
+}
+
+void Object3D() : {}
+{
+	skip_to_token(MESH_VERTEX_LIST)	<LBRACE> (Vertex())+ <RBRACE> 
+	
+	<ASTERISK> <MESH_FACE_LIST> <LBRACE> (Line())+ <RBRACE> 
+	
+	skip_to_token(EOF)	
+}
+
+
+void Vertex() :
+{
+	Token id;
+	Token x;
+	Token y;
+	Token z;
+}
+{
+	<ASTERISK> <MESH_VERTEX> (id = <NUMBER> | id = <DIGIT>) x = <NUMBER> y = <NUMBER> z = <NUMBER>
+	{
+		storage.addVertex(id.image, x.image, y.image, z.image);
+	} 
+}
+
+void Line() :
+{
+	Token a = null;
+	Token b = null;
+	Token c = null;
+	Token ab = null;
+	Token bc = null;
+	Token ca = null;
+}
+{
+	<ASTERISK> <MESH_FACE> (<NUMBER> | <DIGIT>) <SERVSYMB>
+	
+	<ID> <SERVSYMB> (a = <NUMBER> | a = <DIGIT>)
+	<ID> <SERVSYMB> (b = <NUMBER> | b = <DIGIT>)
+	<ID> <SERVSYMB> (c = <NUMBER> | c = <DIGIT>)
+	
+	<ID> <SERVSYMB> ab = <DIGIT>
+	<ID> <SERVSYMB> bc = <DIGIT>
+	<ID> <SERVSYMB> ca = <DIGIT>
+	
+	<ASTERISK> <MESH_SMOOTHING> <DIGIT>[ <SERVSYMB> <DIGIT>] <ASTERISK> <MESH_MTLID> <DIGIT>	
+	{
+		//Be attentive!!!  "lineCounter++" is intentional.
+		//We need incremental augment on next iteration!! 
+		if(ab.image.equals("1")) 
+			storage.addLine(lineCounter++, a.image, b.image);
+		if(bc.image.equals("1")) 
+			storage.addLine(lineCounter++, b.image, c.image);
+		if(ca.image.equals("1")) 
+			storage.addLine(lineCounter++, c.image, a.image);
+	}
+}
+
+JAVACODE
+void skip_to_token(int kind) {
+  Token tok;
+  int nesting = 1;
+  while (true) {
+    tok = getToken(1);
+    tok = getNextToken();    
+        if (tok.kind == kind)
+    		break;
+    }
+}
