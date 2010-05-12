@@ -185,4 +185,9 @@ public class SimpleDataStorage implements IDataStorage, Iterable<Line> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public long getVertexQty() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

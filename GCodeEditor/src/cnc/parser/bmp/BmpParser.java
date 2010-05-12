@@ -10,8 +10,9 @@ import cnc.parser.Vertex;
 public class BmpParser implements ICncParser {
 	private IDataStorage storage;
 	
-	public void loadbitmap(String sfile) {
-		//System.out.println("loading:" + sfile);
+	public long loadbitmap(String sfile) {
+		
+		long index = 0;
 		try {
 			FileInputStream fs = new FileInputStream( sfile);
 			int bflen = 14; // 14 byte BITMAPFILEHEADER
@@ -88,22 +89,21 @@ public class BmpParser implements ICncParser {
 					nindex += npad;
 				}
 				
-			counter = 0;
-			int index = 0;
+			counter = 0;			
 			for (int j = 0; j < nheight; j++) {
 				counter = nheight*nwidth-nwidth*(j+1);
 				for (int i = 0; i < nwidth; i++) {
 					
 					if( ndata[counter] != -1)
 					{
-						Vertex v = new Vertex(index, i, j, 0);
+						Vertex v = new Vertex((int)index, i, j, 0);
 						storage.addVertex(v);
 						index++;
 					}
 					counter ++;
 				}
 				}
-			System.out.println("Loaded succesfull: " + index + " vertexes.");
+			//System.out.println("Loaded succesfull: " + index + " vertexes.");
 			//storage.saveFile();
 			//storage.loadVertexFromFile("D:/Hobby2/HobbyCnc/vertexes.cvs");
 
@@ -116,6 +116,8 @@ public class BmpParser implements ICncParser {
 			System.out.println("Caught exception in loadbitmap!");
 			e.printStackTrace();
 		}
+		
+		return index;
 	}
 
 	public void setStorage(IDataStorage stor)

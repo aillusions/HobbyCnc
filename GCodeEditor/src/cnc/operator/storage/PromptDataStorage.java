@@ -156,4 +156,9 @@ public class PromptDataStorage implements IDataStorage {
 		return null;
 	}
 
+	public long getVertexQty() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

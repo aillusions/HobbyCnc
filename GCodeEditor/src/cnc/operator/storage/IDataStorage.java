@@ -20,4 +20,5 @@ public interface IDataStorage {
 	List<Vertex> getVertexesNear(Vertex v, boolean used);
 	Vertex getNextVertex();
 	void saveVertex(Vertex v);
+	long getVertexQty();
 }

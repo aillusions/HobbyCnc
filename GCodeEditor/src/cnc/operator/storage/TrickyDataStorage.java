@@ -157,4 +157,9 @@ public class TrickyDataStorage implements IDataStorage {
 		return lastReturnedVertex;
 	}
 
+	public long getVertexQty() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
