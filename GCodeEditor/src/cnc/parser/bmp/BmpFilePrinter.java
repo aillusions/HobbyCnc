@@ -30,7 +30,7 @@ public class BmpFilePrinter {
 			int shiftX = (int)Math.abs(currVertex.getX() - prevVertex.getX());
 			int shiftY = (int)Math.abs(currVertex.getY() - prevVertex.getY());			
 
-			if( shiftX > 1 || shiftY > 1 ) {					
+			if( shiftX > 3 || shiftY > 3 ) {					
 				liftUp();
 
 				moveTo(currVertex.getX(), currVertex.getY(), null);
