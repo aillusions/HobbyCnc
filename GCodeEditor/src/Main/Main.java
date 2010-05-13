@@ -25,27 +25,26 @@ import javax.swing.filechooser.FileFilter;
 import cnc.GCodeAcceptor;
 import cnc.operator.storage.BitMapArrayDataStorage;
 import cnc.operator.storage.IDataStorage;
-import cnc.operator.storage.TrickyDataStorage;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 
 public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 	private static final long serialVersionUID = 13423452354765L;
-	private JPanel panelGraphicOutput;
-	private JButton btnAddGCodesFromFile;
-	private JButton btnConvertImageIntoGCodes;
-	private JButton btnClear;
-	private JScrollPane scrollPanelGCodesEditor;
-	private JTextArea txtAreaGCodes;
-	private JScrollPane scrollPaneGraphicOutput;
+	private JPanel pnl_GraphicOutput;
+	private JButton btn_AddGCodesFromFile;
+	private JButton btn_ConvertImageToGCodes;
+	private JButton btn_Clear;
+	private JScrollPane scrollPane_GCodesEditor;
+	private JTextArea txtArea_GCodes;
+	private JScrollPane scrollPane_GraphicOutput;
 	private JPanel currentPoint = null;
 
-	private float scale = 5;
+	private int scale = 20;
 
 	public void putGCode(String gcode) {
-		txtAreaGCodes.append("\r\n" + gcode);
-		panelGraphicOutput.repaint();
+		txtArea_GCodes.append("\r\n" + gcode);
+		pnl_GraphicOutput.repaint();
 	}
 
 	public static void main(String[] args) {
@@ -64,78 +63,72 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 	}
 
 	private void initGUI() {
-		try {
+		try {			
+			pnl_GraphicOutput = new CNCViewPanel();			
+			pnl_GraphicOutput.setLayout(null);
+			pnl_GraphicOutput.addMouseListener(new MouseAdapter() {
+				public void mousePressed(MouseEvent evt) {
+					pnl_GraphicOutput_MousePressed(evt);
+				}
+			});			
+			pnl_GraphicOutput
+					.addMouseMotionListener(new MouseMotionAdapter() {
+						public void mouseMoved(MouseEvent evt) {
+							pnl_GraphicOutput_MouseMoved(evt);
+						}
+					});
+			
+			txtArea_GCodes = new JTextArea();
+			txtArea_GCodes.addKeyListener(new KeyAdapter() {
+				public void keyReleased(KeyEvent evt) {
+					txtArea_GCodes_KeyReleased(evt);
+				}
+			});
+						
+			scrollPane_GraphicOutput = new JScrollPane();			
+			scrollPane_GraphicOutput.setBounds(43, 10, 556, 300);	
+			scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
+			
+			scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
+			scrollPane_GCodesEditor.setBounds(605, 12, 174, 298);	
+			scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				
+			btn_Clear = new JButton();
+			btn_Clear.setText("clear");
+			btn_Clear.setBounds(783, 17, 55, 21);
+			btn_Clear.addMouseListener(new MouseAdapter() {
+				public void mouseReleased(MouseEvent evt) {
+					btn_Clear_MouseReleased(evt);
+				}
+			});		
+		
+			btn_ConvertImageToGCodes = new JButton();
+			btn_ConvertImageToGCodes.setText("open image");
+			btn_ConvertImageToGCodes.setBounds(783, 50, 55, 21);
+			btn_ConvertImageToGCodes.addMouseListener(new MouseAdapter() {
+				public void mouseReleased(MouseEvent evt) {
+					btn_ConvertImageToGCodes_MouseReleased(evt);
+				}
+			});
+			
+			
+			btn_AddGCodesFromFile = new JButton();			
+			btn_AddGCodesFromFile.setText("import from file");
+			btn_AddGCodesFromFile.setBounds(783, 77, 55, 21);
+			btn_AddGCodesFromFile.addMouseListener(new MouseAdapter() {
+				public void mouseReleased(MouseEvent evt) {
+					btn_AddGCodesFromFile_MouseReleased(evt);
+				}
+			});
+			
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			getContentPane().setLayout(null);
-			{
-				scrollPaneGraphicOutput = new JScrollPane();
-				getContentPane().add(scrollPaneGraphicOutput);
-				scrollPaneGraphicOutput.setBounds(43, 10, 556, 300);
-				{
-
-					panelGraphicOutput = new CNCViewPanel();
-					scrollPaneGraphicOutput.setViewportView(panelGraphicOutput);
-					panelGraphicOutput.setLayout(null);
-					panelGraphicOutput.addMouseListener(new MouseAdapter() {
-						public void mousePressed(MouseEvent evt) {
-							panelGraphicOutputMousePressed(evt);
-						}
-					});
-					panelGraphicOutput
-							.addMouseMotionListener(new MouseMotionAdapter() {
-								public void mouseMoved(MouseEvent evt) {
-									panelGraphicOutputMouseMoved(evt);
-								}
-							});
-				}
-			}
-			{
-				txtAreaGCodes = new JTextArea();
-				scrollPanelGCodesEditor = new JScrollPane(txtAreaGCodes);
-				getContentPane().add(scrollPanelGCodesEditor);
-				scrollPanelGCodesEditor.setBounds(605, 12, 174, 298);	
-				scrollPanelGCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);							
-				{
-					txtAreaGCodes.addKeyListener(new KeyAdapter() {
-						public void keyReleased(KeyEvent evt) {
-							jTextArea1KeyReleased(evt);
-						}
-					});
-				}
-			}
-			{
-				btnClear = new JButton();
-				getContentPane().add(btnClear);
-				btnClear.setText("clear");
-				btnClear.setBounds(783, 17, 55, 21);
-				btnClear.addMouseListener(new MouseAdapter() {
-					public void mouseReleased(MouseEvent evt) {
-						btnClearMouseReleased(evt);
-					}
-				});
-			}
-			{
-				btnConvertImageIntoGCodes = new JButton();
-				getContentPane().add(btnConvertImageIntoGCodes);
-				btnConvertImageIntoGCodes.setText("open image");
-				btnConvertImageIntoGCodes.setBounds(783, 50, 55, 21);
-				btnConvertImageIntoGCodes.addMouseListener(new MouseAdapter() {
-					public void mouseReleased(MouseEvent evt) {
-						btnConvertImageIntoGCodesMouseReleased(evt);
-					}
-				});
-			}
-			{
-				btnAddGCodesFromFile = new JButton();
-				getContentPane().add(btnAddGCodesFromFile);
-				btnAddGCodesFromFile.setText("import from file");
-				btnAddGCodesFromFile.setBounds(783, 77, 55, 21);
-				btnAddGCodesFromFile.addMouseListener(new MouseAdapter() {
-					public void mouseReleased(MouseEvent evt) {
-						btnAddGCodesFromFileMouseReleased(evt);
-					}
-				});
-			}
+			getContentPane().setLayout(null);			
+			getContentPane().add(scrollPane_GraphicOutput);
+			getContentPane().add(scrollPane_GCodesEditor);
+			getContentPane().add(btn_Clear);
+			getContentPane().add(btn_ConvertImageToGCodes);
+			getContentPane().add(btn_AddGCodesFromFile);
+				
 			pack();
 			this.setSize(846, 356);
 		} catch (Exception e) {
@@ -143,30 +136,30 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 		}
 	}
 
-	private void jTextArea1KeyReleased(KeyEvent evt) {
-		panelGraphicOutput.repaint();
+	private void txtArea_GCodes_KeyReleased(KeyEvent evt) {
+		pnl_GraphicOutput.repaint();
 	}
 
-	private void panelGraphicOutputMouseMoved(MouseEvent evt) {
+	private void pnl_GraphicOutput_MouseMoved(MouseEvent evt) {
 		if (currentPoint != null) {
 			currentPoint.setBounds(evt.getX(), evt.getY(), 4, 4);
 		}
 	}
 
-	private void panelGraphicOutputMousePressed(MouseEvent evt) {
+	private void pnl_GraphicOutput_MousePressed(MouseEvent evt) {
 		double x = Math.round(evt.getPoint().getX() / scale);
 		double y = Math.round(evt.getPoint().getY() / scale);
-		txtAreaGCodes.setText(txtAreaGCodes.getText() + "\n G00 X" + x + " Y"
+		txtArea_GCodes.setText(txtArea_GCodes.getText() + "\n G00 X" + x + " Y"
 				+ y);
-		panelGraphicOutput.repaint();
+		pnl_GraphicOutput.repaint();
 	}
 
-	protected void btnClearMouseReleased(MouseEvent evt) {
-		txtAreaGCodes.setText("");
-		panelGraphicOutput.repaint();
+	protected void btn_Clear_MouseReleased(MouseEvent evt) {
+		txtArea_GCodes.setText("");
+		pnl_GraphicOutput.repaint();
 	}
 
-	private void btnConvertImageIntoGCodesMouseReleased(MouseEvent evt) {
+	private void btn_ConvertImageToGCodes_MouseReleased(MouseEvent evt) {
 
 		final JFileChooser fc = new JFileChooser(new File("./parser"));
 		fc.addChoosableFileFilter(new FileFilter() {
@@ -178,8 +171,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 			@Override
 			public boolean accept(File f) {
-				String ext = f.getName()
-						.substring(f.getName().indexOf(".") + 1);
+				String ext = f.getName().substring(f.getName().indexOf(".") + 1);
 				if (f.isDirectory() || (f.isFile() && ext.equals("bmp"))) {
 					return true;
 				}
@@ -192,8 +184,8 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 		if (returnVal == 0) {
 			
 			//clear view
-			txtAreaGCodes.setText("");
-			panelGraphicOutput.repaint();		
+			txtArea_GCodes.setText("");
+			pnl_GraphicOutput.repaint();		
 			
 			//IDataStorage store = new TrickyDataStorage();
 			IDataStorage store = new BitMapArrayDataStorage();
@@ -209,7 +201,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 		}
 	}
 
-	private void btnAddGCodesFromFileMouseReleased(MouseEvent evt) {
+	private void btn_AddGCodesFromFile_MouseReleased(MouseEvent evt) {
 
 		final JFileChooser fc = new JFileChooser(new File("./gcodes"));
 		fc.addChoosableFileFilter(new FileFilter() {
@@ -234,8 +226,8 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 		if (returnVal == 0) {
 
-			txtAreaGCodes.setText("");
-			panelGraphicOutput.repaint();
+			txtArea_GCodes.setText("");
+			pnl_GraphicOutput.repaint();
 
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -265,7 +257,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 		}
 
 		private void DrawPicture(Graphics g) {
-			String cmd = txtAreaGCodes.getText();
+			String cmd = txtArea_GCodes.getText();
 			String[] cmdArray = cmd.replace("\r", "").split("\n");
 			BigDecimalPoint3D prevPos = new BigDecimalPoint3D();
 			for (int i = 0; i < cmdArray.length; i++) {
@@ -288,12 +280,13 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 					int newX = Math.round(newPos.getX().floatValue() * scale);
 					int newY = Math.round(newPos.getY().floatValue() * scale);
 					
-					//double panelWidth = panelGraphicOutput.getSize().getWidth();
-					//double panelHeight = panelGraphicOutput.getSize().getHeight();					
-					//panelGraphicOutput.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth), (int)Math.max(newY, panelHeight)));
-					panelGraphicOutput.setPreferredSize(new Dimension(newX,newY));						 			
-					panelGraphicOutput.revalidate();
-
+					double panelWidth = pnl_GraphicOutput.getSize().getWidth();
+					double panelHeight = pnl_GraphicOutput.getSize().getHeight();	
+					if(panelWidth < newX || panelHeight < newY){	
+						pnl_GraphicOutput.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth), (int)Math.max(newY, panelHeight)));
+						//panelGraphicOutput.setPreferredSize(new Dimension(newX,newY));						 			
+						pnl_GraphicOutput.revalidate();
+					}
 					g.drawLine(prevX, prevY, newX, newY);
 					prevPos = newPos;
 				}

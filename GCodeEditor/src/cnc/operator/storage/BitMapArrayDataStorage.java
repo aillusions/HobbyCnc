@@ -13,7 +13,6 @@ public class BitMapArrayDataStorage implements IDataStorage {
 	private Vertex lastVertex = null;
 	
 	private void setNewCurrentVertex(Vertex lastVertex){
-		//System.out.println(this.lastVertex + " - " + lastVertex);
 		this.lastVertex = lastVertex;
 	}
 	
@@ -49,30 +48,10 @@ public class BitMapArrayDataStorage implements IDataStorage {
 					}
 				}
 			}
-			
-			/*	for(int i = 0; i < 1000; i++){
-				for(int j = 0; j < 1000; j++){
-					if(((lastX+i) < 1000) && ((lastY+j) < 1000) && bitMap[lastX+i][lastY+j] == 1){
-						setNewCurrentVertex(new Vertex(-1,lastX+i,lastY+j,0));
-						return lastVertex;
-					}else if(((lastX-i) > -1) && ((lastY+j) < 1000) && bitMap[lastX-i][lastY+j] == 1){
-						setNewCurrentVertex(new Vertex(-1,lastX-i,lastY+j,0));
-						return lastVertex;
-					}else if(((lastX+i) < 1000) && ((lastY-j) > -1) && bitMap[lastX+i][lastY-j] == 1){
-						setNewCurrentVertex(new Vertex(-1,lastX+i,lastY-j,0));
-						return lastVertex;
-					}else if(((lastX-i) > -1) && ((lastY-j) > -1) && bitMap[lastX-i][lastY-j] == 1){
-						setNewCurrentVertex(new Vertex(-1,lastX-i,lastY-j,0));
-						return lastVertex;
-					}
-				}
-			}*/
-		
 		}
 		return null;
 	}
 
-	
 	
 	//----------------------------------------------------------
 	//----------------------------------------------------------
