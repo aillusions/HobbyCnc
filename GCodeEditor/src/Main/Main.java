@@ -34,6 +34,19 @@ import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 
 
+
+/**
+* This code was edited or generated using CloudGarden's Jigloo
+* SWT/Swing GUI Builder, which is free for non-commercial
+* use. If Jigloo is being used commercially (ie, by a corporation,
+* company or business for any purpose whatever) then you
+* should purchase a license for each developer using Jigloo.
+* Please visit www.cloudgarden.com for details.
+* Use of Jigloo implies acceptance of these licensing terms.
+* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
+* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
+* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
+*/
 public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 	private static final long serialVersionUID = 13423452354765L;
@@ -93,16 +106,16 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			});
 						
 			scrollPane_GraphicOutput = new JScrollPane();			
-			scrollPane_GraphicOutput.setBounds(43, 10, 556, 300);	
+			scrollPane_GraphicOutput.setBounds(6, 5, 556, 300);	
 			scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
 			
 			scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
-			scrollPane_GCodesEditor.setBounds(605, 12, 174, 298);	
+			scrollPane_GCodesEditor.setBounds(568, 5, 174, 298);	
 			scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				
 			btn_Clear = new JButton();
 			btn_Clear.setText("clear");
-			btn_Clear.setBounds(783, 17, 55, 21);
+			btn_Clear.setBounds(751, 17, 84, 21);
 			btn_Clear.addMouseListener(new MouseAdapter() {
 				public void mouseReleased(MouseEvent evt) {
 					btn_Clear_MouseReleased(evt);
@@ -111,7 +124,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 		
 			btn_ConvertImageToGCodes = new JButton();
 			btn_ConvertImageToGCodes.setText("open image");
-			btn_ConvertImageToGCodes.setBounds(783, 50, 55, 21);
+			btn_ConvertImageToGCodes.setBounds(751, 44, 84, 21);
 			btn_ConvertImageToGCodes.addMouseListener(new MouseAdapter() {
 				public void mouseReleased(MouseEvent evt) {
 					btn_ConvertImageToGCodes_MouseReleased(evt);
@@ -120,8 +133,8 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			
 			
 			btn_AddGCodesFromFile = new JButton();			
-			btn_AddGCodesFromFile.setText("import from file");
-			btn_AddGCodesFromFile.setBounds(783, 77, 55, 21);
+			btn_AddGCodesFromFile.setText("import file");
+			btn_AddGCodesFromFile.setBounds(751, 71, 84, 21);
 			btn_AddGCodesFromFile.addMouseListener(new MouseAdapter() {
 				public void mouseReleased(MouseEvent evt) {
 					btn_AddGCodesFromFile_MouseReleased(evt);
@@ -134,7 +147,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 							
 			comBox_Scale = new JComboBox();			
 			comBox_Scale.setModel(comBoxModel_Scale);
-			comBox_Scale.setBounds(791, 112, 35, 21);
+			comBox_Scale.setBounds(751, 104, 84, 21);
 			comBox_Scale.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent evt) {
 					comBox_Scale_ActionPerformed(evt);
@@ -143,11 +156,15 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);			
+			this.setTitle("GCodes editor");
 			getContentPane().add(scrollPane_GraphicOutput);
 			getContentPane().add(scrollPane_GCodesEditor);
 			getContentPane().add(btn_Clear);
+			btn_Clear.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			getContentPane().add(btn_ConvertImageToGCodes);
+			btn_ConvertImageToGCodes.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			getContentPane().add(btn_AddGCodesFromFile);
+			btn_AddGCodesFromFile.setMargin(new java.awt.Insets(0, 0, 0, 0));
 			getContentPane().add(comBox_Scale);
 
 			pack();
