@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import cnc.Config;
-import cnc.operator.*;
 
 
 public class Rectangle implements Iterable<Rectangle>  {

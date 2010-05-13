@@ -1,4 +1,4 @@
-package cnc.operator.storage.database;
+package cnc.storage.database;
 
 import java.io.BufferedWriter;
 import java.util.Iterator;
@@ -10,10 +10,10 @@ import org.hibernate.Session;
 
 import cnc.Config;
 import cnc.HiberUtil;
-import cnc.operator.storage.IDataStorage;
 import cnc.parser.Line;
 import cnc.parser.Rectangle;
 import cnc.parser.Vertex;
+import cnc.storage.IDataStorage;
 
 
 public class PromptDataStorage implements IDataStorage {

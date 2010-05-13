@@ -1,4 +1,4 @@
-package cnc.operator.storage;
+package cnc.storage;
 
 import java.util.Iterator;
 import java.util.List;

@@ -1,4 +1,4 @@
-package cnc.operator.storage.database;
+package cnc.storage.database;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;

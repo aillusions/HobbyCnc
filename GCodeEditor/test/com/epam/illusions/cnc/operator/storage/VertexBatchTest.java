@@ -7,9 +7,9 @@ import java.util.List;
 
 import org.junit.Test;
 
-import cnc.operator.storage.database.VertexBatch;
 import cnc.parser.Rectangle;
 import cnc.parser.Vertex;
+import cnc.storage.database.VertexBatch;
 
 
 

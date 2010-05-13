@@ -1,8 +1,8 @@
 package cnc.parser.bmp;
 
 import cnc.GCodeAcceptor;
-import cnc.operator.storage.IDataStorage;
 import cnc.parser.Vertex;
+import cnc.storage.IDataStorage;
 
 public class BmpFilePrinter {
 	

@@ -3,9 +3,9 @@ package com.epam.illusions.cnc.operator.storage;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import cnc.operator.storage.IDataStorage;
-import cnc.operator.storage.database.SimpleDataStorage;
 import cnc.parser.Vertex;
+import cnc.storage.IDataStorage;
+import cnc.storage.database.SimpleDataStorage;
 
 
 

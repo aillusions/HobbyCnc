@@ -6,8 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import org.junit.Test;
 
-import cnc.operator.storage.database.SimpleDataStorage;
 import cnc.parser.Vertex;
+import cnc.storage.database.SimpleDataStorage;
 
 
 

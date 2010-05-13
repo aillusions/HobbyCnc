@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import cnc.operator.storage.IDataStorage;
 import cnc.parser.Vertex;
+import cnc.storage.IDataStorage;
 
 
 

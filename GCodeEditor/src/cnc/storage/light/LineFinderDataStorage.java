@@ -1,13 +1,13 @@
-package cnc.operator.storage.light;
+package cnc.storage.light;
 
 import java.util.Iterator;
 import java.util.List;
 
-import cnc.operator.storage.IDataStorage;
 import cnc.parser.Line;
 import cnc.parser.Vertex;
+import cnc.storage.IDataStorage;
 
-public class BitMapArrayDataStorage implements IDataStorage {
+public class LineFinderDataStorage implements IDataStorage {
 	
 	private char [][] bitMap = new char[1000][1000];
 	

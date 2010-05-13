@@ -1,4 +1,4 @@
-package cnc.operator.storage.database;
+package cnc.storage.database;
 
 import java.util.Iterator;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.hibernate.Session;
 
 import cnc.HiberUtil;
-import cnc.operator.storage.IDataStorage;
 import cnc.parser.Line;
 import cnc.parser.Vertex;
+import cnc.storage.IDataStorage;
 
 public class SimpleDataStorage implements IDataStorage, Iterable<Line> {
 

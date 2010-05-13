@@ -31,10 +31,10 @@ import cnc.GCodeAcceptor;
 import cnc.editor.GCodeParser;
 import cnc.editor.domain.BigDecimalPoint3D;
 import cnc.editor.domain.GCommand;
-import cnc.operator.storage.IDataStorage;
-import cnc.operator.storage.light.BitMapArrayDataStorage;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
+import cnc.storage.IDataStorage;
+import cnc.storage.light.BitMapArrayDataStorage;
 
 public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 

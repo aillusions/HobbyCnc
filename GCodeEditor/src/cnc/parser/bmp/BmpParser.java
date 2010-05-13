@@ -2,9 +2,9 @@ package cnc.parser.bmp;
 
 import java.io.FileInputStream;
 
-import cnc.operator.storage.IDataStorage;
 import cnc.parser.ICncParser;
 import cnc.parser.Vertex;
+import cnc.storage.IDataStorage;
 
 
 public class BmpParser implements ICncParser {
