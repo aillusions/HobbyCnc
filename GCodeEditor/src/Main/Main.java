@@ -203,7 +203,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			parser.setStorage(store);
 			long qty = parser.loadbitmap(fc.getSelectedFile().getPath());
 			
-			BmpFilePrinter bmpPrinter = new BmpFilePrinter(this, qty);			
+			BmpFilePrinter bmpPrinter = new BmpFilePrinter(this);			
 			bmpPrinter.setStore(store);
 			bmpPrinter.StartBuild();
 		}
@@ -291,9 +291,8 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 					//double panelWidth = panelGraphicOutput.getSize().getWidth();
 					//double panelHeight = panelGraphicOutput.getSize().getHeight();					
 					//panelGraphicOutput.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth), (int)Math.max(newY, panelHeight)));
-					panelGraphicOutput.setPreferredSize(new Dimension(newX,newY));
-						 			
-						panelGraphicOutput.revalidate();
+					panelGraphicOutput.setPreferredSize(new Dimension(newX,newY));						 			
+					panelGraphicOutput.revalidate();
 
 					g.drawLine(prevX, prevY, newX, newY);
 					prevPos = newPos;
