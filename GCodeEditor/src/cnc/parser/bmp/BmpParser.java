@@ -109,19 +109,17 @@ public class BmpParser implements ICncParser {
 
 			} 
 			else {
-				System.out.println("Not a 24-bit Windows Bitmap, aborting...");
+				throw new RuntimeException("Not a 24-bit Windows Bitmap, aborting...");
 			}
 			fs.close();
 		} catch (Exception e) {
-			System.out.println("Caught exception in loadbitmap!");
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		
 		return index;
 	}
 
-	public void setStorage(IDataStorage stor)
-	{
+	public void setStorage(IDataStorage stor){
 		storage = stor;
 	}
 

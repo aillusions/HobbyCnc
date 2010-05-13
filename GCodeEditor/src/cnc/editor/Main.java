@@ -1,18 +1,17 @@
 package cnc.editor;
 
-import javax.swing.SwingUtilities;
-
 import cnc.editor.view.EditorViewFrame;
 
-public class Main {
-
+public class Main {	
 	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				EditorViewFrame inst = new EditorViewFrame();
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-			}
-		});
+		
+		Editor editor = new Editor();
+				
+		EditorViewFrame editorViewFrame = new EditorViewFrame(editor, editor.getDoc());		
+		editorViewFrame.setLocationRelativeTo(null);
+		editorViewFrame.setVisible(true);
+		
+		MyDocListener docListener = new MyDocListener(editorViewFrame);		
+		editor.getDoc().addDocumentListener(docListener);
 	}
 }
