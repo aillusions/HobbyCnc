@@ -31,20 +31,7 @@ import cnc.parser.bmp.BmpParser;
 import cnc.storage.IDataStorage;
 import cnc.storage.light.BitMapArrayDataStorage;
 
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
-public class EditorFrame extends javax.swing.JFrame implements GCodeAcceptor {
+public class EditorViewFrame extends javax.swing.JFrame implements GCodeAcceptor {
 
 	private static final long serialVersionUID = 13423452354765L;
 	private VisualisationPanel pnl_GraphicOutput;
@@ -64,18 +51,7 @@ public class EditorFrame extends javax.swing.JFrame implements GCodeAcceptor {
 		pnl_GraphicOutput.repaint();
 	}
 
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				EditorFrame inst = new EditorFrame();
-				inst.setLocationRelativeTo(null);
-				inst.setVisible(true);
-			}
-		});
-	}
-
-	public EditorFrame() {
-		super();
+	public EditorViewFrame() {
 		initGUI();
 	}
 
@@ -102,11 +78,11 @@ public class EditorFrame extends javax.swing.JFrame implements GCodeAcceptor {
 		});
 					
 		scrollPane_GraphicOutput = new JScrollPane();			
-		scrollPane_GraphicOutput.setBounds(6, 5, 704, 564);	
+		scrollPane_GraphicOutput.setBounds(6, 5, 704, 464);	
 		scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
 		
 		scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
-		scrollPane_GCodesEditor.setBounds(716, 5, 174, 564);	
+		scrollPane_GCodesEditor.setBounds(716, 5, 174, 464);	
 		scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			
 		btn_Clear = new JButton();
@@ -163,7 +139,7 @@ public class EditorFrame extends javax.swing.JFrame implements GCodeAcceptor {
 		getContentPane().add(btn_AddGCodesFromFile);			
 		getContentPane().add(comBox_Scale);
 		pack();
-		setSize(1000, 600);		
+		setSize(1000, 500);		
 	}
 
 	private void txtArea_GCodes_KeyReleased(KeyEvent evt) {
@@ -256,7 +232,6 @@ public class EditorFrame extends javax.swing.JFrame implements GCodeAcceptor {
 		int returnVal = fc.showOpenDialog(this);
 
 		if (returnVal == 0) {
-
 			txtArea_GCodes.setText("");
 			pnl_GraphicOutput.repaint();
 
