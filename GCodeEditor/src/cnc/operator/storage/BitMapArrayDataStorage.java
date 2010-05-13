@@ -37,7 +37,7 @@ public class BitMapArrayDataStorage implements IDataStorage {
 			}
 		}else{
 			int lastX = (int)lastVertex.getX();
-			int lastY = (int)lastVertex.getX();
+			int lastY = (int)lastVertex.getY();
 			
 			for (int a = 1; a < 100; a++) {
 				for (int i = lastX - a; i <= lastX + a; i++) {
