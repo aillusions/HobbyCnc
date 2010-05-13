@@ -1,18 +1,22 @@
 package cnc.editor.view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.File;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.text.Document;
 
 public class EditorViewFrame extends javax.swing.JFrame {
@@ -62,6 +66,10 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		btn_Clear.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_Clear.setActionCommand("Clear");
 		btn_Clear.addActionListener(actionListener);
+		btn_Clear.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				shrinkVisualPanel();				
+			}});
 		
 		btn_ConvertImageToGCodes = new JButton();
 		btn_ConvertImageToGCodes.setText("open image");
@@ -100,6 +108,8 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		getContentPane().add(comBox_Scale);
 		pack();
 		setSize(1000, 500);	
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 	private void pnl_GraphicOutput_MouseMoved(MouseEvent evt) {
@@ -112,13 +122,42 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		txtArea_GCodes.setText(txtArea_GCodes.getText() + "\n G00 X" + x + " Y"	+ y);
 	}
 	
+	public void shrinkVisualPanel(){
+		pnl_GraphicOutput.setPreferredSize(new Dimension(1, 1));
+		pnl_GraphicOutput.revalidate();
+	}
+	
 	public void repaintVisualPanel(){
 		pnl_GraphicOutput.repaint();
 	}
-	
 	private void scaleVisualisationPanel(ActionEvent e) {
 		float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
 		pnl_GraphicOutput.setScale(scale);
 		repaintVisualPanel();
 	}	
+	
+	public static File openFileChooser(String dir, String ext){
+		final JFileChooser fc = new JFileChooser(new File(dir));
+		fc.addChoosableFileFilter(new FileFilter() {
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public boolean accept(File f) {
+				String ext = f.getName().substring(f.getName().indexOf(".") + 1);
+				if (f.isDirectory() || (f.isFile() && ext.equals(ext))) {
+					return true;
+				}
+				return false;
+			}
+		});
+
+		if(fc.showOpenDialog(null) == 0){
+			return fc.getSelectedFile();
+		}
+		return null;
+	}
 }

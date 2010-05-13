@@ -1,4 +1,4 @@
-package cnc.editor;
+package cnc.parser;
 
 import java.math.BigDecimal;
 

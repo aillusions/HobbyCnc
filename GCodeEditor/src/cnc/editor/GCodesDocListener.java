@@ -5,7 +5,7 @@ import javax.swing.event.DocumentListener;
 
 import cnc.editor.view.EditorViewFrame;
 
-public class MyDocListener implements DocumentListener {
+public class GCodesDocListener implements DocumentListener {
 
 	EditorViewFrame frame;
 		
@@ -17,7 +17,7 @@ public class MyDocListener implements DocumentListener {
 		this.frame = frame;
 	}
 
-	public MyDocListener(EditorViewFrame editorViewFrame) {
+	public GCodesDocListener(EditorViewFrame editorViewFrame) {
 		this.frame = editorViewFrame;
 	}
 

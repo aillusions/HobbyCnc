@@ -7,9 +7,9 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import cnc.editor.GCodeParser;
 import cnc.editor.domain.BigDecimalPoint3D;
 import cnc.editor.domain.GCommand;
+import cnc.parser.GCodeParser;
 
 public class VisualisationPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
