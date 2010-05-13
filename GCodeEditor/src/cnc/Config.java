@@ -1,4 +1,4 @@
-package cnc.operator;
+package cnc;
 
 import java.io.File;
 import java.io.FileOutputStream;

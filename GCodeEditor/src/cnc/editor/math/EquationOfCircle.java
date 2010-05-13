@@ -1,4 +1,4 @@
-package Main;
+package cnc.editor.math;
 
 public class EquationOfCircle {
 

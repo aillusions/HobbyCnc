@@ -1,4 +1,4 @@
-package cnc.operator.storage;
+package cnc.operator.storage.database;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,6 +10,7 @@ import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 
 import cnc.HiberUtil;
+import cnc.operator.storage.IDataStorage;
 import cnc.parser.Line;
 import cnc.parser.Rectangle;
 import cnc.parser.Vertex;

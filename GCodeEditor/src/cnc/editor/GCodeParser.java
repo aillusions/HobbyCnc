@@ -1,8 +1,11 @@
-package Main;
+package cnc.editor;
 
 import java.math.BigDecimal;
 
-import Main.GCommand.GcommandTypes;
+import cnc.editor.domain.BigDecimalPoint3D;
+import cnc.editor.domain.GCommand;
+import cnc.editor.domain.GCommand.GcommandTypes;
+
 
 public class GCodeParser {	
 

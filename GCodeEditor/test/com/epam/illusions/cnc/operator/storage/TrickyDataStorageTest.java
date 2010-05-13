@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import cnc.operator.storage.IDataStorage;
-import cnc.operator.storage.TrickyDataStorage;
+import cnc.operator.storage.database.TrickyDataStorage;
 import cnc.parser.Vertex;
 
 

@@ -1,8 +1,9 @@
-package cnc.operator.storage;
+package cnc.operator.storage.light;
 
 import java.util.Iterator;
 import java.util.List;
 
+import cnc.operator.storage.IDataStorage;
 import cnc.parser.Line;
 import cnc.parser.Vertex;
 
@@ -38,7 +39,7 @@ public class BitMapArrayDataStorage implements IDataStorage {
 			int lastX = (int)lastVertex.getX();
 			int lastY = (int)lastVertex.getY();
 			
-			for (int a = 1; a < 100; a++) {
+			for (int a = 1; a < 1000; a++) {
 				for (int i = lastX - a; i <= lastX + a; i++) {
 					for (int j = lastY - a; j <= lastY + a; j++) {
 						if (i < 1000 && j < 1000 && i > -1 && j > -1 && bitMap[i][j] == 1) {

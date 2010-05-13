@@ -1,4 +1,4 @@
-package Main;
+package cnc.editor.domain;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;

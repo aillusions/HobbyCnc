@@ -1,4 +1,4 @@
-package cnc.operator.storage;
+package cnc.operator.storage.database;
 
 import java.io.BufferedWriter;
 import java.util.Iterator;
@@ -8,8 +8,9 @@ import org.hibernate.ScrollMode;
 import org.hibernate.ScrollableResults;
 import org.hibernate.Session;
 
+import cnc.Config;
 import cnc.HiberUtil;
-import cnc.operator.Config;
+import cnc.operator.storage.IDataStorage;
 import cnc.parser.Line;
 import cnc.parser.Rectangle;
 import cnc.parser.Vertex;

@@ -1,4 +1,5 @@
-package Main;
+package cnc.editor.domain;
+
 
 public class GCommand {
 	

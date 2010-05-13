@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import cnc.operator.storage.IDataStorage;
-import cnc.operator.storage.SimpleDataStorage;
+import cnc.operator.storage.database.SimpleDataStorage;
 import cnc.parser.Vertex;
 
 

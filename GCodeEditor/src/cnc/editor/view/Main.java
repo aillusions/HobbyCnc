@@ -1,4 +1,4 @@
-package Main;
+package cnc.editor.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -28,25 +28,14 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
 import cnc.GCodeAcceptor;
-import cnc.operator.storage.BitMapArrayDataStorage;
+import cnc.editor.GCodeParser;
+import cnc.editor.domain.BigDecimalPoint3D;
+import cnc.editor.domain.GCommand;
 import cnc.operator.storage.IDataStorage;
+import cnc.operator.storage.light.BitMapArrayDataStorage;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 
-
-
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 	private static final long serialVersionUID = 13423452354765L;
@@ -60,7 +49,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 	private JScrollPane scrollPane_GraphicOutput;
 	private JPanel currentPoint = null;
 
-	private int scale = 1;
+	private float scale = 1;
 
 	public void putGCode(String gcode) {
 		txtArea_GCodes.append("\r\n" + gcode);
@@ -143,7 +132,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			
 			ComboBoxModel comBoxModel_Scale = 
 					new DefaultComboBoxModel(
-							new String[] { "1", "5", "10", "20", "30", "50", "100" });
+							new String[] {"1", "5", "10", "15", "20", "30", "50", "100" , "0.1", "0.5"});
 							
 			comBox_Scale = new JComboBox();			
 			comBox_Scale.setModel(comBoxModel_Scale);
@@ -194,7 +183,9 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 	protected void btn_Clear_MouseReleased(MouseEvent evt) {
 		txtArea_GCodes.setText("");
-		pnl_GraphicOutput.repaint();
+		pnl_GraphicOutput.repaint();		
+		pnl_GraphicOutput.setPreferredSize(new Dimension(1, 1));
+		pnl_GraphicOutput.revalidate();
 	}
 
 	private void btn_ConvertImageToGCodes_MouseReleased(MouseEvent evt) {
@@ -282,7 +273,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 	
 	
 	private void comBox_Scale_ActionPerformed(ActionEvent evt) {
-		scale = Integer.parseInt(comBox_Scale.getSelectedItem().toString());
+		scale = Float.parseFloat(comBox_Scale.getSelectedItem().toString());
 		pnl_GraphicOutput.repaint();
 	}
 
