@@ -72,14 +72,14 @@ public class EditorViewFrame extends javax.swing.JFrame {
 			}});
 		
 		btn_ConvertImageToGCodes = new JButton();
-		btn_ConvertImageToGCodes.setText("open image");
+		btn_ConvertImageToGCodes.setText("image");
 		btn_ConvertImageToGCodes.setBounds(901, 35, 84, 21);
 		btn_ConvertImageToGCodes.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_ConvertImageToGCodes.setActionCommand("ConvertImageToGCodes");
 		btn_ConvertImageToGCodes.addActionListener(actionListener);
 				
 		btn_AddGCodesFromFile = new JButton();			
-		btn_AddGCodesFromFile.setText("import file");
+		btn_AddGCodesFromFile.setText("open");
 		btn_AddGCodesFromFile.setBounds(901, 62, 84, 21);
 		btn_AddGCodesFromFile.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_AddGCodesFromFile.setActionCommand("AddGCodesFromFile");
@@ -136,7 +136,7 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		repaintVisualPanel();
 	}	
 	
-	public static File openFileChooser(String dir, String ext){
+	public static File openFileChooser(String dir, final String desirableExt){
 		
 		final JFileChooser fc = new JFileChooser(new File(dir));
 		fc.addChoosableFileFilter(new FileFilter() {
@@ -149,7 +149,7 @@ public class EditorViewFrame extends javax.swing.JFrame {
 			@Override
 			public boolean accept(File f) {
 				String ext = f.getName().substring(f.getName().indexOf(".") + 1);
-				if (f.isDirectory() || (f.isFile() && ext.equals(ext))) {
+				if (f.isDirectory() || (f.isFile() && ext.equals(desirableExt))) {
 					return true;
 				}
 				return false;

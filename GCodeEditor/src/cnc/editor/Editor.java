@@ -19,6 +19,7 @@ import cnc.storage.light.BitMapArrayDataStorage;
 public class Editor implements GCodeAcceptor{
 	
 	private Document doc;
+	//private List<Vertex> list;
 	
 	public Editor(){
 		doc = new PlainDocument();
