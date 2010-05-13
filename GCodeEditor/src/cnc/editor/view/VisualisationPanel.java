@@ -10,18 +10,12 @@ import cnc.editor.Vertex;
 import cnc.editor.VertexesContainer;
 
 public class VisualisationPanel extends JPanel {
+	
 	private static final long serialVersionUID = 1L;
 	private int theGap = 0;
 	private int coordLenght = 200;
 	private float scale = 1;
-	public float getScale() {
-		return scale;
-	}
-
-	public void setScale(float scale) {
-		this.scale = scale;
-	}
-
+	
 	private VertexesContainer container;
 	
 	public VisualisationPanel(VertexesContainer container){
@@ -52,14 +46,15 @@ public class VisualisationPanel extends JPanel {
 				
 				int prevX = Math.round(prevPos.getX() * 5 * scale);
 				int prevY = Math.round(prevPos.getY() * 5 * scale);
-				int newX = Math.round(v.getX() * 5* scale);
-				int newY = Math.round(v.getY() * 5* scale);				
+				
+				int newX = Math.round(v.getX() * 5 * scale);
+				int newY = Math.round(v.getY() * 5 * scale);				
 	
 				double panelWidth = this.getSize().getWidth();
 				double panelHeight = this.getSize().getHeight();	
 				
-				if(panelWidth < newX || panelHeight < newY){	
-					this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)Math.max(newY, panelHeight)+50));
+				if(panelWidth < newX + 50 || panelHeight < newY + 50){	
+					this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 300, (int)Math.max(newY, panelHeight) + 300));
 					this.revalidate();
 				}
 				
@@ -83,5 +78,13 @@ public class VisualisationPanel extends JPanel {
 
 		g.drawString("X", coordLenght + 5, theGap + 5);
 		g.drawString("Y", theGap + 5, coordLenght + 5);
+	}
+	
+	public float getScale() {
+		return scale;
+	}
+
+	public void setScale(float scale) {
+		this.scale = scale;
 	}
 }

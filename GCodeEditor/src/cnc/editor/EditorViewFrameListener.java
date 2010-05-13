@@ -20,10 +20,8 @@ public class EditorViewFrameListener implements ActionListener {
 			editor.convertImageToGCodes();
 		}else if(e.getActionCommand().equals("AddGCodesFromFile")){
 			editor.addGCodesFromFile();
-		}else if(e.getActionCommand().equals("Scale")){
-			editor.scale(Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString()));
 		}else if(e.getActionCommand().equals("Clear")){
-			editor.clear();
+			editor.clearDocument();
 		}
 	}
 }

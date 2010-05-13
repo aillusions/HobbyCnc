@@ -92,7 +92,6 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		comBox_Scale.setModel(comBoxModel_Scale);
 		comBox_Scale.setBounds(901, 89, 84, 21);
 		comBox_Scale.setActionCommand("Scale");
-		comBox_Scale.addActionListener(actionListener);
 		comBox_Scale.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				scaleVisualisationPanel(e);				
@@ -119,8 +118,8 @@ public class EditorViewFrame extends javax.swing.JFrame {
 	}
 
 	private void pnl_GraphicOutput_MousePressed(MouseEvent evt) {
-		double x = Math.round(evt.getPoint().getX() / pnl_GraphicOutput.getScale());
-		double y = Math.round(evt.getPoint().getY() / pnl_GraphicOutput.getScale());
+		double x = Math.round((evt.getPoint().getX() / pnl_GraphicOutput.getScale()) / 5);
+		double y = Math.round((evt.getPoint().getY() / pnl_GraphicOutput.getScale()) / 5);
 		txtArea_GCodes.setText(txtArea_GCodes.getText() + "\n G00 X" + x + " Y"	+ y);
 	}
 	

@@ -30,6 +30,8 @@ public class Editor {
 		File file = null;
 		if ((file = EditorViewFrame.openFileChooser("./parser", "bmp"))!= null) {
 			
+			clearDocument();
+			
 			IDataStorage store = new BitMapArrayDataStorage();
 			store.clearStorage();
 			
@@ -38,18 +40,20 @@ public class Editor {
 			long qty = parser.loadbitmap(file.getPath());
 			
 			final StringBuffer codesBuffer = new StringBuffer();
+			
 			BmpFilePrinter bmpPrinter = new BmpFilePrinter(new GCodeAcceptor(){
-
 				public void putGCode(String gcode) {
 					codesBuffer.append("\r\n" + gcode);					
 				}				
 			});			
+			
 			bmpPrinter.setStore(store);
 			bmpPrinter.StartBuild();	
+			
 			try {
 				doc.insertString(1, codesBuffer.toString(), null);
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new RuntimeException(e);
 			}
 		}		
 	}
@@ -58,46 +62,42 @@ public class Editor {
 		
 		File file = null;
 		if ((file = EditorViewFrame.openFileChooser("./gcodes", "cnc"))!= null) {
-		
+			
+			clearDocument();
+			
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						new FileInputStream(file)));
+				
 				String line = null;
 				final StringBuffer codesBuffer = new StringBuffer();
+				
 				while ((line = br.readLine()) != null) {
 					codesBuffer.append("\r\n" + line);
 				}
-				try {
-					doc.insertString(1, codesBuffer.toString(), null);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+							
+				doc.insertString(1, codesBuffer.toString(), null);	
+				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
 		}	
 	}
 	
-	public void scale(float ratio) {
-
-	}
-	
-	protected void clear() {
+	protected void clearDocument() {
 		
 		try {
-			doc.remove(0, doc.getLength());
+			getDoc().remove(0, getDoc().getLength());
 		} catch (BadLocationException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public Document getDoc() {
-		
+	public Document getDoc() {		
 		return doc;
 	}
 
-	public void setDoc(Document doc) {
-		
+	public void setDoc(Document doc) {		
 		this.doc = doc;
 	}
 }
