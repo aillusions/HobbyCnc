@@ -9,14 +9,6 @@ public class GCodesDocListener implements DocumentListener {
 
 	EditorViewFrame frame;
 		
-	public EditorViewFrame getFrame() {
-		return frame;
-	}
-
-	public void setFrame(EditorViewFrame frame) {
-		this.frame = frame;
-	}
-
 	public GCodesDocListener(EditorViewFrame editorViewFrame) {
 		this.frame = editorViewFrame;
 	}
@@ -32,5 +24,4 @@ public class GCodesDocListener implements DocumentListener {
 	public void removeUpdate(DocumentEvent e) {
 		frame.repaintVisualPanel();			
 	}
-
 }

@@ -137,14 +137,15 @@ public class EditorViewFrame extends javax.swing.JFrame {
 	}	
 	
 	public static File openFileChooser(String dir, String ext){
+		
 		final JFileChooser fc = new JFileChooser(new File(dir));
 		fc.addChoosableFileFilter(new FileFilter() {
-
+			
 			@Override
 			public String getDescription() {
 				return null;
 			}
-
+			
 			@Override
 			public boolean accept(File f) {
 				String ext = f.getName().substring(f.getName().indexOf(".") + 1);
@@ -158,6 +159,7 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		if(fc.showOpenDialog(null) == 0){
 			return fc.getSelectedFile();
 		}
+		
 		return null;
 	}
 }

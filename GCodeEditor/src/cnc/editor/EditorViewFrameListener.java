@@ -26,6 +26,4 @@ public class EditorViewFrameListener implements ActionListener {
 			editor.clear();
 		}
 	}
-
-
 }
