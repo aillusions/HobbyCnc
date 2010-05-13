@@ -3,6 +3,8 @@ package Main;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -13,7 +15,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -28,6 +33,7 @@ import cnc.operator.storage.IDataStorage;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 
+
 public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 
 	private static final long serialVersionUID = 13423452354765L;
@@ -35,12 +41,13 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 	private JButton btn_AddGCodesFromFile;
 	private JButton btn_ConvertImageToGCodes;
 	private JButton btn_Clear;
+	private JComboBox comBox_Scale;
 	private JScrollPane scrollPane_GCodesEditor;
 	private JTextArea txtArea_GCodes;
 	private JScrollPane scrollPane_GraphicOutput;
 	private JPanel currentPoint = null;
 
-	private int scale = 20;
+	private int scale = 1;
 
 	public void putGCode(String gcode) {
 		txtArea_GCodes.append("\r\n" + gcode);
@@ -121,6 +128,19 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 				}
 			});
 			
+			ComboBoxModel comBoxModel_Scale = 
+					new DefaultComboBoxModel(
+							new String[] { "1", "5", "10", "20", "30", "50", "100" });
+							
+			comBox_Scale = new JComboBox();			
+			comBox_Scale.setModel(comBoxModel_Scale);
+			comBox_Scale.setBounds(791, 112, 35, 21);
+			comBox_Scale.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					comBox_Scale_ActionPerformed(evt);
+				}
+			});
+			
 			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 			getContentPane().setLayout(null);			
 			getContentPane().add(scrollPane_GraphicOutput);
@@ -128,7 +148,8 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			getContentPane().add(btn_Clear);
 			getContentPane().add(btn_ConvertImageToGCodes);
 			getContentPane().add(btn_AddGCodesFromFile);
-				
+			getContentPane().add(comBox_Scale);
+
 			pack();
 			this.setSize(846, 356);
 		} catch (Exception e) {
@@ -241,6 +262,12 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 			}
 		}
 	}
+	
+	
+	private void comBox_Scale_ActionPerformed(ActionEvent evt) {
+		scale = Integer.parseInt(comBox_Scale.getSelectedItem().toString());
+		pnl_GraphicOutput.repaint();
+	}
 
 	public class CNCViewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
@@ -268,11 +295,11 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 					BigDecimalPoint3D newPos = gc.getCoord();
 					
 					if(Math.round(prevPos.getZ().floatValue()) <= 0
-					 && Math.round(newPos.getZ().floatValue()) <= 0){
+					  && Math.round(newPos.getZ().floatValue()) <= 0){
 					 	g.setColor(Color.red);
-					 }else{
-					 	g.setColor(Color.blue);
-					 }
+					}else{
+						g.setColor(Color.blue);
+					}
 					 
 					 
 					int prevX = Math.round(prevPos.getX().floatValue() * scale);
@@ -283,8 +310,7 @@ public class Main extends javax.swing.JFrame implements GCodeAcceptor {
 					double panelWidth = pnl_GraphicOutput.getSize().getWidth();
 					double panelHeight = pnl_GraphicOutput.getSize().getHeight();	
 					if(panelWidth < newX || panelHeight < newY){	
-						pnl_GraphicOutput.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth), (int)Math.max(newY, panelHeight)));
-						//panelGraphicOutput.setPreferredSize(new Dimension(newX,newY));						 			
+						pnl_GraphicOutput.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)Math.max(newY, panelHeight)+50));
 						pnl_GraphicOutput.revalidate();
 					}
 					g.drawLine(prevX, prevY, newX, newY);
