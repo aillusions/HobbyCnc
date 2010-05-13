@@ -1,8 +1,7 @@
 package cnc.editor.view;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -11,7 +10,6 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
@@ -20,6 +18,9 @@ import javax.swing.text.Document;
 public class EditorViewFrame extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 13423452354765L;
+	private static final String[] scaleValues =  
+						new String[]{"1", "1.5", "2", "3", "5", "10", "20", "50", "0.1", "0.5"};
+	
 	private VisualisationPanel pnl_GraphicOutput;
 	private JButton btn_AddGCodesFromFile;
 	private JButton btn_ConvertImageToGCodes;
@@ -28,18 +29,11 @@ public class EditorViewFrame extends javax.swing.JFrame {
 	private JScrollPane scrollPane_GCodesEditor;
 	private JTextArea txtArea_GCodes;
 	private JScrollPane scrollPane_GraphicOutput;
-	private JPanel currentPoint = null;
-	
-	private float scale = 1;
 
+	//Constructor
 	public EditorViewFrame(ActionListener actionListener, Document doc) {
 		
 		txtArea_GCodes = new JTextArea(doc);
-		txtArea_GCodes.addKeyListener(new KeyAdapter() {
-			public void keyReleased(KeyEvent evt) {
-				txtArea_GCodes_KeyReleased(evt);
-			}
-		});
 		
 		pnl_GraphicOutput = new VisualisationPanel(txtArea_GCodes);			
 		pnl_GraphicOutput.setLayout(null);
@@ -83,14 +77,16 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		btn_AddGCodesFromFile.setActionCommand("AddGCodesFromFile");
 		btn_AddGCodesFromFile.addActionListener(actionListener);
 		
-		ComboBoxModel comBoxModel_Scale = 
-				new DefaultComboBoxModel(
-						new String[] {"1", "5", "10", "15", "20", "30", "50", "100" , "0.1", "0.5"});						
+		ComboBoxModel comBoxModel_Scale = new DefaultComboBoxModel(scaleValues);						
 		comBox_Scale = new JComboBox();			
 		comBox_Scale.setModel(comBoxModel_Scale);
 		comBox_Scale.setBounds(901, 89, 84, 21);
 		comBox_Scale.setActionCommand("Scale");
 		comBox_Scale.addActionListener(actionListener);
+		comBox_Scale.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				scaleVisualisationPanel(e);				
+			}});
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -106,26 +102,23 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		setSize(1000, 500);	
 	}
 
-	private void txtArea_GCodes_KeyReleased(KeyEvent evt) {
-		pnl_GraphicOutput.repaint();
-	}
-
 	private void pnl_GraphicOutput_MouseMoved(MouseEvent evt) {
-		if (currentPoint != null) {
-			currentPoint.setBounds(evt.getX(), evt.getY(), 4, 4);
-		}
+
 	}
 
 	private void pnl_GraphicOutput_MousePressed(MouseEvent evt) {
-		double x = Math.round(evt.getPoint().getX() / scale);
-		double y = Math.round(evt.getPoint().getY() / scale);
+		double x = Math.round(evt.getPoint().getX() / pnl_GraphicOutput.getScale());
+		double y = Math.round(evt.getPoint().getY() / pnl_GraphicOutput.getScale());
 		txtArea_GCodes.setText(txtArea_GCodes.getText() + "\n G00 X" + x + " Y"	+ y);
-		pnl_GraphicOutput.repaint();
 	}
 	
 	public void repaintVisualPanel(){
 		pnl_GraphicOutput.repaint();
 	}
 	
-
+	private void scaleVisualisationPanel(ActionEvent e) {
+		float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
+		pnl_GraphicOutput.setScale(scale);
+		repaintVisualPanel();
+	}	
 }

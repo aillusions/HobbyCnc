@@ -8,8 +8,7 @@ import cnc.editor.view.EditorViewFrame;
 public class MyDocListener implements DocumentListener {
 
 	EditorViewFrame frame;
-	
-	
+		
 	public EditorViewFrame getFrame() {
 		return frame;
 	}
@@ -27,13 +26,11 @@ public class MyDocListener implements DocumentListener {
 	}
 
 	public void insertUpdate(DocumentEvent e) {
-		frame.repaintVisualPanel();	
-		
+		frame.repaintVisualPanel();			
 	}
 
 	public void removeUpdate(DocumentEvent e) {
-		frame.repaintVisualPanel();	
-		
+		frame.repaintVisualPanel();			
 	}
 
 }

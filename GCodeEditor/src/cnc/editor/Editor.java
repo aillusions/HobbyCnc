@@ -37,7 +37,6 @@ public class Editor implements GCodeAcceptor, ActionListener{
 	}
 	
 	public void putGCode(String gcode) {
-		System.out.println(gcode);
 		try {
 			doc.insertString(1, "\r\n" + gcode, null);
 		} catch (Exception e) {
@@ -152,11 +151,9 @@ public class Editor implements GCodeAcceptor, ActionListener{
 		}else if(e.getActionCommand().equals("AddGCodesFromFile")){
 			addGCodesFromFile();
 		}else if(e.getActionCommand().equals("Scale")){
-			Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
-			scale(1);
+			scale(Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString()));
 		}else if(e.getActionCommand().equals("Clear")){
 			clear();
-			System.out.println();
 		}
 	}
 }

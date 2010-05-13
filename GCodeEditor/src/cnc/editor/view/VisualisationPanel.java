@@ -56,10 +56,10 @@ public class VisualisationPanel extends JPanel {
 					g.setColor(Color.blue);
 				}
 				 
-				int prevX = Math.round(prevPos.getX().floatValue() * scale);
-				int prevY = Math.round(prevPos.getY().floatValue() * scale);
-				int newX = Math.round(newPos.getX().floatValue() * scale);
-				int newY = Math.round(newPos.getY().floatValue() * scale);
+				int prevX = Math.round(prevPos.getX().floatValue()* 5 * scale);
+				int prevY = Math.round(prevPos.getY().floatValue() * 5 * scale);
+				int newX = Math.round(newPos.getX().floatValue() * 5* scale);
+				int newY = Math.round(newPos.getY().floatValue() * 5* scale);
 				
 				double panelWidth = this.getSize().getWidth();
 				double panelHeight = this.getSize().getHeight();	
