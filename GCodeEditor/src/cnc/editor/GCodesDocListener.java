@@ -13,7 +13,7 @@ public class GCodesDocListener implements DocumentListener {
 		this.frame = editorViewFrame;
 	}
 
-	public void changedUpdate(DocumentEvent e) {
+	public void changedUpdate(DocumentEvent e) {		
 		frame.repaintVisualPanel();		
 	}
 

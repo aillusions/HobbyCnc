@@ -19,6 +19,8 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.text.Document;
 
+import cnc.editor.VertexesContainer;
+
 public class EditorViewFrame extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 13423452354765L;
@@ -35,11 +37,11 @@ public class EditorViewFrame extends javax.swing.JFrame {
 	private JScrollPane scrollPane_GraphicOutput;
 
 	//Constructor
-	public EditorViewFrame(ActionListener actionListener, Document doc) {
+	public EditorViewFrame(ActionListener actionListener, Document doc, VertexesContainer container) {
 		
 		txtArea_GCodes = new JTextArea(doc);
 		
-		pnl_GraphicOutput = new VisualisationPanel(txtArea_GCodes);			
+		pnl_GraphicOutput = new VisualisationPanel(container);			
 		pnl_GraphicOutput.setLayout(null);
 		pnl_GraphicOutput.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent evt) {

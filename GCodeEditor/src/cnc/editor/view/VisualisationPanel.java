@@ -5,11 +5,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 
-import cnc.editor.domain.BigDecimalPoint3D;
-import cnc.editor.domain.GCommand;
-import cnc.parser.GCodeParser;
+import cnc.editor.Vertex;
+import cnc.editor.VertexesContainer;
 
 public class VisualisationPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -24,10 +22,10 @@ public class VisualisationPanel extends JPanel {
 		this.scale = scale;
 	}
 
-	private JTextArea txtArea_GCodes;
+	private VertexesContainer container;
 	
-	public VisualisationPanel(JTextArea txtArea_GCodes){
-		this.txtArea_GCodes = txtArea_GCodes;
+	public VisualisationPanel(VertexesContainer container){
+		this.container = container;
 	}
 
 	@Override
@@ -39,36 +37,37 @@ public class VisualisationPanel extends JPanel {
 	}
 
 	private void DrawPicture(Graphics g) {
-		String commands = txtArea_GCodes.getText();
-		String[] cmdArray = commands.replace("\r", "").split("\n");
-		BigDecimalPoint3D prevPos = new BigDecimalPoint3D();
-		for (int i = 0; i < cmdArray.length; i++) {
-			GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);
+		
+		Vertex prevPos = null;
+		
+		for(Vertex v : container.getVertexList()){
 			
-			if (gc != null) {
-			
-				BigDecimalPoint3D newPos = gc.getCoord();
+			if(prevPos != null){
 				
-				if(Math.round(prevPos.getZ().floatValue()) <= 0
-				  && Math.round(newPos.getZ().floatValue()) <= 0){
+				if(prevPos.getZ() <= 0 && v.getZ() <= 0){
 				 	g.setColor(Color.red);
 				}else{
 					g.setColor(Color.blue);
 				}
-				 
-				int prevX = Math.round(prevPos.getX().floatValue()* 5 * scale);
-				int prevY = Math.round(prevPos.getY().floatValue() * 5 * scale);
-				int newX = Math.round(newPos.getX().floatValue() * 5* scale);
-				int newY = Math.round(newPos.getY().floatValue() * 5* scale);
 				
+				int prevX = Math.round(prevPos.getX() * 5 * scale);
+				int prevY = Math.round(prevPos.getY() * 5 * scale);
+				int newX = Math.round(v.getX() * 5* scale);
+				int newY = Math.round(v.getY() * 5* scale);				
+	
 				double panelWidth = this.getSize().getWidth();
 				double panelHeight = this.getSize().getHeight();	
+				
 				if(panelWidth < newX || panelHeight < newY){	
 					this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)Math.max(newY, panelHeight)+50));
 					this.revalidate();
 				}
+				
 				g.drawLine(prevX, prevY, newX, newY);
-				prevPos = newPos;
+				prevPos = v;
+				
+			}else{
+				prevPos = v;
 			}
 		}
 	}

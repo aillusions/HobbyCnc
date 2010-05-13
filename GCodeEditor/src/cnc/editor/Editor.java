@@ -16,24 +16,17 @@ import cnc.parser.bmp.BmpParser;
 import cnc.storage.IDataStorage;
 import cnc.storage.light.BitMapArrayDataStorage;
 
-public class Editor implements GCodeAcceptor{
+public class Editor {
 	
 	private Document doc;
-	//private List<Vertex> list;
 	
 	public Editor(){
+		
 		doc = new PlainDocument();
 	}
 	
-	public void putGCode(String gcode) {
-		try {
-			doc.insertString(1, "\r\n" + gcode, null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public void convertImageToGCodes() {
+		
 		File file = null;
 		if ((file = EditorViewFrame.openFileChooser("./parser", "bmp"))!= null) {
 			
@@ -44,13 +37,25 @@ public class Editor implements GCodeAcceptor{
 			parser.setStorage(store);
 			long qty = parser.loadbitmap(file.getPath());
 			
-			BmpFilePrinter bmpPrinter = new BmpFilePrinter(this);			
+			final StringBuffer codesBuffer = new StringBuffer();
+			BmpFilePrinter bmpPrinter = new BmpFilePrinter(new GCodeAcceptor(){
+
+				public void putGCode(String gcode) {
+					codesBuffer.append("\r\n" + gcode);					
+				}				
+			});			
 			bmpPrinter.setStore(store);
-			bmpPrinter.StartBuild();			
+			bmpPrinter.StartBuild();	
+			try {
+				doc.insertString(1, codesBuffer.toString(), null);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}		
 	}
 
 	public void addGCodesFromFile() {
+		
 		File file = null;
 		if ((file = EditorViewFrame.openFileChooser("./gcodes", "cnc"))!= null) {
 		
@@ -58,8 +63,14 @@ public class Editor implements GCodeAcceptor{
 				BufferedReader br = new BufferedReader(new InputStreamReader(
 						new FileInputStream(file)));
 				String line = null;
+				final StringBuffer codesBuffer = new StringBuffer();
 				while ((line = br.readLine()) != null) {
-					putGCode(line);
+					codesBuffer.append("\r\n" + line);
+				}
+				try {
+					doc.insertString(1, codesBuffer.toString(), null);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -72,6 +83,7 @@ public class Editor implements GCodeAcceptor{
 	}
 	
 	protected void clear() {
+		
 		try {
 			doc.remove(0, doc.getLength());
 		} catch (BadLocationException e) {
@@ -80,10 +92,12 @@ public class Editor implements GCodeAcceptor{
 	}
 
 	public Document getDoc() {
+		
 		return doc;
 	}
 
 	public void setDoc(Document doc) {
+		
 		this.doc = doc;
 	}
 }
