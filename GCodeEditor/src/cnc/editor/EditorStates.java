@@ -1,4 +1,4 @@
-package cnc.editor.view;
+package cnc.editor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,6 +22,16 @@ public class EditorStates {
 	private int theGap = 0;
 	private int viewCoordLenght = 200;		
 	private float viewScale = 1;	
+	
+	
+	public static long convertCnc_View(float cncCoord){
+		return Math.round(cncCoord * getInstance().getScale() * 5);
+	}
+	
+	public static float convertView_Cnc(long viewCoord){
+		return viewCoord / getInstance().getScale() / 5;
+	}
+	
 	
 	//Getters - setters
 	public float getScale(){

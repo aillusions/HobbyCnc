@@ -5,7 +5,6 @@ import cnc.editor.listener.EditorViewFrameListener;
 import cnc.editor.listener.GCodesDocListener;
 import cnc.editor.listener.VertexesContainerListener;
 import cnc.editor.listener.VisualPanelListener;
-import cnc.editor.view.EditorStates;
 import cnc.editor.view.EditorViewFrame;
 import cnc.editor.view.VisualisationPanel;
 

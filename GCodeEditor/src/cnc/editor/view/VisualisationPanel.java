@@ -7,8 +7,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 
+import cnc.editor.EditorStates;
 import cnc.editor.EditorVertex;
 import cnc.editor.VertexesContainer;
+import cnc.editor.EditorStates.EditorTolls;
 import cnc.editor.listener.VisualPanelListener;
 
 public class VisualisationPanel extends JPanel{
@@ -49,11 +51,11 @@ public class VisualisationPanel extends JPanel{
 					
 					EditorStates es = EditorStates.getInstance();
 					
-					int prevX = Math.round(prevPos.getX() * 5 * es.getScale());
-					int prevY = Math.round(prevPos.getY() * 5 * es.getScale());
+					int prevX = (int)EditorStates.convertCnc_View(prevPos.getX());
+					int prevY = (int)EditorStates.convertCnc_View(prevPos.getY());
 					
-					int newX = Math.round(v.getX() * 5 * es.getScale());
-					int newY = Math.round(v.getY() * 5 * es.getScale());				
+					int newX = (int)EditorStates.convertCnc_View(v.getX()); 
+					int newY = (int)EditorStates.convertCnc_View(v.getY()); 				
 		
 					double panelWidth = this.getSize().getWidth();
 					double panelHeight = this.getSize().getHeight();	

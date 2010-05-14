@@ -10,9 +10,8 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import cnc.GCodeAcceptor;
-import cnc.editor.view.EditorStates;
+import cnc.editor.EditorStates.EditorTolls;
 import cnc.editor.view.EditorViewFrame;
-import cnc.editor.view.EditorStates.EditorTolls;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 import cnc.storage.memory.BitMapArrayDataStorage;
@@ -29,8 +28,7 @@ public class Editor {
 	public void viewMousePressed(double x, double y){
 		
 		if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
-			EditorStates es = EditorStates.getInstance();
-			String cmd = "\nG00 X" + Math.round(x/es.getScale()/5) + " Y"	+ Math.round(y/es.getScale()/5);
+			String cmd = "\nG00 X" + EditorStates.convertView_Cnc((long)x) + " Y" + EditorStates.convertView_Cnc((long)y);
 			try {
 				doc.insertString(doc.getLength(), cmd, null);
 			} catch (BadLocationException e) {

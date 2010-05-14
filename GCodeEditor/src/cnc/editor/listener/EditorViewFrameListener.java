@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JComboBox;
 
 import cnc.editor.Editor;
-import cnc.editor.view.EditorStates;
+import cnc.editor.EditorStates;
 
 public class EditorViewFrameListener implements ActionListener {
 
