@@ -20,8 +20,7 @@ public class EditorViewFrame extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 13423452354765L;
 	private static final String[] scaleValues =  
-						new String[]{"1", "1.5", "2", "3", "5", "10", "20", "50", "0.1", "0.5"};
-	
+						new String[]{"1", "1.5", "2", "3", "5", "10", "20", "50", "0.1", "0.5"};	
 	
 	private VisualisationPanel pnl_GraphicOutput;
 	
@@ -85,23 +84,24 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		btn_AddGCodesFromFile.addActionListener(editorViewListener);
 		
 		//Tool bar controls
-		btn_Tool_SimpleDraw = new JRadioButton ();
+		btn_Tool_SimpleDraw = new JRadioButton();		
 		btn_Tool_SimpleDraw.setText("draw");
 		btn_Tool_SimpleDraw.setBounds(901, 100, 84, 21);
 		btn_Tool_SimpleDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_Tool_SimpleDraw.addActionListener(editorViewListener);
 		btn_Tool_SimpleDraw.setActionCommand("switchToolsTo_SimpleDraw");
 		
-		btn_Tool_SelectVertex = new JRadioButton ();
+		btn_Tool_SelectVertex = new JRadioButton();
 		btn_Tool_SelectVertex.setText("select");
 		btn_Tool_SelectVertex.setBounds(901, 130, 84, 21);
 		btn_Tool_SelectVertex.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_Tool_SelectVertex.addActionListener(editorViewListener);
-		btn_Tool_SelectVertex.setActionCommand("switchToolsTo_SimpleDraw");
+		btn_Tool_SelectVertex.setActionCommand("switchToolsTo_SelectVertexes");
 		
 		toolBarGroup = new ButtonGroup();
 		toolBarGroup.add(btn_Tool_SimpleDraw);
 		toolBarGroup.add(btn_Tool_SelectVertex);
+		btn_Tool_SimpleDraw.setSelected(true);
 		
 		ComboBoxModel comBoxModel_Scale = new DefaultComboBoxModel(scaleValues);						
 		comBox_Scale = new JComboBox();			

@@ -16,8 +16,7 @@ public class Main {
 		VertexesContainer container = VertexesContainer.getInstance();
 		EditorViewFrameListener viewListener = new EditorViewFrameListener(editor);
 		VisualPanelListener vpl = new VisualPanelListener(editor);
-		VisualisationPanel view = new VisualisationPanel(vpl);
-		
+		VisualisationPanel view = new VisualisationPanel(vpl);		
 
 		EditorStatesListener esl = new EditorStatesListener(view);
 		VertexesContainerListener containerListener = new VertexesContainerListener(view);		

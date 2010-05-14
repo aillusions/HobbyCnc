@@ -12,6 +12,7 @@ import javax.swing.text.PlainDocument;
 import cnc.GCodeAcceptor;
 import cnc.editor.view.EditorStates;
 import cnc.editor.view.EditorViewFrame;
+import cnc.editor.view.EditorStates.EditorTolls;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 import cnc.storage.memory.BitMapArrayDataStorage;
@@ -27,12 +28,16 @@ public class Editor {
 	
 	public void viewMousePressed(double x, double y){
 		
-		EditorStates es = EditorStates.getInstance();
-		String cmd = "\nG00 X" + Math.round(x/es.getScale()/5) + " Y"	+ Math.round(y/es.getScale()/5);
-		try {
-			doc.insertString(doc.getLength(), cmd, null);
-		} catch (BadLocationException e) {
-			throw new RuntimeException(e);
+		if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
+			EditorStates es = EditorStates.getInstance();
+			String cmd = "\nG00 X" + Math.round(x/es.getScale()/5) + " Y"	+ Math.round(y/es.getScale()/5);
+			try {
+				doc.insertString(doc.getLength(), cmd, null);
+			} catch (BadLocationException e) {
+				throw new RuntimeException(e);
+			}
+		}else if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
+			System.out.println("select");
 		}
 	}
 	

@@ -8,22 +8,22 @@ import java.util.List;
 //Singleton
 public class EditorStates {
 
+	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT};
 	
-	private EditorStates(){}                        
-	
+	private EditorStates(){}
 	private static final EditorStates instance = new EditorStates();
-	
 	public static EditorStates getInstance(){
 		return instance;
 	}	
 	
-	private List<ActionListener> listeners = new ArrayList<ActionListener>();
+	private List<ActionListener> listeners = new ArrayList<ActionListener>();	
 	
+	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
 	private int theGap = 0;
-	private int viewCoordLenght = 200;
-		
-	private float viewScale = 1;
+	private int viewCoordLenght = 200;		
+	private float viewScale = 1;	
 	
+	//Getters - setters
 	public float getScale(){
 		return viewScale;
 	}
@@ -51,6 +51,16 @@ public class EditorStates {
 		notifyAllAboutChanges();
 	}		
 	
+	public EditorTolls getCurrentSelectedTool() {
+		return currentSelectedTool;
+	}
+
+	public void setCurrentSelectedTool(EditorTolls currentSelectedTool) {
+		this.currentSelectedTool = currentSelectedTool;
+	}
+	
+	
+	//------------
 	public void addActionListener(ActionListener al){
 		listeners.add(al);
 	}
