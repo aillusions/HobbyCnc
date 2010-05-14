@@ -10,28 +10,28 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 //Singleton
-public class VertexesContainer {
+public class GCommandsContainer {
 	
 	
-	private VertexesContainer(){}                        
+	private GCommandsContainer(){}                        
 	
-	private static final VertexesContainer instance = new VertexesContainer();
+	private static final GCommandsContainer instance = new GCommandsContainer();
 	
-	public static VertexesContainer getInstance(){
+	public static GCommandsContainer getInstance(){
 		return instance;
 	}
 	
-	List<ActionListener> listeners = new ArrayList<ActionListener>();
+	private List<ActionListener> listeners = new ArrayList<ActionListener>();
 	
-	private List<EditorVertex> vertexList =  new LinkedList<EditorVertex>();
+	private List<GCommand> gCommandList =  new LinkedList<GCommand>();
 	private List<Line> lineList =  new LinkedList<Line>();
 	
-	public List<EditorVertex> getVertexList() {
-		return vertexList;
+	public List<GCommand> getGCommandList() {
+		return gCommandList;
 	}
 
 	public void regenerate(Document doc){
-		vertexList =  new LinkedList<EditorVertex>();
+		gCommandList =  new LinkedList<GCommand>();
 		lineList =  new LinkedList<Line>();
 		
 		String commands = null;
@@ -43,14 +43,14 @@ public class VertexesContainer {
 		String[] cmdArray = commands.replace("\r", "").split("\n");
 		
 		EditorVertex prevPos = new EditorVertex();
-		vertexList.add(new EditorVertex());
 		
 		for (int i = 0; i < cmdArray.length; i++) {
-			GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);			
-			if (gc != null) {			
-				EditorVertex newPos = gc.getCoord();
-				vertexList.add(newPos);
-				prevPos = newPos;
+			GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);		
+			
+			if (gc != null) {
+				gc.setEditorLineIndex(i);		
+				gCommandList.add(gc);
+				prevPos = gc.getVertex();
 			}
 		}
 		notifyAllAboutChanges();		
@@ -68,11 +68,11 @@ public class VertexesContainer {
 		}
 	}
 
-	public List<EditorVertex> findVertexesNear(float cncX, float cncY) {
+	public List<GCommand> findVertexesNear(float cncX, float cncY) {
 		
-		List<EditorVertex> result = new ArrayList<EditorVertex>();
-		for(EditorVertex v : vertexList){
-			if(3 > Math.abs(v.getX()-cncX) && 3 > Math.abs(v.getY()-cncY)){
+		List<GCommand> result = new ArrayList<GCommand>();
+		for(GCommand v : gCommandList){
+			if(0.1 > Math.abs(v.getVertex().getX() - cncX) && 0.1 > Math.abs(v.getVertex().getY() - cncY)){
 				result.add(v);
 			}
 		}

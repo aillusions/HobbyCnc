@@ -48,9 +48,9 @@ public class EditorViewFrame extends javax.swing.JFrame {
 	}
 
 	//Constructor
-	public EditorViewFrame(ActionListener editorViewListener, Document doc, VisualisationPanel visualisationPanel) {
+	public EditorViewFrame(ActionListener editorViewListener, GCodesTextContainer textContainer, VisualisationPanel visualisationPanel) {
 		
-		txtArea_GCodes = new JTextArea(doc);
+		txtArea_GCodes = textContainer;
 		
 		pnl_GraphicOutput = visualisationPanel;	
 		

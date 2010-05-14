@@ -1,9 +1,12 @@
 package cnc.editor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.text.BadLocationException;
@@ -21,6 +24,7 @@ import cnc.storage.memory.IDataStorage;
 public class Editor {
 	
 	private Document doc;
+	private List<ActionListener> listeners = new ArrayList<ActionListener>();
 	
 	public Editor(){		
 		doc = new PlainDocument();
@@ -39,9 +43,10 @@ public class Editor {
 				throw new RuntimeException(e);
 			}
 		}else if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
-			List<EditorVertex> vertexes = VertexesContainer.getInstance().findVertexesNear(cncX, cncY);
-			for(EditorVertex v : vertexes){
-				System.out.println(v);
+			List<GCommand> vertexes = GCommandsContainer.getInstance().findVertexesNear(cncX, cncY);
+			if(vertexes.size() > 0){
+				ActionEvent ae = new ActionEvent(vertexes , -1, "select node");
+				notifyActionListeners(ae);
 			}
 		}
 	}
@@ -121,4 +126,17 @@ public class Editor {
 	public void setDoc(Document doc) {		
 		this.doc = doc;
 	}
+
+	public void addActionListener(ActionListener al) {
+		listeners.add(al);		
+	}
+	
+	private void notifyActionListeners(ActionEvent ae){
+		
+		for(ActionListener al : listeners){
+			//ActionEvent ae = new ActionEvent(this , -1, "chemaChanged");
+			al.actionPerformed(ae);
+		}
+	}
+
 }

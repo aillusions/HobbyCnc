@@ -7,10 +7,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 
+import cnc.editor.GCommand;
 import cnc.editor.EditorStates;
 import cnc.editor.EditorVertex;
-import cnc.editor.VertexesContainer;
-import cnc.editor.EditorStates.EditorTolls;
+import cnc.editor.GCommandsContainer;
 import cnc.editor.listener.VisualPanelListener;
 
 public class VisualisationPanel extends JPanel{
@@ -35,27 +35,25 @@ public class VisualisationPanel extends JPanel{
 		
 		EditorVertex prevPos = null;
 		
-		if(VertexesContainer.getInstance().getVertexList().size() == 1){
+		if(GCommandsContainer.getInstance().getGCommandList().size() == 1){
 			setPreferredSize(new Dimension(1, 1));
 			revalidate();
 		}else{
-			for(EditorVertex v : VertexesContainer.getInstance().getVertexList()){
+			for(GCommand v : GCommandsContainer.getInstance().getGCommandList()){
 				
 				if(prevPos != null){
 					
-					if(prevPos.getZ() <= 0 && v.getZ() <= 0){
+					if(prevPos.getZ() <= 0 && v.getVertex().getZ() <= 0){
 					 	g.setColor(Color.red);
 					}else{
 						g.setColor(Color.blue);
 					}
 					
-					EditorStates es = EditorStates.getInstance();
-					
 					int prevX = (int)EditorStates.convertCnc_View(prevPos.getX());
 					int prevY = (int)EditorStates.convertCnc_View(prevPos.getY());
 					
-					int newX = (int)EditorStates.convertCnc_View(v.getX()); 
-					int newY = (int)EditorStates.convertCnc_View(v.getY()); 				
+					int newX = (int)EditorStates.convertCnc_View(v.getVertex().getX()); 
+					int newY = (int)EditorStates.convertCnc_View(v.getVertex().getY()); 				
 		
 					double panelWidth = this.getSize().getWidth();
 					double panelHeight = this.getSize().getHeight();	
@@ -66,10 +64,10 @@ public class VisualisationPanel extends JPanel{
 					}
 					
 					g.drawLine(prevX, prevY, newX, newY);
-					prevPos = v;
+					prevPos = v.getVertex();
 					
 				}else{
-					prevPos = v;
+					prevPos = v.getVertex();
 				}
 			}
 		}

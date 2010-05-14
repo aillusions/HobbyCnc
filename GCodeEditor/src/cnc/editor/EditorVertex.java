@@ -5,7 +5,7 @@ public class EditorVertex {
 	private float x;
 	private float y;
 	private float z;
-
+	
 	public EditorVertex() {
 		super();
 	}
@@ -15,7 +15,6 @@ public class EditorVertex {
 		this.y = y;
 		this.z = z;
 	}
-
 
 	public float getX() {
 		return x;

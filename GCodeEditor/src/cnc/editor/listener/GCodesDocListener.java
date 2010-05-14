@@ -3,13 +3,13 @@ package cnc.editor.listener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import cnc.editor.VertexesContainer;
+import cnc.editor.GCommandsContainer;
 
 public class GCodesDocListener implements DocumentListener {
 
-	VertexesContainer container;
+	GCommandsContainer container;
 		
-	public GCodesDocListener(VertexesContainer container) {
+	public GCodesDocListener(GCommandsContainer container) {
 		this.container = container;
 	}
 
