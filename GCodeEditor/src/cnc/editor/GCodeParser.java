@@ -6,7 +6,7 @@ import cnc.editor.GCommand.GcommandTypes;
 
 public class GCodeParser {	
 
-	public static GCommand parseCommand(String cmd, Vertex previousPosition){
+	public static GCommand parseCommand(String cmd, EditorVertex previousPosition){
 		
 		if(cmd != null && !cmd.trim().equals("") && cmd.trim().length() > 3){
 			
@@ -44,7 +44,7 @@ public class GCodeParser {
 		return null;
 	}	
 	
-	private static Vertex getNewPosition(String[] args, Vertex previousPosition){
+	private static EditorVertex getNewPosition(String[] args, EditorVertex previousPosition){
 		
 		Float x = null, y = null, z = null;
 		
@@ -68,6 +68,6 @@ public class GCodeParser {
 			z = previousPosition.getZ();
 		}
 
-		return new Vertex(x, y, z);				
+		return new EditorVertex(x, y, z);				
 	}
 }

@@ -5,26 +5,26 @@ import static java.lang.Math.sqrt;
 
 import java.util.List;
 
-import cnc.parser.Vertex;
+import cnc.parser.ParserVertex;
 
 
 public class VertexBatch {
 
-	List<Vertex> loadedVertexes;
+	List<ParserVertex> loadedVertexes;
 
-	public List<Vertex> getLoadedVertexes() {
+	public List<ParserVertex> getLoadedVertexes() {
 		return loadedVertexes;
 	}
 
-	public void setLoadedVertexes(List<Vertex> loadedVertexes) {
+	public void setLoadedVertexes(List<ParserVertex> loadedVertexes) {
 		this.loadedVertexes = loadedVertexes;
 	}
 
-	public Vertex getNearestUNUSEDVertex(Vertex baseVertex) {
-		Vertex res = null;
+	public ParserVertex getNearestUNUSEDVertex(ParserVertex baseVertex) {
+		ParserVertex res = null;
 		if (loadedVertexes != null) {
 			if (baseVertex == null) {
-				for (Vertex v : loadedVertexes) {
+				for (ParserVertex v : loadedVertexes) {
 					if (!v.isUsed()) {
 						res = v;
 						break;
@@ -35,7 +35,7 @@ public class VertexBatch {
 				double minDisatance = 1000000;
 	
 				double temp = 0;
-				for (Vertex v : loadedVertexes) {
+				for (ParserVertex v : loadedVertexes) {
 					temp = getDistance(baseVertex, v);
 					if (temp < minDisatance && !(v.isUsed())) {						
 						minDisatance = temp;
@@ -49,7 +49,7 @@ public class VertexBatch {
 		return res;
 	}
 
-	public static double getDistance(Vertex firstVertex, Vertex secondVertex) {
+	public static double getDistance(ParserVertex firstVertex, ParserVertex secondVertex) {
 		double res = 0;
 		if (firstVertex != null && secondVertex != null)
 			res = sqrt(pow(firstVertex.getX() - secondVertex.getX(), 2)

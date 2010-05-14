@@ -1,6 +1,6 @@
 package cnc.parser;
 
-import cnc.storage.IDataStorage;
+import cnc.storage.memory.IDataStorage;
 
 public interface ICncParser {
 	public void setStorage(IDataStorage stor);

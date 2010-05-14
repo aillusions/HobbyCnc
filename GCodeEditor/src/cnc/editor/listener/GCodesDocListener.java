@@ -1,13 +1,15 @@
-package cnc.editor;
+package cnc.editor.listener;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-public class GCodesDocListener2 implements DocumentListener {
+import cnc.editor.VertexesContainer;
+
+public class GCodesDocListener implements DocumentListener {
 
 	VertexesContainer container;
 		
-	public GCodesDocListener2(VertexesContainer container) {
+	public GCodesDocListener(VertexesContainer container) {
 		this.container = container;
 	}
 
@@ -20,6 +22,6 @@ public class GCodesDocListener2 implements DocumentListener {
 	}
 
 	public void removeUpdate(DocumentEvent e) {
-		container.regenerate(e.getDocument());			
+		container.regenerate(e.getDocument());	
 	}
 }

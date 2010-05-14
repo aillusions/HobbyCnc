@@ -3,8 +3,8 @@ package cnc.parser.bmp;
 import java.io.FileInputStream;
 
 import cnc.parser.ICncParser;
-import cnc.parser.Vertex;
-import cnc.storage.IDataStorage;
+import cnc.parser.bmp.ParserVertex;
+import cnc.storage.memory.IDataStorage;
 
 
 public class BmpParser implements ICncParser {
@@ -96,16 +96,13 @@ public class BmpParser implements ICncParser {
 					
 					if( ndata[counter] != -1)
 					{
-						Vertex v = new Vertex((int)index, i, j, 0);
+						ParserVertex v = new ParserVertex(i, j, 0);
 						storage.addVertex(v);
 						index++;
 					}
 					counter ++;
 				}
 				}
-			//System.out.println("Loaded succesfull: " + index + " vertexes.");
-			//storage.saveFile();
-			//storage.loadVertexFromFile("D:/Hobby2/HobbyCnc/vertexes.cvs");
 
 			} 
 			else {
@@ -122,5 +119,6 @@ public class BmpParser implements ICncParser {
 	public void setStorage(IDataStorage stor){
 		storage = stor;
 	}
+
 
 }

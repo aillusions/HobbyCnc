@@ -4,9 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import cnc.Config;
-
-
 public class Rectangle implements Iterable<Rectangle>  {
 	
 	/* Black rectangle: 56624 vertexes.
@@ -28,8 +25,8 @@ public class Rectangle implements Iterable<Rectangle>  {
 	 * */
 	
 
-	private Vertex topLeftCorner = null;
-	private Vertex bottomRightCorner = null;
+	private ParserVertex topLeftCorner = null;
+	private ParserVertex bottomRightCorner = null;
 	
 	private  List<Rectangle> subRectangles;
 	
@@ -37,19 +34,19 @@ public class Rectangle implements Iterable<Rectangle>  {
 		return subRectangles;
 	}
 
-	public Vertex getTopLeftCorner() {
+	public ParserVertex getTopLeftCorner() {
 		return topLeftCorner;
 	}
-	public void setTopLeftCorner(Vertex topLeftCorner) {
+	public void setTopLeftCorner(ParserVertex topLeftCorner) {
 		this.topLeftCorner = topLeftCorner;
 	}
-	public Vertex getBottomRightCorner() {
+	public ParserVertex getBottomRightCorner() {
 		return bottomRightCorner;
 	}
-	public void setBottomRightCorner(Vertex bottomRightCorner) {
+	public void setBottomRightCorner(ParserVertex bottomRightCorner) {
 		this.bottomRightCorner = bottomRightCorner;
 	}
-	public Rectangle(Vertex topLeftCorner, Vertex bottomRightCorner, boolean splitAtOnce) {
+	public Rectangle(ParserVertex topLeftCorner, ParserVertex bottomRightCorner, boolean splitAtOnce) {
 		super();
 		this.topLeftCorner = topLeftCorner;
 		this.bottomRightCorner = bottomRightCorner;
@@ -66,7 +63,7 @@ public class Rectangle implements Iterable<Rectangle>  {
 	public List<Rectangle> splitRectangle(Rectangle mainRec)
 	{
 		List<Rectangle> res = new LinkedList<Rectangle>();
-		int tileSize = Config.trickyStorageRectangleSideLength; //Length of the tile sides.
+		int tileSize = 100; //Length of the tile sides.
 		int stepsX = 0;
 		int stepsY = 0;
 		int vertCount = -1;
@@ -75,8 +72,8 @@ public class Rectangle implements Iterable<Rectangle>  {
 			stepsX = 0;
 			while((mainRec.getTopLeftCorner().getX() + (++stepsX)*tileSize-1) <= mainRec.getBottomRightCorner().getX())
 			{				
-				Rectangle rect = new Rectangle(new Vertex(++vertCount, (mainRec.getTopLeftCorner().getX() + (stepsX-1)*tileSize), (mainRec.getTopLeftCorner().getY() + (stepsY-1)*tileSize), 0 ), 
-						new Vertex(++vertCount, (mainRec.getTopLeftCorner().getX() + (stepsX)*tileSize-1), (mainRec.getTopLeftCorner().getY() + (stepsY)*tileSize-1), 0 ), false);
+				Rectangle rect = new Rectangle(new ParserVertex(++vertCount, (mainRec.getTopLeftCorner().getX() + (stepsX-1)*tileSize), (mainRec.getTopLeftCorner().getY() + (stepsY-1)*tileSize), 0 ), 
+						new ParserVertex(++vertCount, (mainRec.getTopLeftCorner().getX() + (stepsX)*tileSize-1), (mainRec.getTopLeftCorner().getY() + (stepsY)*tileSize-1), 0 ), false);
 				res.add(rect);
 			}
 		}
@@ -86,29 +83,29 @@ public class Rectangle implements Iterable<Rectangle>  {
 		if((mainRec.getBottomRightCorner().getY() - (stepsY)*tileSize+1) > 0)
 		{
 			for(int i = 0; i < stepsX; i ++)
-			res.add(new Rectangle(new Vertex(++vertCount, mainRec.getTopLeftCorner().getX() + i*tileSize, stepsY*tileSize, 0), 
-					new Vertex(++vertCount, mainRec.getTopLeftCorner().getX() + (i+1)*tileSize, mainRec.getBottomRightCorner().getY(), 0), false));
+			res.add(new Rectangle(new ParserVertex(++vertCount, mainRec.getTopLeftCorner().getX() + i*tileSize, stepsY*tileSize, 0), 
+					new ParserVertex(++vertCount, mainRec.getTopLeftCorner().getX() + (i+1)*tileSize, mainRec.getBottomRightCorner().getY(), 0), false));
 		}
 
 		if((mainRec.getBottomRightCorner().getX() - (stepsX)*tileSize+1) > 0)
 		{
 			for(int i = 0; i < stepsY; i ++)
-				res.add(new Rectangle(new Vertex(++vertCount, stepsX*tileSize, mainRec.getTopLeftCorner().getY() + i*tileSize, 0), 
-						new Vertex(++vertCount, mainRec.getBottomRightCorner().getX(), mainRec.getTopLeftCorner().getY() + (i+1)*tileSize, 0), false) );
+				res.add(new Rectangle(new ParserVertex(++vertCount, stepsX*tileSize, mainRec.getTopLeftCorner().getY() + i*tileSize, 0), 
+						new ParserVertex(++vertCount, mainRec.getBottomRightCorner().getX(), mainRec.getTopLeftCorner().getY() + (i+1)*tileSize, 0), false) );
 
 		}
 		
 		if((mainRec.getBottomRightCorner().getY() - (stepsY)*tileSize+1) > 0 && (mainRec.getBottomRightCorner().getX() - (stepsX)*tileSize+1) > 0)
 		{
-			res.add(new Rectangle(new Vertex(++vertCount, mainRec.getTopLeftCorner().getX() + stepsX*tileSize, mainRec.getTopLeftCorner().getY() + stepsY*tileSize, 0), 
-					new Vertex(++vertCount, mainRec.getBottomRightCorner().getX(), mainRec.getBottomRightCorner().getY(), 0), false));
+			res.add(new Rectangle(new ParserVertex(++vertCount, mainRec.getTopLeftCorner().getX() + stepsX*tileSize, mainRec.getTopLeftCorner().getY() + stepsY*tileSize, 0), 
+					new ParserVertex(++vertCount, mainRec.getBottomRightCorner().getX(), mainRec.getBottomRightCorner().getY(), 0), false));
 
 		}
 
 		return res;
 	}
 	
-	public Rectangle getRectanglePointFrom(Vertex v)
+	public Rectangle getRectanglePointFrom(ParserVertex v)
 	{
 		Rectangle res = null;
 		if(subRectangles == null)

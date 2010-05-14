@@ -1,7 +1,7 @@
 package cnc.parser;
 
 
-public class Vertex {
+public class ParserVertex {
 	private int id;
 	private double x;
 	private double y;
@@ -17,11 +17,11 @@ public class Vertex {
 		this.used = used;
 	}
 
-	public Vertex() {
+	public ParserVertex() {
 		super();
 	}
 
-	public Vertex(int id, double x, double y, double z) {
+	public ParserVertex(int id, double x, double y, double z) {
 		super();
 		this.id = id;
 		this.x = x;
@@ -29,7 +29,7 @@ public class Vertex {
 		this.z = z;
 	}
 
-	public Vertex(int id, double everyCoordinates, boolean used ) {
+	public ParserVertex(int id, double everyCoordinates, boolean used ) {
 		super();
 		this.id = id;
 		this.x = everyCoordinates;
@@ -78,9 +78,9 @@ public class Vertex {
 	@Override
 	public boolean equals(Object arg0) {
 		boolean res = false;
-		if(arg0 != null && arg0 instanceof Vertex)
+		if(arg0 != null && arg0 instanceof ParserVertex)
 		{
-			Vertex inVertex = (Vertex) arg0;
+			ParserVertex inVertex = (ParserVertex) arg0;
 			if(id == inVertex.getId() &&  x == inVertex.getX() &&
 					y == inVertex.getY() && z == inVertex.getZ() && used == inVertex.isUsed())
 				res = true;

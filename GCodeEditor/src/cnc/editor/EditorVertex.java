@@ -1,16 +1,16 @@
 package cnc.editor;
 
 
-public class Vertex {
+public class EditorVertex {
 	private float x;
 	private float y;
 	private float z;
 
-	public Vertex() {
+	public EditorVertex() {
 		super();
 	}
 
-	public Vertex(float x, float y, float z) {
+	public EditorVertex(float x, float y, float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -49,9 +49,9 @@ public class Vertex {
 	@Override
 	public boolean equals(Object arg0) {
 		boolean res = false;
-		if(arg0 != null && arg0 instanceof Vertex)
+		if(arg0 != null && arg0 instanceof EditorVertex)
 		{
-			Vertex inVertex = (Vertex) arg0;
+			EditorVertex inVertex = (EditorVertex) arg0;
 			if(x == inVertex.getX() &&	y == inVertex.getY() && z == inVertex.getZ()){
 				res = true;
 			}

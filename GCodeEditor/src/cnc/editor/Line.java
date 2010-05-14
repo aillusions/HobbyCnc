@@ -1,21 +1,21 @@
 package cnc.editor;
 
 public class Line {
-	private Vertex a;
-	private Vertex b;
-	public Vertex getA() {
+	private EditorVertex a;
+	private EditorVertex b;
+	public EditorVertex getA() {
 		return a;
 	}
-	public void setA(Vertex a) {
+	public void setA(EditorVertex a) {
 		this.a = a;
 	}
-	public Vertex getB() {
+	public EditorVertex getB() {
 		return b;
 	}
-	public void setB(Vertex b) {
+	public void setB(EditorVertex b) {
 		this.b = b;
 	}
-	public Line(Vertex a, Vertex b) {
+	public Line(EditorVertex a, EditorVertex b) {
 		super();
 		this.a = a;
 		this.b = b;

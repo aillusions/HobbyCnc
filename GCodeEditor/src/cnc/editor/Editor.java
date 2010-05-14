@@ -10,19 +10,30 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import cnc.GCodeAcceptor;
+import cnc.editor.view.EditorStates;
 import cnc.editor.view.EditorViewFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
-import cnc.storage.IDataStorage;
-import cnc.storage.light.BitMapArrayDataStorage;
+import cnc.storage.memory.BitMapArrayDataStorage;
+import cnc.storage.memory.IDataStorage;
 
 public class Editor {
 	
 	private Document doc;
 	
-	public Editor(){
-		
+	public Editor(){		
 		doc = new PlainDocument();
+	}
+	
+	public void viewMousePressed(double x, double y){
+		
+		EditorStates es = EditorStates.getInstance();
+		String cmd = "\nG00 X" + Math.round(x/es.getScale()/5) + " Y"	+ Math.round(y/es.getScale()/5);
+		try {
+			doc.insertString(doc.getLength(), cmd, null);
+		} catch (BadLocationException e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public void convertImageToGCodes() {
@@ -84,7 +95,7 @@ public class Editor {
 		}	
 	}
 	
-	protected void clearDocument() {
+	public void clearDocument() {
 		
 		try {
 			getDoc().remove(0, getDoc().getLength());

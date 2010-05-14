@@ -1,21 +1,21 @@
 package cnc.parser.bmp;
 
 import cnc.GCodeAcceptor;
-import cnc.parser.Vertex;
-import cnc.storage.IDataStorage;
+import cnc.parser.bmp.ParserVertex;
+import cnc.storage.memory.IDataStorage;
 
 public class BmpFilePrinter {
 	
 	private GCodeAcceptor gCodeInterpreter;
 	private IDataStorage store; 
 	
-	private Vertex originOfCoordinates;
-	private Vertex prevVertex;
-	private Vertex currVertex;
+	private ParserVertex originOfCoordinates;
+	private ParserVertex prevVertex;
+	private ParserVertex currVertex;
 	private int scale = 5;
 			
 	public BmpFilePrinter(GCodeAcceptor gCodeInterpreter) {
-		originOfCoordinates = new Vertex(0, 0, 0, 0);
+		originOfCoordinates = new ParserVertex(0, 0, 0);
 		this.gCodeInterpreter = gCodeInterpreter;
 	}	
 	
@@ -33,11 +33,11 @@ public class BmpFilePrinter {
 			if( shiftX > 3 || shiftY > 3 ) {					
 				liftUp();
 
-				moveTo(currVertex.getX(), currVertex.getY(), null);
+				moveTo(new Double(currVertex.getX()), new Double(currVertex.getY()), null);
 				liftDown();
 			}		
 			else{
-				moveTo(currVertex.getX(), currVertex.getY(), null);
+				moveTo(new Double(currVertex.getX()), new Double(currVertex.getY()), null);
 			}			
 			
 			currVertex.setUsed(true);

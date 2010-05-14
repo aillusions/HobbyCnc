@@ -2,8 +2,8 @@ package cnc.parser;
 
 public class Line {
 	private int id;
-	private Vertex point_a;
-	private Vertex point_b;
+	private ParserVertex point_a;
+	private ParserVertex point_b;
 	
 	public int getId() {
 		return id;
@@ -12,22 +12,22 @@ public class Line {
 		this.id = id;
 	}
 
-	public Line(int id, Vertex point_a, Vertex point_b) {
+	public Line(int id, ParserVertex point_a, ParserVertex point_b) {
 		super();
 		this.id = id;
 		this.point_a = point_a;
 		this.point_b = point_b;
 	}
-	public Vertex getPoint_a() {
+	public ParserVertex getPoint_a() {
 		return point_a;
 	}
-	public void setPoint_a(Vertex point_a) {
+	public void setPoint_a(ParserVertex point_a) {
 		this.point_a = point_a;
 	}
-	public Vertex getPoint_b() {
+	public ParserVertex getPoint_b() {
 		return point_b;
 	}
-	public void setPoint_b(Vertex point_b) {
+	public void setPoint_b(ParserVertex point_b) {
 		this.point_b = point_b;
 	}
 	public Line() {

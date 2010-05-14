@@ -9,19 +9,29 @@ import java.util.List;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
+//Singleton
 public class VertexesContainer {
+	
+	
+	private VertexesContainer(){}                        
+	
+	private static final VertexesContainer instance = new VertexesContainer();
+	
+	public static VertexesContainer getInstance(){
+		return instance;
+	}
 	
 	List<ActionListener> listeners = new ArrayList<ActionListener>();
 	
-	private List<Vertex> vertexList =  new LinkedList<Vertex>();
+	private List<EditorVertex> vertexList =  new LinkedList<EditorVertex>();
 	private List<Line> lineList =  new LinkedList<Line>();
 	
-	public List<Vertex> getVertexList() {
+	public List<EditorVertex> getVertexList() {
 		return vertexList;
 	}
 
 	public void regenerate(Document doc){
-		vertexList =  new LinkedList<Vertex>();
+		vertexList =  new LinkedList<EditorVertex>();
 		lineList =  new LinkedList<Line>();
 		
 		String commands = null;
@@ -32,13 +42,13 @@ public class VertexesContainer {
 		}
 		String[] cmdArray = commands.replace("\r", "").split("\n");
 		
-		Vertex prevPos = new Vertex();
-		vertexList.add(new Vertex());
+		EditorVertex prevPos = new EditorVertex();
+		vertexList.add(new EditorVertex());
 		
 		for (int i = 0; i < cmdArray.length; i++) {
 			GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);			
 			if (gc != null) {			
-				Vertex newPos = gc.getCoord();
+				EditorVertex newPos = gc.getCoord();
 				vertexList.add(newPos);
 				prevPos = newPos;
 			}

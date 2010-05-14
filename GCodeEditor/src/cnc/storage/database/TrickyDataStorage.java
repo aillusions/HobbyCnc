@@ -12,8 +12,7 @@ import org.hibernate.Session;
 import cnc.HiberUtil;
 import cnc.parser.Line;
 import cnc.parser.Rectangle;
-import cnc.parser.Vertex;
-import cnc.storage.IDataStorage;
+import cnc.parser.ParserVertex;
 
 
 public class TrickyDataStorage implements IDataStorage {
@@ -22,7 +21,7 @@ public class TrickyDataStorage implements IDataStorage {
 	private Rectangle mainRec;
 
 	Iterator<Rectangle> rectIterator;
-	Vertex lastReturnedVertex = null;
+	ParserVertex lastReturnedVertex = null;
 	VertexBatch vertexBatch;
 	
 	double maxX=-1, minX=-1, maxY = -1, minY=-1;
@@ -42,7 +41,7 @@ public class TrickyDataStorage implements IDataStorage {
 
 	}
 
-	public void addVertex(Vertex v) {
+	public void addVertex(ParserVertex v) {
 		if(maxX == -1 && minX == -1 && maxY == -1 && minY == -1)
 		{
 			maxX = v.getX(); minX = v.getX(); maxY = v.getY() ; minY = v.getY() ;
@@ -61,7 +60,7 @@ public class TrickyDataStorage implements IDataStorage {
 
 
 	public void addVertex(String id, String x, String y, String z) {
-		addVertex(new Vertex(Integer.parseInt(id), Double.parseDouble(x),
+		addVertex(new ParserVertex(Integer.parseInt(id), Double.parseDouble(x),
 				Double.parseDouble(y), Double.parseDouble(z)));
 
 	}
@@ -76,16 +75,16 @@ public class TrickyDataStorage implements IDataStorage {
 		return null;
 	}
 
-	public Vertex getVertex(int id) {
+	public ParserVertex getVertex(int id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public List<Vertex> getVertexesNear(Vertex v, boolean used) {
+	public List<ParserVertex> getVertexesNear(ParserVertex v, boolean used) {
 
 		Session session = HiberUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
-		ArrayList <Vertex> res = new ArrayList<Vertex>();
+		ArrayList <ParserVertex> res = new ArrayList<ParserVertex>();
 
 		if (v != null) {
 			String qStr = "from Vertex where used = true and x >= :left and x <= :right and y >= :top and y <= :bottom";
@@ -95,9 +94,9 @@ public class TrickyDataStorage implements IDataStorage {
 			q = q.setDouble("top", v.getY() - 1);
 			q = q.setDouble("bottom", v.getY() + 1);
 			ScrollableResults sr = q.scroll(ScrollMode.FORWARD_ONLY);
-			Vertex currV = null;
+			ParserVertex currV = null;
 			while(sr.next()){
-				currV = (Vertex)sr.get(0);
+				currV = (ParserVertex)sr.get(0);
 				if(currV != v){
 					res.add(currV);
 				}
@@ -111,13 +110,13 @@ public class TrickyDataStorage implements IDataStorage {
 		return null;
 	}
 
-	public void saveVertex(Vertex v) {
+	public void saveVertex(ParserVertex v) {
 
 	}
 	@SuppressWarnings(value = "unchecked")
-	public Vertex getNextVertex() {
+	public ParserVertex getNextVertex() {
 		if (mainRec == null) {
-			mainRec = new Rectangle(new Vertex(0, minX, minY, 0), new Vertex(0, maxX, maxY, 0), true);
+			mainRec = new Rectangle(new ParserVertex(0, minX, minY, 0), new ParserVertex(0, maxX, maxY, 0), true);
 			
 			rectIterator = mainRec.iterator();
 			if (rectIterator.hasNext())
