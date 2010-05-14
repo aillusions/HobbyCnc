@@ -11,9 +11,10 @@ import cnc.editor.view.VisualisationPanel;
 
 public class Main {	
 	
-	public static void main(String[] args) {		
+	public static void main(String[] args) {	
+		
 		Editor e = new Editor();
-		VertexesContainer vc = VertexesContainer.getInstance();
+				
 		EditorViewFrameListener vl = new EditorViewFrameListener(e);
 		VisualPanelListener vpl = new VisualPanelListener(e);
 		VisualisationPanel vp = new VisualisationPanel(vpl);		
@@ -22,6 +23,7 @@ public class Main {
 		
 		EditorStates.getInstance().addActionListener(esl);
 		
+		VertexesContainer vc = VertexesContainer.getInstance();
 		VertexesContainerListener vcl = new VertexesContainerListener(vp);
 		vc.addActionListener(vcl);
 		
