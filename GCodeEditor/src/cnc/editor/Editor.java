@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -27,15 +28,21 @@ public class Editor {
 	
 	public void viewMousePressed(double x, double y){
 		
+		float cncX = EditorStates.convertView_Cnc((long)x);
+		float cncY = EditorStates.convertView_Cnc((long)y);
+		
 		if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
-			String cmd = "\nG00 X" + EditorStates.convertView_Cnc((long)x) + " Y" + EditorStates.convertView_Cnc((long)y);
+			String cmd = "\nG00 X" + cncX + " Y" + cncY;
 			try {
 				doc.insertString(doc.getLength(), cmd, null);
 			} catch (BadLocationException e) {
 				throw new RuntimeException(e);
 			}
 		}else if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
-			System.out.println("select");
+			List<EditorVertex> vertexes = VertexesContainer.getInstance().findVertexesNear(cncX, cncY);
+			for(EditorVertex v : vertexes){
+				System.out.println(v);
+			}
 		}
 	}
 	

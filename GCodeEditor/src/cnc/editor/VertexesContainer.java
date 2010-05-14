@@ -61,9 +61,21 @@ public class VertexesContainer {
 	}
 	
 	private void notifyAllAboutChanges(){
+		
 		for(ActionListener al : listeners){
 			ActionEvent ae = new ActionEvent(this , -1, "chemaChanged");
 			al.actionPerformed(ae);
 		}
+	}
+
+	public List<EditorVertex> findVertexesNear(float cncX, float cncY) {
+		
+		List<EditorVertex> result = new ArrayList<EditorVertex>();
+		for(EditorVertex v : vertexList){
+			if(3 > Math.abs(v.getX()-cncX) && 3 > Math.abs(v.getY()-cncY)){
+				result.add(v);
+			}
+		}
+		return result;
 	}
 }
