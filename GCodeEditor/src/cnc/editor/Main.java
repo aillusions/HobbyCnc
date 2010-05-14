@@ -12,22 +12,23 @@ import cnc.editor.view.VisualisationPanel;
 public class Main {	
 	
 	public static void main(String[] args) {		
-		Editor editor = new Editor();
-		VertexesContainer container = VertexesContainer.getInstance();
-		EditorViewFrameListener viewListener = new EditorViewFrameListener(editor);
-		VisualPanelListener vpl = new VisualPanelListener(editor);
-		VisualisationPanel view = new VisualisationPanel(vpl);		
+		Editor e = new Editor();
+		VertexesContainer vc = VertexesContainer.getInstance();
+		EditorViewFrameListener vl = new EditorViewFrameListener(e);
+		VisualPanelListener vpl = new VisualPanelListener(e);
+		VisualisationPanel vp = new VisualisationPanel(vpl);		
 
-		EditorStatesListener esl = new EditorStatesListener(view);
-		VertexesContainerListener containerListener = new VertexesContainerListener(view);		
+		EditorStatesListener esl = new EditorStatesListener(vp);				
 		
 		EditorStates.getInstance().addActionListener(esl);
 		
-		container.addActionListener(containerListener);
+		VertexesContainerListener vcl = new VertexesContainerListener(vp);
+		vc.addActionListener(vcl);
 		
-		GCodesDocListener docListener = new GCodesDocListener(container);			
-		editor.getDoc().addDocumentListener(docListener);
-		EditorViewFrame editorViewFrame = new EditorViewFrame(viewListener, editor.getDoc(), view);
-		editorViewFrame.setVisible(true);
+		GCodesDocListener gcdl = new GCodesDocListener(vc);			
+		e.getDoc().addDocumentListener(gcdl);
+		
+		EditorViewFrame evf = new EditorViewFrame(vl, e.getDoc(), vp);
+		evf.setVisible(true);
 	}
 }
