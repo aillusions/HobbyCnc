@@ -10,8 +10,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 //Singleton
-public class GCommandsContainer {
-	
+public class GCommandsContainer {	
 	
 	private GCommandsContainer(){}                        
 	
@@ -21,16 +20,16 @@ public class GCommandsContainer {
 		return instance;
 	}
 	
-	private List<ActionListener> listeners = new ArrayList<ActionListener>();
+	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
 	
-	private List<GCommand> gCommandList =  new LinkedList<GCommand>();
+	private final List<GCommand> gCommandList =  new LinkedList<GCommand>();
 	
 	public List<GCommand> getGCommandList() {
 		return gCommandList;
 	}
 
 	public void regenerate(Document doc){
-		gCommandList =  new LinkedList<GCommand>();
+		gCommandList.clear();// = new LinkedList<GCommand>();
 		
 		String commands = null;
 		try {

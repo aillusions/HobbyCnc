@@ -24,6 +24,7 @@ public class EditorStates {
 	private float viewScale = 1;	
 	private GCommand selectedVertex;
 	private List<GCommand> nearSelectedVertex;
+	private float selectionCircleSize = 8f;
 	
 	public static long convertCnc_View(float cncCoord){
 		return Math.round(cncCoord * getInstance().getScale() * 5);
@@ -91,6 +92,10 @@ public class EditorStates {
 	
 	public List<GCommand> getNearSelectedVertex() {
 		return nearSelectedVertex;
+	}
+
+	public int getSelectionCircleSize() {
+		return (int)(selectionCircleSize);
 	}
 
 	//------------

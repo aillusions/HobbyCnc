@@ -49,7 +49,7 @@ public class VisualPanelListener implements MouseListener, MouseMotionListener {
 		
 		EditorStates es = EditorStates.getInstance();
 		GCommand gc = es.getSelectedVertex();
-		
+
 		if(gc != null){
 			
 			EditorVertex v =  es.getSelectedVertex().getVertex();
@@ -60,7 +60,7 @@ public class VisualPanelListener implements MouseListener, MouseMotionListener {
 			double X = EditorStates.convertCnc_View(v.getX());
 			double Y = EditorStates.convertCnc_View(v.getY());
 			
-			if(Math.abs(x-X) < 30 && Math.abs(y-Y) < 30){
+			if(Math.abs(x-X) < es.getSelectionCircleSize() && Math.abs(y-Y) < es.getSelectionCircleSize()){
 				v.setX(EditorStates.convertView_Cnc((long)x));
 				v.setY(EditorStates.convertView_Cnc((long)y));
 			}
