@@ -25,11 +25,11 @@ public class EditorStates {
 	
 	
 	public static long convertCnc_View(float cncCoord){
-		return Math.round(cncCoord * getInstance().getScale());
+		return Math.round(cncCoord * getInstance().getScale() * 5);
 	}
 	
 	public static float convertView_Cnc(long viewCoord){
-		return viewCoord / getInstance().getScale();
+		return viewCoord / getInstance().getScale() / 5;
 	}
 	
 	

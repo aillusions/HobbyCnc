@@ -85,7 +85,7 @@ public class VisualisationPanel extends JPanel{
 		double Ya,Yb,Xa,Xb;
 		double k,k1;
 		double tgB;
-		double CB = 0.4;
+		double CB = 0.08;
 		
 		Xa = ev1.getX();
 		Xb = ev2.getX();
@@ -96,7 +96,7 @@ public class VisualisationPanel extends JPanel{
 		if(Xa == Xb || Ya == Xb){
 			return;
 		}
-		tgB = 0.4;//Math.tan((320 * Math.PI) / 180);
+		tgB = Math.tan((30 * Math.PI) / 180);
 		k = (Ya-Yb)/(Xa - Xb);		
 		
 		{

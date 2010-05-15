@@ -35,7 +35,9 @@ public class BmpFilePrinter {
 				currVertex.setUsed(true);
 				store.saveVertex(currVertex);				
 				continue;
-			}else if(scipedVertex != null){
+			}
+			
+			if(scipedVertex != null){
 				moveTo(scipedVertex.getX(), scipedVertex.getY(), null);
 				scipedVertex = null;
 			}
@@ -71,15 +73,15 @@ public class BmpFilePrinter {
 		String zString = "";
 		
 		if(x!= null){
-			xString = " X" + x;
+			xString = " X" + x/5d;
 		}
 		
 		if(y!= null){
-			yString = " Y" + y;
+			yString = " Y" + y/5d;
 		}
 		
 		if(z!= null){
-			zString = " Z" + z;
+			zString = " Z" + z/5d;
 		}		
 		gCodeInterpreter.putGCode("G00" + xString + yString + zString);
 	}
