@@ -24,7 +24,6 @@ public class GCommandsContainer {
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();
 	
 	private List<GCommand> gCommandList =  new LinkedList<GCommand>();
-	private List<Line> lineList =  new LinkedList<Line>();
 	
 	public List<GCommand> getGCommandList() {
 		return gCommandList;
@@ -32,7 +31,6 @@ public class GCommandsContainer {
 
 	public void regenerate(Document doc){
 		gCommandList =  new LinkedList<GCommand>();
-		lineList =  new LinkedList<Line>();
 		
 		String commands = null;
 		try {
