@@ -70,9 +70,10 @@ public class GCommandsContainer {
 
 	public List<GCommand> findVertexesNear(float cncX, float cncY) {
 		
+		EditorStates es = EditorStates.getInstance();
 		List<GCommand> result = new ArrayList<GCommand>();
 		for(GCommand v : gCommandList){
-			if(0.1 > Math.abs(v.getVertex().getX() - cncX) && 0.1 > Math.abs(v.getVertex().getY() - cncY)){
+			if(0.7/es.getScale() > Math.abs(v.getVertex().getX() - cncX) && 0.7/es.getScale() > Math.abs(v.getVertex().getY() - cncY)){
 				result.add(v);
 			}
 		}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -26,26 +27,45 @@ public class VisualisationPanel extends JPanel{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
-		g.setColor(Color.black);
-		drawCoordinates(g);			
-		drawPicture(g);		
-		drawSelecteion(g);		
+
+		drawCoordinates(g);	
+		drawSelection(g);
+		drawPicture(g);						
 	}
 	
-	private void drawSelecteion(Graphics g) {
+	private void drawSelection(Graphics g) {
 		
 		EditorStates es = EditorStates.getInstance();
-		GCommand selected = es.getSelectedVertex();
+		GCommand selected = es.getSelectedVertex();		
+		int size = 10;
 		
 		if(selected != null){			
 			
 			float X = EditorStates.convertCnc_View(selected.getVertex().getX());
 			float Y = EditorStates.convertCnc_View(selected.getVertex().getY());
-			int size = 10;
+			
 			
 			Color color = g.getColor();
 		    g.setColor(Color.pink);
 		    g.fillOval((int)(X-size/2), (int)(Y-size/2), size, size);
+		    g.setColor(color);
+		}
+		
+		List<GCommand> nearSelection = es.getNearSelectedVertex();
+		
+		if(nearSelection != null){
+			
+			float X;
+			float Y;
+			Color color = g.getColor();
+		    g.setColor(Color.gray);
+		    
+			for(GCommand gc : nearSelection){
+				
+				X = EditorStates.convertCnc_View(gc.getVertex().getX());
+				Y = EditorStates.convertCnc_View(gc.getVertex().getY());
+				g.fillOval((int)(X-size/2), (int)(Y-size/2), size, size);
+			}			
 		    g.setColor(color);
 		}
 	}
@@ -207,6 +227,7 @@ public class VisualisationPanel extends JPanel{
 	}
 
 	private void drawCoordinates(Graphics g) {
+		g.setColor(Color.black);
 		EditorStates es = EditorStates.getInstance();
 		g.drawLine(es.getGap(), es.getGap(), es.getCoordLength(), es.getGap());
 		g.drawLine(es.getCoordLength() - 3, es.getGap() - 3, es.getCoordLength(), es.getGap());
