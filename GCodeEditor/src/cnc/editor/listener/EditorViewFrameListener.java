@@ -29,9 +29,9 @@ public class EditorViewFrameListener implements ActionListener {
 			float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
 			EditorStates.getInstance().setScale(scale);
 		}else if(e.getActionCommand().equals("switchToolsTo_SimpleDraw")){
-			EditorStates.getInstance().setCurrentSelectedTool(EditorStates.EditorTolls.SIMPLE_EDIT);
+			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.SIMPLE_EDIT);
 		}else if(e.getActionCommand().equals("switchToolsTo_SelectVertexes")){
-			EditorStates.getInstance().setCurrentSelectedTool(EditorStates.EditorTolls.VERTEX_SELECT);
+			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.VERTEX_SELECT);
 		}		
 	}
 }

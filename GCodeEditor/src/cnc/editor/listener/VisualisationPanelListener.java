@@ -1,5 +1,7 @@
 package cnc.editor.listener;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -9,11 +11,11 @@ import cnc.editor.EditorStates;
 import cnc.editor.EditorVertex;
 import cnc.editor.GCommand;
 
-public class VisualPanelListener implements MouseListener, MouseMotionListener {
+public class VisualisationPanelListener implements MouseListener, MouseMotionListener, FocusListener {
 
 	Editor editor;
 	
-	public VisualPanelListener(Editor editor){
+	public VisualisationPanelListener(Editor editor){
 		this.editor = editor;
 	}
 	
@@ -33,6 +35,7 @@ public class VisualPanelListener implements MouseListener, MouseMotionListener {
 	}
 
 	public void mousePressed(MouseEvent e) {
+		EditorStates.getInstance().setCurrentEditMode(Editor.EditMode.DRAW);
 		
 		double x = e.getPoint().getX();
 		double y = e.getPoint().getY();		
@@ -71,6 +74,14 @@ public class VisualPanelListener implements MouseListener, MouseMotionListener {
 
 	public void mouseMoved(MouseEvent e) {
 
+	}
+
+	public void focusGained(FocusEvent e) {
+					
+	}
+
+	public void focusLost(FocusEvent e) {
+		
 	}
 
 }

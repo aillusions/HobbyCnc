@@ -3,25 +3,34 @@ package cnc.editor.listener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import cnc.editor.EditorStates;
 import cnc.editor.GCommandsContainer;
+import cnc.editor.Editor.EditMode;
 
 public class GCodesDocListener implements DocumentListener {
 
-	GCommandsContainer container;
+	private GCommandsContainer container;
 		
 	public GCodesDocListener(GCommandsContainer container) {
 		this.container = container;
 	}
 
-	public void changedUpdate(DocumentEvent e) {		
-		container.regenerate(e.getDocument());		
+	public void changedUpdate(DocumentEvent e) {	
+		//nothing  to do
 	}
 
 	public void insertUpdate(DocumentEvent e) {
-		container.regenerate(e.getDocument());			
+		docContentChanged(e);		
 	}
 
 	public void removeUpdate(DocumentEvent e) {
-		container.regenerate(e.getDocument());	
+		docContentChanged(e);
+	}
+	
+	private void docContentChanged(DocumentEvent e){
+		//if(EditorStates.getInstance().getCurrentEditMode() == EditMode.TXT){
+			container.regenerate(e.getDocument());	
+		//}
+		
 	}
 }

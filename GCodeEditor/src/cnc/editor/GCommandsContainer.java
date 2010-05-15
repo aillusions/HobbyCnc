@@ -29,7 +29,7 @@ public class GCommandsContainer {
 	}
 
 	public void regenerate(Document doc){
-		gCommandList.clear();// = new LinkedList<GCommand>();
+		gCommandList.clear();
 		
 		String commands = null;
 		try {
@@ -70,7 +70,8 @@ public class GCommandsContainer {
 		EditorStates es = EditorStates.getInstance();
 		List<GCommand> result = new ArrayList<GCommand>();
 		for(GCommand v : gCommandList){
-			if(0.7/es.getScale() > Math.abs(v.getVertex().getX() - cncX) && 0.7/es.getScale() > Math.abs(v.getVertex().getY() - cncY)){
+			if(0.7/es.getScale() > Math.abs(v.getVertex().getX() - cncX) 
+					&& 0.7/es.getScale() > Math.abs(v.getVertex().getY() - cncY)){
 				result.add(v);
 			}
 		}

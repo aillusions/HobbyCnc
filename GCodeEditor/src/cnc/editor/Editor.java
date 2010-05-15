@@ -14,7 +14,6 @@ import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import cnc.GCodeAcceptor;
-import cnc.editor.EditorStates.EditorTolls;
 import cnc.editor.view.EditorViewFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
@@ -22,6 +21,9 @@ import cnc.storage.memory.BitMapArrayDataStorage;
 import cnc.storage.memory.IDataStorage;
 
 public class Editor {
+	
+	public enum EditMode{DRAW, TXT};
+	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT};
 	
 	private Document doc;
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();

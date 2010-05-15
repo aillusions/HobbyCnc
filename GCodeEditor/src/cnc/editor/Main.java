@@ -4,8 +4,9 @@ import cnc.editor.listener.EditorListener;
 import cnc.editor.listener.EditorStatesListener;
 import cnc.editor.listener.EditorViewFrameListener;
 import cnc.editor.listener.GCodesDocListener;
+import cnc.editor.listener.GCodesTextContainerListener;
 import cnc.editor.listener.VertexesContainerListener;
-import cnc.editor.listener.VisualPanelListener;
+import cnc.editor.listener.VisualisationPanelListener;
 import cnc.editor.view.EditorViewFrame;
 import cnc.editor.view.GCodesTextContainer;
 import cnc.editor.view.VisualisationPanel;
@@ -17,7 +18,7 @@ public class Main {
 		Editor editor = new Editor();		
 				
 		EditorViewFrameListener vl = new EditorViewFrameListener(editor);
-		VisualPanelListener vpl = new VisualPanelListener(editor);
+		VisualisationPanelListener vpl = new VisualisationPanelListener(editor);
 		VisualisationPanel vp = new VisualisationPanel(vpl);		
 
 		EditorStatesListener esl = new EditorStatesListener(vp);				
@@ -31,7 +32,8 @@ public class Main {
 		GCodesDocListener gcdl = new GCodesDocListener(vc);			
 		editor.getDoc().addDocumentListener(gcdl);
 		
-		GCodesTextContainer gctc = new GCodesTextContainer(editor.getDoc());
+		GCodesTextContainerListener gctcl = new GCodesTextContainerListener();
+		GCodesTextContainer gctc = new GCodesTextContainer(editor.getDoc(), gctcl);
 		EditorListener el = new EditorListener(gctc);
 		editor.addActionListener(el);
 		

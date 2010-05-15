@@ -12,15 +12,16 @@ import cnc.editor.EditorStates;
 import cnc.editor.EditorVertex;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
-import cnc.editor.listener.VisualPanelListener;
+import cnc.editor.listener.VisualisationPanelListener;
 
 public class VisualisationPanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public VisualisationPanel(VisualPanelListener  ml){
+	public VisualisationPanel(VisualisationPanelListener  ml){
 		addMouseListener(ml);
 		addMouseMotionListener(ml);
+		addFocusListener(ml);
 		setLayout(null);
 	}
 

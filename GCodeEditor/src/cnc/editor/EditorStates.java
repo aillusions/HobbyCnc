@@ -5,28 +5,31 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import cnc.editor.Editor.EditMode;
+import cnc.editor.Editor.EditorTolls;
+
 //Singleton
 public class EditorStates {
 
-	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT};
+
+	public static final float SELECTIO_CIRCLE_SIZE = 8f;
+	public static final float BMP_TO_CNC_COORD_RATIO = 5f;	
 	
 	private EditorStates(){}
+	
 	private static final EditorStates instance = new EditorStates();
 	public static EditorStates getInstance(){
 		return instance;
 	}	
 	
-	private List<ActionListener> listeners = new ArrayList<ActionListener>();	
-	
+	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
 	private int theGap = 0;
 	private int viewCoordLenght = 200;		
 	private float viewScale = 1;	
 	private GCommand selectedVertex;
 	private List<GCommand> nearSelectedVertex;
-	
-	public static final float SELECTIO_CIRCLE_SIZE = 8f;
-	public static final float BMP_TO_CNC_COORD_RATIO = 5f;
+	private Editor.EditMode currentEditMode = EditMode.DRAW;
 	
 	public float getBmpToCncCoordRatio() {
 		return BMP_TO_CNC_COORD_RATIO;
@@ -98,6 +101,14 @@ public class EditorStates {
 	
 	public List<GCommand> getNearSelectedVertex() {
 		return nearSelectedVertex;
+	}
+	
+	public Editor.EditMode getCurrentEditMode() {
+		return currentEditMode;
+	}
+
+	public void setCurrentEditMode(Editor.EditMode currentEditMode) {
+		this.currentEditMode = currentEditMode;
 	}
 
 	//------------
