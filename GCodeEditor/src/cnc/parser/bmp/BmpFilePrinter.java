@@ -27,22 +27,34 @@ public class BmpFilePrinter {
 		
 		while((currVertex = store.getNextVertex()) != null ) {	
 
-			long shiftX = currVertex.getX() - prevVertex.getX();
-			long shiftY = currVertex.getY() - prevVertex.getY();
+			long shiftPCX = Math.abs(currVertex.getX() - prevVertex.getX());
+			long shiftPCY = Math.abs(currVertex.getY() - prevVertex.getY());
 			
-			if(shiftX == 0 || shiftY == 0){
-				scipedVertex = currVertex;
-				currVertex.setUsed(true);
-				store.saveVertex(currVertex);				
-				continue;
+/*			Long shiftPSX = null;
+			Long shiftPSY = null;
+			
+		if(scipedVertex!= null){
+				shiftPSX = Math.abs(scipedVertex.getX() - prevVertex.getX());
+				shiftPSY = Math.abs(scipedVertex.getY() - prevVertex.getY());
+			}
+			
+			if(shiftPCX == 0  || shiftPCY == 0 ){
+				
+				if((scipedVertex == null) || ((scipedVertex != null) && (shiftPCX > shiftPSX) && (shiftPCY > shiftPSY))){
+					
+					scipedVertex = currVertex;
+					currVertex.setUsed(true);
+					store.saveVertex(currVertex);				
+					continue;
+				}
 			}
 			
 			if(scipedVertex != null){
 				moveTo(scipedVertex.getX(), scipedVertex.getY(), null);
 				scipedVertex = null;
-			}
+			}*/
 
-			if( shiftX > 3 || shiftY > 3 ) {					
+			if( shiftPCX > 2 || shiftPCY > 2 ) {					
 				liftUp();
 
 				moveTo(currVertex.getX(), currVertex.getY(), null);
