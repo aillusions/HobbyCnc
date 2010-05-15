@@ -7,9 +7,9 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JPanel;
 
-import cnc.editor.GCommand;
 import cnc.editor.EditorStates;
 import cnc.editor.EditorVertex;
+import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
 import cnc.editor.listener.VisualPanelListener;
 
@@ -28,10 +28,29 @@ public class VisualisationPanel extends JPanel{
 		super.paint(g);
 		g.setColor(Color.black);
 		drawCoordinates(g);			
-		DrawPicture(g);
+		drawPicture(g);		
+		drawSelecteion(g);		
+	}
+	
+	private void drawSelecteion(Graphics g) {
+		
+		EditorStates es = EditorStates.getInstance();
+		GCommand selected = es.getSelectedVertex();
+		
+		if(selected != null){			
+			
+			float X = EditorStates.convertCnc_View(selected.getVertex().getX());
+			float Y = EditorStates.convertCnc_View(selected.getVertex().getY());
+			int size = 10;
+			
+			Color color = g.getColor();
+		    g.setColor(Color.pink);
+		    g.fillOval((int)(X-size/2), (int)(Y-size/2), size, size);
+		    g.setColor(color);
+		}
 	}
 
-	private void DrawPicture(Graphics g) {
+	private void drawPicture(Graphics g) {
 		
 		EditorVertex prevPos = null;
 		

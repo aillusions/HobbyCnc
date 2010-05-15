@@ -47,6 +47,8 @@ public class Editor {
 			if(vertexes.size() > 0){
 				ActionEvent ae = new ActionEvent(vertexes , -1, "select node");
 				notifyActionListeners(ae);
+				List<GCommand> neighbourVertexes =  GCommandsContainer.getInstance().getNeighbourVertexes(vertexes.get(0));
+				EditorStates.getInstance().setSelectedVertex(vertexes.get(0), neighbourVertexes);
 			}
 		}
 	}
@@ -134,7 +136,6 @@ public class Editor {
 	private void notifyActionListeners(ActionEvent ae){
 		
 		for(ActionListener al : listeners){
-			//ActionEvent ae = new ActionEvent(this , -1, "chemaChanged");
 			al.actionPerformed(ae);
 		}
 	}

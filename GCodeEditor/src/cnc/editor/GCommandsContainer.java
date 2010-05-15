@@ -78,4 +78,16 @@ public class GCommandsContainer {
 		}
 		return result;
 	}
+
+	public List<GCommand> getNeighbourVertexes(GCommand gCommand) {
+		List<GCommand> result = new ArrayList<GCommand>();
+		int indexOfCurrent = gCommandList.indexOf(gCommand);
+		if(indexOfCurrent - 1 >= 0){
+			result.add(gCommandList.get(indexOfCurrent - 1));
+		}
+		if(indexOfCurrent + 1 < gCommandList.size()){
+			result.add(gCommandList.get(indexOfCurrent + 1));
+		}
+		return result;
+	}
 }

@@ -1,15 +1,19 @@
-package boolsheet;
+package cnc.editor.view;
 
-import java.awt.*;
-import javax.swing.*;
-import java.awt.event.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
-public class SmoothMoveExample extends JPanel implements MouseMotionListener {
+import javax.swing.JPanel;
+
+public class SmoothDragView extends JPanel implements MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 	private int X = 30, Y = 30;
 
-	public SmoothMoveExample() {
+	public SmoothDragView() {
 		addMouseMotionListener(this);
 	}
 
@@ -29,6 +33,7 @@ public class SmoothMoveExample extends JPanel implements MouseMotionListener {
 	}
 
 	public void paint(Graphics g) {
+		
 		Dimension dim = getSize();
 		g.setColor(getBackground());
 		g.fillRect(0, 0, dim.width, dim.height);
@@ -36,12 +41,4 @@ public class SmoothMoveExample extends JPanel implements MouseMotionListener {
 		g.setColor(Color.pink);
 		g.fillOval(X - size / 2, Y - size / 2, size, size);
 	}
-
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		frame.getContentPane().add(new SmoothMoveExample());
-		frame.setSize(350, 300);
-		frame.setVisible(true);
-	}
-
 }

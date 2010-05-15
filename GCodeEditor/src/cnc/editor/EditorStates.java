@@ -22,7 +22,8 @@ public class EditorStates {
 	private int theGap = 0;
 	private int viewCoordLenght = 200;		
 	private float viewScale = 1;	
-	
+	private GCommand selectedVertex;
+	private List<GCommand> nearSelectedVertex;
 	
 	public static long convertCnc_View(float cncCoord){
 		return Math.round(cncCoord * getInstance().getScale() * 5);
@@ -30,8 +31,7 @@ public class EditorStates {
 	
 	public static float convertView_Cnc(long viewCoord){
 		return viewCoord / getInstance().getScale() / 5;
-	}
-	
+	}	
 	
 	//Getters - setters
 	public float getScale(){
@@ -40,7 +40,8 @@ public class EditorStates {
 	
 	public void setScale(float scale){
 		viewScale = scale;
-		notifyAllAboutChanges();
+		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		notifyAllAboutChanges(ae);
 	}
 	
 	public int getGap(){
@@ -49,7 +50,8 @@ public class EditorStates {
 	
 	public void setGap(int gap){
 		theGap = gap;
-		notifyAllAboutChanges();
+		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		notifyAllAboutChanges(ae);
 	}
 	
 	public int getCoordLength(){
@@ -58,7 +60,8 @@ public class EditorStates {
 	
 	public void setCoordLength(int coordLenght){
 		viewCoordLenght = coordLenght;
-		notifyAllAboutChanges();
+		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		notifyAllAboutChanges(ae);
 	}		
 	
 	public EditorTolls getCurrentSelectedTool() {
@@ -69,16 +72,36 @@ public class EditorStates {
 		this.currentSelectedTool = currentSelectedTool;
 	}
 	
+	public GCommand getSelectedVertex() {
+		return selectedVertex;
+	}
+
+	public void setSelectedVertex(GCommand selectedVertex, List<GCommand> nearSelectedVertex) {
+		this.selectedVertex = selectedVertex;
+		this.nearSelectedVertex = nearSelectedVertex;
+		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		notifyAllAboutChanges(ae);
+	}
 	
+	public void repaint(){
+		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		notifyAllAboutChanges(ae);
+	}
+	
+	
+	public List<GCommand> getNearSelectedVertex() {
+		return nearSelectedVertex;
+	}
+
 	//------------
 	public void addActionListener(ActionListener al){
 		listeners.add(al);
 	}
 	
-	private void notifyAllAboutChanges(){
-		for(ActionListener al : listeners){
-			ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+	private void notifyAllAboutChanges(ActionEvent ae){
+		for(ActionListener al : listeners){			
 			al.actionPerformed(ae);
 		}
 	}
+
 }
