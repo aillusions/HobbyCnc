@@ -25,8 +25,8 @@ public class EditorViewFrameListener implements ActionListener {
 		}else if(e.getActionCommand().equals("AddGCodesFromFile")){
 			editor.addGCodesFromFile();
 		}else if(e.getActionCommand().equals("Clear")){
-			//editor.clearDocument();
 			GCommandsContainer.getInstance().clear();
+			EditorStates.getInstance().clearSelection();
 		}else if(e.getActionCommand().equals("Scale")){
 			float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
 			EditorStates.getInstance().setScale(scale);
