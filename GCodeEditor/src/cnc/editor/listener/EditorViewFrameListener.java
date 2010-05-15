@@ -7,6 +7,7 @@ import javax.swing.JComboBox;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
+import cnc.editor.GCommandsContainer;
 
 public class EditorViewFrameListener implements ActionListener {
 
@@ -24,7 +25,8 @@ public class EditorViewFrameListener implements ActionListener {
 		}else if(e.getActionCommand().equals("AddGCodesFromFile")){
 			editor.addGCodesFromFile();
 		}else if(e.getActionCommand().equals("Clear")){
-			editor.clearDocument();
+			//editor.clearDocument();
+			GCommandsContainer.getInstance().clear();
 		}else if(e.getActionCommand().equals("Scale")){
 			float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
 			EditorStates.getInstance().setScale(scale);

@@ -2,6 +2,7 @@ package cnc.editor.listener;
 
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.BadLocationException;
 
 import cnc.editor.EditorStates;
 import cnc.editor.GCommandsContainer;
@@ -28,9 +29,14 @@ public class GCodesDocListener implements DocumentListener {
 	}
 	
 	private void docContentChanged(DocumentEvent e){
-		//if(EditorStates.getInstance().getCurrentEditMode() == EditMode.TXT){
-			container.regenerate(e.getDocument());	
-		//}
+		if(EditorStates.getInstance().getCurrentEditMode() == EditMode.TXT){
+			try {
+				container.clear();
+				container.addCommandsBunch(e.getDocument().getText(0, e.getDocument().getLength()));
+			} catch (BadLocationException e1) {
+				throw new RuntimeException(e1);
+			}	
+		}
 		
 	}
 }

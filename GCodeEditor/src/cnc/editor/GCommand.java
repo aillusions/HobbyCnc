@@ -37,5 +37,12 @@ public class GCommand {
 	
 	public void setVertex(EditorVertex coord) {
 		this.vertex = coord;
-	}	
+	}
+
+	@Override
+	public String toString() {
+		return GcommandType + " X" + vertex.getX() + " Y" +  vertex.getY();
+	}
+	
+	
 }

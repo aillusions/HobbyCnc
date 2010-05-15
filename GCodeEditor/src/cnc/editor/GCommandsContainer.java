@@ -6,13 +6,14 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+import cnc.editor.GCommand.GcommandTypes;
 
 //Singleton
-public class GCommandsContainer {	
+public class GCommandsContainer implements ActionListener {	
 	
-	private GCommandsContainer(){}                        
+	private GCommandsContainer(){
+		gCommandList.add(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
+	}                        
 	
 	private static final GCommandsContainer instance = new GCommandsContainer();
 	
@@ -27,16 +28,15 @@ public class GCommandsContainer {
 	public List<GCommand> getGCommandList() {
 		return gCommandList;
 	}
+	
+	public void addCommand(GCommand c){
+		gCommandList.add(c);
+		c.getVertex().addActionListener(this);
+		notifyAllAboutChanges(null);
+	}
 
-	public void regenerate(Document doc){
-		gCommandList.clear();
-		
-		String commands = null;
-		try {
-			commands = doc.getText(0, doc.getLength());
-		} catch (BadLocationException e) {
-			throw new RuntimeException(e);
-		}
+	public void addCommandsBunch(String commands){
+			
 		String[] cmdArray = commands.replace("\r", "").split("\n");
 		
 		EditorVertex prevPos = new EditorVertex();
@@ -45,19 +45,19 @@ public class GCommandsContainer {
 			GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);		
 			
 			if (gc != null) {
-				gc.setEditorLineIndex(i);		
+				//gc.setEditorLineIndex(i);		
 				gCommandList.add(gc);
 				prevPos = gc.getVertex();
 			}
 		}
-		notifyAllAboutChanges();		
+		notifyAllAboutChanges(null);		
 	}
 	
 	public void addActionListener(ActionListener al){
 		listeners.add(al);
 	}
 	
-	private void notifyAllAboutChanges(){
+	private void notifyAllAboutChanges(ActionEvent e){
 		
 		for(ActionListener al : listeners){
 			ActionEvent ae = new ActionEvent(this , -1, "chemaChanged");
@@ -88,5 +88,15 @@ public class GCommandsContainer {
 			result.add(gCommandList.get(indexOfCurrent + 1));
 		}
 		return result;
+	}
+
+	public void clear() {
+		gCommandList.clear();	
+		gCommandList.add(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
+		notifyAllAboutChanges( new ActionEvent(this , -1, "clear"));
+	}
+
+	public void actionPerformed(ActionEvent e) {
+		notifyAllAboutChanges(e);
 	}
 }

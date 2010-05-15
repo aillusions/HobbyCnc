@@ -9,10 +9,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.PlainDocument;
-
 import cnc.GCodeAcceptor;
 import cnc.editor.view.EditorViewFrame;
 import cnc.parser.bmp.BmpFilePrinter;
@@ -25,32 +21,30 @@ public class Editor {
 	public enum EditMode{DRAW, TXT};
 	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT};
 	
-	private Document doc;
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();
-	
-	public Editor(){		
-		doc = new PlainDocument();
-	}
+	private GCommandsContainer gcc = GCommandsContainer.getInstance();
 	
 	public void viewMousePressed(double x, double y){
 		
 		float cncX = EditorStates.convertView_Cnc((long)x);
 		float cncY = EditorStates.convertView_Cnc((long)y);
+
+		EditorStates es =  EditorStates.getInstance();
 		
-		if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
+		if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){			
+			
 			String cmd = "\nG00 X" + cncX + " Y" + cncY;
-			try {
-				doc.insertString(doc.getLength(), cmd, null);
-			} catch (BadLocationException e) {
-				throw new RuntimeException(e);
-			}
-		}else if(EditorStates.getInstance().getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
-			List<GCommand> vertexes = GCommandsContainer.getInstance().findVertexesNear(cncX, cncY);
+			EditorVertex ev = gcc.getGCommandList().get(gcc.getGCommandList().size()-1).getVertex();
+			gcc.addCommand(GCodeParser.parseCommand(cmd, ev));
+
+		}else if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
+			
+			List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
 			if(vertexes.size() > 0){
 				ActionEvent ae = new ActionEvent(vertexes , -1, "select node");
 				notifyActionListeners(ae);
-				List<GCommand> neighbourVertexes =  GCommandsContainer.getInstance().getNeighbourVertexes(vertexes.get(0));
-				EditorStates.getInstance().setSelectedVertex(vertexes.get(0), neighbourVertexes);
+				List<GCommand> neighbourVertexes =  gcc.getNeighbourVertexes(vertexes.get(0));
+				es.setSelectedVertex(vertexes.get(0), neighbourVertexes);
 			}
 		}
 	}
@@ -60,14 +54,13 @@ public class Editor {
 		File file = null;
 		if ((file = EditorViewFrame.openFileChooser("./parser", "bmp"))!= null) {
 			
-			clearDocument();
+			EditorStates.getInstance().setImportInProgress(true);
 			
 			IDataStorage store = new BitMapArrayDataStorage();
-			store.clearStorage();
 			
 			BmpParser parser = new BmpParser();
 			parser.setStorage(store);
-			long qty = parser.loadbitmap(file.getPath());
+			parser.loadbitmap(file.getPath());
 			
 			final StringBuffer codesBuffer = new StringBuffer();
 			
@@ -80,11 +73,10 @@ public class Editor {
 			bmpPrinter.setStore(store);
 			bmpPrinter.StartBuild();	
 			
-			try {
-				doc.insertString(1, codesBuffer.toString(), null);
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+			gcc.clear();
+			gcc.addCommandsBunch(codesBuffer.toString());			
+
+			EditorStates.getInstance().setImportInProgress(false);
 		}		
 	}
 
@@ -93,7 +85,7 @@ public class Editor {
 		File file = null;
 		if ((file = EditorViewFrame.openFileChooser("./gcodes", "cnc"))!= null) {
 			
-			clearDocument();
+			EditorStates.getInstance().setImportInProgress(true);
 			
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -105,30 +97,15 @@ public class Editor {
 				while ((line = br.readLine()) != null) {
 					codesBuffer.append("\r\n" + line);
 				}
-							
-				doc.insertString(1, codesBuffer.toString(), null);	
+				
+				gcc.clear();
+				gcc.addCommandsBunch(codesBuffer.toString());
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+			EditorStates.getInstance().setImportInProgress(false);
 		}	
-	}
-	
-	public void clearDocument() {
-		
-		try {
-			getDoc().remove(0, getDoc().getLength());
-		} catch (BadLocationException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public Document getDoc() {		
-		return doc;
-	}
-
-	public void setDoc(Document doc) {		
-		this.doc = doc;
 	}
 
 	public void addActionListener(ActionListener al) {

@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.text.Document;
+import javax.swing.text.PlainDocument;
+
 import cnc.editor.Editor.EditMode;
 import cnc.editor.Editor.EditorTolls;
 
@@ -30,11 +33,9 @@ public class EditorStates {
 	private GCommand selectedVertex;
 	private List<GCommand> nearSelectedVertex;
 	private Editor.EditMode currentEditMode = EditMode.DRAW;
+	private boolean importInProgress;
+	private final Document document = new PlainDocument();;
 	
-	public float getBmpToCncCoordRatio() {
-		return BMP_TO_CNC_COORD_RATIO;
-	}
-
 	public static long convertCnc_View(float cncCoord){
 		return Math.round(cncCoord * getInstance().getScale() * BMP_TO_CNC_COORD_RATIO);
 	}
@@ -93,6 +94,13 @@ public class EditorStates {
 		notifyAllAboutChanges(ae);
 	}
 	
+	public void clearSelection(){
+		this.selectedVertex = null;
+		this.nearSelectedVertex = null;
+		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		notifyAllAboutChanges(ae);
+	}
+	
 	public void repaint(){
 		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
 		notifyAllAboutChanges(ae);
@@ -109,7 +117,23 @@ public class EditorStates {
 
 	public void setCurrentEditMode(Editor.EditMode currentEditMode) {
 		this.currentEditMode = currentEditMode;
+		if(currentEditMode == EditMode.TXT){
+			 clearSelection();
+		}
 	}
+	
+	public boolean isImportInProgress() {
+		return importInProgress;
+	}
+
+	public void setImportInProgress(boolean importInProgress) {
+		this.importInProgress = importInProgress;
+	}
+	
+	public Document getDocument() {
+		return document;
+	}
+
 
 	//------------
 	public void addActionListener(ActionListener al){

@@ -1,10 +1,32 @@
 package cnc.editor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class EditorVertex {
 	private float x;
 	private float y;
 	private float z;
+	
+	
+	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
+	
+	
+	public void addActionListener(ActionListener al){
+		listeners.add(al);
+	}
+	
+	private void notifyAllAboutChanges(){
+		
+		for(ActionListener al : listeners){
+			ActionEvent ae = new ActionEvent(this , -1, "changed");
+			al.actionPerformed(ae);
+		}
+	}
+	
 	
 	public EditorVertex() {
 		super();
@@ -22,6 +44,7 @@ public class EditorVertex {
 
 	public void setX(float x) {
 		this.x = x;
+		notifyAllAboutChanges();
 	}
 
 	public float getY() {
@@ -30,6 +53,7 @@ public class EditorVertex {
 
 	public void setY(float y) {
 		this.y = y;
+		notifyAllAboutChanges();
 	}
 
 	public float getZ() {
@@ -38,6 +62,7 @@ public class EditorVertex {
 
 	public void setZ(float z) {
 		this.z = z;
+		notifyAllAboutChanges();
 	}
 
 	@Override
