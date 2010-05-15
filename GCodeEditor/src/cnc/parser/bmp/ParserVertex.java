@@ -2,9 +2,9 @@ package cnc.parser.bmp;
 
 
 public class ParserVertex {
-	private double x;
-	private double y;
-	private double z;
+	private long x;
+	private long y;
+	private long z;
 	private boolean used = false;
 	
 
@@ -20,14 +20,14 @@ public class ParserVertex {
 		super();
 	}
 
-	public ParserVertex( double x, double y, double z) {
+	public ParserVertex( long x, long y, long z) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
-	public ParserVertex(int id, double everyCoordinates, boolean used ) {
+	public ParserVertex(int id, long everyCoordinates, boolean used ) {
 		super();
 		this.x = everyCoordinates;
 		this.y = everyCoordinates;
@@ -35,27 +35,27 @@ public class ParserVertex {
 		this.used = used;
 	}
 	
-	public double getX() {
+	public long getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(long x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public long getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(long y) {
 		this.y = y;
 	}
 
-	public double getZ() {
+	public long getZ() {
 		return z;
 	}
 
-	public void setZ(double z) {
+	public void setZ(long z) {
 		this.z = z;
 	}
 

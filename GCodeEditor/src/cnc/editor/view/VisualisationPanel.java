@@ -64,6 +64,14 @@ public class VisualisationPanel extends JPanel{
 					}
 					
 					g.drawLine(prevX, prevY, newX, newY);
+					
+					if(EditorStates.getInstance().getScale() >= 5){
+						Color color = g.getColor();
+						g.setColor(Color.green);
+						drawArrowEnd(g, prevPos, v.getVertex());
+						g.setColor(color);
+					}
+					
 					prevPos = v.getVertex();
 					
 				}else{
@@ -71,6 +79,112 @@ public class VisualisationPanel extends JPanel{
 				}
 			}
 		}
+	}
+	
+	private void drawArrowEnd(Graphics g, EditorVertex ev1, EditorVertex ev2){
+		double Ya,Yb,Xa,Xb;
+		double k,k1;
+		double tgB;
+		double CB = 0.4;
+		
+		Xa = ev1.getX();
+		Xb = ev2.getX();
+		
+		Ya = ev1.getY();
+		Yb = ev2.getY();
+		
+		if(Xa == Xb || Ya == Xb){
+			return;
+		}
+		tgB = 0.4;//Math.tan((320 * Math.PI) / 180);
+		k = (Ya-Yb)/(Xa - Xb);		
+		
+		{
+			k1 = (tgB + k) / (1 - tgB * k);
+			double a, b, c;
+			
+			a = 1;
+			b = - 2 * Xb;
+			c = Xb*Xb-(CB*CB/(k1*k1+1));
+			
+			double Xc1, Xc2;
+			
+			if(b*b-4*a*c < 0){
+				//return;
+			}
+			
+			Xc1 = (-b+Math.sqrt(b*b-4*a*c))/2*a;
+			Xc2 = (-b-Math.sqrt(b*b-4*a*c))/2*a;
+			
+			double Yc1, Yc2;
+			Yc1 = k1*(Xc1-Xb) + Yb;
+			Yc2 = k1*(Xc2-Xb) + Yb;
+			
+			double Xdiff1 = Math.abs(Xa - Xc1);
+			double Xdiff2 = Math.abs(Xa - Xc2);
+			double Ydiff1 = Math.abs(Ya - Yc1);
+			double Ydiff2 = Math.abs(Ya - Yc2);
+			
+			int startX1,startY1, XbInt,YbInt;
+			
+			if(Xdiff1 < Xdiff2){
+				startX1 = (int)EditorStates.convertCnc_View((float)Xc1);
+			}else{
+				startX1 = (int)EditorStates.convertCnc_View((float)Xc2);						
+			}
+			
+			if(Ydiff1 < Ydiff2){
+				startY1 = (int)EditorStates.convertCnc_View((float)Yc1);
+			}else{
+				startY1 = (int)EditorStates.convertCnc_View((float)Yc2);
+			}
+	
+			XbInt = (int)EditorStates.convertCnc_View((float)Xb);
+			YbInt = (int)EditorStates.convertCnc_View((float)Yb);
+					
+			g.drawLine(startX1, startY1, XbInt, YbInt);	
+		}
+		{
+			k1 = (tgB - k) / ( tgB * k - 1);
+			double a, b, c;
+			
+			a = 1;
+			b = - 2 * Xb;
+			c = Xb*Xb-(CB*CB/(k1*k1+1));
+			
+			double Xc1, Xc2;
+			Xc1 = (-b+Math.sqrt(b*b-4*a*c))/2*a;
+			Xc2 = (-b-Math.sqrt(b*b-4*a*c))/2*a;
+			
+			double Yc1, Yc2;
+			Yc1 = k1*(Xc1-Xb) + Yb;
+			Yc2 = k1*(Xc2-Xb) + Yb;
+			
+			double Xdiff1 = Math.abs(Xa - Xc1);
+			double Xdiff2 = Math.abs(Xa - Xc2);
+			double Ydiff1 = Math.abs(Ya - Yc1);
+			double Ydiff2 = Math.abs(Ya - Yc2);
+			
+			int startX1,startY1, endX,endY;
+			
+			if(Xdiff1 < Xdiff2){
+				startX1 = (int)EditorStates.convertCnc_View((float)Xc1);
+			}else{
+				startX1 = (int)EditorStates.convertCnc_View((float)Xc2);						
+			}
+			
+			if(Ydiff1 < Ydiff2){
+				startY1 = (int)EditorStates.convertCnc_View((float)Yc1);
+			}else{
+				startY1 = (int)EditorStates.convertCnc_View((float)Yc2);
+			}
+	
+			endX = (int)EditorStates.convertCnc_View((float)Xb);
+			endY = (int)EditorStates.convertCnc_View((float)Yb);
+					
+			g.drawLine(startX1, startY1, endX, endY);
+		}
+				
 	}
 
 	private void drawCoordinates(Graphics g) {

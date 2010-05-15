@@ -12,7 +12,7 @@ public class BmpFilePrinter {
 	private ParserVertex originOfCoordinates;
 	private ParserVertex prevVertex;
 	private ParserVertex currVertex;
-	private int scale = 5;
+
 			
 	public BmpFilePrinter(GCodeAcceptor gCodeInterpreter) {
 		originOfCoordinates = new ParserVertex(0, 0, 0);
@@ -23,58 +23,73 @@ public class BmpFilePrinter {
 		
 		prevVertex = originOfCoordinates;
 		currVertex = null;
+		ParserVertex scipedVertex = null;
 		
-		while((currVertex = store.getNextVertex()) != null ) {
-	
+		while((currVertex = store.getNextVertex()) != null ) {	
 
-			int shiftX = (int)Math.abs(currVertex.getX() - prevVertex.getX());
-			int shiftY = (int)Math.abs(currVertex.getY() - prevVertex.getY());			
+			long shiftX = currVertex.getX() - prevVertex.getX();
+			long shiftY = currVertex.getY() - prevVertex.getY();
+			
+			if(shiftX == 0 || shiftY == 0){
+				scipedVertex = currVertex;
+				currVertex.setUsed(true);
+				store.saveVertex(currVertex);				
+				continue;
+			}else if(scipedVertex != null){
+				moveTo(scipedVertex.getX(), scipedVertex.getY(), null);
+				scipedVertex = null;
+			}
 
 			if( shiftX > 3 || shiftY > 3 ) {					
 				liftUp();
 
-				moveTo(new Double(currVertex.getX()), new Double(currVertex.getY()), null);
+				moveTo(currVertex.getX(), currVertex.getY(), null);
 				liftDown();
 			}		
 			else{
-				moveTo(new Double(currVertex.getX()), new Double(currVertex.getY()), null);
+				moveTo(currVertex.getX(), currVertex.getY(), null);
 			}			
 			
 			currVertex.setUsed(true);
 			prevVertex = currVertex;			
 			store.saveVertex(currVertex);
 		}
+		if(scipedVertex != null){
+			moveTo(scipedVertex.getX(), scipedVertex.getY(), null);
+			scipedVertex = null;
+		}
+		
 		liftUp();
-		moveTo(0d, 0d, null);
+		moveTo(0L, 0L, null);
 		
 	}
 	
-	private void moveTo(Double x, Double y, Double z){
+	private void moveTo(Long x, Long y, Long z){
 		
 		String xString = "";
 		String yString = "";
 		String zString = "";
 		
 		if(x!= null){
-			xString = " X" + x/scale;
+			xString = " X" + x;
 		}
 		
 		if(y!= null){
-			yString = " Y" + y/scale;
+			yString = " Y" + y;
 		}
 		
 		if(z!= null){
-			zString = " Z" + z/scale;
+			zString = " Z" + z;
 		}		
 		gCodeInterpreter.putGCode("G00" + xString + yString + zString);
 	}
 	
 	private void liftUp(){
-		moveTo(null, null, 10d);
+		moveTo(null, null, 10L);
 	}
 	
 	private void liftDown(){
-		moveTo(null, null, 0d);
+		moveTo(null, null, 0L);
 	}
 	
 	public IDataStorage getStore() {

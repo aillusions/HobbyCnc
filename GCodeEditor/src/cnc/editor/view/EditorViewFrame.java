@@ -14,13 +14,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.text.Document;
 
 public class EditorViewFrame extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 13423452354765L;
 	private static final String[] scaleValues =  
-						new String[]{"1", "1.5", "2", "3", "5", "10", "20", "50", "0.1", "0.5"};	
+						new String[]{"1", "1.5", "2", "3", "5", "10", "15", "20", "50", "0.1", "0.5"};	
 	
 	private VisualisationPanel pnl_GraphicOutput;
 	
