@@ -37,7 +37,7 @@ public class VisualisationPanel extends JPanel{
 		
 		EditorStates es = EditorStates.getInstance();
 		GCommand selected = es.getSelectedVertex();		
-		int size = es.getSelectionCircleSize();
+		int size = (int)EditorStates.SELECTIO_CIRCLE_SIZE;
 		
 		if(selected != null){			
 			

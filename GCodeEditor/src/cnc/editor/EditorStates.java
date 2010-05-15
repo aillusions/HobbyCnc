@@ -24,14 +24,20 @@ public class EditorStates {
 	private float viewScale = 1;	
 	private GCommand selectedVertex;
 	private List<GCommand> nearSelectedVertex;
-	private float selectionCircleSize = 8f;
 	
+	public static final float SELECTIO_CIRCLE_SIZE = 8f;
+	public static final float BMP_TO_CNC_COORD_RATIO = 5f;
+	
+	public float getBmpToCncCoordRatio() {
+		return BMP_TO_CNC_COORD_RATIO;
+	}
+
 	public static long convertCnc_View(float cncCoord){
-		return Math.round(cncCoord * getInstance().getScale() * 5);
+		return Math.round(cncCoord * getInstance().getScale() * BMP_TO_CNC_COORD_RATIO);
 	}
 	
 	public static float convertView_Cnc(long viewCoord){
-		return viewCoord / getInstance().getScale() / 5;
+		return viewCoord / getInstance().getScale() / BMP_TO_CNC_COORD_RATIO;
 	}	
 	
 	//Getters - setters
@@ -92,10 +98,6 @@ public class EditorStates {
 	
 	public List<GCommand> getNearSelectedVertex() {
 		return nearSelectedVertex;
-	}
-
-	public int getSelectionCircleSize() {
-		return (int)(selectionCircleSize);
 	}
 
 	//------------
