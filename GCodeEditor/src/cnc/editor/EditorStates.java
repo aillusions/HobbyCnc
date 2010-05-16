@@ -28,7 +28,7 @@ public class EditorStates {
 	
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
-	private int theGap = 10;
+	private int theGap = 15;
 	private int viewCoordLenght = 200;		
 	private float viewScale = 1;	
 	private GCommand selectedVertex;
@@ -37,6 +37,15 @@ public class EditorStates {
 	private boolean importInProgress;
 	private final Document document = new PlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
+	
+	//CNC coordinates (mm) - not pixels!!
+	private int gridStep = 5;
+	
+	//CNC coordinates (mm) - not pixels!!
+	private int maxCncY = 46;
+	
+	//CNC coordinates (mm) - not pixels!!
+	private int maxCncX = 134;
 	
 	public int getLineStartOffset(int editorLineIndex) throws BadLocationException{
 		return gCodesTextContainer.getLineStartOffset(editorLineIndex);
@@ -164,6 +173,48 @@ public class EditorStates {
 
 	public void setgCodesTextContainer(GCodesTextContainer gCodesTextContainer) {
 		this.gCodesTextContainer = gCodesTextContainer;
+	}
+	
+	/**
+	 * 	CNC coordinates (mm) - not pixels!!
+	 */
+	public int getGridStep() {
+		return gridStep;
+	}
+	
+	/**
+	 * 	CNC coordinates (mm) - not pixels!!
+	 */
+	public void setGridStep(int gridStep) {
+		this.gridStep = gridStep;
+	}
+	
+	/**
+	 * 	CNC coordinates (mm) - not pixels!!
+	 */
+	public int getMaxCncY() {
+		return maxCncY;
+	}
+
+	/**
+	 * 	CNC coordinates (mm) - not pixels!!
+	 */
+	public void setMaxCncY(int maxCncY) {
+		this.maxCncY = maxCncY;
+	}
+
+	/**
+	 * 	CNC coordinates (mm) - not pixels!!
+	 */
+	public int getMaxCncX() {
+		return maxCncX;
+	}
+
+	/**
+	 * 	CNC coordinates (mm) - not pixels!!
+	 */
+	public void setMaxCncX(int maxCncX) {
+		this.maxCncX = maxCncX;
 	}
 
 

@@ -18,6 +18,8 @@ public class VisualisationPanel extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private EditorStates es = EditorStates.getInstance();
+	
 	public VisualisationPanel(VisualisationPanelListener  ml){
 		addMouseListener(ml);
 		addMouseMotionListener(ml);
@@ -27,24 +29,98 @@ public class VisualisationPanel extends JPanel{
 
 	@Override
 	public void paint(Graphics g) {
+		
 		super.paint(g);
-
-		drawCoordinates(g);	
+		
+		drawStrictBorders(g);
+		drawGrid(g);		
+		drawCoordinates(g);		
 		drawSelection(g);
-		drawPicture(g);						
+		drawPicture(g);		
+	}
+	
+	public void drawStrictBorders(Graphics g){
+		Color color = g.getColor();
+	    g.setColor(Color.CYAN);
+	    
+	    int maxCncX = (int)EditorStates.convertCnc_View(es.getMaxCncX());
+	    int maxCncY = (int)EditorStates.convertCnc_View(es.getMaxCncY());
+	    
+	    // vertical
+	    int x1 = maxCncX;
+	    int y1 = es.getGap();
+	    int x2 = x1;
+	    int y2 = maxCncY;
+	    
+	    g.drawLine(x1, y1, x2, y2);
+	    
+	    // horizontal
+	    x1 = es.getGap();
+	    y1 = maxCncY;
+	    x2 = maxCncX;
+	    y2 = y1;
+	    
+	    g.drawLine(x1, y1, x2, y2);
+	      	
+		g.setColor(color);
+	}
+	
+	public void drawGrid(Graphics g){
+
+		int theGap = es.getGap();
+		int gridSteps = es.getGridStep();
+		
+		long viewHeight = (long)getSize().getHeight();
+		long viewWidth = (long)getSize().getWidth();
+		
+		double height = EditorStates.convertView_Cnc(viewHeight);
+		double width = EditorStates.convertView_Cnc(viewWidth);
+		
+		Color color = g.getColor();
+	    g.setColor(Color.white);
+	    
+		//vertical
+		int progress = 0;				
+		while(progress < width){
+			
+			int x1 = (int)EditorStates.convertCnc_View(progress);
+			int y1 = 0 + theGap;
+					
+			g.drawLine(x1, y1, x1, (int)viewWidth);
+			
+			if(progress > 0){
+				g.drawString(String.format("%d", progress), x1 - 3, theGap - 2);	
+			}
+			progress += gridSteps;
+		}
+		
+		//horizontal
+		progress = 0;			
+		while(progress < height){
+			
+			int x1 = 0 + theGap;
+			int y1 = (int)EditorStates.convertCnc_View(progress);
+					
+			g.drawLine(x1, y1, (int)viewWidth, y1);
+			
+			if(progress > 0){
+				g.drawString(String.format("%d", progress), theGap - 14, y1 + 5);	
+			}
+			progress += gridSteps;
+			
+		}
+		g.setColor(color);
 	}
 	
 	private void drawSelection(Graphics g) {
 		
-		EditorStates es = EditorStates.getInstance();
 		GCommand selected = es.getSelectedVertex();		
 		int size = (int)EditorStates.SELECTIO_CIRCLE_SIZE;
 		
 		if(selected != null){			
 			
 			float X = EditorStates.convertCnc_View(selected.getVertex().getX());
-			float Y = EditorStates.convertCnc_View(selected.getVertex().getY());
-			
+			float Y = EditorStates.convertCnc_View(selected.getVertex().getY());			
 			
 			Color color = g.getColor();
 		    g.setColor(Color.pink);
@@ -74,12 +150,12 @@ public class VisualisationPanel extends JPanel{
 	private void drawPicture(Graphics g) {
 		
 		EditorVertex prevPos = null;
-		
-		if(GCommandsContainer.getInstance().getGCommandList().size() == 1){
+		GCommandsContainer gcc = GCommandsContainer.getInstance();
+		if(gcc.getGCommandList().size() == 1){
 			setPreferredSize(new Dimension(1, 1));
 			revalidate();
 		}else{
-			for(GCommand v : GCommandsContainer.getInstance().getGCommandList()){
+			for(GCommand v : gcc.getGCommandList()){
 				
 				if(prevPos != null){
 					
@@ -223,13 +299,12 @@ public class VisualisationPanel extends JPanel{
 			endY = (int)EditorStates.convertCnc_View((float)Yb);
 					
 			g.drawLine(startX1, startY1, endX, endY);
-		}
-				
+		}				
 	}
 
 	private void drawCoordinates(Graphics g) {
 		g.setColor(Color.black);
-		EditorStates es = EditorStates.getInstance();
+
 		g.drawLine(es.getGap(), es.getGap(), es.getCoordLength(), es.getGap());
 		g.drawLine(es.getCoordLength() - 3, es.getGap() - 3, es.getCoordLength(), es.getGap());
 		g.drawLine(es.getCoordLength() - 3, es.getGap() + 3, es.getCoordLength(), es.getGap());
