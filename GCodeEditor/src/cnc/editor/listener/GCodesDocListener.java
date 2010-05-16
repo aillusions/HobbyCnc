@@ -5,13 +5,16 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 
 import cnc.editor.EditorStates;
+import cnc.editor.GCodeParser;
+import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
 import cnc.editor.Editor.EditMode;
 
 public class GCodesDocListener implements DocumentListener {
 
 	private GCommandsContainer container;
-		
+	private EditorStates es = EditorStates.getInstance();
+	
 	public GCodesDocListener(GCommandsContainer container) {
 		this.container = container;
 	}
@@ -29,10 +32,26 @@ public class GCodesDocListener implements DocumentListener {
 	}
 	
 	private void docContentChanged(DocumentEvent e){
-		if(EditorStates.getInstance().getCurrentEditMode() == EditMode.TXT){
+		
+		if(es.getCurrentEditMode() == EditMode.TXT){
+			
 			try {
-				container.clear();
-				container.addCommandsBunch(e.getDocument().getText(0, e.getDocument().getLength()));
+				int lineIndex = es.getLineOfOffset(e.getOffset());
+				int lineStart = es.getLineStartOffset(lineIndex);
+				int lineEnd = es.getLineEndOffset(lineIndex);
+				
+				String newCommandValue = e.getDocument().getText(lineStart, lineEnd - lineStart);
+				
+				int prevCommandIndex = lineIndex-1;
+				
+				GCommand oldCommand = container.getGCommandList().get(lineIndex);
+				GCommand prevCommand = container.getGCommandList().get(prevCommandIndex);				
+				GCommand newCommand = GCodeParser.parseCommand(newCommandValue, prevCommand.getVertex());
+				
+				oldCommand.getVertex().setX(newCommand.getVertex().getX());
+				oldCommand.getVertex().setY(newCommand.getVertex().getY());
+				oldCommand.getVertex().setZ(newCommand.getVertex().getZ());
+
 			} catch (BadLocationException e1) {
 				throw new RuntimeException(e1);
 			}	

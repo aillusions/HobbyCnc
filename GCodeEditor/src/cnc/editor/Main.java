@@ -25,17 +25,20 @@ public class Main {
 		EditorStates.getInstance().addActionListener(esl);
 		
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
-		GCommandsContainerListener vcl = new GCommandsContainerListener(vp);
-		gcc.addActionListener(vcl);
 		
 		GCodesDocListener gcdl = new GCodesDocListener(gcc);			
 		EditorStates.getInstance().getDocument().addDocumentListener(gcdl);
 		
 		GCodesTextContainerListener gctcl = new GCodesTextContainerListener();
 		GCodesTextContainer gctc = new GCodesTextContainer(EditorStates.getInstance().getDocument(), gctcl);
+		EditorStates.getInstance().setgCodesTextContainer(gctc);
+		
 		EditorListener el = new EditorListener(gctc);
 		editor.addActionListener(el);
 		
+		GCommandsContainerListener vcl = new GCommandsContainerListener(vp);
+		gcc.addActionListener(vcl);
+				
 		EditorViewFrameListener vl = new EditorViewFrameListener(editor);
 		EditorViewFrame evf = new EditorViewFrame(vl, gctc, vp);
 		evf.setVisible(true);

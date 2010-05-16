@@ -7,29 +7,29 @@ import java.util.List;
 
 
 public class EditorVertex {
+	
+	public static final String CMD_COORDINATE_CHANGED = "cmd_coordinate_changed";
+	
 	private float x;
 	private float y;
-	private float z;
-	
+	private float z;	
+	private GCommand gCommand;
 	
 	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
-	
-	
+		
 	public void addActionListener(ActionListener al){
 		listeners.add(al);
 	}
 	
-	private void notifyAllAboutChanges(){
+	private void notifyAllAboutChanges(ActionEvent ae){
 		
-		for(ActionListener al : listeners){
-			ActionEvent ae = new ActionEvent(this , -1, "changed");
+		for(ActionListener al : listeners){			
 			al.actionPerformed(ae);
 		}
 	}
-	
-	
+		
 	public EditorVertex() {
-		super();
+
 	}
 
 	public EditorVertex(float x, float y, float z) {
@@ -44,7 +44,8 @@ public class EditorVertex {
 
 	public void setX(float x) {
 		this.x = x;
-		notifyAllAboutChanges();
+		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
+		notifyAllAboutChanges(ae);
 	}
 
 	public float getY() {
@@ -53,7 +54,8 @@ public class EditorVertex {
 
 	public void setY(float y) {
 		this.y = y;
-		notifyAllAboutChanges();
+		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
+		notifyAllAboutChanges(ae);
 	}
 
 	public float getZ() {
@@ -62,7 +64,8 @@ public class EditorVertex {
 
 	public void setZ(float z) {
 		this.z = z;
-		notifyAllAboutChanges();
+		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
+		notifyAllAboutChanges(ae);
 	}
 
 	@Override
@@ -84,7 +87,11 @@ public class EditorVertex {
 		return res;
 	}
 	
+	public GCommand getgCommand() {
+		return gCommand;
+	}
 	
-	
-
+	public void setgCommand(GCommand gCommand) {
+		this.gCommand = gCommand;
+	}
 }

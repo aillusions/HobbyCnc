@@ -5,15 +5,16 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import cnc.editor.Editor.EditMode;
 import cnc.editor.Editor.EditorTolls;
+import cnc.editor.view.GCodesTextContainer;
 
 //Singleton
 public class EditorStates {
-
 
 	public static final float SELECTIO_CIRCLE_SIZE = 8f;
 	public static final float BMP_TO_CNC_COORD_RATIO = 5f;	
@@ -27,22 +28,44 @@ public class EditorStates {
 	
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
-	private int theGap = 0;
+	private int theGap = 10;
 	private int viewCoordLenght = 200;		
 	private float viewScale = 1;	
 	private GCommand selectedVertex;
 	private List<GCommand> nearSelectedVertex;
 	private Editor.EditMode currentEditMode = EditMode.DRAW;
 	private boolean importInProgress;
-	private final Document document = new PlainDocument();;
+	private final Document document = new PlainDocument();
+	private GCodesTextContainer gCodesTextContainer;
+	
+	public int getLineStartOffset(int editorLineIndex) throws BadLocationException{
+		return gCodesTextContainer.getLineStartOffset(editorLineIndex);
+	}
+	
+	public int getLineEndOffset(int editorLineIndex) throws BadLocationException{
+		return gCodesTextContainer.getLineEndOffset(editorLineIndex);
+	}
+	
+	public int getLineOfOffset(int offset) throws BadLocationException{
+		return gCodesTextContainer.getLineOfOffset(offset);
+	}
 	
 	public static long convertCnc_View(float cncCoord){
-		return Math.round(cncCoord * getInstance().getScale() * BMP_TO_CNC_COORD_RATIO);
+		return Math.round(cncCoord * instance.getScale() * BMP_TO_CNC_COORD_RATIO)+ instance.getGap();
 	}
 	
 	public static float convertView_Cnc(long viewCoord){
-		return viewCoord / getInstance().getScale() / BMP_TO_CNC_COORD_RATIO;
+		return (viewCoord - instance.getGap()) / instance.getScale() / BMP_TO_CNC_COORD_RATIO;
 	}	
+	
+	//In case there is no spaces in text editor
+	public static int getLineNumberInTextEditor(GCommand cmd){
+		return GCommandsContainer.getInstance().getGCommandList().indexOf(cmd);
+	}
+	//In case there is no spaces in text editor
+	public static int getGCommandByLineNumber(int lineNumber){
+		return lineNumber;
+	}
 	
 	//Getters - setters
 	public float getScale(){
@@ -132,6 +155,15 @@ public class EditorStates {
 	
 	public Document getDocument() {
 		return document;
+	}
+	
+	
+	public GCodesTextContainer getgCodesTextContainer() {
+		return gCodesTextContainer;
+	}
+
+	public void setgCodesTextContainer(GCodesTextContainer gCodesTextContainer) {
+		this.gCodesTextContainer = gCodesTextContainer;
 	}
 
 

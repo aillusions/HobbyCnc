@@ -11,8 +11,12 @@ import cnc.editor.GCommand.GcommandTypes;
 //Singleton
 public class GCommandsContainer implements ActionListener {	
 	
+	public static final String CMD_CLEAR_COMMANDS_CONATINER = "clear_commands_conatiner";
+	public static final String CMD_ADDED_BUNCH_OF_COMMANDS = "added_bunch_of_commands";
+	public static final String CMD_ADDED_ONE_COMMAND = "added_one_command";
+
 	private GCommandsContainer(){
-		gCommandList.add(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
+		addCommand(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
 	}                        
 	
 	private static final GCommandsContainer instance = new GCommandsContainer();
@@ -32,7 +36,8 @@ public class GCommandsContainer implements ActionListener {
 	public void addCommand(GCommand c){
 		gCommandList.add(c);
 		c.getVertex().addActionListener(this);
-		notifyAllAboutChanges(null);
+		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_ONE_COMMAND);
+		notifyAllAboutChanges(ae);
 	}
 
 	public void addCommandsBunch(String commands){
@@ -45,23 +50,23 @@ public class GCommandsContainer implements ActionListener {
 			GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);		
 			
 			if (gc != null) {
-				//gc.setEditorLineIndex(i);		
 				gCommandList.add(gc);
 				prevPos = gc.getVertex();
 			}
 		}
-		notifyAllAboutChanges(null);		
+		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
+		notifyAllAboutChanges(ae);		
 	}
 	
 	public void addActionListener(ActionListener al){
 		listeners.add(al);
+		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
+		al.actionPerformed(ae);
 	}
 	
-	private void notifyAllAboutChanges(ActionEvent e){
-		
+	private void notifyAllAboutChanges(ActionEvent e){		
 		for(ActionListener al : listeners){
-			ActionEvent ae = new ActionEvent(this , -1, "chemaChanged");
-			al.actionPerformed(ae);
+			al.actionPerformed(e);
 		}
 	}
 
@@ -93,10 +98,13 @@ public class GCommandsContainer implements ActionListener {
 	public void clear() {
 		gCommandList.clear();	
 		gCommandList.add(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
-		notifyAllAboutChanges( new ActionEvent(this , -1, "clear"));
+		notifyAllAboutChanges(new ActionEvent(this , -1, CMD_CLEAR_COMMANDS_CONATINER));
+		addCommand(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		notifyAllAboutChanges(e);
+		if(e.getActionCommand().equals(EditorVertex.CMD_COORDINATE_CHANGED)){
+			notifyAllAboutChanges(e);
+		}
 	}
 }
