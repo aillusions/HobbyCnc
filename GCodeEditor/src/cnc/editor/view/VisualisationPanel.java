@@ -41,7 +41,7 @@ public class VisualisationPanel extends JPanel{
 	
 	public void drawStrictBorders(Graphics g){
 		Color color = g.getColor();
-	    g.setColor(Color.CYAN);
+	    g.setColor(Color.ORANGE);
 	    
 	    int maxCncX = (int)EditorStates.convertCnc_View(es.getMaxCncX());
 	    int maxCncY = (int)EditorStates.convertCnc_View(es.getMaxCncY());
