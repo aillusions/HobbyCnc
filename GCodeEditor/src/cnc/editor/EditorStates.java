@@ -16,6 +16,7 @@ import cnc.editor.view.GCodesTextContainer;
 //Singleton
 public class EditorStates {
 
+	public static final String CMD_CLEAR_VIEW = "clearView";
 	public static final float SELECTIO_CIRCLE_SIZE = 8f;
 	public static final float BMP_TO_CNC_COORD_RATIO = 5f;	
 	
@@ -29,7 +30,8 @@ public class EditorStates {
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
 	private int theGap = 15;
-	private int viewCoordLenght = 200;		
+	private int viewCoordLenghtX = 600;		
+	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
 	private GCommand selectedVertex;
 	private List<GCommand> nearSelectedVertex;
@@ -97,16 +99,26 @@ public class EditorStates {
 		notifyAllAboutChanges(ae);
 	}
 	
-	public int getCoordLength(){
-		return viewCoordLenght;
+	public int getViewCoordLenghtX() {
+		return viewCoordLenghtX;
 	}
-	
-	public void setCoordLength(int coordLenght){
-		viewCoordLenght = coordLenght;
-		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+
+	public void setViewCoordLenghtX(int viewCoordLenghtX) {
+		this.viewCoordLenghtX = viewCoordLenghtX;
+		ActionEvent ae = new ActionEvent(new Object() , -1, "coordLenghtChangedX");
 		notifyAllAboutChanges(ae);
-	}		
-	
+	}
+
+	public int getViewCoordLenghtY() {
+		return viewCoordLenghtY;
+	}
+
+	public void setViewCoordLenghtY(int viewCoordLenghtY) {
+		this.viewCoordLenghtY = viewCoordLenghtY;
+		ActionEvent ae = new ActionEvent(new Object() , -1, "coordLenghtChangedY");
+		notifyAllAboutChanges(ae);
+	}
+
 	public EditorTolls getCurrentSelectedTool() {
 		return currentSelectedTool;
 	}
@@ -129,7 +141,7 @@ public class EditorStates {
 	public void clearSelection(){
 		this.selectedVertex = null;
 		this.nearSelectedVertex = null;
-		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		ActionEvent ae = new ActionEvent(new Object() , -1, CMD_CLEAR_VIEW);
 		notifyAllAboutChanges(ae);
 	}
 	

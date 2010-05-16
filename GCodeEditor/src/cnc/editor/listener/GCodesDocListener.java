@@ -33,6 +33,10 @@ public class GCodesDocListener implements DocumentListener {
 	
 	private void docContentChanged(DocumentEvent e){
 		
+		if(true){
+			return;
+		}
+		
 		if(es.getCurrentEditMode() == EditMode.TXT){
 			
 			try {

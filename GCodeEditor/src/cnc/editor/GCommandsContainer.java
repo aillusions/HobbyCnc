@@ -51,9 +51,11 @@ public class GCommandsContainer implements ActionListener {
 			
 			if (gc != null) {
 				gCommandList.add(gc);
+				gc.getVertex().addActionListener(this);
 				prevPos = gc.getVertex();
 			}
 		}
+
 		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
 		notifyAllAboutChanges(ae);		
 	}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -68,7 +69,11 @@ public class VisualisationPanel extends JPanel{
 	public void drawGrid(Graphics g){
 
 		int theGap = es.getGap();
-		int gridSteps = es.getGridStep();
+		double gridSteps = Math.round((es.getGridStep() / es.getScale()*10))/10;
+	
+		if(gridSteps < 1){
+			gridSteps = 1;
+		}
 		
 		long viewHeight = (long)getSize().getHeight();
 		long viewWidth = (long)getSize().getWidth();
@@ -80,7 +85,7 @@ public class VisualisationPanel extends JPanel{
 	    g.setColor(Color.white);
 	    
 		//vertical
-		int progress = 0;				
+	    float progress = 0;				
 		while(progress < width){
 			
 			int x1 = (int)EditorStates.convertCnc_View(progress);
@@ -89,7 +94,8 @@ public class VisualisationPanel extends JPanel{
 			g.drawLine(x1, y1, x1, (int)viewWidth);
 			
 			if(progress > 0){
-				g.drawString(String.format("%d", progress), x1 - 3, theGap - 2);	
+				DecimalFormat format = new DecimalFormat("###.#");
+				g.drawString(format.format(progress), x1 - 3, theGap - 2);	
 			}
 			progress += gridSteps;
 		}
@@ -104,7 +110,8 @@ public class VisualisationPanel extends JPanel{
 			g.drawLine(x1, y1, (int)viewWidth, y1);
 			
 			if(progress > 0){
-				g.drawString(String.format("%d", progress), theGap - 14, y1 + 5);	
+				DecimalFormat format = new DecimalFormat("###.#");
+				g.drawString(format.format(progress), theGap - 14, y1 + 5);	
 			}
 			progress += gridSteps;
 			
@@ -151,6 +158,7 @@ public class VisualisationPanel extends JPanel{
 		
 		EditorVertex prevPos = null;
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
+		
 		if(gcc.getGCommandList().size() == 1){
 			setPreferredSize(new Dimension(1, 1));
 			revalidate();
@@ -303,18 +311,22 @@ public class VisualisationPanel extends JPanel{
 	}
 
 	private void drawCoordinates(Graphics g) {
-		g.setColor(Color.black);
+		
+		Color color = g.getColor();
+	    g.setColor(Color.gray);
+	  
+		g.drawLine(es.getGap(), es.getGap(), es.getViewCoordLenghtX(), es.getGap());
+		g.drawLine(es.getViewCoordLenghtX() - 3, es.getGap() - 3, es.getViewCoordLenghtX(), es.getGap());
+		g.drawLine(es.getViewCoordLenghtX() - 3, es.getGap() + 3, es.getViewCoordLenghtX(), es.getGap());
 
-		g.drawLine(es.getGap(), es.getGap(), es.getCoordLength(), es.getGap());
-		g.drawLine(es.getCoordLength() - 3, es.getGap() - 3, es.getCoordLength(), es.getGap());
-		g.drawLine(es.getCoordLength() - 3, es.getGap() + 3, es.getCoordLength(), es.getGap());
+		g.drawLine(es.getGap(), es.getGap(), es.getGap(), es.getViewCoordLenghtY());
+		g.drawLine(es.getGap() - 3, es.getViewCoordLenghtY() - 3, es.getGap(), es.getViewCoordLenghtY());
+		g.drawLine(es.getGap() + 3, es.getViewCoordLenghtY() - 3, es.getGap(), es.getViewCoordLenghtY());
 
-		g.drawLine(es.getGap(), es.getGap(), es.getGap(), es.getCoordLength());
-		g.drawLine(es.getGap() - 3, es.getCoordLength() - 3, es.getGap(), es.getCoordLength());
-		g.drawLine(es.getGap() + 3, es.getCoordLength() - 3, es.getGap(), es.getCoordLength());
-
-		g.drawString("X", es.getCoordLength() + 5, es.getGap() + 5);
-		g.drawString("Y", es.getGap() + 5, es.getCoordLength() + 5);
+		g.drawString("X", es.getViewCoordLenghtX() + 5, es.getGap() + 5);
+		g.drawString("Y", es.getGap() -3, es.getViewCoordLenghtY() + 15);
+		
+		g.setColor(color);
 	}
 
 	public void actionPerformed(ActionEvent e) {

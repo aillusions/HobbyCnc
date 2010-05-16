@@ -14,6 +14,7 @@ public class GCodesTextContainer extends JTextArea {
 		addFocusListener(listener);
 		addKeyListener(listener);
 		addMouseListener(listener);
+		setEditable(false);
 	}
 
 }
