@@ -61,7 +61,6 @@ public class VisualisationPanel extends JPanel{
 	    y2 = y1;
 	    
 	    g.drawLine(x1, y1, x2, y2);
-	    System.out.println(x1 + ", " + y1 + ", " + x2 + ", " + y2);
 		g.setColor(color);
 	}
 	
