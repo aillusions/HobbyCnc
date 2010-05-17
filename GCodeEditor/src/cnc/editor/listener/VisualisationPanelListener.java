@@ -35,7 +35,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	}
 
 	public void mousePressed(MouseEvent e) {
-		EditorStates.getInstance().setCurrentEditMode(Editor.EditMode.DRAW);
+		EditorStates.getInstance().setCurrentEditMode(Editor.EditModeS.DRAW);
 		
 		double x = e.getPoint().getX();
 		double y = e.getPoint().getY();		

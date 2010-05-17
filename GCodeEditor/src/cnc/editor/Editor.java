@@ -1,12 +1,9 @@
 package cnc.editor;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import cnc.GCodeAcceptor;
@@ -18,10 +15,10 @@ import cnc.storage.memory.IDataStorage;
 
 public class Editor {
 	
-	public enum EditMode{DRAW, TXT};
+	public enum EditModeS{DRAW, TXT};
 	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT};
 	
-	private List<ActionListener> listeners = new ArrayList<ActionListener>();
+	//private List<ActionListener> listeners = new ArrayList<ActionListener>();
 	private GCommandsContainer gcc = GCommandsContainer.getInstance();
 	
 	public void viewMousePressed(double x, double y){
@@ -30,21 +27,34 @@ public class Editor {
 		float cncY = EditorStates.convertView_Cnc((long)y);
 
 		EditorStates es =  EditorStates.getInstance();
+		boolean isCurrentSelectedToolReset = false;
+		
+		List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
+			if(vertexes != null && vertexes.size() > 0 && es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
+			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
+			isCurrentSelectedToolReset = true;
+		}
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){			
 			
 			String cmd = "\nG00 X" + cncX + " Y" + cncY;
 			EditorVertex ev = gcc.getGCommandList().get(gcc.getGCommandList().size()-1).getVertex();
 			gcc.addCommand(GCodeParser.parseCommand(cmd, ev));
-
-		}else if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
-			
-			List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
+			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
+			isCurrentSelectedToolReset = true;
+		}
+		
+		if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
+			vertexes = gcc.findVertexesNear(cncX, cncY);
 			if(vertexes.size() > 0){
-				ActionEvent ae = new ActionEvent(vertexes , -1, "select node");
-				notifyActionListeners(ae);
+				//ActionEvent ae = new ActionEvent(vertexes , -1, "select node");
+				//notifyActionListeners(ae);
 				List<GCommand> neighbourVertexes =  gcc.getNeighbourVertexes(vertexes.get(0));
 				es.setSelectedVertex(vertexes.get(0), neighbourVertexes);
+			}
+			
+			if(isCurrentSelectedToolReset){
+				es.setCurrentSelectedTool(EditorTolls.SIMPLE_EDIT);
 			}
 		}
 	}
@@ -104,11 +114,12 @@ public class Editor {
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
+			
 			EditorStates.getInstance().setImportInProgress(false);
 		}	
 	}
 
-	public void addActionListener(ActionListener al) {
+/*	public void addActionListener(ActionListener al) {
 		listeners.add(al);		
 	}
 	
@@ -117,6 +128,6 @@ public class Editor {
 		for(ActionListener al : listeners){
 			al.actionPerformed(ae);
 		}
-	}
+	}*/
 
 }

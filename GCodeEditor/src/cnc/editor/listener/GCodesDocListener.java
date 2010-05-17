@@ -8,7 +8,7 @@ import cnc.editor.EditorStates;
 import cnc.editor.GCodeParser;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
-import cnc.editor.Editor.EditMode;
+import cnc.editor.Editor.EditModeS;
 
 public class GCodesDocListener implements DocumentListener {
 
@@ -37,7 +37,7 @@ public class GCodesDocListener implements DocumentListener {
 			return;
 		}
 		
-		if(es.getCurrentEditMode() == EditMode.TXT){
+		if(es.getCurrentEditMode() == EditModeS.TXT){
 			
 			try {
 				int lineIndex = es.getLineOfOffset(e.getOffset());

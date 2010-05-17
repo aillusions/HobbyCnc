@@ -34,7 +34,7 @@ public class Main {
 		EditorStates.getInstance().setgCodesTextContainer(gctc);
 		
 		EditorListener el = new EditorListener(gctc);
-		editor.addActionListener(el);
+		//editor.addActionListener(el);
 		
 		GCommandsContainerListener vcl = new GCommandsContainerListener(vp);
 		gcc.addActionListener(vcl);

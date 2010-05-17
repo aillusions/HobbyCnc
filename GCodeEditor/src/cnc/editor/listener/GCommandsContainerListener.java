@@ -11,7 +11,7 @@ import cnc.editor.EditorStates;
 import cnc.editor.EditorVertex;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
-import cnc.editor.Editor.EditMode;
+import cnc.editor.Editor.EditModeS;
 import cnc.editor.view.VisualisationPanel;
 
 public class GCommandsContainerListener implements ActionListener {
@@ -32,7 +32,7 @@ public class GCommandsContainerListener implements ActionListener {
 			
 			Document doc = es.getDocument();
 			
-			if(es.getCurrentEditMode() == EditMode.DRAW && event.getActionCommand().equals(EditorVertex.CMD_COORDINATE_CHANGED)){
+			if(es.getCurrentEditMode() == EditModeS.DRAW && event.getActionCommand().equals(EditorVertex.CMD_COORDINATE_CHANGED)){
 				
 				EditorVertex vertex = (EditorVertex)event.getSource();
 				

@@ -9,7 +9,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
-import cnc.editor.Editor.EditMode;
+import cnc.editor.Editor.EditModeS;
 import cnc.editor.Editor.EditorTolls;
 import cnc.editor.view.GCodesTextContainer;
 
@@ -35,7 +35,7 @@ public class EditorStates {
 	private float viewScale = 1;	
 	private GCommand selectedVertex;
 	private List<GCommand> nearSelectedVertex;
-	private Editor.EditMode currentEditMode = EditMode.DRAW;
+	private Editor.EditModeS currentEditMode = EditModeS.DRAW;
 	private boolean importInProgress;
 	private final Document document = new PlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
@@ -155,13 +155,13 @@ public class EditorStates {
 		return nearSelectedVertex;
 	}
 	
-	public Editor.EditMode getCurrentEditMode() {
+	public Editor.EditModeS getCurrentEditMode() {
 		return currentEditMode;
 	}
 
-	public void setCurrentEditMode(Editor.EditMode currentEditMode) {
+	public void setCurrentEditMode(Editor.EditModeS currentEditMode) {
 		this.currentEditMode = currentEditMode;
-		if(currentEditMode == EditMode.TXT){
+		if(currentEditMode == EditModeS.TXT){
 			 clearSelection();
 		}
 	}

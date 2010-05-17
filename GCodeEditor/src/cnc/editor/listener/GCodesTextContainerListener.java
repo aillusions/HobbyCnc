@@ -13,7 +13,7 @@ import cnc.editor.EditorStates;
 public class GCodesTextContainerListener implements FocusListener, MouseListener, KeyListener {
 
 	public void focusGained(FocusEvent e) {
-		EditorStates.getInstance().setCurrentEditMode(Editor.EditMode.TXT);		
+		EditorStates.getInstance().setCurrentEditMode(Editor.EditModeS.TXT);		
 	}
 
 	public void focusLost(FocusEvent e) {
@@ -36,7 +36,7 @@ public class GCodesTextContainerListener implements FocusListener, MouseListener
 	}
 
 	public void mousePressed(MouseEvent e) {
-		EditorStates.getInstance().setCurrentEditMode(Editor.EditMode.TXT);	
+		EditorStates.getInstance().setCurrentEditMode(Editor.EditModeS.TXT);	
 		
 	}
 
@@ -46,7 +46,7 @@ public class GCodesTextContainerListener implements FocusListener, MouseListener
 	}
 
 	public void keyPressed(KeyEvent e) {
-		EditorStates.getInstance().setCurrentEditMode(Editor.EditMode.TXT);	
+		EditorStates.getInstance().setCurrentEditMode(Editor.EditModeS.TXT);	
 		
 	}
 
