@@ -1,7 +1,7 @@
 package cnc.editor;
 
 import cnc.editor.listener.EditorStatesListener;
-import cnc.editor.listener.EditorViewFrameListener;
+import cnc.editor.listener.EditorMainFrameListener;
 import cnc.editor.listener.GCodesDocListener;
 import cnc.editor.listener.GCodesTextContainerListener;
 import cnc.editor.listener.GCommandsContainerListener;
@@ -34,7 +34,7 @@ public class Main {
 		GCommandsContainerListener vcl = new GCommandsContainerListener(vp, gctc);
 		gcc.addActionListener(vcl);
 				
-		EditorViewFrameListener vl = new EditorViewFrameListener(editor);
+		EditorMainFrameListener vl = new EditorMainFrameListener(editor);
 		EditorMainFrame evf = new EditorMainFrame(vl, gctc, vp);
 		evf.setVisible(true);
 	}

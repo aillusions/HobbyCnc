@@ -27,6 +27,10 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private JButton btn_ConvertImageToGCodes;
 	private JButton btn_Clear;
 	
+	private ButtonGroup headPositionGroup;
+	private JRadioButton btn_Lift;
+	private JRadioButton btn_Descend;
+	
 	private ButtonGroup toolBarGroup;
 	private JRadioButton btn_Tool_SimpleDraw;
 	private JRadioButton btn_Tool_ContinuousDraw;
@@ -118,6 +122,24 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		comBox_Scale.setActionCommand("Scale");
 		comBox_Scale.addActionListener(editorViewListener);
 		
+		btn_Lift = new JRadioButton();
+		btn_Lift.setText("lift");
+		btn_Lift.setBounds(901, 220, 84, 21);
+		btn_Lift.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_Lift.setActionCommand("LiftWorkHead");
+		btn_Lift.addActionListener(editorViewListener);
+		
+		btn_Descend = new JRadioButton();
+		btn_Descend.setText("descend");
+		btn_Descend.setBounds(901, 250, 84, 21);
+		btn_Descend.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_Descend.setActionCommand("DescendWorkHead");
+		btn_Descend.addActionListener(editorViewListener);
+		
+		headPositionGroup = new ButtonGroup();
+		headPositionGroup.add(btn_Lift);
+		headPositionGroup.add(btn_Descend);
+		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setTitle("GCodes editor");
@@ -131,6 +153,8 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		add(btn_Tool_ContinuousDraw);		
 		add(btn_Tool_SelectVertex);		
 		add(comBox_Scale);
+		add(btn_Descend);
+		add(btn_Lift);
 		
 		pack();
 		setSize(1000, 500);	

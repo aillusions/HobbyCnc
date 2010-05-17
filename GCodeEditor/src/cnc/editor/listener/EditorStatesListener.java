@@ -1,6 +1,5 @@
 package cnc.editor.listener;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,8 +25,7 @@ public class EditorStatesListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		
 		if(arg0.getActionCommand().equals(EditorStates.CMD_CLEAR_SELECTION)){
-			visualisationPanel.setPreferredSize(new Dimension(0,0));
-			visualisationPanel.revalidate();
+
 		}
 
 		EditorStates es = EditorStates.getInstance();

@@ -9,11 +9,11 @@ import cnc.editor.Editor;
 import cnc.editor.EditorStates;
 import cnc.editor.GCommandsContainer;
 
-public class EditorViewFrameListener implements ActionListener {
+public class EditorMainFrameListener implements ActionListener {
 
 	private Editor editor;
-		
-	public EditorViewFrameListener(Editor editor) {
+	private EditorStates es = EditorStates.getInstance();
+	public EditorMainFrameListener(Editor editor) {
 		super();
 		this.editor = editor;
 	}
@@ -28,13 +28,17 @@ public class EditorViewFrameListener implements ActionListener {
 			GCommandsContainer.getInstance().clear();
 		}else if(e.getActionCommand().equals("Scale")){
 			float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
-			EditorStates.getInstance().setScale(scale);
+			es.setScale(scale);
 		}else if(e.getActionCommand().equals("switchToolsTo_SimpleDraw")){
-			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.SIMPLE_EDIT);
+			es.setCurrentSelectedTool(Editor.EditorTolls.SIMPLE_EDIT);
 		}else if(e.getActionCommand().equals("switchToolsTo_SelectVertexes")){
-			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.VERTEX_SELECT);
+			es.setCurrentSelectedTool(Editor.EditorTolls.VERTEX_SELECT);
 		}else if(e.getActionCommand().equals("switchToolsTo_ContinuousDraw")){
-			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.CONTINUOUS_EDIT);
-		}		
+			es.setCurrentSelectedTool(Editor.EditorTolls.CONTINUOUS_EDIT);
+		}else if(e.getActionCommand().equals("LiftWorkHead")){
+			editor.liftWorkHead();
+		}else if(e.getActionCommand().equals("DescendWorkHead")){
+			editor.descendWorkHead();
+		}	
 	}
 }

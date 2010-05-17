@@ -16,7 +16,7 @@ public class GCommandsContainer implements ActionListener {
 	public static final String CMD_ADDED_ONE_COMMAND = "added_one_command";
 
 	private GCommandsContainer(){
-		addCommand(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
+		addCommand(new GCommand(GcommandTypes.G00, 0f, 0f, 0f));
 	}                        
 	
 	private static final GCommandsContainer instance = new GCommandsContainer();
@@ -35,8 +35,12 @@ public class GCommandsContainer implements ActionListener {
 	
 	public void addCommand(GCommand c){
 		
+		if(gCommandList.size() > 0){
+			c.setPreviousCmd(gCommandList.get(gCommandList.size() -1));
+		}
+		
 		gCommandList.add(c);
-		c.getVertex().addActionListener(this);
+		c.addActionListener(this);
 		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_ONE_COMMAND);
 		notifyAllAboutChanges(ae);
 	}
@@ -45,15 +49,17 @@ public class GCommandsContainer implements ActionListener {
 			
 		String[] cmdArray = commands.replace("\r", "").split("\n");
 		
-		EditorVertex prevPos = gCommandList.get(gCommandList.size()-1).getVertex();
-		
 		for (int i = 0; i < cmdArray.length; i++) {
-			GCommand gc = GCodeParser.parseCommand(cmdArray[i], prevPos);		
+			GCommand gc = GCodeParser.parseCommand(cmdArray[i]);		
 			
 			if (gc != null) {
+				
+				if(gCommandList.size() > 0){
+					gc.setPreviousCmd(gCommandList.get(gCommandList.size() -1));
+				}
+				
 				gCommandList.add(gc);
-				gc.getVertex().addActionListener(this);
-				prevPos = gc.getVertex();
+				gc.addActionListener(this);
 			}
 		}
 
@@ -80,8 +86,8 @@ public class GCommandsContainer implements ActionListener {
 		EditorStates es = EditorStates.getInstance();
 		List<GCommand> result = new ArrayList<GCommand>();
 		for(GCommand v : gCommandList){
-			if(0.7/es.getScale() > Math.abs(v.getVertex().getX() - cncX) 
-					&& 0.7/es.getScale() > Math.abs(v.getVertex().getY() - cncY)){
+			if(0.7/es.getScale() > Math.abs(v.getX() - cncX) 
+					&& 0.7/es.getScale() > Math.abs(v.getY() - cncY)){
 				result.add(v);
 			}
 		}
@@ -106,12 +112,12 @@ public class GCommandsContainer implements ActionListener {
 		gCommandList.clear();	
 		notifyAllAboutChanges(new ActionEvent(this , -1, CMD_CLEAR_COMMANDS_CONATINER));
 		
-		addCommand(new GCommand(GcommandTypes.G00, new EditorVertex(0, 0, 0)));
+		addCommand(new GCommand(GcommandTypes.G00, 0f, 0f, 0f));
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		
-		if(e.getActionCommand().equals(EditorVertex.CMD_COORDINATE_CHANGED)){
+		if(e.getActionCommand().equals(GCommand.CMD_COORDINATE_CHANGED)){
 			notifyAllAboutChanges(e);
 		}
 	}

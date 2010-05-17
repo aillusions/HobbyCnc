@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
-import cnc.editor.EditorVertex;
 import cnc.editor.GCommand;
 import cnc.editor.Editor.EditorTolls;
 
@@ -55,18 +54,16 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 			
 			if(gc != null){
 				
-				EditorVertex v =  es.getSelectedVertex().getVertex();
-				
 				double x = e.getPoint().getX();
 				double y = e.getPoint().getY();		
 				
-				double X = EditorStates.convertCnc_View(v.getX());
-				double Y = EditorStates.convertCnc_View(v.getY());
+				double X = EditorStates.convertCnc_View(gc.getX());
+				double Y = EditorStates.convertCnc_View(gc.getY());
 				
 				if(Math.abs(x-X) < getSpan() && Math.abs(y-Y) < getSpan() ){
 					dragStarted = true;
-					v.setX(EditorStates.convertView_Cnc((long)x));
-					v.setY(EditorStates.convertView_Cnc((long)y));
+					gc.setX(EditorStates.convertView_Cnc((long)x));
+					gc.setY(EditorStates.convertView_Cnc((long)y));
 				}
 			}
 		}

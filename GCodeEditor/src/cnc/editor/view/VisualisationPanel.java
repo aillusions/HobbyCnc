@@ -9,7 +9,6 @@ import java.util.List;
 import javax.swing.JPanel;
 
 import cnc.editor.EditorStates;
-import cnc.editor.EditorVertex;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
 import cnc.editor.listener.VisualisationPanelListener;
@@ -135,8 +134,8 @@ public class VisualisationPanel extends JPanel{
 		
 		if(selected != null){			
 			
-			float X = EditorStates.convertCnc_View(selected.getVertex().getX());
-			float Y = EditorStates.convertCnc_View(selected.getVertex().getY());			
+			float X = EditorStates.convertCnc_View(selected.getX());
+			float Y = EditorStates.convertCnc_View(selected.getY());			
 			
 			Color color = g.getColor();
 		    g.setColor(Color.pink);
@@ -155,8 +154,8 @@ public class VisualisationPanel extends JPanel{
 		    
 			for(GCommand gc : nearSelection){
 				
-				X = EditorStates.convertCnc_View(gc.getVertex().getX());
-				Y = EditorStates.convertCnc_View(gc.getVertex().getY());
+				X = EditorStates.convertCnc_View(gc.getX());
+				Y = EditorStates.convertCnc_View(gc.getY());
 				g.fillOval((int)(X-size/2), (int)(Y-size/2), size, size);
 			}			
 		    g.setColor(color);
@@ -165,7 +164,7 @@ public class VisualisationPanel extends JPanel{
 
 	private void drawPicture(Graphics g) {
 		
-		EditorVertex prevPos = null;
+		GCommand prevPos = null;
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
 		if(gcc.getGCommandList().size() == 1){
@@ -176,7 +175,7 @@ public class VisualisationPanel extends JPanel{
 				
 				if(prevPos != null){
 					
-					if(prevPos.getZ() <= 0 && v.getVertex().getZ() <= 0){
+					if(prevPos.getZ() <= 0 && v.getZ() <= 0){
 					 	g.setColor(Color.red);
 					}else{
 						g.setColor(Color.blue);
@@ -185,8 +184,8 @@ public class VisualisationPanel extends JPanel{
 					int prevX = (int)EditorStates.convertCnc_View(prevPos.getX());
 					int prevY = (int)EditorStates.convertCnc_View(prevPos.getY());
 					
-					int newX = (int)EditorStates.convertCnc_View(v.getVertex().getX()); 
-					int newY = (int)EditorStates.convertCnc_View(v.getVertex().getY()); 				
+					int newX = (int)EditorStates.convertCnc_View(v.getX()); 
+					int newY = (int)EditorStates.convertCnc_View(v.getY()); 				
 		
 					double panelWidth = this.getSize().getWidth();
 					double panelHeight = this.getSize().getHeight();	
@@ -201,20 +200,20 @@ public class VisualisationPanel extends JPanel{
 					if(EditorStates.getInstance().getScale() >= 5){
 						Color color = g.getColor();
 						g.setColor(Color.green);
-						drawArrowEnd(g, prevPos, v.getVertex());
+						drawArrowEnd(g, prevPos, v);
 						g.setColor(color);
 					}
 					
-					prevPos = v.getVertex();
+					prevPos = v;
 					
 				}else{
-					prevPos = v.getVertex();
+					prevPos = v;
 				}
 			}
 		}
 	}
 	
-	private void drawArrowEnd(Graphics g, EditorVertex ev1, EditorVertex ev2){
+	private void drawArrowEnd(Graphics g, GCommand ev1, GCommand ev2){
 		double Ya,Yb,Xa,Xb;
 		double k,k1;
 		double tgB;

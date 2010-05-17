@@ -1,5 +1,6 @@
 package cnc.editor.listener;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -9,7 +10,6 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
 import cnc.editor.EditorStates;
-import cnc.editor.EditorVertex;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
 import cnc.editor.Editor.EditModeS;
@@ -36,11 +36,11 @@ public class GCommandsContainerListener implements ActionListener {
 		Document doc = es.getDocument();
 		
 		if(es.getCurrentEditMode() == EditModeS.DRAW 
-				&& event.getActionCommand().equals(EditorVertex.CMD_COORDINATE_CHANGED)){
+				&& event.getActionCommand().equals(GCommand.CMD_COORDINATE_CHANGED)){
 			
-			EditorVertex vertex = (EditorVertex)event.getSource();
+			GCommand gc = (GCommand)event.getSource();
 			
-			GCommand gc = vertex.getgCommand();
+			///GCommand gc = vertex.getgCommand();
 			int editorLineIndex = EditorStates.getLineNumberInTextEditor(gc);
 			
 			try {
@@ -99,6 +99,8 @@ public class GCommandsContainerListener implements ActionListener {
 		if(event.getActionCommand().equals(GCommandsContainer.CMD_CLEAR_COMMANDS_CONATINER)){
 			
 			es.clearSelection();
+			//visualisationPanel.setPreferredSize(new Dimension(0,0));
+			//visualisationPanel.revalidate();
 			
 			try {
 				doc.remove(0, doc.getLength());

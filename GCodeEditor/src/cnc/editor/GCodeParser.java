@@ -3,10 +3,9 @@ package cnc.editor;
 import cnc.editor.GCommand;
 import cnc.editor.GCommand.GcommandTypes;
 
-
 public class GCodeParser {	
 
-	public static GCommand parseCommand(String cmd, EditorVertex previousPosition){
+	public static GCommand parseCommand(String cmd){
 		
 		if(cmd != null && !cmd.trim().equals("") && cmd.trim().length() > 3){
 			
@@ -29,7 +28,18 @@ public class GCodeParser {
 				
 				switch(cmdType){
 				case G00: 
-					return new GCommand(GcommandTypes.G00, getNewPosition(args, previousPosition ));
+					Float x = null, y = null, z = null;
+					
+					for(int i = 0; i < args.length; i ++){
+						if(args[i].indexOf("X") != -1){
+							x = Float.parseFloat(args[i].replace("X", ""));
+						}else if(args[i].indexOf("Y") != -1){
+							y = Float.parseFloat(args[i].replace("Y", ""));
+						}else if(args[i].indexOf("Z") != -1){
+							z = Float.parseFloat(args[i].replace("Z", ""));
+						}
+					}
+					return new GCommand(GcommandTypes.G00, x,y,z);
 				case G01:
 					break;
 				case G02: 
@@ -44,7 +54,7 @@ public class GCodeParser {
 		return null;
 	}	
 	
-	private static EditorVertex getNewPosition(String[] args, EditorVertex previousPosition){
+/*	private static GCommand getNewPosition(String[] args, GCommand previousPosition){
 		
 		Float x = null, y = null, z = null;
 		
@@ -68,6 +78,6 @@ public class GCodeParser {
 			z = previousPosition.getZ();
 		}
 
-		return new EditorVertex(x, y, z);				
-	}
+		return new GCommand(x, y, z);				
+	}*/
 }

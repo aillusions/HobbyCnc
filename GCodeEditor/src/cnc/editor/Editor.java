@@ -32,8 +32,7 @@ public class Editor {
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
 			String cmd = "\nG00 X" + cncX + " Y" + cncY;
-			EditorVertex ev = gcc.getGCommandList().get(gcc.getGCommandList().size()-1).getVertex();
-			gcc.addCommand(GCodeParser.parseCommand(cmd, ev));
+			gcc.addCommand(GCodeParser.parseCommand(cmd));
 			return;
 		}
 		
@@ -45,8 +44,7 @@ public class Editor {
 		if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){			
 			
 			String cmd = "\nG00 X" + cncX + " Y" + cncY;
-			EditorVertex ev = gcc.getGCommandList().get(gcc.getGCommandList().size()-1).getVertex();
-			gcc.addCommand(GCodeParser.parseCommand(cmd, ev));
+			gcc.addCommand(GCodeParser.parseCommand(cmd));
 			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 			isCurrentSelectedToolReset = true;
 		}
@@ -124,5 +122,33 @@ public class Editor {
 			
 			EditorStates.getInstance().setImportInProgress(false);
 		}	
+	}
+
+	public void liftWorkHead() {
+		
+		String cmd = "\nG00 Z2.0";
+		GCommand gCmd = GCodeParser.parseCommand(cmd);
+		GCommand lastCmd = gcc.getGCommandList().get(gcc.getGCommandList().size()-1);
+		
+		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand
+		gCmd.setPreviousCmd(lastCmd);
+		
+		if(!lastCmd.equals(gCmd)){
+			gcc.addCommand(gCmd);	
+		}
+	}
+
+	public void descendWorkHead() {
+		
+		String cmd = "\nG00 Z0.0";
+		GCommand gCmd = GCodeParser.parseCommand(cmd);
+		GCommand lastCmd = gcc.getGCommandList().get(gcc.getGCommandList().size()-1);
+		
+		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand
+		gCmd.setPreviousCmd(lastCmd);
+		
+		if(!lastCmd.equals(gCmd)){
+			gcc.addCommand(gCmd);	
+		}		
 	}
 }

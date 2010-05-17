@@ -49,12 +49,12 @@ public class GCodesDocListener implements DocumentListener {
 				int prevCommandIndex = lineIndex-1;
 				
 				GCommand oldCommand = container.getGCommandList().get(lineIndex);
-				GCommand prevCommand = container.getGCommandList().get(prevCommandIndex);				
-				GCommand newCommand = GCodeParser.parseCommand(newCommandValue, prevCommand.getVertex());
+				//GCommand prevCommand = container.getGCommandList().get(prevCommandIndex);				
+				GCommand newCommand = GCodeParser.parseCommand(newCommandValue);
 				
-				oldCommand.getVertex().setX(newCommand.getVertex().getX());
-				oldCommand.getVertex().setY(newCommand.getVertex().getY());
-				oldCommand.getVertex().setZ(newCommand.getVertex().getZ());
+				oldCommand.setX(newCommand.getX());
+				oldCommand.setY(newCommand.getY());
+				oldCommand.setZ(newCommand.getZ());
 
 			} catch (BadLocationException e1) {
 				throw new RuntimeException(e1);
