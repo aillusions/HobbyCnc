@@ -31,14 +31,15 @@ public class VisualisationPanel extends JPanel{
 		
 		super.paint(g);
 		
-		drawStrictBorders(g);
-		drawGrid(g);		
+		drawGrid(g);
+		drawStrictBorders(g);		
 		drawCoordinates(g);		
 		drawSelection(g);
 		drawPicture(g);		
 	}
 	
 	public void drawStrictBorders(Graphics g){
+		
 		Color color = g.getColor();
 	    g.setColor(Color.ORANGE);
 	    
@@ -60,7 +61,7 @@ public class VisualisationPanel extends JPanel{
 	    y2 = y1;
 	    
 	    g.drawLine(x1, y1, x2, y2);
-	      	
+	    System.out.println(x1 + ", " + y1 + ", " + x2 + ", " + y2);
 		g.setColor(color);
 	}
 	

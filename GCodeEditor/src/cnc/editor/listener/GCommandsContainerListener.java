@@ -98,7 +98,7 @@ public class GCommandsContainerListener implements ActionListener {
 				throw new RuntimeException(e);
 			}
 			
-			EditorStates.getInstance().clearSelection();
+			es.clearSelection();
 		}
 
 	}
