@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 import cnc.GCodeAcceptor;
-import cnc.editor.view.EditorViewFrame;
+import cnc.editor.view.EditorMainFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
 import cnc.storage.memory.BitMapArrayDataStorage;
@@ -69,7 +69,7 @@ public class Editor {
 	public void convertImageToGCodes() {
 		
 		File file = null;
-		if ((file = EditorViewFrame.openFileChooser("./parser", "bmp"))!= null) {
+		if ((file = EditorMainFrame.openFileChooser("./parser", "bmp"))!= null) {
 			
 			EditorStates.getInstance().setImportInProgress(true);
 			
@@ -100,7 +100,7 @@ public class Editor {
 	public void addGCodesFromFile() {
 		
 		File file = null;
-		if ((file = EditorViewFrame.openFileChooser("./gcodes", "cnc"))!= null) {
+		if ((file = EditorMainFrame.openFileChooser("./gcodes", "cnc"))!= null) {
 			
 			EditorStates.getInstance().setImportInProgress(true);
 			

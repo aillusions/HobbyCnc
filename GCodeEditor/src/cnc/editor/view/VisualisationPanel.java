@@ -41,7 +41,7 @@ public class VisualisationPanel extends JPanel{
 	public void drawStrictBorders(Graphics g){
 		
 		Color color = g.getColor();
-	    g.setColor(Color.ORANGE);
+	    g.setColor(Color.gray);
 	    
 	    int maxCncX = (int)EditorStates.convertCnc_View(es.getMaxCncX());
 	    int maxCncY = (int)EditorStates.convertCnc_View(es.getMaxCncY());
@@ -101,7 +101,7 @@ public class VisualisationPanel extends JPanel{
 			
 			if(progress > 0){
 				DecimalFormat format = new DecimalFormat("###.#");
-				 g.setColor(Color.ORANGE);
+				 g.setColor(Color.gray);
 				g.drawString(format.format(progress), x1 - 6, theGap - 4);	
 			}
 			progress += gridSteps;
@@ -119,7 +119,7 @@ public class VisualisationPanel extends JPanel{
 			
 			if(progress > 0){
 				DecimalFormat format = new DecimalFormat("###.#");
-				g.setColor(Color.orange);
+				g.setColor(Color.gray);
 				g.drawString(format.format(progress), theGap - 17, y1 + 5);	
 			}
 			progress += gridSteps;

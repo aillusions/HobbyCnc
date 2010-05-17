@@ -15,7 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
-public class EditorViewFrame extends javax.swing.JFrame {
+public class EditorMainFrame extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = 13423452354765L;
 	private static final String[] scaleValues =  
@@ -48,7 +48,7 @@ public class EditorViewFrame extends javax.swing.JFrame {
 	}
 
 	//Constructor
-	public EditorViewFrame(ActionListener editorViewListener, GCodesTextContainer textContainer, VisualisationPanel visualisationPanel) {
+	public EditorMainFrame(ActionListener editorViewListener, GCodesTextContainer textContainer, VisualisationPanel visualisationPanel) {
 		
 		txtArea_GCodes = textContainer;
 		
