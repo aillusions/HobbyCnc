@@ -16,9 +16,8 @@ import cnc.storage.memory.IDataStorage;
 public class Editor {
 	
 	public enum EditModeS{DRAW, TXT};
-	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT};
-	
-	//private List<ActionListener> listeners = new ArrayList<ActionListener>();
+	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT, CONTINUOUS_EDIT};
+
 	private GCommandsContainer gcc = GCommandsContainer.getInstance();
 	
 	public void viewMousePressed(double x, double y){
@@ -30,7 +29,15 @@ public class Editor {
 		boolean isCurrentSelectedToolReset = false;
 		
 		List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
-			if(vertexes != null && vertexes.size() > 0 && es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
+		
+		if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
+			String cmd = "\nG00 X" + cncX + " Y" + cncY;
+			EditorVertex ev = gcc.getGCommandList().get(gcc.getGCommandList().size()-1).getVertex();
+			gcc.addCommand(GCodeParser.parseCommand(cmd, ev));
+			return;
+		}
+		
+		if(vertexes != null && vertexes.size() > 0 && es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
 			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 			isCurrentSelectedToolReset = true;
 		}
@@ -47,10 +54,10 @@ public class Editor {
 		if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
 			vertexes = gcc.findVertexesNear(cncX, cncY);
 			if(vertexes.size() > 0){
-				//ActionEvent ae = new ActionEvent(vertexes , -1, "select node");
-				//notifyActionListeners(ae);
 				List<GCommand> neighbourVertexes =  gcc.getNeighbourVertexes(vertexes.get(0));
 				es.setSelectedVertex(vertexes.get(0), neighbourVertexes);
+			}else{
+				es.clearSelection();
 			}
 			
 			if(isCurrentSelectedToolReset){
@@ -118,16 +125,4 @@ public class Editor {
 			EditorStates.getInstance().setImportInProgress(false);
 		}	
 	}
-
-/*	public void addActionListener(ActionListener al) {
-		listeners.add(al);		
-	}
-	
-	private void notifyActionListeners(ActionEvent ae){
-		
-		for(ActionListener al : listeners){
-			al.actionPerformed(ae);
-		}
-	}*/
-
 }

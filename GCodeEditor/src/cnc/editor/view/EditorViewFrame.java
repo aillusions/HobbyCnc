@@ -29,6 +29,7 @@ public class EditorViewFrame extends javax.swing.JFrame {
 	
 	private ButtonGroup toolBarGroup;
 	private JRadioButton btn_Tool_SimpleDraw;
+	private JRadioButton btn_Tool_ContinuousDraw;
 	private JRadioButton btn_Tool_SelectVertex;
 	
 	private JComboBox comBox_Scale;
@@ -97,15 +98,23 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		btn_Tool_SelectVertex.addActionListener(editorViewListener);
 		btn_Tool_SelectVertex.setActionCommand("switchToolsTo_SelectVertexes");
 		
+		btn_Tool_ContinuousDraw = new JRadioButton();
+		btn_Tool_ContinuousDraw.setText("continue");
+		btn_Tool_ContinuousDraw.setBounds(901, 160, 84, 21);
+		btn_Tool_ContinuousDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_Tool_ContinuousDraw.addActionListener(editorViewListener);
+		btn_Tool_ContinuousDraw.setActionCommand("switchToolsTo_ContinuousDraw");
+		
 		toolBarGroup = new ButtonGroup();
 		toolBarGroup.add(btn_Tool_SimpleDraw);
 		toolBarGroup.add(btn_Tool_SelectVertex);
+		toolBarGroup.add(btn_Tool_ContinuousDraw);
 		btn_Tool_SimpleDraw.setSelected(true);
 		
 		ComboBoxModel comBoxModel_Scale = new DefaultComboBoxModel(scaleValues);						
 		comBox_Scale = new JComboBox();			
 		comBox_Scale.setModel(comBoxModel_Scale);
-		comBox_Scale.setBounds(901, 160, 84, 21);
+		comBox_Scale.setBounds(901, 190, 84, 21);
 		comBox_Scale.setActionCommand("Scale");
 		comBox_Scale.addActionListener(editorViewListener);
 		
@@ -119,6 +128,7 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		add(btn_ConvertImageToGCodes);			
 		add(btn_AddGCodesFromFile);	
 		add(btn_Tool_SimpleDraw);		
+		add(btn_Tool_ContinuousDraw);		
 		add(btn_Tool_SelectVertex);		
 		add(comBox_Scale);
 		

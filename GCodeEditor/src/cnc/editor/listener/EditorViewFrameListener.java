@@ -33,6 +33,8 @@ public class EditorViewFrameListener implements ActionListener {
 			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.SIMPLE_EDIT);
 		}else if(e.getActionCommand().equals("switchToolsTo_SelectVertexes")){
 			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.VERTEX_SELECT);
+		}else if(e.getActionCommand().equals("switchToolsTo_ContinuousDraw")){
+			EditorStates.getInstance().setCurrentSelectedTool(Editor.EditorTolls.CONTINUOUS_EDIT);
 		}		
 	}
 }
