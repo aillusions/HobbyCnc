@@ -63,7 +63,13 @@ public class GCommandsContainerListener implements ActionListener {
 				throw new RuntimeException(e);
 			}					
 		}else if(event.getActionCommand().equals(GCommandsContainer.CMD_ADDED_BUNCH_OF_COMMANDS)){
-
+			
+			try {
+				doc.remove(0, doc.getLength());
+			} catch (BadLocationException e) {
+				throw new RuntimeException(e);
+			}
+			
 			final StringBuffer codesBuffer = new StringBuffer();
 			
 			for(GCommand dc : gcc.getGCommandList()) {
@@ -91,14 +97,24 @@ public class GCommandsContainerListener implements ActionListener {
 		}
 		
 		if(event.getActionCommand().equals(GCommandsContainer.CMD_CLEAR_COMMANDS_CONATINER)){
-
+			
+			es.clearSelection();
+			
 			try {
 				doc.remove(0, doc.getLength());
+			
+				final StringBuffer codesBuffer = new StringBuffer();
+				
+				for(GCommand dc : gcc.getGCommandList()) {
+					codesBuffer.append(dc.toString()+"\r\n");
+				}
+
+				doc.insertString(0, codesBuffer.toString(), null);
+				
 			} catch (BadLocationException e) {
 				throw new RuntimeException(e);
 			}
 			
-			es.clearSelection();
 		}
 
 	}
