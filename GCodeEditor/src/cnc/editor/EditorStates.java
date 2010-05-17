@@ -16,7 +16,7 @@ import cnc.editor.view.GCodesTextContainer;
 //Singleton
 public class EditorStates {
 
-	public static final String CMD_CLEAR_VIEW = "clearView";
+	public static final String CMD_CLEAR_SELECTION = "clearSelection";
 	public static final float SELECTIO_CIRCLE_SIZE = 8f;
 	public static final float BMP_TO_CNC_COORD_RATIO = 5f;	
 	
@@ -29,7 +29,7 @@ public class EditorStates {
 	
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
-	private int theGap = 15;
+	private int theGap = 20;
 	private int viewCoordLenghtX = 600;		
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
@@ -85,7 +85,7 @@ public class EditorStates {
 	
 	public void setScale(float scale){
 		viewScale = scale;
-		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		ActionEvent ae = new ActionEvent(this, -1, "setScale");
 		notifyAllAboutChanges(ae);
 	}
 	
@@ -95,7 +95,7 @@ public class EditorStates {
 	
 	public void setGap(int gap){
 		theGap = gap;
-		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		ActionEvent ae = new ActionEvent(this, -1, "setGap");
 		notifyAllAboutChanges(ae);
 	}
 	
@@ -105,7 +105,7 @@ public class EditorStates {
 
 	public void setViewCoordLenghtX(int viewCoordLenghtX) {
 		this.viewCoordLenghtX = viewCoordLenghtX;
-		ActionEvent ae = new ActionEvent(new Object() , -1, "coordLenghtChangedX");
+		ActionEvent ae = new ActionEvent(this, -1, "coordLenghtChangedX");
 		notifyAllAboutChanges(ae);
 	}
 
@@ -115,7 +115,7 @@ public class EditorStates {
 
 	public void setViewCoordLenghtY(int viewCoordLenghtY) {
 		this.viewCoordLenghtY = viewCoordLenghtY;
-		ActionEvent ae = new ActionEvent(new Object() , -1, "coordLenghtChangedY");
+		ActionEvent ae = new ActionEvent(this, -1, "coordLenghtChangedY");
 		notifyAllAboutChanges(ae);
 	}
 
@@ -134,22 +134,16 @@ public class EditorStates {
 	public void setSelectedVertex(GCommand selectedVertex, List<GCommand> nearSelectedVertex) {
 		this.selectedVertex = selectedVertex;
 		this.nearSelectedVertex = nearSelectedVertex;
-		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
+		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
 	public void clearSelection(){
 		this.selectedVertex = null;
 		this.nearSelectedVertex = null;
-		ActionEvent ae = new ActionEvent(new Object() , -1, CMD_CLEAR_VIEW);
+		ActionEvent ae = new ActionEvent(this , -1, CMD_CLEAR_SELECTION);
 		notifyAllAboutChanges(ae);
 	}
-	
-	public void repaint(){
-		ActionEvent ae = new ActionEvent(new Object() , -1, "chemaChanged");
-		notifyAllAboutChanges(ae);
-	}
-	
 	
 	public List<GCommand> getNearSelectedVertex() {
 		return nearSelectedVertex;
@@ -161,9 +155,6 @@ public class EditorStates {
 
 	public void setCurrentEditMode(Editor.EditModeS currentEditMode) {
 		this.currentEditMode = currentEditMode;
-		if(currentEditMode == EditModeS.TXT){
-			 clearSelection();
-		}
 	}
 	
 	public boolean isImportInProgress() {

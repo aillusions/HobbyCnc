@@ -81,8 +81,7 @@ public class VisualisationPanel extends JPanel{
 		double height = EditorStates.convertView_Cnc(viewHeight);
 		double width = EditorStates.convertView_Cnc(viewWidth);
 		
-		Color color = g.getColor();
-	    g.setColor(Color.white);
+		Color color = g.getColor();	   
 	    
 		//vertical
 	    float progress = 0;				
@@ -90,12 +89,14 @@ public class VisualisationPanel extends JPanel{
 			
 			int x1 = (int)EditorStates.convertCnc_View(progress);
 			int y1 = 0 + theGap;
-					
+
+			g.setColor(Color.white);
 			g.drawLine(x1, y1, x1, (int)viewWidth);
 			
 			if(progress > 0){
 				DecimalFormat format = new DecimalFormat("###.#");
-				g.drawString(format.format(progress), x1 - 3, theGap - 2);	
+				 g.setColor(Color.ORANGE);
+				g.drawString(format.format(progress), x1 - 6, theGap - 4);	
 			}
 			progress += gridSteps;
 		}
@@ -106,12 +107,14 @@ public class VisualisationPanel extends JPanel{
 			
 			int x1 = 0 + theGap;
 			int y1 = (int)EditorStates.convertCnc_View(progress);
-					
+			
+			g.setColor(Color.white);
 			g.drawLine(x1, y1, (int)viewWidth, y1);
 			
 			if(progress > 0){
 				DecimalFormat format = new DecimalFormat("###.#");
-				g.drawString(format.format(progress), theGap - 14, y1 + 5);	
+				g.setColor(Color.orange);
+				g.drawString(format.format(progress), theGap - 17, y1 + 5);	
 			}
 			progress += gridSteps;
 			

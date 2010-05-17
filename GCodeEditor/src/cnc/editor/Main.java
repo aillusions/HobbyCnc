@@ -1,6 +1,5 @@
 package cnc.editor;
 
-import cnc.editor.listener.EditorListener;
 import cnc.editor.listener.EditorStatesListener;
 import cnc.editor.listener.EditorViewFrameListener;
 import cnc.editor.listener.GCodesDocListener;
@@ -19,10 +18,6 @@ public class Main {
 		
 		VisualisationPanelListener vpl = new VisualisationPanelListener(editor);
 		VisualisationPanel vp = new VisualisationPanel(vpl);		
-
-		EditorStatesListener esl = new EditorStatesListener(vp);				
-		
-		EditorStates.getInstance().addActionListener(esl);
 		
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
@@ -33,10 +28,10 @@ public class Main {
 		GCodesTextContainer gctc = new GCodesTextContainer(EditorStates.getInstance().getDocument(), gctcl);
 		EditorStates.getInstance().setgCodesTextContainer(gctc);
 		
-		EditorListener el = new EditorListener(gctc);
-		//editor.addActionListener(el);
+		EditorStatesListener esl = new EditorStatesListener(vp, gctc);			
+		EditorStates.getInstance().addActionListener(esl);
 		
-		GCommandsContainerListener vcl = new GCommandsContainerListener(vp);
+		GCommandsContainerListener vcl = new GCommandsContainerListener(vp, gctc);
 		gcc.addActionListener(vcl);
 				
 		EditorViewFrameListener vl = new EditorViewFrameListener(editor);

@@ -13,28 +13,15 @@ import cnc.editor.GCommand;
 
 public class VisualisationPanelListener implements MouseListener, MouseMotionListener, FocusListener {
 
-	Editor editor;
+	private Editor editor;
+	private boolean dragStarted = false;
 	
 	public VisualisationPanelListener(Editor editor){
 		this.editor = editor;
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void mousePressed(MouseEvent e) {
+		
 		EditorStates.getInstance().setCurrentEditMode(Editor.EditModeS.DRAW);
 		
 		double x = e.getPoint().getX();
@@ -43,16 +30,10 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 		editor.viewMousePressed(x,y);
 	}
 
-	public void mouseReleased(MouseEvent e) {
-		
-	}
-
 	public void mouseDragged(MouseEvent e) {
-		
 		
 		EditorStates es = EditorStates.getInstance();
 		GCommand gc = es.getSelectedVertex();
-		float circleSize = EditorStates.SELECTIO_CIRCLE_SIZE;
 
 		if(gc != null){
 			
@@ -64,12 +45,23 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 			double X = EditorStates.convertCnc_View(v.getX());
 			double Y = EditorStates.convertCnc_View(v.getY());
 			
-			if(Math.abs(x-X) < circleSize && Math.abs(y-Y) < circleSize ){
+			if(Math.abs(x-X) < getSpan() && Math.abs(y-Y) < getSpan() ){
+				dragStarted = true;
 				v.setX(EditorStates.convertView_Cnc((long)x));
 				v.setY(EditorStates.convertView_Cnc((long)y));
+			}else{
+				dragStarted = false;
 			}
-			es.repaint();
 		}
+	}
+	
+	private float getSpan(){
+		
+		if(dragStarted){
+			return EditorStates.SELECTIO_CIRCLE_SIZE * 100;
+		}
+		
+		return EditorStates.SELECTIO_CIRCLE_SIZE;
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -81,6 +73,22 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	}
 
 	public void focusLost(FocusEvent e) {
+		
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+		
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		
+	}
+
+	public void mouseExited(MouseEvent e) {
 		
 	}
 
