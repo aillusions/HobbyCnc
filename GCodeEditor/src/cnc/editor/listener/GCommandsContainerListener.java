@@ -1,6 +1,5 @@
 package cnc.editor.listener;
 
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -59,7 +58,6 @@ public class GCommandsContainerListener implements ActionListener {
 					}}); 
 		
 				gCodesTextContainer.select(lineStart, lineEnd);
-				gCodesTextContainer.scrollRectToVisible(new Rectangle(1,1,1,1));
 				
 			} catch (BadLocationException e) {
 				throw new RuntimeException(e);
@@ -93,16 +91,15 @@ public class GCommandsContainerListener implements ActionListener {
 		}
 		
 		if(event.getActionCommand().equals(GCommandsContainer.CMD_CLEAR_COMMANDS_CONATINER)){
-			
-			//if(EditorStates.getInstance().getCurrentEditMode() == EditMode.DRAW){
-				
-				//doc = EditorStates.getInstance().getDocument();				
-				try {
-					doc.remove(0, doc.getLength());
-				} catch (BadLocationException e) {
-					throw new RuntimeException(e);
-				}
+
+			try {
+				doc.remove(0, doc.getLength());
+			} catch (BadLocationException e) {
+				throw new RuntimeException(e);
 			}
-		//}
+			
+			EditorStates.getInstance().clearSelection();
+		}
+
 	}
 }

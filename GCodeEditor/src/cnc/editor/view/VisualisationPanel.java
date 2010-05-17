@@ -3,7 +3,6 @@ package cnc.editor.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -24,7 +23,6 @@ public class VisualisationPanel extends JPanel{
 	public VisualisationPanel(VisualisationPanelListener  ml){
 		addMouseListener(ml);
 		addMouseMotionListener(ml);
-		addFocusListener(ml);
 		setLayout(null);
 	}
 
@@ -73,6 +71,14 @@ public class VisualisationPanel extends JPanel{
 	
 		if(gridSteps < 1){
 			gridSteps = 1;
+		}
+		
+		if(es.getScale() >= 10){
+			gridSteps = 0.5;
+		}
+		
+		if(es.getScale() >= 50){
+			gridSteps = 0.1;
 		}
 		
 		long viewHeight = (long)getSize().getHeight();
@@ -331,9 +337,4 @@ public class VisualisationPanel extends JPanel{
 		
 		g.setColor(color);
 	}
-
-	public void actionPerformed(ActionEvent e) {
-		System.out.println();
-	}
-
 }

@@ -54,11 +54,11 @@ public class EditorViewFrame extends javax.swing.JFrame {
 		pnl_GraphicOutput = visualisationPanel;	
 		
 		scrollPane_GraphicOutput = new JScrollPane();			
-		scrollPane_GraphicOutput.setBounds(6, 5, 704, 464);	
+		scrollPane_GraphicOutput.setBounds(6, 5, 740, 464);	
 		scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
 		
 		scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
-		scrollPane_GCodesEditor.setBounds(716, 5, 174, 464);	
+		scrollPane_GCodesEditor.setBounds(750, 5, 146, 464);	
 		scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			
 		btn_Clear = new JButton();

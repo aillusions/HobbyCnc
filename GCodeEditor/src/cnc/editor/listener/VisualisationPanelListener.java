@@ -1,17 +1,19 @@
 package cnc.editor.listener;
 
+import java.awt.Cursor;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
+import javax.swing.JPanel;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
 import cnc.editor.EditorVertex;
 import cnc.editor.GCommand;
 
-public class VisualisationPanelListener implements MouseListener, MouseMotionListener, FocusListener {
+public class VisualisationPanelListener implements MouseListener, MouseMotionListener {
 
 	private Editor editor;
 	private boolean dragStarted = false;
@@ -49,8 +51,6 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 				dragStarted = true;
 				v.setX(EditorStates.convertView_Cnc((long)x));
 				v.setY(EditorStates.convertView_Cnc((long)y));
-			}else{
-				dragStarted = false;
 			}
 		}
 	}
@@ -65,7 +65,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	}
 
 	public void mouseMoved(MouseEvent e) {
-
+		((JPanel)e.getSource()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	}
 
 	public void focusGained(FocusEvent e) {
@@ -77,7 +77,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	}
 	
 	public void mouseReleased(MouseEvent e) {
-		
+		dragStarted = false;
 	}
 
 	public void mouseClicked(MouseEvent e) {

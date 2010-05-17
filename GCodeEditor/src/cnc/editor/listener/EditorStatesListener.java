@@ -26,7 +26,8 @@ public class EditorStatesListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		
 		if(arg0.getActionCommand().equals(EditorStates.CMD_CLEAR_SELECTION)){
-			visualisationPanel.setSize(new Dimension(0,0));
+			visualisationPanel.setPreferredSize(new Dimension(0,0));
+			visualisationPanel.revalidate();
 		}
 
 		EditorStates es = EditorStates.getInstance();
