@@ -1,0 +1,735 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<title>Beginner's Guide to Java - Graphics commands</title>
+<link rel="stylesheet" type="text/css" href="graphics_files/stylesheet.css" title="stylesheet">
+<style id="BANNERSTYLE" type="text/css">
+br.clearfloat{clear:both; height:1px; display:block; width:1px}
+:focus{outline:0 none}
+.float_left{float:left}
+
+div.tb_menu_bg, #tb_ad, a.hosted_by, a.build_button, a.build_button span.btn_left, a.build_button span.btn_right, div#share_section, div#search_bar, .lycos_logo, #tb_share
+	{background:url(/adm/ad/images/adbanner_sprite.jpg); font-family:Arial, Helvetica, sans-serif}
+
+/* containers */	
+div#tb_container{background-position:bottom; height:155px; overflow-x:hidden; .text-align:center; }
+	div#tb_container div#tb_menu{background:url(/adm/ad/images/adbanner_sprite.jpg) no-repeat 953px 0; height:45px; margin:0 auto; width:955px; .text-align:left}
+	
+	div#tb_container div.tb_menu_bg{background-position:center -449px; position:fixed; width:100%; z-index:9000}
+
+/* tripod logo & link */
+div#tb_container div#tb_menu a.hosted_by{background-position:0 -1px; color:#fff; display:block; float:left; font-size:10px; height:41px; margin:0; padding:3px 0 0 10px; text-decoration:none; text-align:left; line-height:normal; width:104px;}
+
+/* middle button area */
+span.underline{margin-left:7px; text-decoration:underline; cursor:pointer}
+
+div#tb_menu div#switch div#build{float:left; height:41px; width:620px;position:relative;top:-44px}
+
+div#tb_menu a.build_button{background-position:0 -91px; color:#becc9b; display:block; float:left; font-size:20px; font-weight:bold; height:41px; line-height:2.1em; text-decoration:none; width:620px}
+	div#tb_menu a.build_button:hover{background-position:0 -136px; color:#292929}
+		div#tb_menu a.build_button span.sub_text{color:#fff; font-size:16px; font-weight:normal; margin:0 0 0 20px; cursor:pointer}
+			div#tb_menu a.build_button:hover span.sub_text{color:#292929}
+		div#tb_menu a.build_button span.btn_right{background-position:-3px -46px; display:block; float:right; height:44px; width:25px}
+			div#tb_menu a.build_button:hover span.btn_right{background-position:-31px -46px}
+		div#tb_menu a.build_button span.btn_left{background-position:-59px -46px; display:block; float:left; height:44px; width:24px}
+			div#tb_menu a.build_button:hover span.btn_left{background-position:-87px -46px}
+
+div#switch{position:relative;height:45px;overflow-y:hidden; float:left}
+
+/* share section */		
+div#tb_container div#share_section{background-position:4px -181px; background-repeat:no-repeat; color:#fff; float:left; font-size:12px; height:44px; padding:0 0 0 10px; position:relative; width:100px }
+	div#tb_container div#share_section p.para{margin:4px 0 3px; line-height:normal; position:relative; text-align:left}	
+	div#tb_container div#share_section a{color:#f3dba9}	
+
+	a.facebook_btn{height:19px; left:-2px; position:absolute; top:16px; width:16px}
+		a.facebook_btn:hover{background:url(/adm/ad/images/adbanner_sprite.jpg) -4px -246px}
+	a.twitter_btn{height:19px; left:18px; position:absolute; top:16px; width:16px}
+		a.twitter_btn:hover{background:url(/adm/ad/images/adbanner_sprite.jpg) 88px -246px}
+	a span.more_drop{color:#515151; font-size:11px; height:19px; left:41px; padding-left:3px; position:absolute; text-decoration:none; top:20px; width:50px; cursor:pointer}
+		a span.more_drop:hover{background:url(/adm/ad/images/adbanner_sprite.jpg) 65px -250px}
+	div#share_section p span.more_drop a#more_click{color:#000; display:block; font-size:11px; height:11px; line-height:1.3em; padding:3px 3px 3px 4px; text-decoration:none}
+		
+	#tb_share{background-position:0 -384px; color:#fff; font-size:12px; float:left; height:45px; overflow:hidden; padding-left:18px; margin-top:3px}
+	#tb_share div.tb_share_container{margin:0 auto; padding-top:9px; width:602px}
+	#tb_share span.social{display:block; float:left; width:120px; line-height:1.3em; text-align:left}
+			
+	#tb_share span.social a span{border:none!important; display:block; float:left; height:17px; width:20px!important;}	
+	
+		#tb_share span.social a span.delicious{background:url(/adm/ad/images/social_icons.png) no-repeat 2px 0!important}
+		#tb_share span.social a span.digg{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -70px!important}
+		#tb_share span.social a span.stumble{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -181px!important}
+		#tb_share span.social a span.myspace{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -89px!important}
+		#tb_share span.social a span.winlive{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -51px!important}
+		#tb_share span.social a span.yahoo{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -33px!important}
+		#tb_share span.social a span.blinklist{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -253px!important}
+		#tb_share span.social a span.blogmarks{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -161px!important}
+		#tb_share span.social a span.furl{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -217px!important}
+		#tb_share span.social a span.google{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -236px!important}
+		#tb_share span.social a span.magnolia{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -269px!important}
+		#tb_share span.social a span.newsvine{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -16px!important}
+		#tb_share span.social a span.reddit{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -144px!important}
+		#tb_share span.social a span.tailrank{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -197px!important}
+		#tb_share span.social a span.technorati{background:url(/adm/ad/images/social_icons.png) no-repeat 2px -126px!important}		
+						
+/* search box */
+div#tb_container div.tb_menu_bg div#tb_menu #searchlycos{color:#f3dba9!important; display:block; line-height:normal; font-size:12px; float:left; padding:6px 0 0 0; text-align:center; text-decoration:underline; width:106px}
+div#search_bar{background-position:0 -388px; color:#fff; font-size:12px; float:left; height:44px; width: 620px;}
+
+div.search_contain{margin:0 auto; line-height:3em; .line-height:24pt; width:520px; padding-top:5px}
+	#tb_share a, div.search_contain a{color:#F3DBA9}
+div.search_contain form p span {color:#fff}
+.lycos_logo{background-position:0 -318px; display:block; float:left; height:28px; margin-right:10px; margin-top:2px; width:65px}
+
+span.hidetext{visibility:hidden}
+ div#search_bar p{margin:0; line-height:2.6em; text-align:left}
+div#search_bar input.search_txt{font-family:Arial, Helvetica, sans-serif; margin-left:10px; width:160px}
+div#search_bar input.search_btn{background:url(/adm/ad/images/searchbutton.png) -1px -23px no-repeat #000; border:none; color:#fff; font-family:Arial, Helvetica, sans-serif; font-weight:bold; 
+								height:22px; margin:-1px 0 0 10px; padding:1px 1px 0 0; vertical-align:middle; width:73px}
+	div#search_bar input.search_btn:hover{background:url(/adm/ad/images/searchbutton.png) -1px 0 no-repeat #000}
+	
+/* ad container */
+div#tb_container div#tb_ad{background-image:none!important; text-align:center; padding-top:55px; height:100px; position:relative; width:100%}
+div#tb_container div#tb_ad div#ad_container{width:728px; height:90px; margin:0 auto} 
+.para{color:#fff}
+
+</style></head><body>
+
+
+<script type="text/javascript" src="graphics_files/hb.js"></script>
+<script type="text/javascript" src="graphics_files/lycosRating.js"></script><link rel="stylesheet" type="text/css" href="graphics_files/lycosRating.css">
+
+<script type="text/javascript">
+var cm_role = "live";
+var cm_host = "tripod.lycos.com";
+var cm_taxid = "/memberembedded";
+var tripod_member_name = "richardbowles";
+var tripod_member_page = "richardbowles/java/guide/graphics.htm";
+var tripod_ratings_hash = "1274185105:d877b78fe016fdb5a75377162a1b2569";
+
+var lycos_ad_category = {"dmoz":"computers\/programming","ontarget":"&CAT=technology&L2CAT=computing&L3CAT=programming","find_what":"web"};
+
+var lycos_ad_remote_addr = "85.223.209.2";
+var lycos_ad_www_server = "www.tripod.lycos.com";
+var lycos_ad_track_small = "http://members.tripod.com/adm/img/common/ot_smallframe.gif?rand=647034";
+var lycos_ad_track_served = "http://members.tripod.com/adm/img/common/ot_adserved.gif?rand=647034";
+</script>
+
+<script type="text/javascript" src="graphics_files/init.js"></script><script type="text/javascript" src="graphics_files/memberembedded.js"></script>
+<script type="text/javascript" src="graphics_files/jquery.js"></script>
+<script type="text/javascript"> 
+var lycos_ad = Array();
+var lycos_search_query = "";
+var lycos_onload_timer;
+
+function lycos_check_size() {
+    var window_width = 0, window_height = 0;
+    if (typeof(window.innerWidth) == 'number' ) {
+        window_width = window.innerWidth;
+        window_height = window.innerHeight;
+    } else if (document.documentElement && (document.documentElement.clientWidth || document.documentElement.clientHeight)) {
+        window_width = document.documentElement.clientWidth;
+        window_height = document.documentElement.clientHeight;
+    } else if (document.body && (document.body.clientWidth || document.body.clientHeight)) {
+        window_width = document.body.clientWidth;
+        window_height = document.body.clientHeight;
+    } 
+    
+    var lycos_track_img = document.createElement('img');
+    if( top == self ) {
+        return 1;
+    } else {
+        if ((window_width < 300) || (window_height < 300)) {
+            lycos_track_img.src=this.lycos_ad_track_small+"&w="+window_width+"&h="+window_height;
+            return 0;
+        } else {
+            lycos_track_img.src=this.lycos_ad_track_served+"&w="+window_width+"&h="+window_height;
+            return 1;
+        }
+    }
+}
+       
+function lycos_insert_ads() {
+    var lycos_ad_mgr = new AdManager();
+    
+    if (this.lycos_search_query) {
+        lycos_ad_mgr.setForcedParam("keyword", this.lycos_search_query);
+    } else if (this.lycos_ad_category && this.lycos_ad_category.find_what) {
+        lycos_ad_mgr.setForcedParam("keyword", this.lycos_ad_category.find_what);
+    }
+
+    if (this.lycos_ad_category && this.lycos_ad_category.dmoz) {
+        lycos_ad_mgr.setForcedParam("page", this.lycos_ad_category.dmoz);
+    } else {
+        lycos_ad_mgr.setForcedParam("page", "member");
+    }
+
+    var lycos_prod_set = lycos_ad_mgr.chooseProductSet();
+    var slots = ["leaderboard", "leaderboard2"];
+    for (var slot in slots) {
+        if (lycos_ad_mgr.isSlotAvailable(slots[slot])) {
+            lycos_ad[slots[slot]] = lycos_ad_mgr.getSlot(slots[slot]);
+        }
+    }
+
+    lycos_ad_mgr.renderFooter();
+}
+
+function generateHref(atag, template){
+    atag.href=template.replace('_MYURL_', window.location.href.replace('http://', '')).replace('_MYTITLE_', 'Check%20out%20this%20Tripod%20Member%20site!'); 
+}
+
+if (lycos_check_size()) {
+    lycos_insert_ads();
+}
+
+
+jQuery.noConflict();
+jQuery(function(){
+  if ( ! lycos_check_size() ) { jQuery("#tb_container").hide(); jQuery("#FooterAd").hide(); return; }
+
+  var onButton = -44;
+  var onShare = -89;
+  var onSearch = 0;
+  var $build = jQuery("#build");
+  var ss = $build.css("top");
+
+	jQuery("#more_click").unbind().click(function(ev){
+      if (ss == onShare) {
+          $build.animate({"top": onButton + "px"});
+          ss = onButton;
+      }
+      else {
+          $build.animate({"top": onShare + "px"});
+          ss = onShare;
+      }
+	});
+											
+	jQuery("#searchlycos").unbind().click(function(ev){
+      if (ss == onSearch) {
+          $build.animate({"top": onButton + "px"});
+          ss = onButton;
+      }
+      else {
+          $build.animate({"top": onSearch + "px"});
+          ss = onSearch;
+      }
+	});
+	
+  var f = jQuery("#FooterAd").remove();
+  f.children("script").remove();
+  f.appendTo("body");
+
+  jQuery("#BANNERSTYLE").appendTo("head");
+
+});
+</script><!-- Casale Media 2007 (C) -->
+<!-- Ad Format: Pop Under -->
+<!-- Domain(s): lycos.com -->
+<script type="text/javascript"><!--
+var casaleD=new Date();var casaleR=(casaleD.getTime()%8673806982)+Math.random();
+var casaleU=escape('lycos.com');
+var casaleHost=' type="text/javascript" src="http://as.casalemedia.com/s?s=';
+document.write('<scr'+'ipt'+casaleHost+'92311&amp;u=');
+document.write(casaleU+'&amp;f=1&amp;id='+casaleR+'"><\/scr'+'ipt>');
+//--></script><script type="text/javascript" src="graphics_files/s.txt"></script><input value="0.8503174017196317" style="width: 0px; top: 0px; position: absolute; visibility: hidden;" id="oV6" onchange="fV8(fV1,5,true)"><div style="display: inline;" id="oV10"></div>
+<!-- Casale Media 2007 (C) -->
+<div id="tb_container">
+    <div class="tb_menu_bg">
+        <div id="tb_menu">
+        
+        <div id="switch">
+        <div class="float_left">
+            <a href="http://www.tripod.com/" title="tripod.com" class="hosted_by">This site is hosted by</a>
+        </div>
+        <div id="build">
+        
+          <div id="search_bar">
+       		 <div class="search_contain">
+                <form action="http://www.tripod.lycos.com/bin/search/pursuit">
+                <p>
+                  <a href="http://www.lycos.com/"><span class="lycos_logo"><span class="hidetext">Lycos</span></span></a>
+                  <span> Search <input name="cat" value="lycos" checked="checked" type="radio"> The Web <input name="cat" value="tripod_member" type="radio">Tripod</span> 
+                  <input name="query" class="search_txt" type="text"> 
+                  <input name="submit" value="Go Get It!" class="search_btn" style="" type="submit">
+                </p>
+              </form>
+		 	 </div>
+  		  </div>
+          
+        <div id="buildsite">
+         <a href="http://www.tripod.lycos.com/site-building/" class="build_button">
+        <span class="btn_left"></span>
+          <span class="underline float_left">Build your own website on Tripod</span>
+          <span class="sub_text float_left">It's fast, easy and economical.</span>     
+          <span class="btn_right"></span></a> 
+         </div>
+      
+          
+          <div id="tb_share">
+		 		 <div class="tb_share_container">
+		  <span class="social">
+          <a href="http://del.icio.us/" onclick="generateHref(this, 'http://del.icio.us/post?url=_MYURL_&amp;title=_MYTITLE_')" id="delicious"><span class="delicious"></span>del.icio.us</a>
+          </span>
+          <span class="social">
+          <a href="http://www.digg.com/" onclick="generateHref(this, 'http://digg.com/submit?phase=2&amp;url=_MYURL_&amp;title=_MYTITLE_')" id="digg"><span class="digg"></span>Digg</a></span>
+          <span class="social"><a href="http://www.stumbleupon.com/" onclick="generateHref(this, 'http://www.stumbleupon.com/submit?url=_MYURL_&amp;title=_MYTITLE_')" id="stumble"><span class="stumble"></span>StumbleUpon</a></span>
+          <span class="social">
+          <a href="http://www.myspace.com/" onclick="generateHref(this, 'http://www.myspace.com/Modules/PostTo/Pages/?u=_MYURL_&amp;t=_MYTITLE_')" id="myspace"><span class="myspace"></span>MySpace</a></span>
+          <span class="social">
+          <a href="http://blogmarks.net/" onclick="generateHref(this, 'http://blogmarks.net/my/new.php?mini=1&amp;simple=1&amp;url=_MYURL_&amp;title=_MYTITLE_')" id="blogmarks"><span class="blogmarks"></span>Blogmarks</a>
+          </span>
+          <span class="social">
+          <a href="http://furl.net/" onclick="generateHref(this, 'http://furl.net/store?u=?u=_MYURL_&amp;t=_MYTITLE_')" id="furl"><span class="furl"></span>Furl</a>
+          </span> 
+          <span class="social">
+          <a href="http://ma.gnolia.com/" onclick="generateHref(this, 'http://ma.gnolia.com/bookmarklet/add?url=_MYURL_&amp;title=_MYTITLE_')" id="magnolia"><span class="magnolia"></span>ma.gnolia</a>
+          </span>
+          <span class="social">
+          <a href="http://www.newsvine.com/" onclick="generateHref(this, 'http://www.newsvine.com/_wine/save?u=_MYURL_&amp;h=_MYTITLE_')" id="newsvine"><span class="newsvine"></span>Newsvine</a>
+          </span> 
+          <span class="social"><a href="http://reddit.com/" onclick="generateHref(this, 'http://reddit.com/submit?url=_MYURL_&amp;title=_MYTITLE_')" id="reddit"><span class="reddit"></span>reddit</a></span>         
+          <span class="social" style="overflow: hidden; height: 14px;"><a href="http://www.technorati.com/" onclick="generateHref(this, 'http://www.technorati.com/faves?add=_MYURL_&amp;title=_MYTITLE_')" id="technorati"><span class="technorati"></span>Technorati</a></span>  
+
+				 </div>
+   			 </div>
+          
+        </div>   
+
+		  </div>
+          <div id="share_section">
+            <p class="para">Share This Site
+            <a href="http://www.facebook.com/" class="facebook_btn" onclick="generateHref(this, 'http://facebook.com/sharer.php?u=_MYURL_&amp;t=_MYTITLE_')" id="facebook"></a> 
+            <a href="http://www.twitter.com/" class="twitter_btn" onclick="generateHref(this, 'http://twitter.com/home?status=_MYTITLE_%20-%20_MYURL_')" id="twitter"></a>
+		        <a href="#" id="more_click"><span class="more_drop">More</span></a><br class="clearfloat">
+            </p>
+          </div>
+          <a href="#" id="searchlycos">Not the site you <br>are looking for?</a><br class="clearfloat">
+        </div>
+    </div>
+	
+    
+ 
+    <div id="tb_ad" style="display: block ! important;"><div id="ad_container" style="display: block ! important;"><script type="text/javascript">document.write(lycos_ad['leaderboard']);</script><script language="JavaScript" type="text/javascript">
+<!--
+google_position = 'above'; 
+google_ad_client = 'ca-lycos_tripod';
+google_ad_channel = 'TRI_above_728x90';
+google_ad_width = '728';
+google_ad_height = '90';
+google_ad_format = '728x90_pas_abgnc';
+google_color_bg = 'ffffff';
+google_color_border = 'ffffff';
+google_alternate_ad_url = 'http://ad.yieldmanager.com/st?ad_type=iframe&amp;ad_size=728x90&amp;section=67698';
+google_ad_type = 'text,image,flash,html';
+google_image_size = '728x90';
+google_safe = 'high';
+// -->
+</script><script language="JavaScript" src="graphics_files/show_ads.js" type="text/javascript">
+</script><script src="graphics_files/expansion_embed.js"></script><script src="graphics_files/test_domain.js"></script><script>google_protectAndRun("ads_core.google_render_ad", google_handleError, google_render_ad);</script><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: inline-table; height: 90px; position: relative; visibility: visible; width: 728px;"><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: block; height: 90px; position: relative; visibility: visible; width: 728px;"><iframe allowtransparency="true" hspace="0" id="google_ads_frame1" marginheight="0" marginwidth="0" name="google_ads_frame" src="graphics_files/ads.htm" style="left: 0pt; position: absolute; top: 0pt;" vspace="0" scrolling="no" frameborder="0" height="90" width="728"></iframe></ins></ins><noscript><img
+height="1" width="1" border="0"
+src="http://pagead2.googlesyndication.com/pagead/imp.gif?client=ca-lycos_tripod&channel=TRI_above_728x90&event=noscript"></noscript></div></div>
+</div>
+
+<noscript> <img
+src="http://members.tripod.com/adm/img/common/ot_noscript.gif?rand=647034"
+alt="" width="1" height="1" /> <!-- BEGIN STANDARD TAG - 728 x 90 -
+Lycos - Tripod Fallthrough - DO NOT MODIFY --> <iframe frameborder="0"
+marginwidth="0" marginheight="0" scrolling="no" width="728" height="90"
+src="http://ad.yieldmanager.com/st?ad_type=iframe&ad_size=728x90&section=209094"></iframe>
+
+<!-- END TAG -->
+</noscript>
+
+<a name="top"></a>
+<div align="center"><h1>Graphics Commands in Java</h1></div>
+
+<img src="graphics_files/artist.gif" alt="Graphics commands" align="right">
+<ul>
+<li> <a href="#part1">Graphics environment variables</a></li>
+<li> <a href="#part2">The co-ordinate system</a></li>
+<li> <a href="#part3">Lines, ovals, rectangles and arcs</a></li>
+<li> <a href="#part3a">Filled shapes</a></li>
+<li> <a href="#part4">Text strings</a></li>
+<li> <a href="#part5">Colour</a></li>
+<li> <a href="#part6">An example applet</a></li>
+<li> <a href="#part7"><font color="#ffff00" face="Courier New"><b>repaint()</b></font></a></li>
+</ul>
+
+<a name="part1"></a>
+<h2>Graphics environment variables</h2>
+
+<p>You have already seen in the previous section that graphics commands
+are called as methods belonging to a special type of variable, called a
+<em>Graphics Environment</em> variable. Normally, these commands will only be called in the special method called <span>paint</span>, which is given the task of drawing the screen.
+</p>
+
+<p>
+When the Java applet is activated, Java looks for a method called <span>paint</span> which has a single parameter of type <span>Graphics</span>.
+If it doesn't find one, then it doesn't spit out an error - but it
+doesn't draw anything on the screen either! Java also calls the <span>paint</span>
+method automatically in some other circumstances. For instance, if you
+resize the browser window in which the applet is sitting, you will see
+the applet flicker as the screen is automatically updated.
+</p>
+
+<p>
+Usually, Java applets contain a method like this:
+</p>
+
+<pre>public void paint (Graphics g)
+  {
+     Screen-drawing statements go here
+  }
+</pre>
+
+<p>
+All the screen drawing instructions will start with the characters <span>g.</span>, indiciating that they are part of the <span>Graphics</span> parameter passed. However, the parameter is only called <span>g</span>
+by tradition - there's no logical reason why the parameter shouldn't be
+called any legal name you want. You could easily write a <span>paint</span> method that looked like this:
+</p>
+
+<pre>public void paint (Graphics three_blind_mice)
+  {
+    three_blind_mice.drawLine(100,150,325,72);
+  }
+</pre>
+
+<p>
+In this case, all the drawing instructions would start with <span>three_blind_mice.</span>
+as that is the name of the parameter. There may be cases where you need
+to draw things on the screen at some other point in the program. You
+can access the screen at any point by declaring a variable of type <span>Graphics</span>
+and using the methods within it. I will go into variables in more
+detail in a later section, but suffice it to say that if you ever need
+to draw something on the screen at some point other than in the <span>paint()</span> method, then include the following lines in your program at the relevant point:
+</p>
+
+<pre>Graphics temp_g = getGraphics();
+temp_g.drawOval(300,120,100,75);
+</pre>
+
+<p>
+The first of the two lines declares a graphics environment variable - I've chosen to call it <span>temp_g</span>, but you could give it any name you wanted - and sets it to the current graphics settings, using the built-in method <span>getGraphics</span>. Be careful to get the capital letter in that - Java is case sensitive, and it won't recognise the method if you call it <span>GETGRAPHICS</span> or <span>Getgraphics</span> <em>etc</em>.
+</p>
+
+<p>
+The second of the two lines is an example of how the new graphics
+variable could be used. Obviously, you would replace that line with the
+particular instruction that you wanted.
+</p>
+
+<a name="part2"></a>
+<h2>The co-ordinate system</h2>
+
+<p>All graphics instructions use a co-ordinate system just like the one
+that you learned at school. Each "unit" is one pixel wide, so the
+entire screen is about 600 units wide and about 400 or so units high.
+This is why co-ordinates in Java programs tend to be fairly large
+values.
+</p>
+
+<img src="graphics_files/graph1.gif" align="right">
+
+<p>
+The (0,0) point of the co-ordinates (the <em>origin</em>) is
+always the top-left corner of the Java applet window. The first number
+of each pair refers to the number of pixels across the screen, the
+second number refers to the number of pixels down the screen. The
+maximum co-ordinate values in each case depend on the size of the
+applet window, which was determined when the applet was called in the
+web page. You will recall that you called it with the command
+</p>
+
+<pre>&lt;applet code="first.class" width="150" height="150"&gt;&lt;/applet&gt;
+</pre>
+
+<p>
+The <span>width="150" height="150"</span> part determines the
+maximum co-ordinate as (150,150). If you try to draw something at a
+co-ordinate larger than this, then it wouldn't appear on the screen. If
+you draw anything (a line, oval or rectangle) that would be partly on
+the screen and partly off, then only a fraction of the shape would
+appear, chopped off by the edge of the window.
+</p>
+
+<a name="part3"></a>
+<h2>Lines, ovals, rectangles and arcs</h2>
+
+<p>The graphics environment contains the following instructions for
+drawing lines, ovals (ellipses - including circles), rectangles and
+arcs:
+</p>
+
+<pre>g.drawLine(100,100,420,312);
+g.drawRect(72,160,200,35);
+g.drawOval(300,120,100,75);
+g.drawArc(250,250,100,100,0,180);
+</pre>
+
+<p>
+Note that all the instructions start with <span>g.</span> as they are part of the Graphics Environment variable <span>g</span>. They all also end with a semicolon (<span>;</span>). All statements - graphics or otherwise - in Java end with a semicolon. Also, bear in mind that names in Java are <em>case sensitive</em>,
+so the names must be typed in in lower case letters with the single
+upper case (capital) letter in the middle of the name as shown.
+Otherwise the compiler won't recognise them.
+</p>
+
+<p>
+<img src="graphics_files/graph2.gif" alt="Drawing a line" align="right">
+The instruction <span>drawLine</span>
+draws a line (surprise, surprise!) It is given four numbers. The first
+two numbers represent the x- and y-co-ordinates of one end of the line,
+and the last two number represent the x- and y-co-ordinates of the
+other end. The instruction that you see above draws a line from
+co-ordinates (100,100) to (420,312).
+</p>
+
+<p>
+<img src="graphics_files/graph3.gif" alt="Drawing a rectangle" align="right">
+The instruction <span>drawRect</span>
+draws a rectangle. It is given four numbers. The first two numbers are
+the x- and y-co-ordinates of the top-left corner. You might expect the
+other two numbers to be the x- and y-co-ordinates of the opposite
+corner (as they would be in some other programming languages), but no!
+They represent the <em>width</em> and the <em>height</em> of the
+rectangle. In the case of the example above, the rectangle has its
+top-left corner at (72,160) and a width of 200 and a height of 35. Its
+bottom-right corner is at (72+200,160+35) <em>i.e.</em> (272,195).
+</p>
+
+<p>
+<img src="graphics_files/graph4.gif" alt="Drawing an oval" align="right">
+The instruction <span>drawOval</span>
+is given four numbers. You have to imagine that the oval is drawn
+within an invisible rectangle. The four numbers represent the top-left
+co-ordinates of the rectangle and its width and height, in the same way
+as for rectangles. This mean that the oval drawn in the example above
+completely fills an invisible rectangle whose top-left co-ordinate is
+at (300,120) and whose bottom-right co-ordinate is at (400,195). The
+width of the oval at its widest point is 100 pixels, and its height at
+its maximum point is 75. There is no standard way of drawing an oval at
+a slanted angle.
+</p>
+
+<p>
+The graphics environment also gives a method which draws <em>arcs</em>,
+i.e. sections of oval shapes (or circles, of course). Arcs have
+starting angles and arc angles, with all angles being measured from the
+"East" position (pointing to the right). The arc angle basically means
+the ending angle minus the starting angle.
+</p>
+ 
+<p>
+To draw an arc, use the <span>drawArc</span> command. This is given <em>six</em>
+numbers. The first four specify the rectangle in which the entire oval
+is enclosed, even though only part of that oval is to be drawn. The
+last two numbers specify the starting angle and the arc angle (both in
+degrees). Here's an example: </p>
+
+<p>
+<img src="graphics_files/graph6.gif" alt="Drawing an arc" align="right">
+drawArc(100,100,80,60,45,120);
+</p>
+
+<p>
+Of course, if the start angle is specified as 0 and the ending angle as 360, then the arc drawn is a complete oval.
+</p>
+
+<a name="part3a"></a>
+<h2>Filled shapes</h2>
+
+<p>
+There are three more shape-drawing instructions, they are the "fill" equivalent of <span>drawRect</span>, <span>drawOval</span> and <span>drawArc</span>:
+</p>
+
+<pre>g.fillRect(72,160,200,35);
+g.fillOval(300,120,100,75);
+g.fillArc(250,250,100,100,0,180);
+</pre>
+
+<p>
+The results they produce is simply a filled-in version of the basic shape, except for <span>fillArc</span> which produces a pie-slice effect.
+</p>
+
+<a name="part4"></a>
+<h2>Text strings</h2>
+
+<p>
+You already met the instruction used to display strings on the screen.
+In case you didn't, you won't be surprised to hear that it is <span>drawString</span>.
+Just to remind you - a string is a piece of text, anything from a
+single character (a term which includes letters, punctuation, symbols
+such as @ or ^, and even the space character) to a whole sentence.
+Strings are specified by placing them within double quotation marks.
+</p>
+
+<p>
+The method <span>drawString</span> is given three parameters
+between brackets. The first item is the string itself to be displayed
+on the screen. The other two numbers specify where the string is to
+appear. It represents the top-left corner of the string. However, the
+second number actually specifies the y-co-ordinate of a line on which
+the text sits. Some characters, such as 'g' or 'y' will drop down below
+this imaginary line, as shown in the following example:
+</p>
+
+<p>
+<img src="graphics_files/graph5.gif" alt="The text baseline" align="right">
+</p><pre>g.drawString("This is hugely easy",40,60);
+</pre>
+<p></p>
+
+<a name="part5"></a>
+<h2>Colour</h2>
+
+<p>If you don't specify a colour for drawing shapes or text, then Java
+uses the default colour of black. Specifying a colour is fairly easy -
+although you can only specify one of 13 standard colours (including
+white).
+</p>
+
+<p>
+There is a standard method built into graphics environment variables called <span>setColor</span>
+(note the American spelling of 'Color'). It expects to be given a
+colour name, but the colour name must be of a standard type specified
+in yet another class called <span>Color</span>. What all this means is that colours are chosen as follows:
+</p>
+
+<pre>g.setColor(Color.blue);
+g.setColor(Color.orange);
+</pre>
+
+<p>
+Here are the thirteen standard colours. Make sure you use them exactly
+as specified - don't alter the case of the letters or insert spaces in
+the middle of them, and note the spelling of 'Gray'.
+</p>
+
+<table width="100%">
+<tbody><tr>
+ <td width="20%"><div align="center"><span>black</span></div></td>
+ <td width="20%"><div align="center"><span>Gray</span></div></td>
+ <td width="20%"><div align="center"><span>orange</span></div></td>
+ <td width="20%"><div align="center"><span>yellow</span></div></td>
+ <td><div align="center"><span>blue</span></div></td>
+</tr>
+<tr>
+ <td width="20%"><div align="center"><span>green</span></div></td>
+ <td width="20%"><div align="center"><span>pink</span></div></td>
+ <td width="20%"><div align="center"><span>cyan</span></div></td>
+ <td width="20%"><div align="center"><span>lightGray</span></div></td>
+ <td><div align="center"><span>red</span></div></td>
+</tr>
+<tr>
+ <td width="20%"><div align="center"><span>darkGray</span></div></td>
+ <td width="20%"><div align="center"><span>magenta</span></div></td>
+ <td width="20%"><div align="center"><span>white</span></div></td>
+ <td colspan="2"></td>
+</tr>
+</tbody></table>
+
+<p>Any colour that you choose will then be used for drawing all lines,
+text, shapes and as the fill-in colour for shapes until you choose
+another colour. You can also determine the colour of the background to
+the applet. This is done using the following instruction:
+</p>
+
+<pre>setBackground(Color.cyan);
+</pre>
+
+<p>
+Again, like the <span>setColor</span> method, it is important to
+note that the name of the method is all lower case letters except for
+the capital B in the middle. However, please note that <span>setBackground</span> is not part of the graphics environment, and as such, does not need to be preceded by <span>g.</span> In fact, if you do put <span>g.</span> at the beginning, then the Java compiler complains. I have fallen into this trap many times!
+</p>
+
+<a name="part6"></a>
+<h2>An example graphical applet</h2>
+
+<p>
+Here is an example Java applet which demonstrates the commands that I
+have described. I have written out the source code below it.
+</p>
+
+<div align="center"><applet code="graphics_files/graph_ex.class" height="250" width="300"></applet></div>
+
+<p>I suggest you use the copy+paste facility to copy this code into a
+text file, compile it with your Java compiler and run it. If you want
+to see what effect the different lines have try changing the numbers,
+removing some of the lines, or altering the order of the lines. Here's
+the code that I used to create it:
+</p>
+
+<pre>import java.awt.*;
+import java.applet.*;
+
+public class graph_ex extends Applet
+{
+  public void paint (Graphics g)
+  {  setBackground(Color.cyan);
+     g.drawString("Here are a selection of blank shapes.",20,40);
+     g.drawLine(20,40,200,40);
+     g.setColor(Color.blue);
+     g.drawLine(20,50,70,90);
+     g.setColor(Color.red);
+     g.drawRect(100,50,32,55);
+     g.setColor(Color.green);
+     g.drawOval(150,46,60,60);
+     g.setColor(Color.magenta);
+     g.drawArc(230,50,65,50,30,270);
+     g.setColor(Color.black);
+     g.drawString("Here are the filled equivalents.",20,140);
+     g.drawLine(20,140,200,140);
+     g.setColor(Color.yellow);
+     g.fillRect(100,150,32,55);
+     g.setColor(Color.pink);
+     g.fillOval(150,146,60,60);
+     g.setColor(Color.darkGray);
+     g.fillArc(230,150,65,50,30,270);
+  }
+}
+</pre>
+
+<a name="part7"></a>
+<h2>repaint</h2>
+
+<p>
+Occasionally, there will be points in the program where you will want it <i>redraw</i> the screen. Perhaps the screen has changed (the <span>paint</span> method can easily cope with <span>if</span> statements that get it to draw different things in different circumstances). To call the <span>paint</span> method in these circumstances, use the following instruction:
+</p>
+
+<pre>repaint();
+</pre>
+
+<p>Note that there are no parameters (no numbers, strings or graphics
+environments) passed to this method, but you still must include the two
+brackets and follow them with the obligatory semicolon, like this <span>();</span>
+</p>
+
+<p>
+It is vital that you don't include this method inside the <span>paint</span> method itself. If you did, the <span>paint</span> method would never terminate, as it would always be calling itself.
+</p>
+
+<hr>
+<table width="100%">
+<tbody><tr>
+<td width="20%"><div align="center"><a href="http://richardbowles.tripod.com/java/guide/first.htm"><img src="graphics_files/prev.gif" alt="Go back" border="0"></a></div></td>
+<td width="20%"><div align="center"><a href="#top"><img src="graphics_files/top.gif" alt="Top of page" border="0"></a></div></td>
+<td width="20%"><div align="center"><a href="http://richardbowles.tripod.com/java/guide/menu.htm"><img src="graphics_files/mainmenu.gif" alt="Main menu" border="0"></a></div></td>
+<td width="20%"><div align="center"><a href="http://richardbowles.tripod.com/java/guide/graph_q.htm"><img src="graphics_files/question.gif" alt="Questions" border="0"></a></div></td>
+<td><div align="center"><a href="http://richardbowles.tripod.com/java/guide/vars.htm"><img src="graphics_files/next.gif" alt="Go on" border="0"></a></div></td>
+</tr>
+<tr>
+<td><div align="center"><a href="http://richardbowles.tripod.com/java/guide/first.htm">Go back</a></div></td>
+<td><div align="center"><a href="#top">Top of page</a></div></td>
+<td><div align="center"><a href="http://richardbowles.tripod.com/java/guide/menu.htm">Main menu</a></div></td>
+<td><div align="center"><a href="http://richardbowles.tripod.com/java/guide/graph_q.htm">Questions</a></div></td>
+<td><div align="center"><a href="http://richardbowles.tripod.com/java/guide/vars.htm">Go on</a></div></td>
+</tr>
+</tbody></table>
+
+<div id="FooterAd" style="text-align: center; display: block ! important; width: 100% ! important;">
+<ins style="border: medium none ; margin: 0pt; padding: 0pt; display: inline-table; height: 90px; position: relative; visibility: visible; width: 728px;"><ins style="border: medium none ; margin: 0pt; padding: 0pt; display: block; height: 90px; position: relative; visibility: visible; width: 728px;"><iframe allowtransparency="true" hspace="0" id="google_ads_frame2" marginheight="0" marginwidth="0" name="google_ads_frame" src="graphics_files/ads_002.htm" style="left: 0pt; position: absolute; top: 0pt;" vspace="0" scrolling="no" frameborder="0" height="90" width="728"></iframe></ins></ins>
+<noscript>
+<img height="1" width="1" border="0" 
+
+src="http://pagead2.googlesyndication.com/pagead/imp.gif?client=ca-lycos_tripod&channel=TRI_below_728x90&event=noscript">
+</noscript></div></body></html>

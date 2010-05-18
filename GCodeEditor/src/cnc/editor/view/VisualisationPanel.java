@@ -164,160 +164,36 @@ public class VisualisationPanel extends JPanel{
 
 	private void drawPicture(Graphics g) {
 		
-		GCommand prevPos = null;
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
 		if(gcc.getGCommandList().size() == 1){
 			setPreferredSize(new Dimension(1, 1));
 			revalidate();
 		}else{
-			for(GCommand v : gcc.getGCommandList()){
+			for(GCommand gc : gcc.getGCommandList()){			
+					
+				int newX = (int)EditorStates.convertCnc_View(gc.getX()); 
+				int newY = (int)EditorStates.convertCnc_View(gc.getY()); 				
+	
+				double panelWidth = this.getSize().getWidth();
+				double panelHeight = this.getSize().getHeight();	
 				
-				if(prevPos != null){
-					
-					if(prevPos.getZ() <= 0 && v.getZ() <= 0){
-					 	g.setColor(Color.red);
-					}else{
-						g.setColor(Color.blue);
-					}
-					
-					int prevX = (int)EditorStates.convertCnc_View(prevPos.getX());
-					int prevY = (int)EditorStates.convertCnc_View(prevPos.getY());
-					
-					int newX = (int)EditorStates.convertCnc_View(v.getX()); 
-					int newY = (int)EditorStates.convertCnc_View(v.getY()); 				
-		
-					double panelWidth = this.getSize().getWidth();
-					double panelHeight = this.getSize().getHeight();	
-					
-					if(panelWidth < newX + 50 || panelHeight < newY + 50){	
-						this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 300, (int)Math.max(newY, panelHeight) + 300));
-						this.revalidate();
-					}
-					
-					g.drawLine(prevX, prevY, newX, newY);
-					
-					if(EditorStates.getInstance().getScale() >= 5){
-						Color color = g.getColor();
-						g.setColor(Color.green);
-						drawArrowEnd(g, prevPos, v);
-						g.setColor(color);
-					}
-					
-					prevPos = v;
-					
-				}else{
-					prevPos = v;
+				if(panelWidth < newX + 50 || panelHeight < newY + 50){	
+					this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 300, (int)Math.max(newY, panelHeight) + 300));
+					this.revalidate();
 				}
+				
+				if(gc.getZ() <= 0){
+				 	g.setColor(Color.red);
+				}else{
+					g.setColor(Color.blue);
+				}
+				
+				gc.draw(g);			
 			}
 		}
 	}
 	
-	private void drawArrowEnd(Graphics g, GCommand ev1, GCommand ev2){
-		double Ya,Yb,Xa,Xb;
-		double k,k1;
-		double tgB;
-		double CB = 0.08;
-		
-		Xa = ev1.getX();
-		Xb = ev2.getX();
-		
-		Ya = ev1.getY();
-		Yb = ev2.getY();
-		
-		if(Xa == Xb || Ya == Xb){
-			return;
-		}
-		tgB = Math.tan((30 * Math.PI) / 180);
-		k = (Ya-Yb)/(Xa - Xb);		
-		
-		{
-			k1 = (tgB + k) / (1 - tgB * k);
-			double a, b, c;
-			
-			a = 1;
-			b = - 2 * Xb;
-			c = Xb*Xb-(CB*CB/(k1*k1+1));
-			
-			double Xc1, Xc2;
-			
-			if(b*b-4*a*c < 0){
-				//return;
-			}
-			
-			Xc1 = (-b+Math.sqrt(b*b-4*a*c))/2*a;
-			Xc2 = (-b-Math.sqrt(b*b-4*a*c))/2*a;
-			
-			double Yc1, Yc2;
-			Yc1 = k1*(Xc1-Xb) + Yb;
-			Yc2 = k1*(Xc2-Xb) + Yb;
-			
-			double Xdiff1 = Math.abs(Xa - Xc1);
-			double Xdiff2 = Math.abs(Xa - Xc2);
-			double Ydiff1 = Math.abs(Ya - Yc1);
-			double Ydiff2 = Math.abs(Ya - Yc2);
-			
-			int startX1,startY1, XbInt,YbInt;
-			
-			if(Xdiff1 < Xdiff2){
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc1);
-			}else{
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc2);						
-			}
-			
-			if(Ydiff1 < Ydiff2){
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc1);
-			}else{
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc2);
-			}
-	
-			XbInt = (int)EditorStates.convertCnc_View((float)Xb);
-			YbInt = (int)EditorStates.convertCnc_View((float)Yb);
-					
-			g.drawLine(startX1, startY1, XbInt, YbInt);	
-		}
-		{
-			k1 = (tgB - k) / ( tgB * k - 1);
-			double a, b, c;
-			
-			a = 1;
-			b = - 2 * Xb;
-			c = Xb*Xb-(CB*CB/(k1*k1+1));
-			
-			double Xc1, Xc2;
-			Xc1 = (-b+Math.sqrt(b*b-4*a*c))/2*a;
-			Xc2 = (-b-Math.sqrt(b*b-4*a*c))/2*a;
-			
-			double Yc1, Yc2;
-			Yc1 = k1*(Xc1-Xb) + Yb;
-			Yc2 = k1*(Xc2-Xb) + Yb;
-			
-			double Xdiff1 = Math.abs(Xa - Xc1);
-			double Xdiff2 = Math.abs(Xa - Xc2);
-			double Ydiff1 = Math.abs(Ya - Yc1);
-			double Ydiff2 = Math.abs(Ya - Yc2);
-			
-			int startX1,startY1, endX,endY;
-			
-			if(Xdiff1 < Xdiff2){
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc1);
-			}else{
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc2);						
-			}
-			
-			if(Ydiff1 < Ydiff2){
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc1);
-			}else{
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc2);
-			}
-	
-			endX = (int)EditorStates.convertCnc_View((float)Xb);
-			endY = (int)EditorStates.convertCnc_View((float)Yb);
-					
-			g.drawLine(startX1, startY1, endX, endY);
-		}				
-	}
-
 	private void drawCoordinates(Graphics g) {
 		
 		Color color = g.getColor();

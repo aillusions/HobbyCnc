@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cnc.editor.Editor.GcommandTypes;
-
 //Singleton
 public class GCommandsContainer implements ActionListener {	
 	
@@ -23,7 +21,7 @@ public class GCommandsContainer implements ActionListener {
 	private boolean butchOfCmdsAddingInProgress = false; 
 		
 	private GCommandsContainer(){
-		addCommand(new GCommandG00(0f, 0f, 0f));
+		addCommand(new GCommandOrigin());
 	}                        
 	
 	public static GCommandsContainer getInstance(){
@@ -104,7 +102,7 @@ public class GCommandsContainer implements ActionListener {
 		gCommandList.clear();	
 		notifyAllAboutChanges(new ActionEvent(this , -1, CMD_CLEAR_COMMANDS_CONATINER));
 		
-		addCommand(new GCommandG00(0f, 0f, 0f));
+		addCommand(new GCommandOrigin());
 	}
 
 	

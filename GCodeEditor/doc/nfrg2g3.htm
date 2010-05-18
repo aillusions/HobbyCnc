@@ -1,0 +1,313 @@
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<meta content="en-us" http-equiv="Content-Language">
+<style type="text/css"><!--A{text-decoration:none}--></style>
+<title>NFR Partners editNC CNC G-Code Editor - CNC FAQ (Circles)</title>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta name="Microsoft Border" content="t">
+</head><body leftmargin="0" topmargin="0" link="#666666" alink="#666666" bgcolor="#ffffff" text="#333333" marginheight="0" marginwidth="0" vlink="#666666"><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><td></td></tr><!--msnavigation--></tbody></table><!--msnavigation--><table border="0" cellpadding="0" cellspacing="0" width="100%"><tbody><tr><!--msnavigation--><td valign="top">
+
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+  <tbody><tr>
+    <td><img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="5" width="1"></td>
+  </tr>
+  <tr>
+    <td align="middle">
+    <table style="border-collapse: collapse;" bgcolor="#ffffff" border="0" bordercolor="#111111" cellpadding="0" cellspacing="0" width="100%">
+      <tbody><tr>
+        <td bgcolor="#333366" width="30">
+        <img alt="Home" src="nfrg2g3_files/spacer.gif" border="0" height="30" width="30"></td>
+        <td rowspan="97" bgcolor="#cccccc" width="1">
+        <img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="1" width="1"></td>
+        <td bgcolor="#333366" width="524"></td>
+        <td rowspan="97" bgcolor="#cccccc" width="1">
+        <img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="1" width="1"></td>
+        <td bgcolor="#333366">
+        <img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="8" width="10"><img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="1" width="159"></td>
+        <td rowspan="97" bgcolor="#cccccc" width="1">
+        <img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="1" width="1"></td>
+        <td bgcolor="#333366" width="30">
+        <img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="8" width="30"></td>
+      </tr>
+      <tr>
+        <td colspan="7" bgcolor="#cccccc" height="1"></td>
+      </tr>
+      <tr>
+        <td><img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="40" width="1"></td>
+        <td width="524">
+        <!--webbot bot="Include" u-include="includes/logo.htm" tag="BODY" startspan -->
+
+<p>
+<a href="http://www.nfrpartners.com/index.html">
+<img src="nfrg2g3_files/bostvanelogo.jpg" border="0" height="95" width="168"></a></p>
+
+<!--webbot bot="Include" i-checksum="20764" endspan --></td>
+        <td align="left" bgcolor="#ffffcc" valign="top">&nbsp; </td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="7" bgcolor="#cccccc" height="1"></td>
+      </tr>
+      <tr>
+        <td><img alt="" src="nfrg2g3_files/spacer.gif" border="0" height="25" width="1"></td>
+        <td width="524">
+        &nbsp;</td>
+        <td colspan="3" align="left">
+        <font size="2" face="Geneva, Arial, Helvetica, san-serif"></font></td>
+      </tr>
+    </tbody></table>
+    </td>
+  </tr>
+</tbody></table>
+<div style="background-color: rgb(232, 236, 224);">
+  <font size="2">"</font></div>
+<hr>
+<p align="center"><font size="1" face="Verdana">
+<a href="http://www.nfrpartners.com/cncfaq.htm#commongcodes">Return</a></font></p>
+<div align="center">
+  <center>
+  <table style="border-collapse: collapse;" border="0" bordercolor="#111111" cellpadding="0" cellspacing="0" width="90%">
+    <tbody><tr>
+      <td width="100%">
+
+<p align="right">&nbsp;</p>
+<h2>The Dreaded G2 and G3</h2>
+<p style="background-color: rgb(0, 255, 255);" align="right">"We're captive on the
+carousel of time<br>
+We can't return, we can only look behind<br>
+From where we came<br>
+And go 'round and 'round<br>
+In the circle game"<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font size="1">Joni
+Mitchell - The Circle Game&nbsp; © 1966 Crazy Crow Music</font></p>
+<p><font size="2">Many people seem to have trouble understanding how G2 (Circle) commands are
+used but, if you know the specific format required by your machine tool's
+controller, it's really not that complicated.</font></p>
+<p><font size="2">You can usually assume that a G2 makes a clockwise arc and a G3 makes a
+counterclockwise arc, and that G2 and G3 will have the same format - whatever it
+happens to be. We will generally describe G2 only and you can assume that G3 is
+the same.</font></p>
+<p><span style="background-color: rgb(255, 255, 0);"><i><b><font size="2">Important</font></b></i><font size="2"> - This page
+is intended as a general introduction only. It may help if you are having
+trouble understanding the explanation in your machine tool manual. In all cases,
+the manual should be consulted and <i>the manufacturer's information should be
+used for any actual programming</i>.</font></span></p>
+<hr>
+<h4><font size="2">A typical case - XY plane and incremental center (X, Y, I, and J)</font></h4>
+<p><font size="2">This section covers the use of G2 to make arcs in the X-Y plane on
+controllers that use incremental center coordinates.</font></p>
+
+<p><font size="1" face="MS Sans Serif">Center location method: <b>Incremental
+using I and J&nbsp;</b> Controller modes: <b>G90 (Absolute coordinates) G17 (XY plane circles)</b><br>
+Example:</font></p>
+
+<p><img src="nfrg2g3_files/arc2.gif" align="right" border="0" height="157" width="329"></p>
+
+<p><font size="1" face="MS Sans Serif"><span style="background-color: rgb(255, 255, 0);">G1 X1.375 Y0.25&nbsp; (GO TO START OF ARC)<br>
+<font color="#0000ff">
+G2 </font> X1.75 Y-0.125 I0 J-0.375 (CLOCKWISE CIRCULAR MOVE)</span></font></p>
+
+<p><font size="2">The G1 positions the tool at the start of the arc. The G2
+drives the arc to the coordinate position specified by X and Y. The center point
+is specified by I and J coordinates. I is measured along the X axis and J along
+the Y axis. These are incremental values from the start point - in other words,
+they are the distance from the start point to the center along X and Y. I is
+zero because the start and center points have the same X value, and J is
+negative because the center point is in a negative direction on the Y axis.</font></p>
+
+<p><font size="2">Note that Z values have been ignored. We are assuming that
+Z was set prior to the G1 linear move and we are creating a 2D arc so the Z
+value, whatever it is, remains the same throughout.</font></p>
+
+<hr>
+
+<h4><font size="2">A fairly common case - XY plane and a radius (X, Y, and
+R)</font></h4>
+
+<p><font size="2">This section covers the use of G2 to make arcs in the X-Y plane on
+controllers that let you specify the arc radius with an R-word.</font></p>
+
+<p><font size="1" face="MS Sans Serif">Center location method: <b>R word&nbsp;</b> Controller modes: <b>G90 (Absolute coordinates) G17 (XY plane circles)</b><br>
+Example:</font></p>
+
+<p><img src="nfrg2g3_files/arc4.gif" align="right" border="0" height="157" width="329"></p>
+
+<p><font size="1" face="MS Sans Serif"><span style="background-color: rgb(255, 255, 0);">G1 X1.375 Y0.25&nbsp; (GO TO START OF ARC)<br>
+<font color="#0000ff">
+G2 </font> X1.75 Y-0.125 R0.375 (CLOCKWISE CIRCULAR MOVE)</span></font></p>
+
+<p><font size="2">The G1 positions the tool at the start of the arc. The G2
+drives the arc to the coordinate position specified by X and Y. The center point
+is calculated based on the radius which is specified in the R0.375.</font></p>
+
+<p><i><font size="2">It looks almost too easy - what's the catch?</font></i></p>
+
+<p><font size="2">There are a several things to consider.</font></p>
+
+<p><font size="2">1. If you need to program a 360° circle, you probably can't use an R-word -
+you'll need to use I and J.<img src="nfrg2g3_files/arc6.gif" align="right" border="0" height="163" width="400"></font></p>
+
+<p><font size="2">2. You are defining an arc using two points and a radius so there are two
+possible arcs that will fit your values - you need to tell the control which one
+you mean. This is done by using a positive R value if the arc is less than 180
+degrees and a negative R value is greater than 180 degrees. The figure shows the
+path generated with</font><br>
+<br>
+<font size="1" face="MS Sans Serif"><span style="background-color: rgb(255, 255, 0);">G2
+X1.75 Y-0.125 R0.375 (UNDER 180 DEG) and<br>
+G2 X1.75 Y-0.125 R-0.375 (OVER 180 DEG)</span></font></p>
+
+<p><font size="2">3. If the arc is exactly 180 degrees, you have a choice to make. You can try
+a positive value and see what happens (best to "cut air" for this and
+a bit of prayer won't hurt) or
+you can, and should, break the arc into two segments and program it in two
+moves.</font></p>
+
+<hr>
+
+<h4><font size="2">Special cases - Quadrants and complete circles</font></h4>
+
+<p><font size="2">Some controllers will not handle arcs that pass through an "axis
+crossover point" (a quadrant boundary - 0, 90, 180, 270 degrees.) If this
+is the case, you need to break the arc at these points. This may be a nuisance
+but isn't too difficult. Many people recommend doing this for all arcs,
+regardless of controller capabilities, and many postprocessors offer the option
+to do it automatically. Also, see if your controller uses a G-code for this,
+usually a G75 for "multi-quadrant" mode which is cancelled by a G74. A
+bit of needless info - the "axis crossover" restriction usually&nbsp;
+relates to motors having to change dire</font>ction at this point.</p>
+
+<p><font size="1" face="MS Sans Serif">
+Example:</font></p>
+
+<p><img src="nfrg2g3_files/arc8.gif" align="right" border="0" height="205" width="497"></p>
+
+<p><font size="1" face="MS Sans Serif"><span style="background-color: rgb(255, 255, 0);">G1
+X1.1053 Y0.1355<br>
+G2 X1.375 Y0.25 I0.2697 J-0.2605<br>
+G2 X1.75 Y-0.125 I0 J-0.375<br>
+G2 X1.6887 Y-0.3305 I-0.375 J0</span></font></p>
+
+<p><font size="2">The G1 positions the tool at the start of the arc. The G2's
+drive the arc to the quadrant boundaries and the end positions specified by X and Y. The center point
+is specified by I and J coordinates. I is measured along the X axis and J along
+the Y axis. These are incremental values from the <i> start point of each arc
+segment</i>. Don't forget that the controller sees this as three separate arcs,
+not just one. Most controllers would not require that the "G2" be
+repeated in each block above.</font></p>
+
+<p><font size="2">Regarding complete circles - some controllers handle them and some don't. A
+controller that can process multi-quadrant arcs may accept an arc end point that
+is identical to the current tool position and machine a complete circle. Others
+may do nothing, and others may throw an error condition. If you have any doubt
+about the capabilities, break the circle into pieces and cut each arc
+separately.</font></p>
+
+<hr>
+
+<h4><font size="2">Some exceptions - Check your manual</font></h4>
+
+<p><i><font size="2">Many controls require an absolute circle center via I and J rather than
+incremental values</font></i><font size="2">. This can be easier to deal with. Be careful if in G91 mode
+because the centers are probably going to shift to incremental also.</font></p>
+
+<p><font size="2">Some controls use a P-word instead of R for an arc radius.</font></p>
+
+<p><font size="2">Be careful if omitting I or J words from a G2 or G3. Some controls allow
+this, some don't, and some depend on the prevailing mode (G90 or G91).</font></p>
+
+<h4><font size="2">Planes other than XY</font></h4>
+
+<p><font size="2">On many machines, G2 and G3 commands can be used to drive arcs in the ZX and
+YZ planes. G18 is usually used to switch to the ZX plane and G19 selects the YZ
+plane. Don't forget, though, that to make a circular feature on a part in these
+planes using a 3 axis machine the tool path itself won't be circular unless an
+angled head is used.</font></p>
+
+<p><font size="2"><img src="nfrg2g3_files/G18G19b.gif" align="right" border="0" height="340" width="312"></font></p>
+
+<p><font size="2">A G2 causes clockwise motion as viewed from the positive direction of the perpendicular
+axis and the figure reflects this.</font></p>
+
+<p><font size="2">In the XY plane, I and J are used to locate the center of the arc and are
+measured along X and Y. To locate the arc center in the YZ or ZX planes, a
+K-word is used, measured along the Z axis. Therefore, I and K are used in the ZX
+plane and J and K are used in YZ.</font></p>
+
+<p><font size="2">G17 is used to reselect the XY plane and is usually the default mode for
+machining centers.</font></p>
+
+<h4>&nbsp;</h4>
+
+<h4>&nbsp;</h4>
+
+<h4>&nbsp;</h4>
+
+<h4><font size="2">Lathes</font></h4>
+
+<p><font size="2">Use of G2 and G3 on a lathe is similar to their use on a machining center,
+although tool shape is more of a consideration. A 2 axis lathe operates in the
+ZX plane, of course, and uses the I and K words for center location.
+<img src="nfrg2g3_files/lathe1.gif" align="right" border="0" height="242" width="437"></font></p>
+
+<p>&nbsp;</p>
+
+<p><font size="2">The figure shows a simple case using an imaginary tool tip as a reference
+point. The nose radius is 0.0625. The program fragment below follows the part
+profile, accounting for insert geometry.</font></p>
+
+<p><font size="1" face="MS Sans Serif"><span style="background-color: rgb(255, 255, 0);">G1
+Z1.6875<br>
+G2 X0.9375 Z1.6875 I1.6875 K0<br>
+G1 X1.5 (GO PAST)</span></font></p>
+
+<p><font size="2">Note that the G2 direction is "backwards" based on normal G18
+conventions. This just illustrates how important it is to read the programming
+manual applicable to the machine being programmed. If we programmed this move
+using the center point of the nose radius, the instructions would be more like
+previous examples although the setup would be different.</font></p>
+
+<h4><font size="2">Cutter Compensation</font></h4>
+
+<p><font size="2">Cutter (radius) compensation can generally be used for G2 and G3 moves just
+as for linear moves. Most considerations are the same - you need to be careful
+where you turn it on and off and so on. Also, be sure sure that you don't
+inadvertently enter a tool radius that is larger than, or even equal to, the
+smallest arc radius used in an inside corner.</font></p>
+
+<h4><font size="2">3D Circular Interpolation</font></h4>
+
+<p><font size="2">&nbsp;Some machines provide helical interpolation via G2 and G3 commands.
+Programming it is pretty straightforward - just include a Z value in the G2/G3
+that differs from the starting position. The motion will end with the tool in
+the specified Z position. The Z increments will be determined by the number of
+actual XY moves to complete the arc. In other words, when the arc is 40 percent
+done, so is the Z motion. This can be used for ramping into a pocket or other
+approach moves.</font></p>
+
+<p><font size="2">&nbsp;Also, some controllers allow a more advanced form of 3D arcs using a
+sphere to control depth. An explanation is outside the scope of this page.</font></p>
+
+<h4><font size="2">So that's all there is to it, then?</font></h4>
+
+<p><font size="2">No - we've probably forgotten something. But that's why CNC programmers make
+those big bucks.</font></p>
+
+      </td>
+    </tr>
+  </tbody></table>
+  </center>
+</div>
+<hr>
+<!--webbot bot="Include" u-include="includes/footer.htm" tag="BODY" startspan -->
+
+<p><font size="1" face="Verdana">Copyright </font>
+<font size="1" face="Arial, Helvetica, sans-serif"><span class="footer"><b>
+<font size="1" face="Verdana, Arial, Helvetica, sans-serif">© </font></b></span>
+</font><font size="1" face="Verdana">2009 NFR Partners Inc.&nbsp; Last change 27 
+January 2010.</font></p>
+
+<!--webbot bot="Include" i-checksum="6418" endspan --><!--msnavigation--></td></tr><!--msnavigation--></tbody></table></body></html>

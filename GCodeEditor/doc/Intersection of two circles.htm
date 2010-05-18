@@ -1,0 +1,90 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+
+<link rel="StyleSheet" href="Intersection%20of%20two%20circles_files/pdbstyle.css" type="text/css" media="all">
+<title>Intersection of two circles</title>
+</head><body bgcolor="#ffffff">
+
+<center>
+<h1>Intersection of two circles</h1>
+Written by <a href="http://local.wasp.uwa.edu.au/%7Epbourke/geometry/">Paul Bourke</a><br>
+April 1997<p>
+Contributions:<br><a href="http://local.wasp.uwa.edu.au/%7Epbourke/geometry/2circle/tvoght.c">C source code example</a> by Tim Voght.<br>
+<a href="http://local.wasp.uwa.edu.au/%7Epbourke/geometry/2circle/CircleCircleIntersection2.m">Objective C method</a> by Daniel Quirk.
+</p></center>
+
+<p></p><hr><p>
+
+</p><p align="justify">
+The following note describes how to find the intersection point(s) between
+two circles on a plane, the following notation is used. The
+aim is to find the two points P<sub>3</sub> = (x<sub>3</sub>, y<sub>3</sub>) if they exist.
+</p>
+
+<p></p><center><img src="Intersection%20of%20two%20circles_files/2circle1.gif"><p></p></center>
+
+<p align="justify">
+First calculate the distance d between the center of the circles.
+d = ||P<sub>1</sub> - P<sub>0</sub>||.
+</p>
+<ul>
+<li>If d &gt; r<sub>0</sub> + 
+r<sub>1</sub> then there are no solutions, the circles are 
+separate.
+<p>
+</p></li><li>If d &lt; |r<sub>0</sub> - r<sub>1</sub>|
+then there are no solutions because one circle is contained 
+within the other.<p>
+</p></li><li>If d = 0 and r<sub>0</sub> = r<sub>1</sub>
+then the circles are coincident and there are an infinite
+number of solutions.<p>
+</p></li></ul>
+
+Considering the two triangles 
+P<sub>0</sub>P<sub>2</sub>P<sub>3</sub> and
+P<sub>1</sub>P<sub>2</sub>P<sub>3</sub> we can write
+<p>
+</p><center>
+a<sup>2</sup> + h<sup>2</sup> = 
+r<sub>0</sub><sup>2</sup> and b<sup>2</sup> + h<sup>2</sup> = 
+r<sub>1</sub><sup>2</sup>
+</center>
+<p>
+Using d = a + b we can solve for a,</p><p>
+</p><center>
+a = (r<sub>0</sub><sup>2</sup> - r<sub>1</sub><sup>2</sup> + 
+d<sup>2</sup> ) / (2 d)
+<p>
+</p></center><p>
+
+</p><p align="justify">
+It can be readily shown that this reduces to r<sub>0</sub> when
+the two circles touch at one point, ie: 
+d = r<sub>0</sub> + r<sub>1</sub>
+</p>
+
+<p align="justify">
+Solve for h by substituting a into the first equation, 
+h<sup>2</sup> = r<sub>0</sub><sup>2</sup> - a<sup>2</sup>
+</p>
+
+So 
+<p></p><center>
+P<sub>2</sub> = P<sub>0</sub> +
+a ( P<sub>1</sub> - P<sub>0</sub> ) / d
+</center><p>
+And finally, P<sub>3</sub> = (x<sub>3</sub>,y<sub>3</sub>) 
+in terms of P<sub>0</sub> = (x<sub>0</sub>,y<sub>0</sub>),
+P<sub>1</sub> = (x<sub>1</sub>,y<sub>1</sub>)
+and P<sub>2</sub> = (x<sub>2</sub>,y<sub>2</sub>),
+is 
+</p><p></p><center>
+x<sub>3</sub> = x<sub>2</sub> +-
+h ( y<sub>1</sub> - y<sub>0</sub> ) / d
+<p>
+y<sub>3</sub> = y<sub>2</sub> -+
+h ( x<sub>1</sub> - x<sub>0</sub> ) / d
+</p><p></p></center>
+<p>
+
+</p></body></html>

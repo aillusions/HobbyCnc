@@ -3,7 +3,7 @@ package cnc.editor.domain;
 
 public class GCommand {
 	
-	public enum GcommandTypes{G00, G01, G02}
+	public enum GcommandTypes{ORIGIN, G00, G01, G02}
 	
 	private GcommandTypes GcommandType;
 	private BigDecimalPoint3D coord;

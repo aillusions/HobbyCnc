@@ -1,18 +1,24 @@
 package cnc.editor;
 
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import cnc.editor.domain.GCommand.GcommandTypes;
+
 public abstract class GCommand {
 	
 	public static final String CMD_COORDINATE_CHANGED = "cmd_coordinate_changed";
 		
-	private GCommand previousCmd;
+	protected GCommand previousCmd;
 	private Float x;
 	private Float y;
 	private Float z;	
+		
+	public abstract GcommandTypes getCommandType();
+	public abstract void draw(Graphics g);
 	
 	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
 		
@@ -81,7 +87,7 @@ public abstract class GCommand {
 		String strY = y != null ? " Y" + y : "";
 		String strZ = z != null ? " Z" + z : "";		
 		
-		return strX + strY + strZ;
+		return getCommandType() + " " + strX + strY + strZ;
 	}
 	
 	@Override
@@ -90,7 +96,8 @@ public abstract class GCommand {
 		if(arg0 != null && arg0 instanceof GCommand)
 		{
 			GCommand gCommand = (GCommand) arg0;
-			if(((getX() == null && gCommand.getX() == null) ||(getX() != null && gCommand.getX() != null && getX().equals(gCommand.getX())))
+			if((getCommandType() == gCommand.getCommandType()) 
+					&& ((getX() == null && gCommand.getX() == null) ||(getX() != null && gCommand.getX() != null && getX().equals(gCommand.getX())))
 					&& ((getY() == null && gCommand.getY() == null) ||(getY() != null && gCommand.getY() != null && getY().equals(gCommand.getY()))) 
 					&& ((getZ() == null && gCommand.getZ() == null) ||(getZ() != null && gCommand.getZ() != null && getZ().equals(gCommand.getZ())))){
 				res = true;
