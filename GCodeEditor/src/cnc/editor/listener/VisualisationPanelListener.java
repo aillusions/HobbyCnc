@@ -57,13 +57,13 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 				double x = e.getPoint().getX();
 				double y = e.getPoint().getY();		
 				
-				double X = EditorStates.convertCnc_View(gc.getX());
-				double Y = EditorStates.convertCnc_View(gc.getY());
+				double X = EditorStates.convertPositionCnc_View(gc.getX());
+				double Y = EditorStates.convertPositionCnc_View(gc.getY());
 				
 				if(Math.abs(x-X) < getSpan() && Math.abs(y-Y) < getSpan() ){
 					dragStarted = true;
-					gc.setX(EditorStates.convertView_Cnc((long)x));
-					gc.setY(EditorStates.convertView_Cnc((long)y));
+					gc.setX(EditorStates.convertPositionView_Cnc((long)x));
+					gc.setY(EditorStates.convertPositionView_Cnc((long)y));
 				}
 			}
 		}

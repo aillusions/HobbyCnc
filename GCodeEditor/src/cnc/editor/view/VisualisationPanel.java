@@ -42,8 +42,8 @@ public class VisualisationPanel extends JPanel{
 		Color color = g.getColor();
 	    g.setColor(Color.gray);
 	    
-	    int maxCncX = (int)EditorStates.convertCnc_View(es.getMaxCncX());
-	    int maxCncY = (int)EditorStates.convertCnc_View(es.getMaxCncY());
+	    int maxCncX = (int)EditorStates.convertPositionCnc_View(es.getMaxCncX());
+	    int maxCncY = (int)EditorStates.convertPositionCnc_View(es.getMaxCncY());
 	    
 	    // vertical
 	    int x1 = maxCncX;
@@ -83,8 +83,8 @@ public class VisualisationPanel extends JPanel{
 		long viewHeight = (long)getSize().getHeight();
 		long viewWidth = (long)getSize().getWidth();
 		
-		double height = EditorStates.convertView_Cnc(viewHeight);
-		double width = EditorStates.convertView_Cnc(viewWidth);
+		double height = EditorStates.convertPositionView_Cnc(viewHeight);
+		double width = EditorStates.convertPositionView_Cnc(viewWidth);
 		
 		Color color = g.getColor();	   
 	    
@@ -92,7 +92,7 @@ public class VisualisationPanel extends JPanel{
 	    float progress = 0;				
 		while(progress < width){
 			
-			int x1 = (int)EditorStates.convertCnc_View(progress);
+			int x1 = (int)EditorStates.convertPositionCnc_View(progress);
 			int y1 = 0 + theGap;
 
 			g.setColor(Color.white);
@@ -111,7 +111,7 @@ public class VisualisationPanel extends JPanel{
 		while(progress < height){
 			
 			int x1 = 0 + theGap;
-			int y1 = (int)EditorStates.convertCnc_View(progress);
+			int y1 = (int)EditorStates.convertPositionCnc_View(progress);
 			
 			g.setColor(Color.white);
 			g.drawLine(x1, y1, (int)viewWidth, y1);
@@ -134,8 +134,8 @@ public class VisualisationPanel extends JPanel{
 		
 		if(selected != null){			
 			
-			float X = EditorStates.convertCnc_View(selected.getX());
-			float Y = EditorStates.convertCnc_View(selected.getY());			
+			float X = EditorStates.convertPositionCnc_View(selected.getX());
+			float Y = EditorStates.convertPositionCnc_View(selected.getY());			
 			
 			Color color = g.getColor();
 		    g.setColor(Color.pink);
@@ -154,8 +154,8 @@ public class VisualisationPanel extends JPanel{
 		    
 			for(GCommand gc : nearSelection){
 				
-				X = EditorStates.convertCnc_View(gc.getX());
-				Y = EditorStates.convertCnc_View(gc.getY());
+				X = EditorStates.convertPositionCnc_View(gc.getX());
+				Y = EditorStates.convertPositionCnc_View(gc.getY());
 				g.fillOval((int)(X-size/2), (int)(Y-size/2), size, size);
 			}			
 		    g.setColor(color);
@@ -172,8 +172,8 @@ public class VisualisationPanel extends JPanel{
 		}else{
 			for(GCommand gc : gcc.getGCommandList()){			
 					
-				int newX = (int)EditorStates.convertCnc_View(gc.getX()); 
-				int newY = (int)EditorStates.convertCnc_View(gc.getY()); 				
+				int newX = (int)EditorStates.convertPositionCnc_View(gc.getX()); 
+				int newY = (int)EditorStates.convertPositionCnc_View(gc.getY()); 				
 	
 				double panelWidth = this.getSize().getWidth();
 				double panelHeight = this.getSize().getHeight();	

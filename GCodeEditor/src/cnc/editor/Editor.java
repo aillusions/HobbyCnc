@@ -24,8 +24,8 @@ public class Editor {
 	
 	public void viewMousePressed(double x, double y){
 		
-		float cncX = EditorStates.convertView_Cnc((long)x);
-		float cncY = EditorStates.convertView_Cnc((long)y);
+		float cncX = EditorStates.convertPositionView_Cnc((long)x);
+		float cncY = EditorStates.convertPositionView_Cnc((long)y);
 
 		boolean isCurrentSelectedToolReset = false;
 		

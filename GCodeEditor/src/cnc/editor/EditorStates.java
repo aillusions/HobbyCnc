@@ -64,12 +64,20 @@ public class EditorStates {
 		return gCodesTextContainer.getLineOfOffset(offset);
 	}
 	
-	public static long convertCnc_View(float cncCoord){
+	public static long convertPositionCnc_View(float cncCoord){
 		return Math.round(cncCoord * instance.getScale() * BMP_TO_CNC_COORD_RATIO)+ instance.getGap();
 	}
 	
-	public static float convertView_Cnc(long viewCoord){
+	public static float convertPositionView_Cnc(long viewCoord){
 		return (viewCoord - instance.getGap()) / instance.getScale() / BMP_TO_CNC_COORD_RATIO;
+	}	
+	
+	public static long convertLengthCnc_View(float cncCoord){
+		return Math.round(cncCoord * instance.getScale() * BMP_TO_CNC_COORD_RATIO);
+	}
+	
+	public static float convertLengthView_Cnc(long viewCoord){
+		return (viewCoord) / instance.getScale() / BMP_TO_CNC_COORD_RATIO;
 	}	
 	
 	//In case there is no spaces in text editor

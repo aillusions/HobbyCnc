@@ -19,11 +19,11 @@ public class GCommandG00 extends GCommand{
 
 	@Override
 	public void draw(Graphics g) {
-		int prevX = (int)EditorStates.convertCnc_View(previousCmd.getX());
-		int prevY = (int)EditorStates.convertCnc_View(previousCmd.getY());
+		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
+		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
 		
-		int newX = (int)EditorStates.convertCnc_View(getX()); 
-		int newY = (int)EditorStates.convertCnc_View(getY()); 	
+		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
+		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
 		
 		g.drawLine(prevX, prevY, newX, newY);
 		
@@ -83,19 +83,19 @@ public class GCommandG00 extends GCommand{
 			int startX1,startY1, XbInt,YbInt;
 			
 			if(Xdiff1 < Xdiff2){
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc1);
+				startX1 = (int)EditorStates.convertPositionCnc_View((float)Xc1);
 			}else{
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc2);						
+				startX1 = (int)EditorStates.convertPositionCnc_View((float)Xc2);						
 			}
 			
 			if(Ydiff1 < Ydiff2){
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc1);
+				startY1 = (int)EditorStates.convertPositionCnc_View((float)Yc1);
 			}else{
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc2);
+				startY1 = (int)EditorStates.convertPositionCnc_View((float)Yc2);
 			}
 	
-			XbInt = (int)EditorStates.convertCnc_View((float)Xb);
-			YbInt = (int)EditorStates.convertCnc_View((float)Yb);
+			XbInt = (int)EditorStates.convertPositionCnc_View((float)Xb);
+			YbInt = (int)EditorStates.convertPositionCnc_View((float)Yb);
 					
 			g.drawLine(startX1, startY1, XbInt, YbInt);	
 		}
@@ -123,19 +123,19 @@ public class GCommandG00 extends GCommand{
 			int startX1,startY1, endX,endY;
 			
 			if(Xdiff1 < Xdiff2){
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc1);
+				startX1 = (int)EditorStates.convertPositionCnc_View((float)Xc1);
 			}else{
-				startX1 = (int)EditorStates.convertCnc_View((float)Xc2);						
+				startX1 = (int)EditorStates.convertPositionCnc_View((float)Xc2);						
 			}
 			
 			if(Ydiff1 < Ydiff2){
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc1);
+				startY1 = (int)EditorStates.convertPositionCnc_View((float)Yc1);
 			}else{
-				startY1 = (int)EditorStates.convertCnc_View((float)Yc2);
+				startY1 = (int)EditorStates.convertPositionCnc_View((float)Yc2);
 			}
 	
-			endX = (int)EditorStates.convertCnc_View((float)Xb);
-			endY = (int)EditorStates.convertCnc_View((float)Yb);
+			endX = (int)EditorStates.convertPositionCnc_View((float)Xb);
+			endY = (int)EditorStates.convertPositionCnc_View((float)Yb);
 					
 			g.drawLine(startX1, startY1, endX, endY);
 		}
