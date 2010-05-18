@@ -17,6 +17,8 @@ import cnc.editor.view.GCodesTextContainer;
 public class EditorStates {
 
 	public static final String CMD_CLEAR_SELECTION = "clearSelection";
+	public static final String CMD_SET_NEW_CORRENT_CMD_TYPE = "setNewCmdType";
+	
 	public static final float SELECTIO_CIRCLE_SIZE = 8f;
 	public static final float BMP_TO_CNC_COORD_RATIO = 5f;	
 	
@@ -39,6 +41,7 @@ public class EditorStates {
 	private boolean importInProgress;
 	private final Document document = new PlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
+	private Editor.GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	
 	//CNC coordinates (mm) - not pixels!!
 	private int gridStep = 5;
@@ -167,8 +170,7 @@ public class EditorStates {
 	
 	public Document getDocument() {
 		return document;
-	}
-	
+	}	
 	
 	public GCodesTextContainer getgCodesTextContainer() {
 		return gCodesTextContainer;
@@ -220,6 +222,16 @@ public class EditorStates {
 		this.maxCncX = maxCncX;
 	}
 
+	
+	public Editor.GcommandTypes getCurrentGCmdType() {
+		return currentGCmdType;
+	}
+
+	public void setCurrentGCmdType(Editor.GcommandTypes currentGCmdType) {
+		this.currentGCmdType = currentGCmdType;
+	//	ActionEvent ae = new ActionEvent(this , -1, CMD_SET_NEW_CORRENT_CMD_TYPE);
+		//notifyAllAboutChanges(ae);
+	}
 
 	//------------
 	public void addActionListener(ActionListener al){

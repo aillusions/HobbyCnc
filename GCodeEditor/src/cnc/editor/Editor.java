@@ -17,21 +17,27 @@ public class Editor {
 	
 	public enum EditModeS{DRAW, TXT};
 	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT, CONTINUOUS_EDIT};
+	public enum GcommandTypes{G00, G01, G02};
 
 	private GCommandsContainer gcc = GCommandsContainer.getInstance();
+	private EditorStates es = EditorStates.getInstance();
 	
 	public void viewMousePressed(double x, double y){
 		
 		float cncX = EditorStates.convertView_Cnc((long)x);
 		float cncY = EditorStates.convertView_Cnc((long)y);
 
-		EditorStates es =  EditorStates.getInstance();
 		boolean isCurrentSelectedToolReset = false;
 		
 		List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
-			String cmd = "\nG00 X" + cncX + " Y" + cncY;
+			
+			if(es.getCurrentGCmdType() != GcommandTypes.G00){
+				throw new RuntimeException("Continuous drawing works only for " + GcommandTypes.G00 + "command type");
+			}
+			
+			String cmd = "\n" + es.getCurrentGCmdType() + " X" + cncX + " Y" + cncY;
 			gcc.addCommand(GCodeParser.parseCommand(cmd));
 			return;
 		}
@@ -43,8 +49,12 @@ public class Editor {
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){			
 			
-			String cmd = "\nG00 X" + cncX + " Y" + cncY;
-			gcc.addCommand(GCodeParser.parseCommand(cmd));
+			//es.getCurrentGCmdType()
+			if(es.getCurrentGCmdType() == GcommandTypes.G00)
+				gcc.addCommand(new GCommandG00(cncX, cncY, null));
+			else
+				gcc.addCommand(new GCommandG02(cncX, cncY, null));
+			
 			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 			isCurrentSelectedToolReset = true;
 		}
@@ -69,7 +79,7 @@ public class Editor {
 		File file = null;
 		if ((file = EditorMainFrame.openFileChooser("./parser", "bmp"))!= null) {
 			
-			EditorStates.getInstance().setImportInProgress(true);
+			es.setImportInProgress(true);
 			
 			IDataStorage store = new BitMapArrayDataStorage();
 			
@@ -91,7 +101,7 @@ public class Editor {
 			gcc.clear();
 			gcc.addCommandsBunch(codesBuffer.toString());			
 
-			EditorStates.getInstance().setImportInProgress(false);
+			es.setImportInProgress(false);
 		}		
 	}
 
@@ -100,7 +110,7 @@ public class Editor {
 		File file = null;
 		if ((file = EditorMainFrame.openFileChooser("./gcodes", "cnc"))!= null) {
 			
-			EditorStates.getInstance().setImportInProgress(true);
+			es.setImportInProgress(true);
 			
 			try {
 				BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -120,14 +130,14 @@ public class Editor {
 				throw new RuntimeException(e);
 			}
 			
-			EditorStates.getInstance().setImportInProgress(false);
+			es.setImportInProgress(false);
 		}	
 	}
 
 	public void liftWorkHead() {
 		
-		String cmd = "\nG00 Z2.0";
-		GCommand gCmd = GCodeParser.parseCommand(cmd);
+		//GcommandTypes.G00,
+		GCommand gCmd = new GCommandG00(null, null, 2f);
 		GCommand lastCmd = gcc.getGCommandList().get(gcc.getGCommandList().size()-1);
 		
 		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand
@@ -140,8 +150,8 @@ public class Editor {
 
 	public void descendWorkHead() {
 		
-		String cmd = "\nG00 Z0.0";
-		GCommand gCmd = GCodeParser.parseCommand(cmd);
+		//GcommandTypes.G00
+		GCommand gCmd = new GCommandG00(null, null, 0f);
 		GCommand lastCmd = gcc.getGCommandList().get(gcc.getGCommandList().size()-1);
 		
 		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand

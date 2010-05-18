@@ -1,7 +1,7 @@
 package cnc.editor;
 
 import cnc.editor.GCommand;
-import cnc.editor.GCommand.GcommandTypes;
+import cnc.editor.Editor.GcommandTypes;
 
 public class GCodeParser {	
 
@@ -39,7 +39,7 @@ public class GCodeParser {
 							z = Float.parseFloat(args[i].replace("Z", ""));
 						}
 					}
-					return new GCommand(GcommandTypes.G00, x,y,z);
+					return new GCommandG00(x,y,z);
 				case G01:
 					break;
 				case G02: 

@@ -5,12 +5,10 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GCommand {
+public abstract class GCommand {
 	
 	public static final String CMD_COORDINATE_CHANGED = "cmd_coordinate_changed";
-	public enum GcommandTypes{G00, G01, G02}	
 		
-	private final GcommandTypes gCommandType;	
 	private GCommand previousCmd;
 	private Float x;
 	private Float y;
@@ -28,11 +26,10 @@ public class GCommand {
 		}
 	}
 
-	public GCommand(GcommandTypes type, Float x, Float y, Float z) {
+	public GCommand(Float x, Float y, Float z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
-		this.gCommandType = type;
 	}
 
 	public Float getX() {
@@ -77,17 +74,14 @@ public class GCommand {
 		notifyAllAboutChanges(ae);
 	}
 
-	public GcommandTypes getGcommandType() {
-		return gCommandType;
-	}
-	
+
 	@Override
 	public String toString() {
 		String strX = x != null ? " X" + x : "" ;
 		String strY = y != null ? " Y" + y : "";
 		String strZ = z != null ? " Z" + z : "";		
 		
-		return gCommandType + strX + strY + strZ;
+		return strX + strY + strZ;
 	}
 	
 	@Override
@@ -96,8 +90,7 @@ public class GCommand {
 		if(arg0 != null && arg0 instanceof GCommand)
 		{
 			GCommand gCommand = (GCommand) arg0;
-			if(gCommandType == gCommand.gCommandType
-					&& ((getX() == null && gCommand.getX() == null) ||(getX() != null && gCommand.getX() != null && getX().equals(gCommand.getX())))
+			if(((getX() == null && gCommand.getX() == null) ||(getX() != null && gCommand.getX() != null && getX().equals(gCommand.getX())))
 					&& ((getY() == null && gCommand.getY() == null) ||(getY() != null && gCommand.getY() != null && getY().equals(gCommand.getY()))) 
 					&& ((getZ() == null && gCommand.getZ() == null) ||(getZ() != null && gCommand.getZ() != null && getZ().equals(gCommand.getZ())))){
 				res = true;

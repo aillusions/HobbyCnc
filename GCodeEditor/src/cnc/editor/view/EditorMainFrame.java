@@ -27,14 +27,14 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private JButton btn_ConvertImageToGCodes;
 	private JButton btn_Clear;
 	
-	private ButtonGroup headPositionGroup;
-	private JRadioButton btn_Lift;
-	private JRadioButton btn_Descend;
+	private ButtonGroup btnGr_headPosition;
+	private JRadioButton rbtn_Lift;
+	private JRadioButton rbtn_Descend;
 	
-	private ButtonGroup toolBarGroup;
-	private JRadioButton btn_Tool_SimpleDraw;
-	private JRadioButton btn_Tool_ContinuousDraw;
-	private JRadioButton btn_Tool_SelectVertex;
+	private ButtonGroup btnGr_toolBar;
+	private JRadioButton rbtn_Tool_SimpleDraw;
+	private JRadioButton rbtn_Tool_ContinuousDraw;
+	private JRadioButton rbtn_Tool_SelectVertex;
 	
 	private JComboBox comBox_Scale;
 	
@@ -42,6 +42,10 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	
 	private JScrollPane scrollPane_GCodesEditor;
 	private JScrollPane scrollPane_GraphicOutput;
+	
+	private ButtonGroup btnGr_commandTypes;
+	private JRadioButton rbtn_commandType_G00;
+	private JRadioButton rbtn_commandType_G02;
 	
 	public VisualisationPanel getVisualPanelViewOutput() {
 		return pnl_GraphicOutput;
@@ -88,32 +92,32 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		btn_AddGCodesFromFile.addActionListener(editorViewListener);
 		
 		//Tool bar controls
-		btn_Tool_SimpleDraw = new JRadioButton();		
-		btn_Tool_SimpleDraw.setText("draw");
-		btn_Tool_SimpleDraw.setBounds(901, 100, 84, 21);
-		btn_Tool_SimpleDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		btn_Tool_SimpleDraw.addActionListener(editorViewListener);
-		btn_Tool_SimpleDraw.setActionCommand("switchToolsTo_SimpleDraw");
+		rbtn_Tool_SimpleDraw = new JRadioButton();		
+		rbtn_Tool_SimpleDraw.setText("draw");
+		rbtn_Tool_SimpleDraw.setBounds(901, 100, 84, 21);
+		rbtn_Tool_SimpleDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_Tool_SimpleDraw.addActionListener(editorViewListener);
+		rbtn_Tool_SimpleDraw.setActionCommand("switchToolsTo_SimpleDraw");
 		
-		btn_Tool_SelectVertex = new JRadioButton();
-		btn_Tool_SelectVertex.setText("select");
-		btn_Tool_SelectVertex.setBounds(901, 130, 84, 21);
-		btn_Tool_SelectVertex.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		btn_Tool_SelectVertex.addActionListener(editorViewListener);
-		btn_Tool_SelectVertex.setActionCommand("switchToolsTo_SelectVertexes");
+		rbtn_Tool_SelectVertex = new JRadioButton();
+		rbtn_Tool_SelectVertex.setText("select");
+		rbtn_Tool_SelectVertex.setBounds(901, 120, 84, 21);
+		rbtn_Tool_SelectVertex.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_Tool_SelectVertex.addActionListener(editorViewListener);
+		rbtn_Tool_SelectVertex.setActionCommand("switchToolsTo_SelectVertexes");
 		
-		btn_Tool_ContinuousDraw = new JRadioButton();
-		btn_Tool_ContinuousDraw.setText("continue");
-		btn_Tool_ContinuousDraw.setBounds(901, 160, 84, 21);
-		btn_Tool_ContinuousDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		btn_Tool_ContinuousDraw.addActionListener(editorViewListener);
-		btn_Tool_ContinuousDraw.setActionCommand("switchToolsTo_ContinuousDraw");
+		rbtn_Tool_ContinuousDraw = new JRadioButton();
+		rbtn_Tool_ContinuousDraw.setText("continue");
+		rbtn_Tool_ContinuousDraw.setBounds(901, 140, 84, 21);
+		rbtn_Tool_ContinuousDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_Tool_ContinuousDraw.addActionListener(editorViewListener);
+		rbtn_Tool_ContinuousDraw.setActionCommand("switchToolsTo_ContinuousDraw");
 		
-		toolBarGroup = new ButtonGroup();
-		toolBarGroup.add(btn_Tool_SimpleDraw);
-		toolBarGroup.add(btn_Tool_SelectVertex);
-		toolBarGroup.add(btn_Tool_ContinuousDraw);
-		btn_Tool_SimpleDraw.setSelected(true);
+		btnGr_toolBar = new ButtonGroup();
+		btnGr_toolBar.add(rbtn_Tool_SimpleDraw);
+		btnGr_toolBar.add(rbtn_Tool_SelectVertex);
+		btnGr_toolBar.add(rbtn_Tool_ContinuousDraw);
+		rbtn_Tool_SimpleDraw.setSelected(true);
 		
 		ComboBoxModel comBoxModel_Scale = new DefaultComboBoxModel(scaleValues);						
 		comBox_Scale = new JComboBox();			
@@ -122,23 +126,43 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		comBox_Scale.setActionCommand("Scale");
 		comBox_Scale.addActionListener(editorViewListener);
 		
-		btn_Lift = new JRadioButton();
-		btn_Lift.setText("lift");
-		btn_Lift.setBounds(901, 220, 84, 21);
-		btn_Lift.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		btn_Lift.setActionCommand("LiftWorkHead");
-		btn_Lift.addActionListener(editorViewListener);
+		rbtn_Lift = new JRadioButton();
+		rbtn_Lift.setText("UP");
+		rbtn_Lift.setBounds(901, 220, 84, 21);
+		rbtn_Lift.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_Lift.setActionCommand("LiftWorkHead");
+		rbtn_Lift.addActionListener(editorViewListener);
 		
-		btn_Descend = new JRadioButton();
-		btn_Descend.setText("descend");
-		btn_Descend.setBounds(901, 250, 84, 21);
-		btn_Descend.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		btn_Descend.setActionCommand("DescendWorkHead");
-		btn_Descend.addActionListener(editorViewListener);
+		rbtn_Descend = new JRadioButton();
+		rbtn_Descend.setText("DOWN");
+		rbtn_Descend.setBounds(901, 240, 84, 21);
+		rbtn_Descend.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_Descend.setActionCommand("DescendWorkHead");
+		rbtn_Descend.addActionListener(editorViewListener);
+		rbtn_Descend.setSelected(true);
 		
-		headPositionGroup = new ButtonGroup();
-		headPositionGroup.add(btn_Lift);
-		headPositionGroup.add(btn_Descend);
+		btnGr_headPosition = new ButtonGroup();
+		btnGr_headPosition.add(rbtn_Lift);
+		btnGr_headPosition.add(rbtn_Descend);
+				
+		rbtn_commandType_G00 = new JRadioButton();
+		rbtn_commandType_G00.setText("G00");
+		rbtn_commandType_G00.setBounds(901, 270, 84, 21);
+		rbtn_commandType_G00.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_commandType_G00.setActionCommand("SetFutureCommandsType_G00");
+		rbtn_commandType_G00.addActionListener(editorViewListener);
+		rbtn_commandType_G00.setSelected(true);
+		
+		rbtn_commandType_G02 = new JRadioButton();
+		rbtn_commandType_G02.setText("G02");
+		rbtn_commandType_G02.setBounds(901, 290, 84, 21);
+		rbtn_commandType_G02.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_commandType_G02.setActionCommand("SetFutureCommandsType_G02");
+		rbtn_commandType_G02.addActionListener(editorViewListener);
+		
+		btnGr_commandTypes = new ButtonGroup();
+		btnGr_commandTypes.add(rbtn_commandType_G00);
+		btnGr_commandTypes.add(rbtn_commandType_G02);
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -149,12 +173,14 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		add(btn_Clear);			
 		add(btn_ConvertImageToGCodes);			
 		add(btn_AddGCodesFromFile);	
-		add(btn_Tool_SimpleDraw);		
-		add(btn_Tool_ContinuousDraw);		
-		add(btn_Tool_SelectVertex);		
+		add(rbtn_Tool_SimpleDraw);		
+		add(rbtn_Tool_ContinuousDraw);		
+		add(rbtn_Tool_SelectVertex);		
 		add(comBox_Scale);
-		add(btn_Descend);
-		add(btn_Lift);
+		add(rbtn_Descend);
+		add(rbtn_Lift);
+		add(rbtn_commandType_G00);
+		add(rbtn_commandType_G02);
 		
 		pack();
 		setSize(1000, 500);	

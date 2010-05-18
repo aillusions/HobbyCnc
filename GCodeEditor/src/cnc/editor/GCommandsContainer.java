@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cnc.editor.GCommand.GcommandTypes;
+import cnc.editor.Editor.GcommandTypes;
 
 //Singleton
 public class GCommandsContainer implements ActionListener {	
@@ -14,71 +14,63 @@ public class GCommandsContainer implements ActionListener {
 	public static final String CMD_CLEAR_COMMANDS_CONATINER = "clear_commands_conatiner";
 	public static final String CMD_ADDED_BUNCH_OF_COMMANDS = "added_bunch_of_commands";
 	public static final String CMD_ADDED_ONE_COMMAND = "added_one_command";
-
-	private GCommandsContainer(){
-		addCommand(new GCommand(GcommandTypes.G00, 0f, 0f, 0f));
-	}                        
 	
 	private static final GCommandsContainer instance = new GCommandsContainer();
+	
+	private final List<ActionListener> listeners = new ArrayList<ActionListener>();	
+	private final List<GCommand> gCommandList =  new LinkedList<GCommand>();
+	
+	private boolean butchOfCmdsAddingInProgress = false; 
+		
+	private GCommandsContainer(){
+		addCommand(new GCommandG00(0f, 0f, 0f));
+	}                        
 	
 	public static GCommandsContainer getInstance(){
 		return instance;
 	}
-	
-	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
-	
-	private final List<GCommand> gCommandList =  new LinkedList<GCommand>();
-	
+		
 	public List<GCommand> getGCommandList() {
 		return gCommandList;
 	}
 	
 	public void addCommand(GCommand c){
 		
+		if(c == null){
+			throw new RuntimeException("Argument of " + GCommandsContainer.class.toString()+ ".addCommand(..) can not be null.");
+		}
 		if(gCommandList.size() > 0){
 			c.setPreviousCmd(gCommandList.get(gCommandList.size() -1));
 		}
 		
 		gCommandList.add(c);
 		c.addActionListener(this);
-		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_ONE_COMMAND);
-		notifyAllAboutChanges(ae);
+		
+		if(!butchOfCmdsAddingInProgress) {
+			ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_ONE_COMMAND);
+			notifyAllAboutChanges(ae);
+		}
 	}
 
 	public void addCommandsBunch(String commands){
-			
-		String[] cmdArray = commands.replace("\r", "").split("\n");
+		
+		butchOfCmdsAddingInProgress = true;
+		
+		String[] cmdArray = commands.replace("\r", "").split("\n");		
 		
 		for (int i = 0; i < cmdArray.length; i++) {
+			
 			GCommand gc = GCodeParser.parseCommand(cmdArray[i]);		
 			
-			if (gc != null) {
-				
-				if(gCommandList.size() > 0){
-					gc.setPreviousCmd(gCommandList.get(gCommandList.size() -1));
-				}
-				
-				gCommandList.add(gc);
-				gc.addActionListener(this);
+			if (gc != null) {				
+				addCommand(gc);
 			}
 		}
 
 		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
-		notifyAllAboutChanges(ae);		
-	}
-	
-	public void addActionListener(ActionListener al){
+		notifyAllAboutChanges(ae);	
 		
-		listeners.add(al);
-		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
-		al.actionPerformed(ae);
-	}
-	
-	private void notifyAllAboutChanges(ActionEvent e){	
-		
-		for(ActionListener al : listeners){
-			al.actionPerformed(e);
-		}
+		butchOfCmdsAddingInProgress = false;
 	}
 
 	public List<GCommand> findVertexesNear(float cncX, float cncY) {
@@ -112,13 +104,29 @@ public class GCommandsContainer implements ActionListener {
 		gCommandList.clear();	
 		notifyAllAboutChanges(new ActionEvent(this , -1, CMD_CLEAR_COMMANDS_CONATINER));
 		
-		addCommand(new GCommand(GcommandTypes.G00, 0f, 0f, 0f));
+		addCommand(new GCommandG00(0f, 0f, 0f));
 	}
 
+	
+	//---------------------
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getActionCommand().equals(GCommand.CMD_COORDINATE_CHANGED)){
 			notifyAllAboutChanges(e);
+		}
+	}
+	
+	public void addActionListener(ActionListener al){
+		
+		listeners.add(al);
+		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
+		al.actionPerformed(ae);
+	}
+	
+	private void notifyAllAboutChanges(ActionEvent e){	
+		
+		for(ActionListener al : listeners){
+			al.actionPerformed(e);
 		}
 	}
 }

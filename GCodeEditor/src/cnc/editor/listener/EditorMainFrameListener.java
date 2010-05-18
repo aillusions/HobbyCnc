@@ -7,14 +7,15 @@ import javax.swing.JComboBox;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
+import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
 
 public class EditorMainFrameListener implements ActionListener {
 
-	private Editor editor;
+	private Editor editor;	
 	private EditorStates es = EditorStates.getInstance();
+	
 	public EditorMainFrameListener(Editor editor) {
-		super();
 		this.editor = editor;
 	}
 	
@@ -39,6 +40,10 @@ public class EditorMainFrameListener implements ActionListener {
 			editor.liftWorkHead();
 		}else if(e.getActionCommand().equals("DescendWorkHead")){
 			editor.descendWorkHead();
-		}	
+		}else if(e.getActionCommand().equals("SetFutureCommandsType_G02")){
+			es.setCurrentGCmdType(Editor.GcommandTypes.G02);
+		}else if(e.getActionCommand().equals("SetFutureCommandsType_G00")){
+			es.setCurrentGCmdType(Editor.GcommandTypes.G00);
+		}
 	}
 }
