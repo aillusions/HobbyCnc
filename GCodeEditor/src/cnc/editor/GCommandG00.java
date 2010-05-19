@@ -18,13 +18,13 @@ public class GCommandG00 extends GCommand{
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void drawLine(Graphics g) {
 		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
 		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
 		
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
 		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
-		
+
 		g.drawLine(prevX, prevY, newX, newY);
 		
 		if(EditorStates.getInstance().getScale() >= 5){

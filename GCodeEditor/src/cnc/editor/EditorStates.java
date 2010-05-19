@@ -19,7 +19,7 @@ public class EditorStates {
 	public static final String CMD_CLEAR_SELECTION = "clearSelection";
 	public static final String CMD_SET_NEW_CORRENT_CMD_TYPE = "setNewCmdType";
 	
-	public static final float SELECTIO_CIRCLE_SIZE = 8f;
+	public static final float NODE_CIRCLE_SIZE = 8f;
 	public static final float BMP_TO_CNC_COORD_RATIO = 5f;	
 	
 	private EditorStates(){}

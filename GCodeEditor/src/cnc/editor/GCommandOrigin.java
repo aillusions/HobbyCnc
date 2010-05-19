@@ -17,8 +17,7 @@ public class GCommandOrigin extends GCommand{
 	}
 
 	@Override
-	public void draw(Graphics g) {
+	public void drawLine(Graphics g) {
 		//System.out.println("Origin - nothing to do.");
 	}
-
 }

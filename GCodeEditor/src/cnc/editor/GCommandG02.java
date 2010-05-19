@@ -15,7 +15,7 @@ public class GCommandG02 extends GCommand{
 	}	
 
 	@Override
-	public void draw(Graphics g) {
+	public void drawLine(Graphics g) {
 		
 		float radiusSignum = Math.signum(radius);
 		float R = Math.abs(radius);
@@ -25,7 +25,7 @@ public class GCommandG02 extends GCommand{
 		
 		double X1 = getX();
 		double Y1 = getY();
-		
+				
 		//P1-P0
 		double sqrD = Math.pow(X0 - X1, 2) + Math.pow(Y0 - Y1, 2);
 		double d = Math.sqrt(sqrD);

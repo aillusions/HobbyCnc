@@ -72,10 +72,10 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	private float getSpan(){
 		
 		if(dragStarted){
-			return EditorStates.SELECTIO_CIRCLE_SIZE * 100;
+			return EditorStates.NODE_CIRCLE_SIZE * 100;
 		}
 		
-		return EditorStates.SELECTIO_CIRCLE_SIZE;
+		return EditorStates.NODE_CIRCLE_SIZE;
 	}
 
 	public void mouseMoved(MouseEvent e) {	

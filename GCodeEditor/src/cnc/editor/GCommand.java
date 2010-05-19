@@ -1,5 +1,6 @@
 package cnc.editor;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,14 +12,52 @@ import cnc.editor.domain.GCommand.GcommandTypes;
 public abstract class GCommand {
 	
 	public static final String CMD_COORDINATE_CHANGED = "cmd_coordinate_changed";
-		
+	
+	protected EditorStates es = EditorStates.getInstance();	
 	protected GCommand previousCmd;
 	private Float x;
 	private Float y;
 	private Float z;	
+
+	public abstract GcommandTypes getCommandType();	
+	public abstract void drawLine(Graphics g);
+
+	public void draw(Graphics g){
 		
-	public abstract GcommandTypes getCommandType();
-	public abstract void draw(Graphics g);
+		Color lineColor = Color.black;
+		Color pointColor = Color.black;
+		int pointSize;
+		
+		GCommand selectedCCmd = es.getSelectedVertex();
+		List<GCommand> nearSelection = es.getNearSelectedVertex();
+		int size = (int)EditorStates.NODE_CIRCLE_SIZE;
+		
+		pointSize = 0;
+		
+		if(this.getZ() <= 0){
+			lineColor = Color.black;
+		}else{
+			lineColor = Color.blue;
+		}
+		
+		if(this == selectedCCmd){
+			pointColor = Color.red;
+			lineColor = Color.red;	
+			pointSize = size;
+		}else if(nearSelection != null && nearSelection.indexOf(this) > -1){
+			pointColor = Color.gray;
+			pointSize = size;
+		}
+		
+		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
+		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
+		
+		g.setColor(pointColor);
+		g.fillOval((int)(newX-pointSize/2), (int)(newY-pointSize/2), pointSize, pointSize);
+		
+		g.setColor(lineColor);
+		drawLine(g);
+	}
 	
 	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
 		

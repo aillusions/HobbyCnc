@@ -33,7 +33,7 @@ public class VisualisationPanel extends JPanel{
 		drawGrid(g);
 		drawStrictBorders(g);		
 		drawCoordinates(g);		
-		drawSelection(g);
+		//drawSelection(g);
 		drawPicture(g);		
 	}
 	
@@ -126,41 +126,6 @@ public class VisualisationPanel extends JPanel{
 		}
 		g.setColor(color);
 	}
-	
-	private void drawSelection(Graphics g) {
-		
-		GCommand selected = es.getSelectedVertex();		
-		int size = (int)EditorStates.SELECTIO_CIRCLE_SIZE;
-		
-		if(selected != null){			
-			
-			float X = EditorStates.convertPositionCnc_View(selected.getX());
-			float Y = EditorStates.convertPositionCnc_View(selected.getY());			
-			
-			Color color = g.getColor();
-		    g.setColor(Color.pink);
-		    g.fillOval((int)(X-size/2), (int)(Y-size/2), size, size);
-		    g.setColor(color);
-		}
-		
-		List<GCommand> nearSelection = es.getNearSelectedVertex();
-		
-		if(nearSelection != null){
-			
-			float X;
-			float Y;
-			Color color = g.getColor();
-		    g.setColor(Color.gray);
-		    
-			for(GCommand gc : nearSelection){
-				
-				X = EditorStates.convertPositionCnc_View(gc.getX());
-				Y = EditorStates.convertPositionCnc_View(gc.getY());
-				g.fillOval((int)(X-size/2), (int)(Y-size/2), size, size);
-			}			
-		    g.setColor(color);
-		}
-	}
 
 	private void drawPicture(Graphics g) {
 		
@@ -182,13 +147,7 @@ public class VisualisationPanel extends JPanel{
 					this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 300, (int)Math.max(newY, panelHeight) + 300));
 					this.revalidate();
 				}
-				
-				if(gc.getZ() <= 0){
-				 	g.setColor(Color.red);
-				}else{
-					g.setColor(Color.blue);
-				}
-				
+			
 				gc.draw(g);			
 			}
 		}
