@@ -32,8 +32,7 @@ public abstract class GCommand {
 		Set<GCommand> selectedCCmd = es.getSelectedCommand();
 		Set<GCommand> nearSelection = es.getNearSelectedCommans();
 		int size = (int)EditorStates.NODE_CIRCLE_SIZE;
-		if(selectedCCmd != null)
-			System.out.println(selectedCCmd.size());
+
 		pointSize = 2;
 		lineColor = Color.black;
 		
@@ -45,8 +44,7 @@ public abstract class GCommand {
 		if(selectedCCmd != null && selectedCCmd.contains(this)){
 			pointColor = Color.red;
 			lineColor = Color.red;	
-			pointSize = size;
-			
+			pointSize = size;			
 		}
 		
 		if(this.getZ() > 0){
@@ -59,8 +57,10 @@ public abstract class GCommand {
 		g.setColor(pointColor);
 		g.fillOval((int)(newX-pointSize/2), (int)(newY-pointSize/2), pointSize, pointSize);
 		
-		g.setColor(lineColor);
-		drawLine(g);
+		if(!es.isDisplayOnlyZ0() || this.getZ() <= 0){
+			g.setColor(lineColor);
+			drawLine(g);	
+		}
 	}
 	
 	private final List<ActionListener> listeners = new ArrayList<ActionListener>();

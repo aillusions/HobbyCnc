@@ -70,16 +70,16 @@ public class Editor {
 		}
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
-			
+
 			vertexes = gcc.findVertexesNear(cncX, cncY);
-			
+
 			if(vertexes.size() > 0){
 				
 				//List<GCommand> neighbourVertexes =  gcc.getNeighbourVertexes(vertexes.get(0));
 				if(ctrl){
-					es.addToSelectedVertex(vertexes, null);
+					es.addToSelectedVertex(vertexes);
 				}else{
-					es.setSelectedVertex(vertexes, null);
+					es.setSelectedVertex(vertexes);
 				}				
 			}else{
 				es.clearSelection();
@@ -87,12 +87,12 @@ public class Editor {
 			
 			if(isCurrentSelectedToolReset){
 				es.setCurrentSelectedTool(EditorTolls.SIMPLE_EDIT);
-			}else{
-				prevDragX = x;
-				prevDragY = y;
-				dragStarted = true;
-				//System.out.println(x + ", " + y);
 			}
+			
+			prevDragX = x;
+			prevDragY = y;
+			dragStarted = true;
+			
 		}
 	}
 	
@@ -148,8 +148,6 @@ public class Editor {
 			}
 		}		
 	}
-	
-
 	
 	public void convertImageToGCodes() {
 		
@@ -273,14 +271,6 @@ public class Editor {
 				}
 			}
 		}
+	}
 
-	}
-	
-	private float getSpan(){
-		
-		if(dragStarted){
-			return EditorStates.NODE_CIRCLE_SIZE * 100;
-		}		
-		return EditorStates.NODE_CIRCLE_SIZE;
-	}
 }

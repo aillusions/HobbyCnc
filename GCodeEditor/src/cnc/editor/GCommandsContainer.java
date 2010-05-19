@@ -3,8 +3,10 @@ package cnc.editor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 //Singleton
 public class GCommandsContainer implements ActionListener {	
@@ -84,9 +86,9 @@ public class GCommandsContainer implements ActionListener {
 		return result;
 	}
 
-	public List<GCommand> getNeighbourVertexes(GCommand gCommand) {
+	public Set<GCommand> getNeighbourVertexes(GCommand gCommand) {
 		
-		List<GCommand> result = new ArrayList<GCommand>();
+		Set<GCommand> result = new HashSet<GCommand>();
 		int indexOfCurrent = gCommandList.indexOf(gCommand);
 		if(indexOfCurrent - 1 >= 0){
 			result.add(gCommandList.get(indexOfCurrent - 1));

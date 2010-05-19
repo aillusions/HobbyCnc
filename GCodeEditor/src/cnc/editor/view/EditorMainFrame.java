@@ -178,7 +178,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		txtFld_G02Radius.addKeyListener(editorViewListener);
 		
 		chkBx_liftForEachStroke = new JCheckBox();
-		chkBx_liftForEachStroke.setText("lift down");
+		chkBx_liftForEachStroke.setText("auto lift");
 		chkBx_liftForEachStroke.setBounds(901, 320, 84, 21);
 		chkBx_liftForEachStroke.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		chkBx_liftForEachStroke.addChangeListener(editorViewListener);

@@ -29,12 +29,14 @@ public class GCommandG02 extends GCommand{
 		//P1-P0
 		double sqrD = Math.pow(X0 - X1, 2) + Math.pow(Y0 - Y1, 2);
 		double d = Math.sqrt(sqrD);
-		
+
 		if(2*R < d){
-			//System.out.println("no intersections!");
-		
-		}else if(2*R == d){
-			//System.out.println("1 intersection");
+			
+			System.err.println("drawLine can not be run: no intersections!");
+			
+		}else if(2*R == d){		
+			
+			System.err.println(" 1 intersections -- untreated");
 		
 		}else if(2*R > d){
 			//System.out.println("2 intersections");
@@ -52,11 +54,11 @@ public class GCommandG02 extends GCommand{
 
 			{					
 				//Draw center of imagined circle
-				int centerX, centerY;
-				int size = 5;
-				centerX = (int)(EditorStates.convertPositionCnc_View((float)X3)-size/2);
-				centerY = (int)(EditorStates.convertPositionCnc_View((float)Y3)-size/2);	
-				g.fillOval(centerX, centerY, size, size);
+				//int centerX, centerY;
+				//int size = 5;
+				//centerX = (int)(EditorStates.convertPositionCnc_View((float)X3)-size/2);
+				//centerY = (int)(EditorStates.convertPositionCnc_View((float)Y3)-size/2);	
+				//g.fillOval(centerX, centerY, size, size);
 				
 				//tangent of angels between:
 				//- two vectors: R0(P3, P0) and abscissa; 

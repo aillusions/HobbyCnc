@@ -38,7 +38,6 @@ public class EditorStates {
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
 	private Set<GCommand> selectedCommands;
-	private Set<GCommand> nearSelectedCommands;
 	private Editor.EditModeS currentEditMode = EditModeS.DRAW;
 	private boolean importInProgress;
 	private final Document document = new PlainDocument();
@@ -46,6 +45,7 @@ public class EditorStates {
 	private Editor.GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private float G02Radius = 20;
 	private boolean liftForEachStroke = false;
+	private boolean displayOnlyZ0 = true;
 
 	//CNC coordinates (mm) - not pixels!!
 	private int gridStep = 5;
@@ -147,39 +147,28 @@ public class EditorStates {
 	}
 
 	public Set<GCommand> getNearSelectedCommans() {
-		return nearSelectedCommands;
+		
+		if(selectedCommands != null && selectedCommands.size() == 1){
+			return GCommandsContainer.getInstance().getNeighbourVertexes(((GCommand)selectedCommands.toArray()[0]));
+		}
+		return null;
 	}
 	
-	public void setSelectedVertex(List<GCommand> selectedVertex, List<GCommand> nearSelectedVertex) {
-	
+	public void setSelectedVertex(List<GCommand> selectedVertex) {
+
 		this.selectedCommands = new HashSet<GCommand>();
-		this.nearSelectedCommands = new HashSet<GCommand>();
-		
 		this.selectedCommands.addAll(selectedVertex);
-		
-		if(nearSelectedVertex != null){
-			this.nearSelectedCommands.addAll(nearSelectedVertex);
-		}
-		
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void addToSelectedVertex(List<GCommand> selectedVertex, List<GCommand> nearSelectedVertex) {
+	public void addToSelectedVertex(List<GCommand> selectedVertex) {
 	
 		if(this.selectedCommands == null){
 			this.selectedCommands = new HashSet<GCommand>();
 		}
-		
-		if(this.nearSelectedCommands == null){
-			this.nearSelectedCommands = new HashSet<GCommand>();
-		}
-		
+
 		this.selectedCommands.addAll(selectedVertex);
-		
-		if(nearSelectedVertex != null){
-			this.nearSelectedCommands.addAll(nearSelectedVertex);
-		}
 		
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
@@ -187,7 +176,6 @@ public class EditorStates {
 	
 	public void clearSelection(){
 		this.selectedCommands = null;
-		this.nearSelectedCommands = null;
 		ActionEvent ae = new ActionEvent(this , -1, CMD_CLEAR_SELECTION);
 		notifyAllAboutChanges(ae);
 	}
@@ -287,6 +275,15 @@ public class EditorStates {
 		this.liftForEachStroke = liftHeadForNextStroke;
 	}
 
+	public boolean isDisplayOnlyZ0() {
+		return displayOnlyZ0;
+	}
+
+	public void setDisplayOnlyZ0(boolean displayOnlyZ0) {
+		this.displayOnlyZ0 = displayOnlyZ0;
+	}
+
+	
 	//------------
 	public void addActionListener(ActionListener al){
 		listeners.add(al);
@@ -297,5 +294,6 @@ public class EditorStates {
 			al.actionPerformed(ae);
 		}
 	}
+
 
 }
