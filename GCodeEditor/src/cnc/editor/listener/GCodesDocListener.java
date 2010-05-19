@@ -49,7 +49,6 @@ public class GCodesDocListener implements DocumentListener {
 				int prevCommandIndex = lineIndex-1;
 				
 				GCommand oldCommand = container.getGCommandList().get(lineIndex);
-				//GCommand prevCommand = container.getGCommandList().get(prevCommandIndex);				
 				GCommand newCommand = GCodeParser.parseCommand(newCommandValue);
 				
 				oldCommand.setX(newCommand.getX());

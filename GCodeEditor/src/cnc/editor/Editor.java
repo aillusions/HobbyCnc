@@ -74,13 +74,13 @@ public class Editor {
 			vertexes = gcc.findVertexesNear(cncX, cncY);
 
 			if(vertexes.size() > 0){
-				
-				//List<GCommand> neighbourVertexes =  gcc.getNeighbourVertexes(vertexes.get(0));
+
 				if(ctrl){
 					es.addToSelectedVertex(vertexes);
 				}else{
 					es.setSelectedVertex(vertexes);
-				}				
+				}	
+				
 			}else{
 				es.clearSelection();
 			}
@@ -91,8 +91,7 @@ public class Editor {
 			
 			prevDragX = x;
 			prevDragY = y;
-			dragStarted = true;
-			
+			dragStarted = true;			
 		}
 	}
 	
@@ -102,6 +101,7 @@ public class Editor {
 		if(continuousDrawStarted){
 			continuousDrawStarted = false;
 		}		
+		
 		dragStarted = false;
 		prevDragX = 0;
 		prevDragY = 0;

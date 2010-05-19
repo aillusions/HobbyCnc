@@ -3,6 +3,7 @@ package cnc.editor.listener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
@@ -33,34 +34,38 @@ public class GCommandsContainerListener implements ActionListener {
 		visualisationPanel.repaint();
 
 		Document doc = es.getDocument();
-		
+
 		if(es.getCurrentEditMode() == EditModeS.DRAW 
-				&& event.getActionCommand().equals(GCommand.CMD_COORDINATE_CHANGED)){
-			
-			GCommand gc = (GCommand)event.getSource();
-			
-			///GCommand gc = vertex.getgCommand();
-			int editorLineIndex = EditorStates.getLineNumberInTextEditor(gc);
+				&& event.getActionCommand().equals(GCommand.CMD_COORDINATE_CHANGED)){			
 			
 			try {
+				
+				GCommand gc = (GCommand)event.getSource();					
+				int editorLineIndex = EditorStates.getLineNumberInTextEditor(gc);					
 				int lineStart = es.getLineStartOffset(editorLineIndex);
 				int lineEnd = es.getLineEndOffset(editorLineIndex);
 				
 				doc.remove(lineStart, lineEnd-lineStart);
 				doc.insertString(lineStart, gc.toString() + "\r\n", null);
 				
-				lineEnd = es.getLineEndOffset(editorLineIndex);
+				Set<GCommand> selected = es.getSelectedCommand();
 				
-				//SwingUtilities.invokeLater(new Runnable() { 
-				//	public void run() {
-				//		gCodesTextContainer.requestFocus(); 
-				//	}}); 
-		
-				//gCodesTextContainer.select(lineStart, lineEnd);
+				if(selected != null && selected.size() == 1){
+					
+					lineEnd = es.getLineEndOffset(editorLineIndex);
+					
+					SwingUtilities.invokeLater(new Runnable() { 
+						public void run() {
+							gCodesTextContainer.requestFocus(); 
+						}}); 
+			
+					gCodesTextContainer.select(lineStart, lineEnd);
+				}
 				
 			} catch (BadLocationException e) {
 				throw new RuntimeException(e);
-			}					
+			}		
+		
 		}else if(event.getActionCommand().equals(GCommandsContainer.CMD_ADDED_BUNCH_OF_COMMANDS)){
 			
 			try {

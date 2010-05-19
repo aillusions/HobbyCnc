@@ -11,6 +11,7 @@ import javax.swing.text.BadLocationException;
 
 import cnc.editor.EditorStates;
 import cnc.editor.GCommand;
+import cnc.editor.GCommandsContainer;
 import cnc.editor.view.GCodesTextContainer;
 import cnc.editor.view.VisualisationPanel;
 
@@ -29,23 +30,24 @@ public class EditorStatesListener implements ActionListener {
 		EditorStates es = EditorStates.getInstance();
 		Set<GCommand> gCommands = es.getSelectedCommand();
 
-		if(gCommands != null){
+		if(gCommands != null && gCommands.size() == 1){
 			
-			//try{							
-				//int editorLineIndex = EditorStates.getLineNumberInTextEditor(gCommands.get(0));
-				//int lineStart = gCodesTextContainer.getLineStartOffset(editorLineIndex);
-				//int lineEnd = gCodesTextContainer.getLineEndOffset(editorLineIndex);
+			try{							
+				GCommand gc = (GCommand)gCommands.toArray()[0];
+				int editorLineIndex = EditorStates.getLineNumberInTextEditor(gc);
+				int lineStart = gCodesTextContainer.getLineStartOffset(editorLineIndex);
+				int lineEnd = gCodesTextContainer.getLineEndOffset(editorLineIndex);
 				
-				//SwingUtilities.invokeLater(new Runnable() { 
-				//	public void run() {
-				//		gCodesTextContainer.requestFocus(); 
-				//	}}); 
+				SwingUtilities.invokeLater(new Runnable() { 
+					public void run() {
+						gCodesTextContainer.requestFocus(); 
+					}}); 
 		
-				//gCodesTextContainer.select(lineStart, lineEnd);
-				//gCodesTextContainer.scrollRectToVisible(new Rectangle(1,1,1,1));
-			//} catch (BadLocationException e) {
-			//	throw new RuntimeException(e);
-			//}
+				gCodesTextContainer.select(lineStart, lineEnd);
+				gCodesTextContainer.scrollRectToVisible(new Rectangle(1,1,1,1));
+			} catch (BadLocationException e) {
+				throw new RuntimeException(e);
+			}
 		}else{
 			gCodesTextContainer.select(0, 0);
 		}
