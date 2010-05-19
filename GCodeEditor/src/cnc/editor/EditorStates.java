@@ -42,6 +42,7 @@ public class EditorStates {
 	private final Document document = new PlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
 	private Editor.GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
+	private float G02Radius = 20;
 	
 	//CNC coordinates (mm) - not pixels!!
 	private int gridStep = 5;
@@ -237,8 +238,14 @@ public class EditorStates {
 
 	public void setCurrentGCmdType(Editor.GcommandTypes currentGCmdType) {
 		this.currentGCmdType = currentGCmdType;
-	//	ActionEvent ae = new ActionEvent(this , -1, CMD_SET_NEW_CORRENT_CMD_TYPE);
-		//notifyAllAboutChanges(ae);
+	}
+	
+	public float getG02Radius() {
+		return G02Radius;
+	}
+
+	public void setG02Radius(float g02Radius) {
+		this.G02Radius = g02Radius;
 	}
 
 	//------------

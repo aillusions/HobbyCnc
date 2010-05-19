@@ -53,7 +53,7 @@ public class Editor {
 			if(es.getCurrentGCmdType() == GcommandTypes.G00)
 				gcc.addCommand(new GCommandG00(cncX, cncY, null));
 			else
-				gcc.addCommand(new GCommandG02(cncX, cncY, null, 20f));
+				gcc.addCommand(new GCommandG02(cncX, cncY, null, es.getG02Radius()));
 			
 			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 			isCurrentSelectedToolReset = true;

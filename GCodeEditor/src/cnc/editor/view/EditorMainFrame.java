@@ -12,8 +12,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.PlainDocument;
+
+import cnc.editor.listener.EditorMainFrameListener;
 
 public class EditorMainFrame extends javax.swing.JFrame {
 
@@ -46,6 +50,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private ButtonGroup btnGr_commandTypes;
 	private JRadioButton rbtn_commandType_G00;
 	private JRadioButton rbtn_commandType_G02;
+	private JTextField txtFld_G02Radius;
 	
 	public VisualisationPanel getVisualPanelViewOutput() {
 		return pnl_GraphicOutput;
@@ -56,7 +61,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	}
 
 	//Constructor
-	public EditorMainFrame(ActionListener editorViewListener, GCodesTextContainer textContainer, VisualisationPanel visualisationPanel) {
+	public EditorMainFrame(EditorMainFrameListener editorViewListener, GCodesTextContainer textContainer, VisualisationPanel visualisationPanel) {
 		
 		txtArea_GCodes = textContainer;
 		
@@ -164,6 +169,14 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		btnGr_commandTypes.add(rbtn_commandType_G00);
 		btnGr_commandTypes.add(rbtn_commandType_G02);
 		
+		txtFld_G02Radius = new JTextField(new PlainDocument(), "",1);
+		txtFld_G02Radius.setText("20");
+		txtFld_G02Radius.setBounds(901, 320, 84, 21);
+		txtFld_G02Radius.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		txtFld_G02Radius.addKeyListener(editorViewListener);
+/*		txtFld_G02Radius.setActionCommand("ChangeG02Radius");
+		txtFld_G02Radius.addActionListener(editorViewListener);*/
+		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setTitle("GCodes editor");
@@ -181,6 +194,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		add(rbtn_Lift);
 		add(rbtn_commandType_G00);
 		add(rbtn_commandType_G02);
+		add(txtFld_G02Radius);
 		
 		pack();
 		setSize(1000, 500);	

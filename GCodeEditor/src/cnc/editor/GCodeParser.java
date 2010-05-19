@@ -22,28 +22,32 @@ public class GCodeParser {
 				cmdType = GcommandTypes.G02;
 			} 
 		       
-			if(cmdType != null){			
+			if(cmdType != null){	
+				
 				String withoutType = cmd.replace(cmdType.toString(), "").trim();
 				String[] args = withoutType.split(" ");
 				
+				Float x = null, y = null, z = null, r = null;
+				
+				for(int i = 0; i < args.length; i ++){
+					if(args[i].indexOf("X") != -1){
+						x = Float.parseFloat(args[i].replace("X", ""));
+					}else if(args[i].indexOf("Y") != -1){
+						y = Float.parseFloat(args[i].replace("Y", ""));
+					}else if(args[i].indexOf("Z") != -1){
+						z = Float.parseFloat(args[i].replace("Z", ""));
+					}else if(args[i].indexOf("R") != -1){
+						r = Float.parseFloat(args[i].replace("R", ""));
+					}
+				}
+				
 				switch(cmdType){
 				case G00: 
-					Float x = null, y = null, z = null;
-					
-					for(int i = 0; i < args.length; i ++){
-						if(args[i].indexOf("X") != -1){
-							x = Float.parseFloat(args[i].replace("X", ""));
-						}else if(args[i].indexOf("Y") != -1){
-							y = Float.parseFloat(args[i].replace("Y", ""));
-						}else if(args[i].indexOf("Z") != -1){
-							z = Float.parseFloat(args[i].replace("Z", ""));
-						}
-					}
 					return new GCommandG00(x,y,z);
 				case G01:
 					break;
 				case G02: 
-					break;
+					return new GCommandG02(x,y,z, r);
 				default:
 					System.out.println("UNDEF");
 				}
