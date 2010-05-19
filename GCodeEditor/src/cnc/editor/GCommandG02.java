@@ -45,19 +45,18 @@ public class GCommandG02 extends GCommand{
 			
 			X2 = (X1+X0)/2;
 			Y2 = (Y1+Y0)/2;
-			
 			double X3 , Y3;
 			
-			X3 = X2 - radiusSignum * h * (Y1-Y0) / d;
-			Y3 = Y2 + radiusSignum * h * (X1-X0) / d;
-			
+			X3 = X2 - radiusSignum *( h * (Y1-Y0) / d);
+			Y3 = Y2 + radiusSignum * (h * (X1-X0) / d);
+
 			{					
 				//Draw center of imagined circle
-				//int centerX, centerY;
-				//int size = 5;
-				//centerX = (int)(EditorStates.convertPositionCnc_View((float)X3)-size/2);
-				//centerY = (int)(EditorStates.convertPositionCnc_View((float)Y3)-size/2);	
-				//g.fillOval(centerX, centerY, size, size);
+				int centerX, centerY;
+				int size = 5;
+				centerX = (int)(EditorStates.convertPositionCnc_View((float)X3)-size/2);
+				centerY = (int)(EditorStates.convertPositionCnc_View((float)Y3)-size/2);	
+				g.fillOval(centerX, centerY, size, size);
 				
 				//tangent of angels between:
 				//- two vectors: R0(P3, P0) and abscissa; 
@@ -100,7 +99,7 @@ public class GCommandG02 extends GCommand{
 				
 				double left = X3 - R;	
 				double top = Y3 - R;
-				
+				//System.out.println(left + ", " + top );
 				int viewLeft = (int)EditorStates.convertPositionCnc_View((float)left);
 				int viewTop = (int)EditorStates.convertPositionCnc_View((float)top);
 				int viewHeight = (int)EditorStates.convertLengthCnc_View((float)(2*R));

@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import cnc.editor.domain.GCommand.GcommandTypes;
 
@@ -28,25 +29,28 @@ public abstract class GCommand {
 		Color pointColor = Color.black;
 		int pointSize;
 		
-		GCommand selectedCCmd = es.getSelectedVertex();
-		List<GCommand> nearSelection = es.getNearSelectedVertex();
+		Set<GCommand> selectedCCmd = es.getSelectedCommand();
+		Set<GCommand> nearSelection = es.getNearSelectedCommans();
 		int size = (int)EditorStates.NODE_CIRCLE_SIZE;
+		if(selectedCCmd != null)
+			System.out.println(selectedCCmd.size());
+		pointSize = 2;
+		lineColor = Color.black;
 		
-		pointSize = 0;
-		
-		if(this.getZ() <= 0){
-			lineColor = Color.black;
-		}else{
-			lineColor = Color.blue;
+		if(nearSelection != null && nearSelection.contains(this)){
+			pointColor = Color.gray;
+			pointSize = size;
 		}
-		
-		if(this == selectedCCmd){
+
+		if(selectedCCmd != null && selectedCCmd.contains(this)){
 			pointColor = Color.red;
 			lineColor = Color.red;	
 			pointSize = size;
-		}else if(nearSelection != null && nearSelection.indexOf(this) > -1){
-			pointColor = Color.gray;
-			pointSize = size;
+			
+		}
+		
+		if(this.getZ() > 0){
+			lineColor = Color.blue;
 		}
 		
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
@@ -129,7 +133,7 @@ public abstract class GCommand {
 		return getCommandType() + " " + strX + strY + strZ;
 	}
 	
-	@Override
+/*	@Override
 	public boolean equals(Object arg0) {
 		boolean res = false;
 		if(arg0 != null && arg0 instanceof GCommand)
@@ -143,7 +147,7 @@ public abstract class GCommand {
 			}
 		}		
 		return res;
-	}
+	}*/
 
 	public GCommand getPreviousCmd() {
 		return previousCmd;

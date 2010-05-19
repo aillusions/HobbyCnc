@@ -1,6 +1,5 @@
 package cnc.editor.listener;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -52,12 +51,12 @@ public class GCommandsContainerListener implements ActionListener {
 				
 				lineEnd = es.getLineEndOffset(editorLineIndex);
 				
-				SwingUtilities.invokeLater(new Runnable() { 
-					public void run() {
-						gCodesTextContainer.requestFocus(); 
-					}}); 
+				//SwingUtilities.invokeLater(new Runnable() { 
+				//	public void run() {
+				//		gCodesTextContainer.requestFocus(); 
+				//	}}); 
 		
-				gCodesTextContainer.select(lineStart, lineEnd);
+				//gCodesTextContainer.select(lineStart, lineEnd);
 				
 			} catch (BadLocationException e) {
 				throw new RuntimeException(e);
@@ -99,8 +98,6 @@ public class GCommandsContainerListener implements ActionListener {
 		if(event.getActionCommand().equals(GCommandsContainer.CMD_CLEAR_COMMANDS_CONATINER)){
 			
 			es.clearSelection();
-			//visualisationPanel.setPreferredSize(new Dimension(0,0));
-			//visualisationPanel.revalidate();
 			
 			try {
 				doc.remove(0, doc.getLength());

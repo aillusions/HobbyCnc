@@ -5,14 +5,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
 import cnc.editor.GCommandsContainer;
 
-public class EditorMainFrameListener implements ActionListener, KeyListener {
+public class EditorMainFrameListener implements ActionListener, KeyListener, ChangeListener {
 
 	private Editor editor;	
 	private EditorStates es = EditorStates.getInstance();
@@ -41,7 +44,7 @@ public class EditorMainFrameListener implements ActionListener, KeyListener {
 		}else if(e.getActionCommand().equals("LiftWorkHead")){
 			editor.liftWorkHead();
 		}else if(e.getActionCommand().equals("DescendWorkHead")){
-			editor.descendWorkHead();
+			editor.downWorkHead();
 		}else if(e.getActionCommand().equals("SetFutureCommandsType_G02")){
 			es.setCurrentGCmdType(Editor.GcommandTypes.G02);
 		}else if(e.getActionCommand().equals("SetFutureCommandsType_G00")){
@@ -61,5 +64,9 @@ public class EditorMainFrameListener implements ActionListener, KeyListener {
 
 	public void keyTyped(KeyEvent e) {
 
+	}
+
+	public void stateChanged(ChangeEvent e) {
+		es.setLiftForEachStroke(((JCheckBox)e.getSource()).isSelected());
 	}
 }

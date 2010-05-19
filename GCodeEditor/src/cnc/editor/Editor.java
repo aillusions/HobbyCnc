@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Set;
 
 import cnc.GCodeAcceptor;
 import cnc.editor.view.EditorMainFrame;
@@ -22,34 +23,43 @@ public class Editor {
 	private GCommandsContainer gcc = GCommandsContainer.getInstance();
 	private EditorStates es = EditorStates.getInstance();
 	
-	public void viewMousePressed(double x, double y){
+	private boolean continuousDrawStarted = false;
+	private boolean dragStarted = false;
+	private double prevDragX;
+	private double prevDragY;
+	
+	public void mousePressedAt(double x, double y, boolean ctrl){
+		
+		es.setCurrentEditMode(Editor.EditModeS.DRAW);
 		
 		float cncX = EditorStates.convertPositionView_Cnc((long)x);
 		float cncY = EditorStates.convertPositionView_Cnc((long)y);
-
+		
 		boolean isCurrentSelectedToolReset = false;
 		
 		List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
-		
-		if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
-			
-			if(es.getCurrentGCmdType() != GcommandTypes.G00){
-				throw new RuntimeException("Continuous drawing works only for " + GcommandTypes.G00 + "command type");
-			}
-			
-			String cmd = "\n" + es.getCurrentGCmdType() + " X" + cncX + " Y" + cncY;
-			gcc.addCommand(GCodeParser.parseCommand(cmd));
-			return;
-		}
-		
+				
 		if(vertexes != null && vertexes.size() > 0 && es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
 			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 			isCurrentSelectedToolReset = true;
 		}
 		
+		if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){				
+			
+			continuousDrawStarted = true;
+			
+			liftHeadOrDownIfNeeded();			
+			viewMouseDraggedTo(x, y);
+			
+			if(es.isLiftForEachStroke()){
+				downWorkHead();
+			}
+		}
+		
 		if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){			
 			
-			//es.getCurrentGCmdType()
+			liftHeadOrDownIfNeeded();
+			
 			if(es.getCurrentGCmdType() == GcommandTypes.G00)
 				gcc.addCommand(new GCommandG00(cncX, cncY, null));
 			else
@@ -60,23 +70,91 @@ public class Editor {
 		}
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
+			
 			vertexes = gcc.findVertexesNear(cncX, cncY);
+			
 			if(vertexes.size() > 0){
-				List<GCommand> neighbourVertexes =  gcc.getNeighbourVertexes(vertexes.get(0));
-				es.setSelectedVertex(vertexes.get(0), neighbourVertexes);
+				
+				//List<GCommand> neighbourVertexes =  gcc.getNeighbourVertexes(vertexes.get(0));
+				if(ctrl){
+					es.addToSelectedVertex(vertexes, null);
+				}else{
+					es.setSelectedVertex(vertexes, null);
+				}				
 			}else{
 				es.clearSelection();
 			}
 			
 			if(isCurrentSelectedToolReset){
 				es.setCurrentSelectedTool(EditorTolls.SIMPLE_EDIT);
+			}else{
+				prevDragX = x;
+				prevDragY = y;
+				dragStarted = true;
+				//System.out.println(x + ", " + y);
 			}
 		}
 	}
 	
+	
+	public void viewMouseReleasedAt(double x, double y){
+		
+		if(continuousDrawStarted){
+			continuousDrawStarted = false;
+		}		
+		dragStarted = false;
+		prevDragX = 0;
+		prevDragY = 0;
+	}
+	
+	public void viewMouseDraggedTo(double x, double y){
+			
+		if(continuousDrawStarted){
+			
+			float cncX = EditorStates.convertPositionView_Cnc((long)x);
+			float cncY = EditorStates.convertPositionView_Cnc((long)y);
+			
+			if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
+				
+				if(es.getCurrentGCmdType() != GcommandTypes.G00){
+					throw new RuntimeException("Continuous drawing works only for " + GcommandTypes.G00 + "command type");
+				}
+				
+				gcc.addCommand(new GCommandG00(cncX, cncY, null));
+				return;
+			}
+			
+		}else{
+			
+			if(dragStarted){
+				
+				float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
+				float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
+				
+				Set<GCommand> gcs = es.getSelectedCommand();
+				if(gcs != null){
+					//System.out.println(gcs.size());
+					for(GCommand gc : gcs){					
+						if(gc != null){							
+							gc.setX(gc.getX() - shiftX);
+							gc.setY(gc.getY() - shiftY);
+							
+							prevDragX = x;
+							prevDragY = y;
+						}
+					}
+				}
+				
+			}
+		}		
+	}
+	
+
+	
 	public void convertImageToGCodes() {
 		
 		File file = null;
+		
 		if ((file = EditorMainFrame.openFileChooser("./parser", "bmp"))!= null) {
 			
 			es.setImportInProgress(true);
@@ -108,6 +186,7 @@ public class Editor {
 	public void addGCodesFromFile() {
 		
 		File file = null;
+		
 		if ((file = EditorMainFrame.openFileChooser("./gcodes", "cnc"))!= null) {
 			
 			es.setImportInProgress(true);
@@ -148,7 +227,7 @@ public class Editor {
 		}
 	}
 
-	public void descendWorkHead() {
+	public void downWorkHead() {
 		
 		//GcommandTypes.G00
 		GCommand gCmd = new GCommandG00(null, null, 0f);
@@ -160,5 +239,48 @@ public class Editor {
 		if(!lastCmd.equals(gCmd)){
 			gcc.addCommand(gCmd);	
 		}		
+	}
+	
+	private void liftHeadOrDownIfNeeded(){
+		
+		if(es.isLiftForEachStroke()){
+			
+			List<GCommand> cmdList = gcc.getGCommandList();
+			int lastIndex = cmdList.size() - 1;
+			GCommand lastCmd = null;
+			GCommand preLastCmd = null;
+			
+			if(lastIndex > -1){
+				lastCmd = cmdList.get(lastIndex);
+			}
+			if((lastIndex - 1) > -1){
+				preLastCmd = cmdList.get(lastIndex - 1);
+			}
+			
+			if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){	
+					
+				if(lastCmd.getZ() > 0 && (preLastCmd != null)){				
+					downWorkHead();
+				}else if(preLastCmd != null && preLastCmd.getZ() <= 0){
+					liftWorkHead();
+				}
+					
+			}else if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){		
+				if(preLastCmd != null && preLastCmd.getZ() <= 0){
+					liftWorkHead();
+				}else if(lastCmd.getZ() > 0){
+					
+				}
+			}
+		}
+
+	}
+	
+	private float getSpan(){
+		
+		if(dragStarted){
+			return EditorStates.NODE_CIRCLE_SIZE * 100;
+		}		
+		return EditorStates.NODE_CIRCLE_SIZE;
 	}
 }

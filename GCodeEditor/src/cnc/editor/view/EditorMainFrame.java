@@ -1,12 +1,12 @@
 package cnc.editor.view;
 
-import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JRadioButton;
@@ -15,7 +15,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.text.PlainDocument;
 
 import cnc.editor.listener.EditorMainFrameListener;
 
@@ -33,7 +32,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	
 	private ButtonGroup btnGr_headPosition;
 	private JRadioButton rbtn_Lift;
-	private JRadioButton rbtn_Descend;
+	private JRadioButton rbtn_Down;
 	
 	private ButtonGroup btnGr_toolBar;
 	private JRadioButton rbtn_Tool_SimpleDraw;
@@ -51,6 +50,8 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private JRadioButton rbtn_commandType_G00;
 	private JRadioButton rbtn_commandType_G02;
 	private JTextField txtFld_G02Radius;
+	
+	private JCheckBox chkBx_liftForEachStroke;
 	
 	public VisualisationPanel getVisualPanelViewOutput() {
 		return pnl_GraphicOutput;
@@ -137,22 +138,23 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		rbtn_Lift.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Lift.setActionCommand("LiftWorkHead");
 		rbtn_Lift.addActionListener(editorViewListener);
+		rbtn_Lift.setSelected(true);
 		
-		rbtn_Descend = new JRadioButton();
-		rbtn_Descend.setText("DOWN");
-		rbtn_Descend.setBounds(901, 240, 84, 21);
-		rbtn_Descend.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		rbtn_Descend.setActionCommand("DescendWorkHead");
-		rbtn_Descend.addActionListener(editorViewListener);
-		rbtn_Descend.setSelected(true);
+		rbtn_Down = new JRadioButton();
+		rbtn_Down.setText("DOWN");
+		rbtn_Down.setBounds(901, 240, 84, 21);
+		rbtn_Down.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_Down.setActionCommand("DescendWorkHead");
+		rbtn_Down.addActionListener(editorViewListener);
+
 		
 		btnGr_headPosition = new ButtonGroup();
 		btnGr_headPosition.add(rbtn_Lift);
-		btnGr_headPosition.add(rbtn_Descend);
+		btnGr_headPosition.add(rbtn_Down);
 				
 		rbtn_commandType_G00 = new JRadioButton();
 		rbtn_commandType_G00.setText("G00");
-		rbtn_commandType_G00.setBounds(901, 270, 84, 21);
+		rbtn_commandType_G00.setBounds(901, 270, 45, 21);
 		rbtn_commandType_G00.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_commandType_G00.setActionCommand("SetFutureCommandsType_G00");
 		rbtn_commandType_G00.addActionListener(editorViewListener);
@@ -160,7 +162,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		
 		rbtn_commandType_G02 = new JRadioButton();
 		rbtn_commandType_G02.setText("G02");
-		rbtn_commandType_G02.setBounds(901, 290, 84, 21);
+		rbtn_commandType_G02.setBounds(901, 290, 45, 21);
 		rbtn_commandType_G02.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_commandType_G02.setActionCommand("SetFutureCommandsType_G02");
 		rbtn_commandType_G02.addActionListener(editorViewListener);
@@ -169,13 +171,18 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		btnGr_commandTypes.add(rbtn_commandType_G00);
 		btnGr_commandTypes.add(rbtn_commandType_G02);
 		
-		txtFld_G02Radius = new JTextField(new PlainDocument(), "",1);
+		txtFld_G02Radius = new JTextField();
 		txtFld_G02Radius.setText("20");
-		txtFld_G02Radius.setBounds(901, 320, 84, 21);
+		txtFld_G02Radius.setBounds(950, 290, 30, 21);
 		txtFld_G02Radius.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		txtFld_G02Radius.addKeyListener(editorViewListener);
-/*		txtFld_G02Radius.setActionCommand("ChangeG02Radius");
-		txtFld_G02Radius.addActionListener(editorViewListener);*/
+		
+		chkBx_liftForEachStroke = new JCheckBox();
+		chkBx_liftForEachStroke.setText("lift down");
+		chkBx_liftForEachStroke.setBounds(901, 320, 84, 21);
+		chkBx_liftForEachStroke.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		chkBx_liftForEachStroke.addChangeListener(editorViewListener);
+		
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -190,11 +197,12 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		add(rbtn_Tool_ContinuousDraw);		
 		add(rbtn_Tool_SelectVertex);		
 		add(comBox_Scale);
-		add(rbtn_Descend);
+		add(rbtn_Down);
 		add(rbtn_Lift);
 		add(rbtn_commandType_G00);
 		add(rbtn_commandType_G02);
 		add(txtFld_G02Radius);
+		add(chkBx_liftForEachStroke);
 		
 		pack();
 		setSize(1000, 500);	

@@ -3,7 +3,9 @@ package cnc.editor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -35,15 +37,16 @@ public class EditorStates {
 	private int viewCoordLenghtX = 600;		
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
-	private GCommand selectedVertex;
-	private List<GCommand> nearSelectedVertex;
+	private Set<GCommand> selectedCommands;
+	private Set<GCommand> nearSelectedCommands;
 	private Editor.EditModeS currentEditMode = EditModeS.DRAW;
 	private boolean importInProgress;
 	private final Document document = new PlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
 	private Editor.GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private float G02Radius = 20;
-	
+	private boolean liftForEachStroke = false;
+
 	//CNC coordinates (mm) - not pixels!!
 	private int gridStep = 5;
 	
@@ -139,28 +142,56 @@ public class EditorStates {
 		this.currentSelectedTool = currentSelectedTool;
 	}
 	
-	public GCommand getSelectedVertex() {
-		return selectedVertex;
+	public Set<GCommand> getSelectedCommand() {
+		return selectedCommands;
 	}
 
-	public void setSelectedVertex(GCommand selectedVertex, List<GCommand> nearSelectedVertex) {
-		this.selectedVertex = selectedVertex;
-		this.nearSelectedVertex = nearSelectedVertex;
+	public Set<GCommand> getNearSelectedCommans() {
+		return nearSelectedCommands;
+	}
+	
+	public void setSelectedVertex(List<GCommand> selectedVertex, List<GCommand> nearSelectedVertex) {
+	
+		this.selectedCommands = new HashSet<GCommand>();
+		this.nearSelectedCommands = new HashSet<GCommand>();
+		
+		this.selectedCommands.addAll(selectedVertex);
+		
+		if(nearSelectedVertex != null){
+			this.nearSelectedCommands.addAll(nearSelectedVertex);
+		}
+		
+		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
+		notifyAllAboutChanges(ae);
+	}
+	
+	public void addToSelectedVertex(List<GCommand> selectedVertex, List<GCommand> nearSelectedVertex) {
+	
+		if(this.selectedCommands == null){
+			this.selectedCommands = new HashSet<GCommand>();
+		}
+		
+		if(this.nearSelectedCommands == null){
+			this.nearSelectedCommands = new HashSet<GCommand>();
+		}
+		
+		this.selectedCommands.addAll(selectedVertex);
+		
+		if(nearSelectedVertex != null){
+			this.nearSelectedCommands.addAll(nearSelectedVertex);
+		}
+		
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
 	public void clearSelection(){
-		this.selectedVertex = null;
-		this.nearSelectedVertex = null;
+		this.selectedCommands = null;
+		this.nearSelectedCommands = null;
 		ActionEvent ae = new ActionEvent(this , -1, CMD_CLEAR_SELECTION);
 		notifyAllAboutChanges(ae);
 	}
-	
-	public List<GCommand> getNearSelectedVertex() {
-		return nearSelectedVertex;
-	}
-	
+		
 	public Editor.EditModeS getCurrentEditMode() {
 		return currentEditMode;
 	}
@@ -246,6 +277,14 @@ public class EditorStates {
 
 	public void setG02Radius(float g02Radius) {
 		this.G02Radius = g02Radius;
+	}	
+	
+	public boolean isLiftForEachStroke() {
+		return liftForEachStroke;
+	}
+
+	public void setLiftForEachStroke(boolean liftHeadForNextStroke) {
+		this.liftForEachStroke = liftHeadForNextStroke;
 	}
 
 	//------------

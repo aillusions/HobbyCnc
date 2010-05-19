@@ -8,7 +8,7 @@ import cnc.editor.domain.GCommand.GcommandTypes;
 public class GCommandOrigin extends GCommand{
 
 	public GCommandOrigin() {
-		super(0f, 0f, 0f);
+		super(0f, 0f, 2f);
 	}
 
 	@Override
