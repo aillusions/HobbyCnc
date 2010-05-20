@@ -107,26 +107,26 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		
 		//Tool bar controls
 		rbtn_Tool_SimpleDraw = new JRadioButton();		
-		rbtn_Tool_SimpleDraw.setText("draw");
+		rbtn_Tool_SimpleDraw.setText("line");
 		rbtn_Tool_SimpleDraw.setBounds(901, 100, 84, 21);
 		rbtn_Tool_SimpleDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Tool_SimpleDraw.addActionListener(editorViewListener);
 		rbtn_Tool_SimpleDraw.setActionCommand("switchToolsTo_SimpleDraw");
 		
-		rbtn_Tool_SelectVertex = new JRadioButton();
-		rbtn_Tool_SelectVertex.setText("select");
-		rbtn_Tool_SelectVertex.setBounds(901, 120, 84, 21);
-		rbtn_Tool_SelectVertex.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		rbtn_Tool_SelectVertex.addActionListener(editorViewListener);
-		rbtn_Tool_SelectVertex.setActionCommand("switchToolsTo_SelectVertexes");
-		
 		rbtn_Tool_ContinuousDraw = new JRadioButton();
-		rbtn_Tool_ContinuousDraw.setText("continue");
-		rbtn_Tool_ContinuousDraw.setBounds(901, 140, 84, 21);
+		rbtn_Tool_ContinuousDraw.setText("pen");
+		rbtn_Tool_ContinuousDraw.setBounds(901, 120, 84, 21);
 		rbtn_Tool_ContinuousDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Tool_ContinuousDraw.addActionListener(editorViewListener);
 		rbtn_Tool_ContinuousDraw.setActionCommand("switchToolsTo_ContinuousDraw");
 		
+		rbtn_Tool_SelectVertex = new JRadioButton();
+		rbtn_Tool_SelectVertex.setText("select");
+		rbtn_Tool_SelectVertex.setBounds(901, 140, 84, 21);
+		rbtn_Tool_SelectVertex.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_Tool_SelectVertex.addActionListener(editorViewListener);
+		rbtn_Tool_SelectVertex.setActionCommand("switchToolsTo_SelectVertexes");
+	
 		btnGr_toolBar = new ButtonGroup();
 		btnGr_toolBar.add(rbtn_Tool_SimpleDraw);
 		btnGr_toolBar.add(rbtn_Tool_SelectVertex);
