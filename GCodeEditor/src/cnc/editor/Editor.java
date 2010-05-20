@@ -63,15 +63,13 @@ public class Editor {
 						
 			if(es.isLiftForEachStroke()){
 				
-				GCommand start = null;
-				GCommand end = null;
+				GCommand end = null;				
+				GCommand start = new GCommandG00(cncX, cncY, null);
 				
-				if(es.getCurrentGCmdType() == GcommandTypes.G00){
-					start = new GCommandG00(cncX, cncY, null);
+				if(es.getCurrentGCmdType() == GcommandTypes.G00){					
 					end = new GCommandG00(cncX, cncY, null);
 				}
 				else{
-					start = new GCommandG02(cncX, cncY, null, es.getG02Radius());
 					end = new GCommandG02(cncX, cncY, null, es.getG02Radius());
 				}
 				
