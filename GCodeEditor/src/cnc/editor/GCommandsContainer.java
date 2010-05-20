@@ -105,8 +105,8 @@ public class GCommandsContainer implements ActionListener {
 		EditorStates es = EditorStates.getInstance();
 		List<GCommand> result = new ArrayList<GCommand>();
 		for(GCommand v : gCommandList){
-			if(0.7/es.getScale() > Math.abs(v.getX() - cncX) 
-					&& 0.7/es.getScale() > Math.abs(v.getY() - cncY)){
+			if(0.5/es.getScale() > Math.abs(v.getX() - cncX) 
+					&& 0.5/es.getScale() > Math.abs(v.getY() - cncY)){
 				result.add(v);
 			}
 		}

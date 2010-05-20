@@ -102,7 +102,7 @@ public class EditorStates {
 	private Editor.GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private float G02Radius = 20;
 	private boolean liftForEachStroke = false;
-	private boolean displayOnlyZ0 = false;
+	private boolean displayOnlyZ0 = true;
 	
 	//View coordinates (pixels)
 	private SelectedRegion selectedRegion;

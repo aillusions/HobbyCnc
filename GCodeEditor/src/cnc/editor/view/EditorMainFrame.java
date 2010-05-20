@@ -52,6 +52,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private JTextField txtFld_G02Radius;
 	
 	private JCheckBox chkBx_liftForEachStroke;
+	private JCheckBox chkBx_showOnlyZ0;
 	
 	public VisualisationPanel getVisualPanelViewOutput() {
 		return pnl_GraphicOutput;

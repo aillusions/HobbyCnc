@@ -38,6 +38,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	        menu.add(new EditAction()); 
 	        menu.add(new DeleteAction()); 
 	        menu.addSeparator(); 
+	        menu.add(new MergeAction()); 
 	        menu.add(new SelectAllAction()); 
 	        
 	        Point pt = SwingUtilities.convertPoint(e.getComponent(), e.getPoint(), (VisualisationPanel)e.getSource());
@@ -104,7 +105,25 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	       return true;
 	    } 
 	}
-	class DeleteAction extends AbstractAction{ 
+	
+	class MergeAction extends AbstractAction{ 
+		
+		private static final long serialVersionUID = 1L;
+
+		public MergeAction(){ 
+	        super("Merge"); 
+	    } 
+	 
+	    public void actionPerformed(ActionEvent e){ 
+	    	
+	    } 
+	 
+	    public boolean isEnabled(){ 
+	       return true;
+	    } 
+	}
+	
+		class DeleteAction extends AbstractAction{ 
 		
 		private static final long serialVersionUID = 1L;
 

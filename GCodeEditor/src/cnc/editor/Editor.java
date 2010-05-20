@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -76,12 +77,15 @@ public class Editor {
 
 			if(vertexes.size() > 0){
 				
+				List<GCommand> oneCmdList = new ArrayList<GCommand>();
+				oneCmdList.add(vertexes.get(0));
+				
 				if(es.getSelectedGCommands() != null && es.getSelectedGCommands().containsAll(vertexes)){
 					//System.out.println("continue with selected.");
 				}else if(ctrl){
-					es.addToSelectedGCommands(vertexes);
+					es.addToSelectedGCommands(oneCmdList);
 				}else{
-					es.setSelectedGCommands(vertexes);
+					es.setSelectedGCommands(oneCmdList);
 				}	
 				
 				prevDragX = x;
