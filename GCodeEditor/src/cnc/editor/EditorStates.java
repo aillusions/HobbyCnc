@@ -3,6 +3,7 @@ package cnc.editor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -214,6 +215,12 @@ public class EditorStates {
 		return null;
 	}
 	
+	public void removeGCommandsFromSelected(Collection<GCommand> vertexes) {
+		selectedCommands.removeAll(vertexes);
+		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
+		notifyAllAboutChanges(ae);
+	}
+	
 	public void setSelectedGCommands(List<GCommand> selectedGCommands) {
 
 		this.selectedCommands = new HashSet<GCommand>();
@@ -373,6 +380,7 @@ public class EditorStates {
 			al.actionPerformed(ae);
 		}
 	}
+
 
 
 }

@@ -1,5 +1,6 @@
 package cnc.editor;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 import cnc.editor.domain.GCommand.GcommandTypes;
@@ -31,9 +32,9 @@ public class GCommandG02 extends GCommand{
 		double d = Math.sqrt(sqrD);
 
 		if(2*R < d){
-			
+			drawError(g);
 			System.err.println("drawLine can not be run: no intersections!");
-			
+			drawError(g);
 		}else if(2*R == d){		
 			
 			System.err.println(" 1 intersections -- untreated");
@@ -109,6 +110,21 @@ public class GCommandG02 extends GCommand{
 				g.drawArc(viewLeft, viewTop, viewHeight, viewHeight, (int)angelA, (int)angelCa);
 			}					
 		}
+	}
+	
+	public void drawError(Graphics g) {
+		
+		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
+		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
+		
+		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
+		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
+		
+		Color c = g.getColor();
+		g.setColor(Color.magenta);
+		g.drawLine(prevX, prevY, newX, newY);
+		g.drawLine(prevX+1, prevY+1, newX+1, newY+1);
+		g.setColor(c);
 	}
 	
 	private int getQuarter(double xStart, double yStart, double xEnd, double yEnd){

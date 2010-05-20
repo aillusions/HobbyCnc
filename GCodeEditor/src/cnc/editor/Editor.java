@@ -110,7 +110,11 @@ public class Editor {
 				oneCmdList.add(vertexes.get(0));
 				
 				if(es.getSelectedGCommands() != null && es.getSelectedGCommands().containsAll(vertexes)){
-					//System.out.println("continue with selected.");
+					
+					//remove from selected:
+					if(ctrl){
+						es.removeGCommandsFromSelected(vertexes);
+					}
 				}else if(ctrl){
 					es.addToSelectedGCommands(oneCmdList);
 				}else{
