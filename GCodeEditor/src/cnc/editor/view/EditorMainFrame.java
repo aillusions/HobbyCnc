@@ -20,6 +20,10 @@ import cnc.editor.listener.EditorMainFrameListener;
 
 public class EditorMainFrame extends javax.swing.JFrame {
 
+	public static final String CMD_REDO = "redo";
+	public static final String CMD_UNDO = "undo";
+	public static final String CMD_LIFT_FOR_EACH_STROKE = "liftForEachStroke";
+	public static final String CMD_SHOW_ONLY_Z0_SWITCHED = "showOnlyZ0Switched";
 	private static final long serialVersionUID = 13423452354765L;
 	private static final String[] scaleValues =  
 						new String[]{"1", "1.5", "2", "3", "5", "10", "15", "20", "50", "0.1", "0.5"};	
@@ -29,6 +33,9 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private JButton btn_AddGCodesFromFile;
 	private JButton btn_ConvertImageToGCodes;
 	private JButton btn_Clear;
+	
+	private JButton btn_Undo;
+	private JButton btn_Redo;
 	
 	private ButtonGroup btnGr_headPosition;
 	private JRadioButton rbtn_Lift;
@@ -182,8 +189,31 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		chkBx_liftForEachStroke.setText("auto lift");
 		chkBx_liftForEachStroke.setBounds(901, 320, 84, 21);
 		chkBx_liftForEachStroke.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		chkBx_liftForEachStroke.addChangeListener(editorViewListener);
+		chkBx_liftForEachStroke.setActionCommand(CMD_LIFT_FOR_EACH_STROKE);
+		chkBx_liftForEachStroke.addActionListener(editorViewListener);
 		
+		
+		btn_Undo = new JButton();
+		btn_Undo.setText(CMD_UNDO);
+		btn_Undo.setBounds(901, 345, 40, 21);
+		btn_Undo.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_Undo.setActionCommand(CMD_UNDO);
+		btn_Undo.addActionListener(editorViewListener);
+		
+		btn_Redo = new JButton();
+		btn_Redo.setText(CMD_REDO);
+		btn_Redo.setBounds(947, 345, 40, 21);
+		btn_Redo.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_Redo.setActionCommand(CMD_REDO);
+		btn_Redo.addActionListener(editorViewListener);
+		
+		
+		chkBx_showOnlyZ0 = new JCheckBox();
+		chkBx_showOnlyZ0.setText("show Z0");
+		chkBx_showOnlyZ0.setBounds(901, 160, 84, 21);;
+		chkBx_showOnlyZ0.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		chkBx_showOnlyZ0.setActionCommand(CMD_SHOW_ONLY_Z0_SWITCHED);
+		chkBx_showOnlyZ0.addActionListener(editorViewListener);
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
@@ -204,6 +234,10 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		add(rbtn_commandType_G02);
 		add(txtFld_G02Radius);
 		add(chkBx_liftForEachStroke);
+		
+		add(btn_Undo);
+		add(btn_Redo);
+		add(chkBx_showOnlyZ0);
 		
 		pack();
 		setSize(1000, 500);	

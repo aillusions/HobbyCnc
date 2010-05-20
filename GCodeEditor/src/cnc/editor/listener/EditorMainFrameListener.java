@@ -8,14 +8,13 @@ import java.awt.event.KeyListener;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
 import cnc.editor.GCommandsContainer;
+import cnc.editor.view.EditorMainFrame;
 
-public class EditorMainFrameListener implements ActionListener, KeyListener, ChangeListener {
+public class EditorMainFrameListener implements ActionListener, KeyListener {
 
 	private Editor editor;	
 	private EditorStates es = EditorStates.getInstance();
@@ -49,6 +48,14 @@ public class EditorMainFrameListener implements ActionListener, KeyListener, Cha
 			es.setCurrentGCmdType(Editor.GcommandTypes.G02);
 		}else if(e.getActionCommand().equals("SetFutureCommandsType_G00")){
 			es.setCurrentGCmdType(Editor.GcommandTypes.G00);
+		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_SHOW_ONLY_Z0_SWITCHED)){
+			es.setDisplayOnlyZ0(((JCheckBox)e.getSource()).isSelected());
+		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_LIFT_FOR_EACH_STROKE)){
+			es.setLiftForEachStroke(((JCheckBox)e.getSource()).isSelected());
+		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_UNDO)){
+			editor.undo();
+		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_REDO)){
+			editor.redo();
 		}
 	}
 
@@ -56,8 +63,7 @@ public class EditorMainFrameListener implements ActionListener, KeyListener, Cha
 
 	}
 
-	public void keyReleased(KeyEvent e) {
-				
+	public void keyReleased(KeyEvent e) {				
 		JTextField field = (JTextField)e.getSource();
 		es.setG02Radius(Float.parseFloat(field.getText()));
 	}
@@ -66,7 +72,5 @@ public class EditorMainFrameListener implements ActionListener, KeyListener, Cha
 
 	}
 
-	public void stateChanged(ChangeEvent e) {
-		es.setLiftForEachStroke(((JCheckBox)e.getSource()).isSelected());
-	}
+	
 }

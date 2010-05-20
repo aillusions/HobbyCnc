@@ -41,6 +41,7 @@ public class Editor {
 		
 		List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
 				
+		//Start moving selected items
 		if(vertexes != null && vertexes.size() > 0 && es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
 			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 			isCurrentSelectedToolReset = true;
@@ -59,16 +60,44 @@ public class Editor {
 		}
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){			
-			
-			liftHeadOrDownIfNeeded();
-			
-			if(es.getCurrentGCmdType() == GcommandTypes.G00)
-				gcc.addCommand(new GCommandG00(cncX, cncY, null));
-			else
-				gcc.addCommand(new GCommandG02(cncX, cncY, null, es.getG02Radius()));
-			
-			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
-			isCurrentSelectedToolReset = true;
+						
+			if(es.isLiftForEachStroke()){
+				
+				GCommand start = null;
+				GCommand end = null;
+				
+				if(es.getCurrentGCmdType() == GcommandTypes.G00){
+					start = new GCommandG00(cncX, cncY, null);
+					end = new GCommandG00(cncX, cncY, null);
+				}
+				else{
+					start = new GCommandG02(cncX, cncY, null, es.getG02Radius());
+					end = new GCommandG02(cncX, cncY, null, es.getG02Radius());
+				}
+				
+				liftHeadOrDownIfNeeded();	
+				gcc.addCommand(start);	
+				downWorkHead();				
+				gcc.addCommand(end);
+								
+				List<GCommand> oneCmdList = new ArrayList<GCommand>();
+				oneCmdList.add(end);
+					
+				es.setSelectedGCommands(oneCmdList);
+					
+				prevDragX = x;
+				prevDragY = y;
+				dragStarted = true;
+				
+			}else{				
+				if(es.getCurrentGCmdType() == GcommandTypes.G00)
+					gcc.addCommand(new GCommandG00(cncX, cncY, null));
+				else
+					gcc.addCommand(new GCommandG02(cncX, cncY, null, es.getG02Radius()));
+				
+				es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
+				isCurrentSelectedToolReset = true;
+			}
 		}
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
@@ -294,6 +323,16 @@ public class Editor {
 				}
 			}
 		}
+	}
+
+
+	public void undo() {
+	
+	}
+
+
+	public void redo() {
+		
 	}
 
 }
