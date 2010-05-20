@@ -29,8 +29,8 @@ public abstract class GCommand {
 		Color pointColor = Color.black;
 		int pointSize;
 		
-		Set<GCommand> selectedCCmd = es.getSelectedCommand();
-		Set<GCommand> nearSelection = es.getNearSelectedCommans();
+		Set<GCommand> selectedCCmd = es.getSelectedGCommands();
+		Set<GCommand> nearSelection = es.getNearSelectedGCommands();
 		int size = (int)EditorStates.NODE_CIRCLE_SIZE;
 
 		pointSize = 2;

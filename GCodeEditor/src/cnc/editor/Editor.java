@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.GCodeAcceptor;
+import cnc.editor.EditorStates.SelectedRegion;
 import cnc.editor.view.EditorMainFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
@@ -74,24 +75,30 @@ public class Editor {
 			vertexes = gcc.findVertexesNear(cncX, cncY);
 
 			if(vertexes.size() > 0){
-
-				if(ctrl){
-					es.addToSelectedVertex(vertexes);
+				
+				if(es.getSelectedGCommands() != null && es.getSelectedGCommands().containsAll(vertexes)){
+					//System.out.println("continue with selected.");
+				}else if(ctrl){
+					es.addToSelectedGCommands(vertexes);
 				}else{
-					es.setSelectedVertex(vertexes);
+					es.setSelectedGCommands(vertexes);
 				}	
 				
+				prevDragX = x;
+				prevDragY = y;
+				dragStarted = true;	
+				
 			}else{
-				es.clearSelection();
+				if(!ctrl){
+					es.clearSelection();
+					es.getSelRegion().startSelection((int)x, (int)y);
+				}
 			}
 			
 			if(isCurrentSelectedToolReset){
 				es.setCurrentSelectedTool(EditorTolls.SIMPLE_EDIT);
-			}
+			}		
 			
-			prevDragX = x;
-			prevDragY = y;
-			dragStarted = true;			
 		}
 	}
 	
@@ -105,6 +112,7 @@ public class Editor {
 		dragStarted = false;
 		prevDragX = 0;
 		prevDragY = 0;
+		es.clearSelRegion();
 	}
 	
 	public void viewMouseDraggedTo(double x, double y){
@@ -117,23 +125,22 @@ public class Editor {
 			if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
 				
 				if(es.getCurrentGCmdType() != GcommandTypes.G00){
-					throw new RuntimeException("Continuous drawing works only for " + GcommandTypes.G00 + "command type");
+					System.err.println("Continuous drawing works only for " + GcommandTypes.G00 + "command type");
+					return;
 				}
 				
 				gcc.addCommand(new GCommandG00(cncX, cncY, null));
 				return;
 			}
 			
-		}else{
-			
-			if(dragStarted){
+		}else if(dragStarted){
 				
 				float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
 				float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
 				
-				Set<GCommand> gcs = es.getSelectedCommand();
-				if(gcs != null){
-					//System.out.println(gcs.size());
+				Set<GCommand> gcs = es.getSelectedGCommands();
+				if(gcs != null && gcs.size() > 0){
+
 					for(GCommand gc : gcs){					
 						if(gc != null){							
 							gc.setX(gc.getX() - shiftX);
@@ -144,9 +151,20 @@ public class Editor {
 						}
 					}
 				}
+		}else if(es.getSelRegion().isSelectionStarted()){
+					
+			SelectedRegion sr = es.getSelRegion();
+			sr.setEndOfSelection((int)x, (int)y);
+			
+			float startX = EditorStates.convertPositionView_Cnc(sr.getStartX());
+			float startY = EditorStates.convertPositionView_Cnc(sr.getStartY());
+			float endX = EditorStates.convertPositionView_Cnc(sr.getEndX());
+			float endY = EditorStates.convertPositionView_Cnc(sr.getEndY());
+			
+			List<GCommand> cmds = gcc.findVertexesInRegion(startX, startY, endX, endY);
+			es.setSelectedGCommands(cmds);
+		}				
 				
-			}
-		}		
 	}
 	
 	public void convertImageToGCodes() {

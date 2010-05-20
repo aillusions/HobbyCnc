@@ -48,7 +48,7 @@ public class GCommandsContainerListener implements ActionListener {
 				doc.remove(lineStart, lineEnd-lineStart);
 				doc.insertString(lineStart, gc.toString() + "\r\n", null);
 				
-				Set<GCommand> selected = es.getSelectedCommand();
+				Set<GCommand> selected = es.getSelectedGCommands();
 				
 				if(selected != null && selected.size() == 1){
 					

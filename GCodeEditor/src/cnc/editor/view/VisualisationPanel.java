@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import cnc.editor.EditorStates;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
+import cnc.editor.EditorStates.SelectedRegion;
 import cnc.editor.listener.VisualisationPanelListener;
 
 public class VisualisationPanel extends JPanel{
@@ -32,10 +33,22 @@ public class VisualisationPanel extends JPanel{
 		drawGrid(g);
 		drawStrictBorders(g);		
 		drawCoordinates(g);		
-		//drawSelection(g);
+		drawSelectedRegion(g);
 		drawPicture(g);		
 	}
 	
+	private void drawSelectedRegion(Graphics g) {
+		
+		Color color = g.getColor();
+		g.setColor(Color.ORANGE);
+		SelectedRegion sr = es.getSelRegion();		
+		g.drawLine(sr.getStartX(), sr.getStartY(), sr.getStartX(), sr.getEndY());
+		g.drawLine(sr.getStartX(), sr.getStartY(), sr.getEndX(), sr.getStartY());
+		g.drawLine(sr.getEndX(), sr.getStartY(), sr.getEndX(), sr.getEndY());
+		g.drawLine(sr.getStartX(), sr.getEndY(), sr.getEndX(), sr.getEndY());
+		g.setColor(color);
+	}
+
 	public void drawStrictBorders(Graphics g){
 		
 		Color color = g.getColor();

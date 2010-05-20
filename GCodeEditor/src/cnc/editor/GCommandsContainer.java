@@ -85,6 +85,27 @@ public class GCommandsContainer implements ActionListener {
 		}
 		return result;
 	}
+	
+
+	public List<GCommand> findVertexesInRegion(float startX, float startY, float endX, float endY) {
+		
+		float left = Math.min(startX, endX);
+		float top = Math.min(startY, endY);
+		float rigth = Math.max(startX, endX);
+		float bottom = Math.max(startY, endY);
+				
+		//EditorStates es = EditorStates.getInstance();
+		List<GCommand> result = new ArrayList<GCommand>();
+		for(GCommand v : gCommandList){
+			if(left <= v.getX() 
+				&& rigth >= v.getX() 
+				&& top <= v.getY()
+				&& bottom >= v.getY()){
+				result.add(v);
+			}
+		}
+		return result;
+	}
 
 	public Set<GCommand> getNeighbourVertexes(GCommand gCommand) {
 		
@@ -129,4 +150,5 @@ public class GCommandsContainer implements ActionListener {
 			al.actionPerformed(e);
 		}
 	}
+
 }

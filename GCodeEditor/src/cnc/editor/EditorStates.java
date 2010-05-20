@@ -31,6 +31,63 @@ public class EditorStates {
 		return instance;
 	}	
 	
+	/**
+	 * measured in view coordinates: pixel
+	 */
+	public class SelectedRegion{
+		
+		private boolean selectionStarted = false;
+		private int startX;
+		private int startY;
+		private int endX;
+		private int endY;
+		
+		public boolean isSelectionStarted() {
+			return selectionStarted;
+		}
+
+		public void startSelection(int x, int y){
+			startX = x;
+			startY = y;
+			endX = x;
+			endY = y;
+			selectionStarted = true;
+		}
+		
+		public void setEndOfSelection(int x, int y){
+			
+			if(!selectionStarted){
+				throw new RuntimeException("selection was not started");
+			}
+			endX = x;
+			endY = y;
+			
+			ActionEvent ae = new ActionEvent(this, -1, "changedSelectedRegion");
+			notifyAllAboutChanges(ae);
+		}
+		
+		public int getStartX() {
+			return startX;
+		}
+		public int getStartY() {
+			return startY;
+		}
+		public int getEndX() {
+			return endX;
+		}
+		public int getEndY() {
+			return endY;
+		}
+
+		public void clear() {
+			startX = 0;
+			startY = 0;
+			endX = 0;
+			endY = 0;
+			selectionStarted = false;
+		}
+	}
+	
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
 	private int theGap = 20;
@@ -46,7 +103,10 @@ public class EditorStates {
 	private float G02Radius = 20;
 	private boolean liftForEachStroke = false;
 	private boolean displayOnlyZ0 = false;
-
+	
+	//View coordinates (pixels)
+	private SelectedRegion selectedRegion;
+	
 	//CNC coordinates (mm) - not pixels!!
 	private int gridStep = 5;
 	
@@ -142,11 +202,11 @@ public class EditorStates {
 		this.currentSelectedTool = currentSelectedTool;
 	}
 	
-	public Set<GCommand> getSelectedCommand() {
+	public Set<GCommand> getSelectedGCommands() {
 		return selectedCommands;
 	}
 
-	public Set<GCommand> getNearSelectedCommans() {
+	public Set<GCommand> getNearSelectedGCommands() {
 		
 		if(selectedCommands != null && selectedCommands.size() == 1){
 			return GCommandsContainer.getInstance().getNeighbourVertexes(((GCommand)selectedCommands.toArray()[0]));
@@ -154,21 +214,21 @@ public class EditorStates {
 		return null;
 	}
 	
-	public void setSelectedVertex(List<GCommand> selectedVertex) {
+	public void setSelectedGCommands(List<GCommand> selectedGCommands) {
 
 		this.selectedCommands = new HashSet<GCommand>();
-		this.selectedCommands.addAll(selectedVertex);
+		this.selectedCommands.addAll(selectedGCommands);
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void addToSelectedVertex(List<GCommand> selectedVertex) {
+	public void addToSelectedGCommands(List<GCommand> selectedGCommands) {
 	
 		if(this.selectedCommands == null){
 			this.selectedCommands = new HashSet<GCommand>();
 		}
 
-		this.selectedCommands.addAll(selectedVertex);
+		this.selectedCommands.addAll(selectedGCommands);
 		
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
@@ -283,6 +343,23 @@ public class EditorStates {
 		this.displayOnlyZ0 = displayOnlyZ0;
 	}
 
+
+	public SelectedRegion getSelRegion() {
+		if(selectedRegion == null){
+			selectedRegion = new SelectedRegion();
+		}
+		return selectedRegion;
+	}
+
+	public void clearSelRegion() {
+		if(selectedRegion == null){
+			selectedRegion = new SelectedRegion();
+		}else{
+			selectedRegion.clear();
+		}
+		ActionEvent ae = new ActionEvent(this, -1, "clearSelectedRegion");
+		notifyAllAboutChanges(ae);
+	}
 	
 	//------------
 	public void addActionListener(ActionListener al){

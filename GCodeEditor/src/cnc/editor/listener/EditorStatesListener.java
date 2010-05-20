@@ -28,7 +28,7 @@ public class EditorStatesListener implements ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		
 		EditorStates es = EditorStates.getInstance();
-		Set<GCommand> gCommands = es.getSelectedCommand();
+		Set<GCommand> gCommands = es.getSelectedGCommands();
 
 		if(gCommands != null && gCommands.size() == 1){
 			
