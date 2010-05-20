@@ -16,6 +16,8 @@ public abstract class GCommand {
 	
 	protected EditorStates es = EditorStates.getInstance();	
 	protected GCommand previousCmd;
+	//protected GCommand nextCmd;
+	
 	private Float x;
 	private Float y;
 	private Float z;	
@@ -154,7 +156,16 @@ public abstract class GCommand {
 	}
 
 	public void setPreviousCmd(GCommand previousCmd) {
+		//previousCmd.setNextCmd(this);
 		this.previousCmd = previousCmd;
 	}
+/*	public GCommand getNextCmd() {
+		return nextCmd;
+	}
+	public void setNextCmd(GCommand nextCmd) {
+		this.nextCmd = nextCmd;
+	}*/
+	
+	
 
 }

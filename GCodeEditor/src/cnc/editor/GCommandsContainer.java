@@ -3,14 +3,18 @@ package cnc.editor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import cnc.editor.domain.GCommand.GcommandTypes;
+
 //Singleton
 public class GCommandsContainer implements ActionListener {	
 	
+	public static final String CMD_REMOVED_COMMANDS = "removedCommands";
 	public static final String CMD_CLEAR_COMMANDS_CONATINER = "clear_commands_conatiner";
 	public static final String CMD_ADDED_BUNCH_OF_COMMANDS = "added_bunch_of_commands";
 	public static final String CMD_ADDED_ONE_COMMAND = "added_one_command";
@@ -32,6 +36,29 @@ public class GCommandsContainer implements ActionListener {
 		
 	public List<GCommand> getGCommandList() {
 		return gCommandList;
+	}
+	
+	public void removeGCommands(Collection<GCommand> c){
+		
+		if(c == null){
+			return; 
+		}
+		
+		for(GCommand cmd : c){
+			
+			if(cmd.getCommandType() != GcommandTypes.ORIGIN){
+				int rmIndex = gCommandList.indexOf(cmd);
+				
+				if((rmIndex + 1) < gCommandList.size() && rmIndex >= 0){
+					gCommandList.get(rmIndex + 1).setPreviousCmd(gCommandList.get(rmIndex - 1));
+				}
+				
+				gCommandList.remove(rmIndex);
+			}
+		}
+		
+		ActionEvent ae = new ActionEvent(this , -1, CMD_REMOVED_COMMANDS);
+		notifyAllAboutChanges(ae);
 	}
 	
 	public void addCommand(GCommand c){
@@ -86,7 +113,6 @@ public class GCommandsContainer implements ActionListener {
 		return result;
 	}
 	
-
 	public List<GCommand> findVertexesInRegion(float startX, float startY, float endX, float endY) {
 		
 		float left = Math.min(startX, endX);

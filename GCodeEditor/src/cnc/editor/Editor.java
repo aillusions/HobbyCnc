@@ -135,22 +135,23 @@ public class Editor {
 			
 		}else if(dragStarted){
 				
-				float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
-				float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
-				
-				Set<GCommand> gcs = es.getSelectedGCommands();
-				if(gcs != null && gcs.size() > 0){
+			float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
+			float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
+			
+			Set<GCommand> gcs = es.getSelectedGCommands();
+			if(gcs != null && gcs.size() > 0){
 
-					for(GCommand gc : gcs){					
-						if(gc != null){							
-							gc.setX(gc.getX() - shiftX);
-							gc.setY(gc.getY() - shiftY);
-							
-							prevDragX = x;
-							prevDragY = y;
-						}
+				for(GCommand gc : gcs){					
+					if(gc != null){							
+						gc.setX(gc.getX() - shiftX);
+						gc.setY(gc.getY() - shiftY);
+						
+						prevDragX = x;
+						prevDragY = y;
 					}
 				}
+			}
+			
 		}else if(es.getSelRegion().isSelectionStarted()){
 					
 			SelectedRegion sr = es.getSelRegion();

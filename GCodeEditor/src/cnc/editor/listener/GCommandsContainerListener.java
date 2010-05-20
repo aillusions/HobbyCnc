@@ -32,11 +32,12 @@ public class GCommandsContainerListener implements ActionListener {
 	public void actionPerformed(ActionEvent event) {
 		
 		visualisationPanel.repaint();
+		String aCmd = event.getActionCommand();
 
 		Document doc = es.getDocument();
 
 		if(es.getCurrentEditMode() == EditModeS.DRAW 
-				&& event.getActionCommand().equals(GCommand.CMD_COORDINATE_CHANGED)){			
+				&& aCmd.equals(GCommand.CMD_COORDINATE_CHANGED)){			
 			
 			try {
 				
@@ -66,7 +67,7 @@ public class GCommandsContainerListener implements ActionListener {
 				throw new RuntimeException(e);
 			}		
 		
-		}else if(event.getActionCommand().equals(GCommandsContainer.CMD_ADDED_BUNCH_OF_COMMANDS)){
+		}else if(aCmd.equals(GCommandsContainer.CMD_ADDED_BUNCH_OF_COMMANDS)){
 			
 			try {
 				doc.remove(0, doc.getLength());
@@ -87,7 +88,7 @@ public class GCommandsContainerListener implements ActionListener {
 				throw new RuntimeException(e);
 			}
 			
-		}else if(event.getActionCommand().equals(GCommandsContainer.CMD_ADDED_ONE_COMMAND)){
+		}else if(aCmd.equals(GCommandsContainer.CMD_ADDED_ONE_COMMAND)){
 			
 			List<GCommand> list = gcc.getGCommandList();			
 			GCommand gc = list.get(list.size()-1);
@@ -100,7 +101,8 @@ public class GCommandsContainerListener implements ActionListener {
 			}	
 		}
 		
-		if(event.getActionCommand().equals(GCommandsContainer.CMD_CLEAR_COMMANDS_CONATINER)){
+		if(aCmd.equals(GCommandsContainer.CMD_REMOVED_COMMANDS) 
+				|| aCmd.equals(GCommandsContainer.CMD_CLEAR_COMMANDS_CONATINER)){
 			
 			es.clearSelection();
 			
