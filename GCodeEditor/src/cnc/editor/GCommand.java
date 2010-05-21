@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import cnc.editor.domain.GCommand.GcommandTypes;
+import cnc.editor.Editor.GcommandTypes;
 
 public abstract class GCommand {
 	
@@ -18,9 +18,9 @@ public abstract class GCommand {
 	protected GCommand previousCmd;
 	//protected GCommand nextCmd;
 	
-	private Float x;
-	private Float y;
-	private Float z;	
+	private Float X;
+	private Float Y;
+	private Float Z;	
 
 	public abstract GcommandTypes getCommandType();	
 	public abstract void drawLine(Graphics g);
@@ -78,49 +78,49 @@ public abstract class GCommand {
 	}
 
 	public GCommand(Float x, Float y, Float z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
+		this.X = x;
+		this.Y = y;
+		this.Z = z;
 	}
 
 	public Float getX() {
-		if(x != null){
-			return x;
+		if(X != null){
+			return X;
 		}else{
 			return previousCmd.getX();
 		}
 	}
 
 	public void setX(Float x) {
-		this.x = x;
+		this.X = x;
 		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
 		notifyAllAboutChanges(ae);
 	}
 
 	public Float getY() {
-		if(y != null){
-			return y;
+		if(Y != null){
+			return Y;
 		}else{
 			return previousCmd.getY();
 		}
 	}
 
 	public void setY(Float y) {
-		this.y = y;
+		this.Y = y;
 		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
 		notifyAllAboutChanges(ae);
 	}
 
 	public Float getZ() {
-		if(z != null){
-			return z;
+		if(Z != null){
+			return Z;
 		}else{
 			return previousCmd.getZ();
 		}
 	}
 
 	public void setZ(Float z) {
-		this.z = z;
+		this.Z = z;
 		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
 		notifyAllAboutChanges(ae);
 	}
@@ -128,9 +128,9 @@ public abstract class GCommand {
 
 	@Override
 	public String toString() {
-		String strX = x != null ? " X" + x : "" ;
-		String strY = y != null ? " Y" + y : "";
-		String strZ = z != null ? " Z" + z : "";		
+		String strX = X != null ? " X" + X : "" ;
+		String strY = Y != null ? " Y" + Y : "";
+		String strZ = Z != null ? " Z" + Z : "";		
 		
 		return getCommandType() + " " + strX + strY + strZ;
 	}

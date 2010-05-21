@@ -20,7 +20,7 @@ public class Editor {
 	
 	public enum EditModeS{DRAW, TXT};
 	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT, CONTINUOUS_EDIT};
-	public enum GcommandTypes{G00, G01, G02};
+	public enum GcommandTypes{ORIGIN, G00, G01, G02, G03}
 
 	private GCommandsContainer gcc = GCommandsContainer.getInstance();
 	private EditorStates es = EditorStates.getInstance();
@@ -206,8 +206,10 @@ public class Editor {
 	public void convertImageToGCodes() {
 		
 		File file = null;
+		List<String> exts = new ArrayList<String>();
+		exts.add("bmp");
 		
-		if ((file = EditorMainFrame.openFileChooser("./parser", "bmp"))!= null) {
+		if ((file = EditorMainFrame.openFileChooser("./parser", exts))!= null) {
 			
 			es.setImportInProgress(true);
 			
@@ -238,8 +240,11 @@ public class Editor {
 	public void addGCodesFromFile() {
 		
 		File file = null;
+		List<String> exts = new ArrayList<String>();
+		exts.add("cnc");
+		exts.add("ncc");
 		
-		if ((file = EditorMainFrame.openFileChooser("./gcodes", "cnc"))!= null) {
+		if ((file = EditorMainFrame.openFileChooser("./gcodes", exts))!= null) {
 			
 			es.setImportInProgress(true);
 			

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import cnc.editor.domain.GCommand.GcommandTypes;
+import cnc.editor.Editor.GcommandTypes;
 
 //Singleton
 public class GCommandsContainer implements ActionListener {	

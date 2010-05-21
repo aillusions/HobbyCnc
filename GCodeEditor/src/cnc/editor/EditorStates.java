@@ -14,6 +14,7 @@ import javax.swing.text.PlainDocument;
 
 import cnc.editor.Editor.EditModeS;
 import cnc.editor.Editor.EditorTolls;
+import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.view.GCodesTextContainer;
 
 //Singleton
@@ -100,7 +101,7 @@ public class EditorStates {
 	private boolean importInProgress;
 	private final Document document = new PlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
-	private Editor.GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
+	private GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private float G02Radius = 20;
 	private boolean liftForEachStroke = false;
 	private boolean displayOnlyZ0 = false;

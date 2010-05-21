@@ -3,7 +3,7 @@ package cnc.editor;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import cnc.editor.domain.GCommand.GcommandTypes;
+import cnc.editor.Editor.GcommandTypes;
 
 public class GCommandG00 extends GCommand{
 

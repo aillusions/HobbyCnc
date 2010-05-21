@@ -1,9 +1,11 @@
 package cnc.editor.domain;
 
+import cnc.editor.Editor.GcommandTypes;
+
 
 public class GCommand {
 	
-	public enum GcommandTypes{ORIGIN, G00, G01, G02}
+	//lic enum GcommandTypes{G00, G01, G02, G03}
 	
 	private GcommandTypes GcommandType;
 	private BigDecimalPoint3D coord;

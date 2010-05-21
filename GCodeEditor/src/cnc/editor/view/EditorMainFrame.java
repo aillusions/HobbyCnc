@@ -1,6 +1,7 @@
 package cnc.editor.view;
 
 import java.io.File;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ComboBoxModel;
@@ -244,7 +245,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		setLocationRelativeTo(null);
 	}
 
-	public static File openFileChooser(String dir, final String desirableExt){
+	public static File openFileChooser(String dir, final List<String> desirableExt){
 		
 		final JFileChooser fc = new JFileChooser(new File(dir));
 		fc.addChoosableFileFilter(new FileFilter() {
@@ -257,7 +258,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 			@Override
 			public boolean accept(File f) {
 				String ext = f.getName().substring(f.getName().indexOf(".") + 1);
-				if (f.isDirectory() || (f.isFile() && ext.equals(desirableExt))) {
+				if (f.isDirectory() || (f.isFile() && desirableExt.contains(ext))) {
 					return true;
 				}
 				return false;

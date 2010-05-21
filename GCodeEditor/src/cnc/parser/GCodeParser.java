@@ -2,9 +2,9 @@ package cnc.parser;
 
 import java.math.BigDecimal;
 
+import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.domain.BigDecimalPoint3D;
 import cnc.editor.domain.GCommand;
-import cnc.editor.domain.GCommand.GcommandTypes;
 
 
 public class GCodeParser {	

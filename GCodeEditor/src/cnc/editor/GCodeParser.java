@@ -1,6 +1,5 @@
 package cnc.editor;
 
-import cnc.editor.GCommand;
 import cnc.editor.Editor.GcommandTypes;
 
 public class GCodeParser {	
@@ -27,17 +26,21 @@ public class GCodeParser {
 				String withoutType = cmd.replace(cmdType.toString(), "").trim();
 				String[] args = withoutType.split(" ");
 				
-				Float x = null, y = null, z = null, r = null;
+				Float x = null, y = null, z = null, r = null, i = null, j = null;
 				
-				for(int i = 0; i < args.length; i ++){
-					if(args[i].indexOf("X") != -1){
-						x = Float.parseFloat(args[i].replace("X", ""));
-					}else if(args[i].indexOf("Y") != -1){
-						y = Float.parseFloat(args[i].replace("Y", ""));
-					}else if(args[i].indexOf("Z") != -1){
-						z = Float.parseFloat(args[i].replace("Z", ""));
-					}else if(args[i].indexOf("R") != -1){
-						r = Float.parseFloat(args[i].replace("R", ""));
+				for(int k = 0; k < args.length; k ++){
+					if(args[k].indexOf("X") != -1){
+						x = Float.parseFloat(args[k].replace("X", ""));
+					}else if(args[k].indexOf("Y") != -1){
+						y = Float.parseFloat(args[k].replace("Y", ""));
+					}else if(args[k].indexOf("Z") != -1){
+						z = Float.parseFloat(args[k].replace("Z", ""));
+					}else if(args[k].indexOf("R") != -1){
+						r = Float.parseFloat(args[k].replace("R", ""));
+					}else if(args[k].indexOf("I") != -1){
+						i = Float.parseFloat(args[k].replace("I", ""));
+					}else if(args[k].indexOf("J") != -1){
+						j = Float.parseFloat(args[k].replace("I", ""));
 					}
 				}
 				
@@ -45,9 +48,11 @@ public class GCodeParser {
 				case G00: 
 					return new GCommandG00(x,y,z);
 				case G01:
-					break;
+					return new GCommandG01(x,y,z);
 				case G02: 
-					return new GCommandG02(x,y,z, r);
+					return new GCommandG02(x,y,z,r);
+				case G03: 
+					return new GCommandG03(x,y,z,r);
 				default:
 					System.out.println("UNDEF");
 				}

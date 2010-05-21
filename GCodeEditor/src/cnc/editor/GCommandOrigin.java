@@ -2,7 +2,7 @@ package cnc.editor;
 
 import java.awt.Graphics;
 
-import cnc.editor.domain.GCommand.GcommandTypes;
+import cnc.editor.Editor.GcommandTypes;
 
 
 public class GCommandOrigin extends GCommand{
