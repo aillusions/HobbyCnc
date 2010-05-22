@@ -66,11 +66,24 @@ public class Editor {
 				GCommand end = null;				
 				GCommand start = new GCommandG00(cncX, cncY, null);
 				
-				if(es.getCurrentGCmdType() == GcommandTypes.G00){					
+				GcommandTypes cType = es.getCurrentGCmdType();
+				
+				if(cType == GcommandTypes.G00){					
 					end = new GCommandG00(cncX, cncY, null);
-				}
-				else{
-					end = new GCommandG02(cncX, cncY, null, es.getG02Radius());
+				}else if(cType == GcommandTypes.G01){
+					end = new GCommandG01(cncX, cncY, null);
+				}else if(cType == GcommandTypes.G02){
+					if(es.getArcR() != null){
+						end = new GCommandG02(cncX, cncY, null, es.getArcR());
+					}else{
+						end = new GCommandG02(cncX, cncY, null, es.getArcI(), es.getArcJ());
+					}
+				}else if(cType == GcommandTypes.G03) {
+					if(es.getArcR() != null){
+						end = new GCommandG03(cncX, cncY, null, es.getArcR());
+					}else{
+						end = new GCommandG03(cncX, cncY, null, es.getArcI(), es.getArcJ());
+					}
 				}
 				
 				liftHeadOrDownIfNeeded();	
@@ -87,12 +100,31 @@ public class Editor {
 				prevDragY = y;
 				dragStarted = true;
 				
-			}else{				
-				if(es.getCurrentGCmdType() == GcommandTypes.G00)
-					gcc.addCommand(new GCommandG00(cncX, cncY, null));
-				else
-					gcc.addCommand(new GCommandG02(cncX, cncY, null, es.getG02Radius()));
+			}else{	
 				
+				GcommandTypes cType = es.getCurrentGCmdType();
+				
+				GCommand cmd = null;
+				
+				if(cType == GcommandTypes.G00){					
+					cmd = new GCommandG00(cncX, cncY, null);
+				}else if(cType == GcommandTypes.G01){
+					cmd = new GCommandG01(cncX, cncY, null);
+				}else if(cType == GcommandTypes.G02){
+					if(es.getArcR() != null){
+						cmd = new GCommandG02(cncX, cncY, null, es.getArcR());
+					}else{
+						cmd = new GCommandG02(cncX, cncY, null, es.getArcI(), es.getArcJ());
+					}
+				}else if(cType == GcommandTypes.G03) {
+					if(es.getArcR() != null){
+						cmd = new GCommandG03(cncX, cncY, null, es.getArcR());
+					}else{
+						cmd = new GCommandG03(cncX, cncY, null, es.getArcI(), es.getArcJ());
+					}
+				}
+				
+				gcc.addCommand(cmd);
 				es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 				isCurrentSelectedToolReset = true;
 			}

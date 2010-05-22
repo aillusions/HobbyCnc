@@ -11,14 +11,21 @@ public class GCodeParser {
 			cmd = cmd.trim().toUpperCase().replaceAll("\\s+", " ");
 			GcommandTypes cmdType = null;
 			
-			if(cmd.substring(0, 3).trim().equals("G00")){				
+			if(cmd.contains("G00 ") || cmd.contains("G0 ")){
+				
 				cmdType = GcommandTypes.G00;
 				
-			}else if(cmd.substring(0, 3).trim().equals("G01")){				
+			}else if(cmd.contains("G01 ") || cmd.contains("G1 ")){		
+				
 				cmdType = GcommandTypes.G01;
 				
-			} else if(cmd.substring(0, 3).trim().equals("G02")){				
+			}else if(cmd.contains("G02 ") || cmd.contains("G2 ")){		
+				
 				cmdType = GcommandTypes.G02;
+				
+			}else if(cmd.contains("G03 ") || cmd.contains("G3 ")){		
+				
+				cmdType = GcommandTypes.G03;
 			} 
 		       
 			if(cmdType != null){	
@@ -40,7 +47,7 @@ public class GCodeParser {
 					}else if(args[k].indexOf("I") != -1){
 						i = Float.parseFloat(args[k].replace("I", ""));
 					}else if(args[k].indexOf("J") != -1){
-						j = Float.parseFloat(args[k].replace("I", ""));
+						j = Float.parseFloat(args[k].replace("J", ""));
 					}
 				}
 				
@@ -50,9 +57,17 @@ public class GCodeParser {
 				case G01:
 					return new GCommandG01(x,y,z);
 				case G02: 
-					return new GCommandG02(x,y,z,r);
+					if(r != null){
+						return new GCommandG02(x,y,z,r);
+					}else{
+						return new GCommandG02(x,y,z,i,j);
+					}
 				case G03: 
-					return new GCommandG03(x,y,z,r);
+					if(r != null){
+						return new GCommandG03(x,y,z,r);
+					}else{
+						return new GCommandG03(x,y,z,i,j);
+					}
 				default:
 					System.out.println("UNDEF");
 				}

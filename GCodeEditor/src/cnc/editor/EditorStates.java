@@ -20,6 +20,9 @@ import cnc.editor.view.GCodesTextContainer;
 //Singleton
 public class EditorStates {
 
+	public static final String CMD_REFRESH_ARC_RADUIS = "refreshArcRaduis";
+	public static final String CMD_REFRESH_ARC_J = "refreshArcJ";
+	public static final String CMD_REFRESH_ARC_I = "refreshArcI";
 	public static final String CMD_CLEAR_SELECTION = "clearSelection";
 	public static final String CMD_SET_NEW_CORRENT_CMD_TYPE = "setNewCmdType";
 	
@@ -102,7 +105,9 @@ public class EditorStates {
 	private final Document document = new PlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
 	private GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
-	private float G02Radius = 20;
+	private Float arcRadius = 20f;
+	private Float arcI;
+	private Float arcJ;
 	private boolean liftForEachStroke = false;
 	private boolean displayOnlyZ0 = false;
 	
@@ -327,14 +332,58 @@ public class EditorStates {
 		this.currentGCmdType = currentGCmdType;
 	}
 	
-	public float getG02Radius() {
-		return G02Radius;
+	public Float getArcR() {
+		return arcRadius;
 	}
 
-	public void setG02Radius(float g02Radius) {
-		this.G02Radius = g02Radius;
+	public void setArcR(Float radius, boolean updateMainFrame) {
+		
+		this.arcRadius = radius;
+		if(this.arcRadius != null){
+			setArcJ(null, true);
+			setArcI(null, true);
+		}
+		
+		if(updateMainFrame){
+			ActionEvent ae = new ActionEvent(this, -1, CMD_REFRESH_ARC_RADUIS);
+			notifyAllAboutChanges(ae);
+		}
 	}	
 	
+	public Float getArcI() {
+		return arcI;
+	}
+
+	public void setArcI(Float arcI, boolean updateMainFrame) {
+		
+		this.arcI = arcI;
+		if(this.arcI != null){
+			setArcR(null, true);
+		}		
+		
+		if(updateMainFrame){
+			ActionEvent ae = new ActionEvent(this, -1, CMD_REFRESH_ARC_I);
+			notifyAllAboutChanges(ae);
+		}
+	}
+
+	public Float getArcJ() {
+		return arcJ;
+	}
+
+	public void setArcJ(Float arcJ, boolean updateMainFrame) {
+		
+		this.arcJ = arcJ;
+		if(this.arcJ != null){
+			setArcR(null, true);
+		}
+
+		if(updateMainFrame){
+			ActionEvent ae = new ActionEvent(this, -1, CMD_REFRESH_ARC_J);
+			notifyAllAboutChanges(ae);
+		}
+	}
+
 	public boolean isLiftForEachStroke() {
 		return liftForEachStroke;
 	}

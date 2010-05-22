@@ -17,7 +17,7 @@ public class Main {
 		Editor editor = new Editor();	
 		
 		VisualisationPanelListener vpl = new VisualisationPanelListener(editor);
-		VisualisationPanel vp = new VisualisationPanel(vpl);		
+		VisualisationPanel visualP = new VisualisationPanel(vpl);		
 		
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
@@ -28,14 +28,15 @@ public class Main {
 		GCodesTextContainer gctc = new GCodesTextContainer(EditorStates.getInstance().getDocument(), gctcl);
 		EditorStates.getInstance().setgCodesTextContainer(gctc);
 		
-		EditorStatesListener esl = new EditorStatesListener(vp, gctc);			
+		EditorMainFrameListener emfl = new EditorMainFrameListener(editor);
+		EditorMainFrame emf = new EditorMainFrame(emfl, gctc, visualP);
+		
+		EditorStatesListener esl = new EditorStatesListener(visualP, gctc, emf);			
 		EditorStates.getInstance().addActionListener(esl);
 		
-		GCommandsContainerListener vcl = new GCommandsContainerListener(vp, gctc);
-		gcc.addActionListener(vcl);
+		GCommandsContainerListener gccl = new GCommandsContainerListener(visualP, gctc);
+		gcc.addActionListener(gccl);
 				
-		EditorMainFrameListener vl = new EditorMainFrameListener(editor);
-		EditorMainFrame evf = new EditorMainFrame(vl, gctc, vp);
-		evf.setVisible(true);
+		emf.setVisible(true);
 	}
 }

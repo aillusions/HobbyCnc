@@ -13,48 +13,70 @@ public class GCommandG02 extends GCommand{
 	private Float I;
 	private Float J;
 	
-	protected float signum = 1;
+	//flag which means type of command definition.
+	//true - radius is defined
+	//false - i,j are defined
+	protected boolean radiusSpecified;
+	protected boolean clockWise;
 	
 	public GCommandG02(Float x, Float y, Float z, Float radius) {
 		super(x, y, z);
 		this.radius = radius;
-		this.signum = Math.signum(radius);
+		this.radiusSpecified = true;
+		this.clockWise = true;
 	}	
 	
 	public GCommandG02(Float x, Float y, Float z, Float i, Float j) {
 		super(x, y, z);
 		this.I = i;
 		this.J = j;
+		this.radiusSpecified = false;
+		this.clockWise = true;
 	}
 
 	@Override
 	public void drawLine(Graphics g) {	
 		
+		//Arc radius
+		double R;
+		
+		//A (from A)
 		double X0 = previousCmd.getX();
 		double Y0 = previousCmd.getY();
 		
+		//B (to B)
 		double X1 = getX();
 		double Y1 = getY();
 		
-		Double X3 , Y3;
+		//Arc center (with center)
+		Double X3 = null, Y3 = null;
 		
-		CirclesIntersectionFinder cif = new CirclesIntersectionFinder(X0, Y0, X1, Y1, radius);
-		X3 = cif.getX();
-		Y3 = cif.getY();
-		
+		if(radiusSpecified){			
+			CirclesIntersectionFinder cif = new CirclesIntersectionFinder(X0, Y0, X1, Y1, radius);
+			X3 = cif.getX();
+			Y3 = cif.getY();	
+			R = radius;
+		}else{
+			X3 = (double)this.I;
+			Y3 = (double)this.J;
+			R = Math.sqrt(Math.pow(X3 - X0, 2) + Math.pow(Y3 - Y0, 2));
+			
+			
+			if(Math.sqrt(Math.pow(X3 - X1, 2) + Math.pow(Y3 - Y1, 2)) != R){
+				System.err.println(Math.sqrt(Math.pow(X3 - X1, 2) + Math.pow(Y3 - Y1, 2)) + " != " + R);
+				drawError(g);
+				darawRadiusPoint(g, X3, Y3);
+				return;
+			}
+		}
+				
 		if(X3 == null || Y3 == null){
 			drawError(g);
 			return;
 		}
 		
-		//Draw center of imagined circle
-		//int centerX, centerY;
-		//int size = 5;
-		//centerX = (int)(EditorStates.convertPositionCnc_View((float)X3)-size/2);
-		//centerY = (int)(EditorStates.convertPositionCnc_View((float)Y3)-size/2);	
-		//g.fillOval(centerX, centerY, size, size);
-			
-		EquationOfArc eoa = new EquationOfArc(X0, Y0, X1, Y1, X3, Y3, radius);
+		darawRadiusPoint(g, X3, Y3);
+		EquationOfArc eoa = new EquationOfArc(X0, Y0, X1, Y1, X3, Y3, R, this.clockWise );
 		
 		int viewLeft = (int)EditorStates.convertPositionCnc_View((float)eoa.getLeft());
 		int viewTop = (int)EditorStates.convertPositionCnc_View((float)eoa.getTop());
@@ -79,8 +101,16 @@ public class GCommandG02 extends GCommand{
 		g.setColor(c);
 	}
 	
-
-	
+	protected void darawRadiusPoint(Graphics g, double x, double y){
+		
+		//Draw center of imagined circle
+		int centerX, centerY;
+		int size = 5;
+		centerX = (int)(EditorStates.convertPositionCnc_View((float)x)-size/2);
+		centerY = (int)(EditorStates.convertPositionCnc_View((float)y)-size/2);	
+		g.fillOval(centerX, centerY, size, size);
+	}
+		
 	@Override
 	public GcommandTypes getCommandType() {
 		return GcommandTypes.G02;
@@ -88,7 +118,10 @@ public class GCommandG02 extends GCommand{
 	
 	@Override
 	public String toString() {
-		return super.toString() + " R" + radius;
+		if(radiusSpecified)
+			return super.toString() + " R" + radius;
+		else
+			return super.toString() + " I" + I + " J" + J;
 	}
 
 	public Float getRadius() {

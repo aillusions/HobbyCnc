@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -18,6 +19,9 @@ import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
 
 import cnc.editor.listener.EditorMainFrameListener;
+import cnc.editor.listener.EditorMainFrameListener.SetIKeyListener;
+import cnc.editor.listener.EditorMainFrameListener.SetJKeyListener;
+import cnc.editor.listener.EditorMainFrameListener.SetRaduisKeyListener;
 
 public class EditorMainFrame extends javax.swing.JFrame {
 
@@ -56,11 +60,20 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	
 	private ButtonGroup btnGr_commandTypes;
 	private JRadioButton rbtn_commandType_G00;
+	private JRadioButton rbtn_commandType_G01;
 	private JRadioButton rbtn_commandType_G02;
-	private JTextField txtFld_G02Radius;
+	private JRadioButton rbtn_commandType_G03;
+	
+	private JTextField txtFld_ArcR;
+	private JTextField txtFld_ArcI;
+	private JTextField txtFld_ArcJ;
 	
 	private JCheckBox chkBx_liftForEachStroke;
 	private JCheckBox chkBx_showOnlyZ0;
+	
+	private JLabel lab_R;
+	private JLabel lab_I;
+	private JLabel lab_J;
 	
 	public VisualisationPanel getVisualPanelViewOutput() {
 		return pnl_GraphicOutput;
@@ -78,11 +91,11 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		pnl_GraphicOutput = visualisationPanel;	
 		
 		scrollPane_GraphicOutput = new JScrollPane();			
-		scrollPane_GraphicOutput.setBounds(6, 5, 740, 464);	
+		scrollPane_GraphicOutput.setBounds(6, 5, 740, 564);	
 		scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
 		
 		scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
-		scrollPane_GCodesEditor.setBounds(750, 5, 146, 464);	
+		scrollPane_GCodesEditor.setBounds(750, 5, 146, 564);	
 		scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			
 		btn_Clear = new JButton();
@@ -169,6 +182,13 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		rbtn_commandType_G00.addActionListener(editorViewListener);
 		rbtn_commandType_G00.setSelected(true);
 		
+		rbtn_commandType_G01 = new JRadioButton();
+		rbtn_commandType_G01.setText("G01");
+		rbtn_commandType_G01.setBounds(951, 270, 45, 21);
+		rbtn_commandType_G01.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_commandType_G01.setActionCommand("SetFutureCommandsType_G01");
+		rbtn_commandType_G01.addActionListener(editorViewListener);
+		
 		rbtn_commandType_G02 = new JRadioButton();
 		rbtn_commandType_G02.setText("G02");
 		rbtn_commandType_G02.setBounds(901, 290, 45, 21);
@@ -176,23 +196,52 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		rbtn_commandType_G02.setActionCommand("SetFutureCommandsType_G02");
 		rbtn_commandType_G02.addActionListener(editorViewListener);
 		
+		rbtn_commandType_G03 = new JRadioButton();
+		rbtn_commandType_G03.setText("G03");
+		rbtn_commandType_G03.setBounds(951, 290, 45, 21);
+		rbtn_commandType_G03.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		rbtn_commandType_G03.setActionCommand("SetFutureCommandsType_G03");
+		rbtn_commandType_G03.addActionListener(editorViewListener);
+		
 		btnGr_commandTypes = new ButtonGroup();
 		btnGr_commandTypes.add(rbtn_commandType_G00);
+		btnGr_commandTypes.add(rbtn_commandType_G01);
 		btnGr_commandTypes.add(rbtn_commandType_G02);
+		btnGr_commandTypes.add(rbtn_commandType_G03);
 		
-		txtFld_G02Radius = new JTextField();
-		txtFld_G02Radius.setText("20");
-		txtFld_G02Radius.setBounds(950, 290, 30, 21);
-		txtFld_G02Radius.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		txtFld_G02Radius.addKeyListener(editorViewListener);
+		txtFld_ArcR = new JTextField();
+		txtFld_ArcR.setText("20");
+		txtFld_ArcR.setBounds(998, 290, 30, 21);
+		txtFld_ArcR.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		txtFld_ArcR.addKeyListener(new SetRaduisKeyListener());
+		
+		txtFld_ArcI = new JTextField();
+		txtFld_ArcI.setText("0");
+		txtFld_ArcI.setBounds(1029, 290, 30, 21);
+		txtFld_ArcI.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		txtFld_ArcI.addKeyListener(new SetIKeyListener());
+		
+		txtFld_ArcJ = new JTextField();
+		txtFld_ArcJ.setText("0");
+		txtFld_ArcJ.setBounds(1060, 290, 30, 21);
+		txtFld_ArcJ.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		txtFld_ArcJ.addKeyListener(new SetJKeyListener());
+		
+		lab_R = new JLabel("R");
+		lab_R.setBounds(998, 270, 30, 21);
+		
+		lab_I = new JLabel("I");
+		lab_I.setBounds(1029, 270, 30, 21);
+		
+		lab_J = new JLabel("J");
+		lab_J.setBounds(1060, 270, 30, 21);
 		
 		chkBx_liftForEachStroke = new JCheckBox();
 		chkBx_liftForEachStroke.setText("auto lift");
 		chkBx_liftForEachStroke.setBounds(901, 320, 84, 21);
 		chkBx_liftForEachStroke.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		chkBx_liftForEachStroke.setActionCommand(CMD_LIFT_FOR_EACH_STROKE);
-		chkBx_liftForEachStroke.addActionListener(editorViewListener);
-		
+		chkBx_liftForEachStroke.addActionListener(editorViewListener);		
 		
 		btn_Undo = new JButton();
 		btn_Undo.setText(CMD_UNDO);
@@ -233,18 +282,38 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		add(rbtn_Lift);
 		add(rbtn_commandType_G00);
 		add(rbtn_commandType_G02);
-		add(txtFld_G02Radius);
+		add(rbtn_commandType_G01);
+		add(rbtn_commandType_G03);
+		add(txtFld_ArcR);
 		add(chkBx_liftForEachStroke);
+		add(txtFld_ArcI);
+		add(txtFld_ArcJ);
+		
+		add(lab_R);
+		add(lab_I);
+		add(lab_J);
 		
 		add(btn_Undo);
 		add(btn_Redo);
 		add(chkBx_showOnlyZ0);
 		
 		pack();
-		setSize(1000, 500);	
+		setSize(1100, 600);	
 		setLocationRelativeTo(null);
 	}
 
+	public void setRadiusValue(String str){
+		txtFld_ArcR.setText(str);
+	}
+	
+	public void setIValue(String str){
+		txtFld_ArcI.setText(str);
+	}
+	
+	public void setJValue(String str){
+		txtFld_ArcJ.setText(str);
+	}
+	
 	public static File openFileChooser(String dir, final List<String> desirableExt){
 		
 		final JFileChooser fc = new JFileChooser(new File(dir));

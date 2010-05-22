@@ -10,7 +10,10 @@ public class EquationOfArc {
 	double arcAngle;
 	
 
-	public EquationOfArc(double Ax, double Ay, double Bx, double By, double Rx, double Ry, double radius){
+	public EquationOfArc(double Ax, double Ay, 
+			double Bx, double By, 
+			double Rx, double Ry, 
+			double radius, boolean clockWise){
 
 		double R = Math.abs(radius);
 		
@@ -58,14 +61,47 @@ public class EquationOfArc {
 			angelB = angelB + 360;
 		}
 		
-		//Angel between: R0 and R1;
-		double angelCa = (angelB - angelA);
-		if(Math.abs(angelCa) > 180){
-			angelCa = -Math.signum(angelCa) * (360 - Math.abs(angelCa));
+		//System.out.println(angelA + " : " + angelB );
+		double angelC = 0;
+		
+		double angelCa = Math.abs(angelA - angelB);
+		double angelCb = 360 - angelCa;
+		//System.out.println(angelCa + " + " + angelCb + " = " + (angelCa + angelCb));
+		//double angelATest = angelA + 1;
+		double angelCaTest = Math.abs((angelA + 1) - angelB);
+		//double angelCbTest = 360 - angelCa;
+		
+		if(clockWise){
+			if(angelCaTest > angelCa){
+				angelC = -angelCa;
+			}else{
+				angelC = -angelCb;
+			}
+		}else{
+			if(angelCaTest < angelCa){
+				angelC = angelCa;
+			}else{
+				angelC = angelCb;
+			}
 		}
 		
+		//Angel between: R0 and R1;
+		//double angelCa = (angelB - angelA);
+		//if(Math.abs(angelCa) > 180){
+		//	if(clockWise){
+		//		angelCa = -Math.signum(angelCa) * (360 - Math.abs(angelCa));
+		//	}
+		//}
+		
+		//double angelCa = 0;
+		
+		//if(clockWise)
+		//	angelCa = angelA - angelB;
+		//else
+		//	angelCa = angelA - angelB;
+		
 		startAngle = angelA;
-		arcAngle = angelCa;
+		arcAngle = angelC;
 		
 		left = X3 - R;	
 		top = Y3 - R;

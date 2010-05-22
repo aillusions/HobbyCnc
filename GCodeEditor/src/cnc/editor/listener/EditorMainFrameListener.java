@@ -2,8 +2,8 @@ package cnc.editor.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -14,7 +14,7 @@ import cnc.editor.EditorStates;
 import cnc.editor.GCommandsContainer;
 import cnc.editor.view.EditorMainFrame;
 
-public class EditorMainFrameListener implements ActionListener, KeyListener {
+public class EditorMainFrameListener implements ActionListener {
 
 	private Editor editor;	
 	private EditorStates es = EditorStates.getInstance();
@@ -24,7 +24,7 @@ public class EditorMainFrameListener implements ActionListener, KeyListener {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-
+		
 		if(e.getActionCommand().equals("ConvertImageToGCodes")){
 			editor.convertImageToGCodes();
 		}else if(e.getActionCommand().equals("AddGCodesFromFile")){
@@ -48,29 +48,69 @@ public class EditorMainFrameListener implements ActionListener, KeyListener {
 			es.setCurrentGCmdType(Editor.GcommandTypes.G02);
 		}else if(e.getActionCommand().equals("SetFutureCommandsType_G00")){
 			es.setCurrentGCmdType(Editor.GcommandTypes.G00);
+		}else if(e.getActionCommand().equals("SetFutureCommandsType_G01")){
+			es.setCurrentGCmdType(Editor.GcommandTypes.G01);
+		}else if(e.getActionCommand().equals("SetFutureCommandsType_G03")){
+			es.setCurrentGCmdType(Editor.GcommandTypes.G03);
 		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_SHOW_ONLY_Z0_SWITCHED)){
 			es.setDisplayOnlyZ0(((JCheckBox)e.getSource()).isSelected());
 		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_LIFT_FOR_EACH_STROKE)){
 			es.setLiftForEachStroke(((JCheckBox)e.getSource()).isSelected());
+			
 		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_UNDO)){
+			
 			editor.undo();
+			
 		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_REDO)){
+			
 			editor.redo();
+			
 		}
 	}
 
-	public void keyPressed(KeyEvent e) {
+	public static class SetRaduisKeyListener extends KeyAdapter{ 
 
+		public void keyReleased(KeyEvent e) {
+
+			JTextField field = (JTextField)e.getSource();
+			String txt = field.getText().trim();
+
+			if(!txt.equals("")){
+				EditorStates.getInstance().setArcR(Float.parseFloat(txt), false);
+			}else{
+				EditorStates.getInstance().setArcR(null, false);
+			}
+		} 
 	}
-
-	public void keyReleased(KeyEvent e) {				
-		JTextField field = (JTextField)e.getSource();
-		es.setG02Radius(Float.parseFloat(field.getText()));
-	}
-
-	public void keyTyped(KeyEvent e) {
-
-	}
-
 	
+	public static class SetIKeyListener extends KeyAdapter{ 
+		
+		public void keyReleased(KeyEvent e) {
+		
+			JTextField field = (JTextField)e.getSource();
+			String txt = field.getText().trim();
+			
+			if(!txt.equals("")){
+				EditorStates.getInstance().setArcI(Float.parseFloat(txt), false);
+			}else{
+				EditorStates.getInstance().setArcI(null, false);
+			}
+		} 
+	}
+	
+	public static class SetJKeyListener extends KeyAdapter{ 
+		
+		public void keyReleased(KeyEvent e) {
+
+			JTextField field = (JTextField)e.getSource();
+			String txt = field.getText().trim();
+			
+			if(!txt.equals("")){
+				EditorStates.getInstance().setArcJ(Float.parseFloat(txt), false);
+			}else{
+				EditorStates.getInstance().setArcJ(null, false);
+			}
+		} 
+	}
+
 }

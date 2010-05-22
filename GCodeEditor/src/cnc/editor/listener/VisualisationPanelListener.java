@@ -123,7 +123,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    } 
 	}
 	
-		class DeleteAction extends AbstractAction{ 
+	class DeleteAction extends AbstractAction{ 
 		
 		private static final long serialVersionUID = 1L;
 
@@ -141,6 +141,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	       return true;
 	    } 
 	}
+	
 	class SelectAllAction extends AbstractAction{ 
 		
 		private static final long serialVersionUID = 1L;
@@ -157,6 +158,5 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	       return true;
 	    } 
 	}
-
 
 }
