@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.view.VisualisationPanel;
 
 public abstract class GCommand {
 	
@@ -24,9 +25,9 @@ public abstract class GCommand {
 	private Float Z;	
 
 	public abstract GcommandTypes getCommandType();	
-	public abstract void drawLine(Graphics g);
+	public abstract void drawLine(Graphics g, VisualisationPanel drawer);
 
-	public void draw(Graphics g){
+	public void draw(Graphics g, VisualisationPanel drawer){
 		
 		Color lineColor = Color.black;
 		Color pointColor = Color.black;
@@ -57,12 +58,12 @@ public abstract class GCommand {
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
 		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
 		
-		g.setColor(pointColor);
-		g.fillOval((int)(newX-pointSize/2), (int)(newY-pointSize/2), pointSize, pointSize);
+		g.setColor(pointColor);		
+		drawer.drawBullet(g, newX, newY, pointSize);
 		
 		if(!es.isDisplayOnlyZ0() || this.getZ() <= 0){
 			g.setColor(lineColor);
-			drawLine(g);	
+			drawLine(g, drawer);	
 		}
 	}
 	

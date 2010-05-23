@@ -95,7 +95,7 @@ public class EditorStates {
 	
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
-	private int theGap = 20;
+	private int theGap = 25;
 	private int viewCoordLenghtX = 600;		
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.view.VisualisationPanel;
 
 public class GCommandG00 extends GCommand{
 
@@ -19,7 +20,7 @@ public class GCommandG00 extends GCommand{
 	}
 
 	@Override
-	public void drawLine(Graphics g) {
+	public void drawLine(Graphics g, VisualisationPanel drawer) {
 		
 		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
 		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
@@ -27,10 +28,10 @@ public class GCommandG00 extends GCommand{
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
 		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
 
-		g.drawLine(prevX, prevY, newX, newY);
+		drawer.drawLine(g, prevX, prevY, newX, newY);
 		
 		if(EditorStates.getInstance().getScale() >= 5){
-			drawArrowEnd(g);						
+			//drawArrowEnd(g);						
 		}	
 	}
 	

@@ -191,12 +191,12 @@ public class Editor {
 			
 			if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
 				
-				if(es.getCurrentGCmdType() != GcommandTypes.G00){
-					System.err.println("Continuous drawing works only for " + GcommandTypes.G00 + "command type");
+				if(es.getCurrentGCmdType() != GcommandTypes.G01){
+					System.err.println("Continuous drawing works only for " + GcommandTypes.G01 + "command type");
 					return;
 				}
 				
-				gcc.addCommand(new GCommandG00(cncX, cncY, null));
+				gcc.addCommand(new GCommandG01(cncX, cncY, null));
 				return;
 			}
 			

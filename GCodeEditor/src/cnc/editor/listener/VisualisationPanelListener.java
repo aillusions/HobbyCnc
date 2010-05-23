@@ -22,18 +22,23 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 
 	private Editor editor;
 
-
 	public VisualisationPanelListener(Editor editor){
 		this.editor = editor;
 	}
 	
 	public void mousePressed(MouseEvent e) {
 	
+		VisualisationPanel vPanel = ((VisualisationPanel)e.getSource());
+		
 		double x = e.getPoint().getX();
-		double y = e.getPoint().getY();		
+		double y = vPanel.getRealY(e.getPoint().getY());	
+		
 		if(e.getButton() == 1){
-			editor.mousePressedAt(x,y, e.isControlDown());
+			
+			editor.mousePressedAt(x, y, e.isControlDown());
+			
 		}else if(e.getButton() == 3){
+			
 	        JPopupMenu menu = new JPopupMenu(); 
 	        menu.add(new EditAction()); 
 	        menu.add(new DeleteAction()); 
@@ -48,8 +53,10 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 
 	public void mouseDragged(MouseEvent e) {		
 			
+		VisualisationPanel vPanel = ((VisualisationPanel)e.getSource());
+		
 		double x = e.getPoint().getX();
-		double y = e.getPoint().getY();		
+		double y = vPanel.getRealY(e.getPoint().getY());		
 
 		editor.viewMouseDraggedTo(x,y);
 
@@ -71,8 +78,10 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	
 	public void mouseReleased(MouseEvent e) {	
 		
+		VisualisationPanel vPanel = ((VisualisationPanel)e.getSource());
+		
 		double x = e.getPoint().getX();
-		double y = e.getPoint().getY();	
+		double y = vPanel.getRealY(e.getPoint().getY());	
 		
 		editor.viewMouseReleasedAt(x, y);
 	}

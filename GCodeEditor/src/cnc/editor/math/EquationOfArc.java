@@ -51,9 +51,9 @@ public class EquationOfArc {
 		
 		if(clockWise){
 		
-			if(bda.compareTo(new BigDecimal(0)) == -1){
+			if(bda.compareTo(new BigDecimal(0)) == 1){
 				angleC = bda.doubleValue();
-			}else if(bda.compareTo(new BigDecimal(0)) == 1){
+			}else if(bda.compareTo(new BigDecimal(0)) == -1){
 				angleC = bdb.doubleValue();
 			}else if(bda.compareTo(new BigDecimal(0)) == 0){
 				if(radius < 0){
@@ -63,9 +63,9 @@ public class EquationOfArc {
 				}
 			}
 		}else{
-			if(bda.compareTo(new BigDecimal(0)) == 1){
+			if(bda.compareTo(new BigDecimal(0)) == -1){
 				angleC = bda.doubleValue();
-			}else if(bda.compareTo(new BigDecimal(0)) == -1){
+			}else if(bda.compareTo(new BigDecimal(0)) == 1){
 				angleC = bdb.doubleValue();
 			}else if(bda.compareTo(new BigDecimal(0)) == 0){
 				if(radius < 0){

@@ -3,6 +3,7 @@ package cnc.editor;
 import java.awt.Graphics;
 
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.view.VisualisationPanel;
 
 
 public class GCommandOrigin extends GCommand{
@@ -17,7 +18,7 @@ public class GCommandOrigin extends GCommand{
 	}
 
 	@Override
-	public void drawLine(Graphics g) {
+	public void drawLine(Graphics g, VisualisationPanel drawer) {
 		//System.out.println("Origin - nothing to do.");
 	}
 	

@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.math.CirclesIntersectionFinder;
 import cnc.editor.math.EquationOfArc;
+import cnc.editor.view.VisualisationPanel;
 
 public class GCommandG02 extends GCommand{
 	
@@ -35,7 +36,7 @@ public class GCommandG02 extends GCommand{
 	}
 
 	@Override
-	public void drawLine(Graphics g) {	
+	public void drawLine(Graphics g, VisualisationPanel drawer) {	
 		
 		//Arc radius
 		double R;
@@ -53,7 +54,7 @@ public class GCommandG02 extends GCommand{
 		
 		if(radiusSpecified){	
 			
-			CirclesIntersectionFinder cif = new CirclesIntersectionFinder(X0, Y0, X1, Y1, radius);
+			CirclesIntersectionFinder cif = new CirclesIntersectionFinder(X0, Y0, X1, Y1, radius, this.clockWise);
 			X3 = cif.getX();
 			Y3 = cif.getY();	
 			R = radius;
@@ -69,29 +70,29 @@ public class GCommandG02 extends GCommand{
 			if(!getRounded(R1).equals(getRounded(R))){
 				
 				System.err.println(getRounded(R) + " != " + getRounded(R1));
-				//drawError(g);
-				darawRadiusPoint(g, X3, Y3);
-			//	return;
+				drawError(g, drawer);
+				darawRadiusPoint(g, X3, Y3, drawer);
+				return;
 			}
 		}
 				
 		if(X3 == null || Y3 == null){
-			drawError(g);
+			drawError(g, drawer);
 			return;
 		}
 		
-		darawRadiusPoint(g, X3, Y3);
+		darawRadiusPoint(g, X3, Y3, drawer);
 		EquationOfArc eoa = new EquationOfArc(X0, Y0, X1, Y1, X3, Y3, R, this.clockWise );
 		
 		int viewLeft = (int)EditorStates.convertPositionCnc_View((float)eoa.getLeft());
 		int viewTop = (int)EditorStates.convertPositionCnc_View((float)eoa.getTop());
 		int viewHeight = (int)EditorStates.convertLengthCnc_View((float)(eoa.getDiametr()));
 		
-		g.drawArc(viewLeft, viewTop, viewHeight, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
+		drawer.drawArc(g, viewLeft, viewTop, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
 
 	}
 	
-	public void drawError(Graphics g) {
+	public void drawError(Graphics g, VisualisationPanel drawer) {
 		
 		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
 		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
@@ -101,19 +102,19 @@ public class GCommandG02 extends GCommand{
 		
 		Color c = g.getColor();
 		g.setColor(Color.magenta);
-		g.drawLine(prevX, prevY, newX, newY);
-		g.drawLine(prevX+1, prevY+1, newX+1, newY+1);
+		drawer.drawLine(g, prevX, prevY, newX, newY);
+		drawer.drawLine(g, prevX+1, prevY+1, newX+1, newY+1);
 		g.setColor(c);
 	}
 	
-	protected void darawRadiusPoint(Graphics g, double x, double y){
+	protected void darawRadiusPoint(Graphics g, double x, double y, VisualisationPanel drawer){
 		
 		//Draw center of imagined circle
 		int centerX, centerY;
 		int size = 5;
 		centerX = (int)(EditorStates.convertPositionCnc_View((float)x)-size/2);
 		centerY = (int)(EditorStates.convertPositionCnc_View((float)y)-size/2);	
-		g.fillOval(centerX, centerY, size, size);
+		drawer.drawBullet(g, centerX, centerY, size);
 	}
 		
 	@Override

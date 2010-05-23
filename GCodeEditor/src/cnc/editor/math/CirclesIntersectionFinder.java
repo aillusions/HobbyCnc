@@ -20,7 +20,7 @@ public class CirclesIntersectionFinder {
 	 * @param Yb
 	 * @param radius
 	 */
-	public CirclesIntersectionFinder(double Xa, double Ya, double Xb, double Yb, double radius){
+	public CirclesIntersectionFinder(double Xa, double Ya, double Xb, double Yb, double radius, boolean CW){
 		
 		double R = Math.abs(radius);
 		double signum = Math.signum(radius);
@@ -61,8 +61,13 @@ public class CirclesIntersectionFinder {
 			Y2 = (Y1+Y0)/2;
 			double X3 , Y3;
 			
-			X3 = X2 - signum * (h * (Y1-Y0) / d);
-			Y3 = Y2 + signum * (h * (X1-X0) / d);
+			if(CW){
+				X3 = X2 + signum * (h * (Y1-Y0) / d);
+				Y3 = Y2 - signum * (h * (X1-X0) / d);
+			}else{
+				X3 = X2 - signum * (h * (Y1-Y0) / d);
+				Y3 = Y2 + signum * (h * (X1-X0) / d);
+			}
 			
 			x = X3;
 			y = Y3;
