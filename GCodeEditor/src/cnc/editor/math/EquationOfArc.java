@@ -1,5 +1,9 @@
 package cnc.editor.math;
 
+import java.math.BigDecimal;
+
+import cnc.editor.GCommand;
+
 public class EquationOfArc {
 
 	double top;
@@ -22,97 +26,117 @@ public class EquationOfArc {
 		double X1 = Bx;
 		double Y1 = By;
 		
-		double X3, Y3;
-		
-		X3 = Rx;
-		Y3 = Ry;
-		
-		//tangent of angles between:
-		//- two vectors: R0(P3, P0) and abscissa; 
-		//- and between: R1(P3, P1) and abscissa;
-		//P3 (X3,Y3) - center of imagined circle. P0(X0,Y0) - point A. P1(X1,Y1) - point B. 
-		//Direction of movement: from A to B.
-		double tgA, tgB;
-		tgA = ((Y3-Y0)/(X0-X3));
-		tgB = ((Y3-Y1)/(X1-X3));			
-		
-		double angleA, angleB;
+		double X3 = Rx;
+		double Y3 = Ry;
 
-		angleA = (180/Math.PI) * Math.atan(tgA);
-		angleB = (180/Math.PI) * Math.atan(tgB);
-		
-		int quarterAa, quarterB;
-		
-		quarterAa = getQuarter(X3, Y3, X0, Y0);
-		if(quarterAa == 2){
-			angleA = angleA + 180;
-		}else if(quarterAa == 3){
-			angleA = angleA + 180;
-		}else if(quarterAa == 4){
-			angleA = angleA + 360;
-		}
-		
-		quarterB = getQuarter(X3, Y3, X1, Y1);
-		if(quarterB == 2){
-			angleB = angleB + 180;
-		}else if(quarterB == 3){
-			angleB = angleB + 180;
-		}else if(quarterB == 4){
-			angleB = angleB + 360;
-		}
+		double angleA = getAngle(X3, Y3, X0, Y0);
+		double angleB = getAngle(X3, Y3, X1, Y1);		
 
 		//Needed angle between two vectors
 		double angleC = 0;
 		
 		//Actually there are two angles. We need one of them. In case CW - one, in case CCW - another.
-		double angleCa = Math.abs(angleA - angleB);
-		double angleCb = 360 - angleCa;
+		double angleCa, angleCb = 0;
 		
-		// How to find out, which angle belongs to CW direction, and which one - to CCW direction?
-		// CW directions from OA to OB means angle between them should become smaller as long as A moved to B
-		// Lets imagine that AO has 'alpha' angles and moves in CW direction. 
-		// If OA made 1 degree movement - angle should become 1 degree less. Now what is needed is recalculate 
-		// angles between OA and OB. That of them which became less - needed angle for CW movement.
-		double angleCaTest = Math.abs((angleA + 1) - angleB);
-
+		angleCa = angleB - angleA;	
+		
+		if(angleCa > 0){
+			angleCb = angleCa - 360;
+		}else if(angleCa < 0){
+			angleCb = angleCa + 360;
+		}
+		
+		BigDecimal bda = GCommand.getRounded(angleCa);
+		BigDecimal bdb = GCommand.getRounded(angleCb);		
+		
 		if(clockWise){
-			if(angleCaTest > angleCa){
-				angleC = -angleCa;
-			}else{
-				angleC = -angleCb;
+		
+			if(bda.compareTo(new BigDecimal(0)) == -1){
+				angleC = bda.doubleValue();
+			}else if(bda.compareTo(new BigDecimal(0)) == 1){
+				angleC = bdb.doubleValue();
+			}else if(bda.compareTo(new BigDecimal(0)) == 0){
+				if(radius < 0){
+					angleC = -360;
+				}else{
+					angleC = 0;
+				}
 			}
 		}else{
-			if(angleCaTest < angleCa){
-				angleC = angleCa;
-			}else{
-				angleC = angleCb;
+			if(bda.compareTo(new BigDecimal(0)) == 1){
+				angleC = bda.doubleValue();
+			}else if(bda.compareTo(new BigDecimal(0)) == -1){
+				angleC = bdb.doubleValue();
+			}else if(bda.compareTo(new BigDecimal(0)) == 0){
+				if(radius < 0){
+					angleC = 360;
+				}else{
+					angleC = 0;
+				}
 			}
 		}		
-	
+			
 		startAngle = angleA;
 		arcAngle = angleC;
 		
 		left = X3 - R;	
 		top = Y3 - R;
 
-		diametr = 2*R;
-		
+		diametr = 2*R;		
 	}
 	
-	private int getQuarter(double xStart, double yStart, double xEnd, double yEnd){
+	private double getAngle(double xStart, double yStart, double xEnd, double yEnd){
+	
+		//tangent of angles between:
+		//- two vectors: R0(P3, P0) and abscissa; 
+		//- and between: R1(P3, P1) and abscissa;
+		//P3 (X3,Y3) - center of imagined circle. P0(X0,Y0) - point A. P1(X1,Y1) - point B. 
+		//Direction of movement: from A to B.	
 		
-		if(xEnd < xStart){
-			if(yEnd < yStart)
-				return 2;
-			else if(yEnd > yStart)
-				return 3;
-		}else if(xEnd > xStart){
-			if(yEnd < yStart)
-				return 1;
-			else if(yEnd > yStart)
-				return 4;
+		double tg = ((yStart-yEnd)/(xEnd-xStart));			
+		double angle = (180/Math.PI) * Math.atan(tg);
+		int quarter = 0;
+
+		if(xStart == xEnd){
+			if(yStart < yEnd){
+				angle = 90;
+			}else if(yStart > yEnd){
+				angle = 270;
+			}else{
+				throw new RuntimeException("inposible");
+			}
+		}else if(yStart == yEnd){
+			if(xStart < xEnd){
+				angle = 0;
+			}else if(xStart > xEnd){
+				angle = 180;
+			}else{
+				throw new RuntimeException("inposible");
+			}
+		}else{
+			
+			if(xEnd < xStart){
+				if(yEnd < yStart)
+					quarter = 2;
+				else if(yEnd > yStart)
+					quarter =  3;
+			}else if(xEnd > xStart){
+				if(yEnd < yStart)
+					quarter = 1;
+				else if(yEnd > yStart)
+					quarter = 4;
+			}
+			
+			if(quarter == 2){
+				angle = angle + 180;
+			}else if(quarter == 3){
+				angle = angle + 180;
+			}else if(quarter == 4){
+				angle = angle + 360;
+			}
 		}
-		return 0;
+		
+		return angle;
 	}
 
 	public double getTop() {

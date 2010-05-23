@@ -51,11 +51,13 @@ public class GCommandG02 extends GCommand{
 		//Arc center (with center)
 		Double X3 = null, Y3 = null;
 		
-		if(radiusSpecified){			
+		if(radiusSpecified){	
+			
 			CirclesIntersectionFinder cif = new CirclesIntersectionFinder(X0, Y0, X1, Y1, radius);
 			X3 = cif.getX();
 			Y3 = cif.getY();	
 			R = radius;
+			
 		}else{
 			
 			X3 = (double)this.I + X0;

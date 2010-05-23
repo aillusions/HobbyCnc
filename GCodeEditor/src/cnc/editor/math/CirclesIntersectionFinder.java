@@ -1,5 +1,7 @@
 package cnc.editor.math;
 
+import cnc.editor.GCommand;
+
 /**
  * from 2circle.gif
  * @author Oleksandr_Zaliznyak
@@ -28,6 +30,13 @@ public class CirclesIntersectionFinder {
 		
 		double X1 = Xb;
 		double Y1 = Yb;
+		
+		if(GCommand.getRounded(X0).equals(GCommand.getRounded(X1)) 
+				&& GCommand.getRounded(Y0).equals(GCommand.getRounded(Y1))){
+			x = X0 + radius;
+			y = Y0;
+			return;
+		}
 				
 		//P1-P0
 		double sqrD = Math.pow(X0 - X1, 2) + Math.pow(Y0 - Y1, 2);
