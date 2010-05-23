@@ -1,6 +1,5 @@
 package cnc.editor.math;
 
-
 public class EquationOfArc {
 
 	double top;
@@ -28,7 +27,7 @@ public class EquationOfArc {
 		X3 = Rx;
 		Y3 = Ry;
 		
-		//tangent of angels between:
+		//tangent of angles between:
 		//- two vectors: R0(P3, P0) and abscissa; 
 		//- and between: R1(P3, P1) and abscissa;
 		//P3 (X3,Y3) - center of imagined circle. P0(X0,Y0) - point A. P1(X1,Y1) - point B. 
@@ -37,71 +36,61 @@ public class EquationOfArc {
 		tgA = ((Y3-Y0)/(X0-X3));
 		tgB = ((Y3-Y1)/(X1-X3));			
 		
-		double angelA, angelB;
+		double angleA, angleB;
 
-		angelA = (180/Math.PI) * Math.atan(tgA);
-		angelB = (180/Math.PI) * Math.atan(tgB);
+		angleA = (180/Math.PI) * Math.atan(tgA);
+		angleB = (180/Math.PI) * Math.atan(tgB);
 		
 		int quarterAa, quarterB;
+		
 		quarterAa = getQuarter(X3, Y3, X0, Y0);
 		if(quarterAa == 2){
-			angelA = angelA + 180;
+			angleA = angleA + 180;
 		}else if(quarterAa == 3){
-			angelA = angelA + 180;
+			angleA = angleA + 180;
 		}else if(quarterAa == 4){
-			angelA = angelA + 360;
+			angleA = angleA + 360;
 		}
 		
 		quarterB = getQuarter(X3, Y3, X1, Y1);
 		if(quarterB == 2){
-			angelB = angelB + 180;
+			angleB = angleB + 180;
 		}else if(quarterB == 3){
-			angelB = angelB + 180;
+			angleB = angleB + 180;
 		}else if(quarterB == 4){
-			angelB = angelB + 360;
+			angleB = angleB + 360;
 		}
+
+		//Needed angle between two vectors
+		double angleC = 0;
 		
-		//System.out.println(angelA + " : " + angelB );
-		double angelC = 0;
+		//Actually there are two angles. We need one of them. In case CW - one, in case CCW - another.
+		double angleCa = Math.abs(angleA - angleB);
+		double angleCb = 360 - angleCa;
 		
-		double angelCa = Math.abs(angelA - angelB);
-		double angelCb = 360 - angelCa;
-		//System.out.println(angelCa + " + " + angelCb + " = " + (angelCa + angelCb));
-		//double angelATest = angelA + 1;
-		double angelCaTest = Math.abs((angelA + 1) - angelB);
-		//double angelCbTest = 360 - angelCa;
-		
+		// How to find out, which angle belongs to CW direction, and which one - to CCW direction?
+		// CW directions from OA to OB means angle between them should become smaller as long as A moved to B
+		// Lets imagine that AO has 'alpha' angles and moves in CW direction. 
+		// If OA made 1 degree movement - angle should become 1 degree less. Now what is needed is recalculate 
+		// angles between OA and OB. That of them which became less - needed angle for CW movement.
+		double angleCaTest = Math.abs((angleA + 1) - angleB);
+
 		if(clockWise){
-			if(angelCaTest > angelCa){
-				angelC = -angelCa;
+			if(angleCaTest > angleCa){
+				angleC = -angleCa;
 			}else{
-				angelC = -angelCb;
+				angleC = -angleCb;
 			}
 		}else{
-			if(angelCaTest < angelCa){
-				angelC = angelCa;
+			if(angleCaTest < angleCa){
+				angleC = angleCa;
 			}else{
-				angelC = angelCb;
+				angleC = angleCb;
 			}
-		}
-		
-		//Angel between: R0 and R1;
-		//double angelCa = (angelB - angelA);
-		//if(Math.abs(angelCa) > 180){
-		//	if(clockWise){
-		//		angelCa = -Math.signum(angelCa) * (360 - Math.abs(angelCa));
-		//	}
-		//}
-		
-		//double angelCa = 0;
-		
-		//if(clockWise)
-		//	angelCa = angelA - angelB;
-		//else
-		//	angelCa = angelA - angelB;
-		
-		startAngle = angelA;
-		arcAngle = angelC;
+		}		
+	
+		startAngle = angleA;
+		arcAngle = angleC;
 		
 		left = X3 - R;	
 		top = Y3 - R;

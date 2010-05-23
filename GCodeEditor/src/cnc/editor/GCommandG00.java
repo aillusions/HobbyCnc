@@ -8,17 +8,19 @@ import cnc.editor.Editor.GcommandTypes;
 public class GCommandG00 extends GCommand{
 
 	public GCommandG00(Float x, Float y, Float z) {
+		
 		super(x, y, z);
-
 	}
 
 	@Override
 	public GcommandTypes getCommandType() {
+		
 		return GcommandTypes.G00;
 	}
 
 	@Override
 	public void drawLine(Graphics g) {
+		
 		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
 		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
 		

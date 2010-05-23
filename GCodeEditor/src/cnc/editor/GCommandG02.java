@@ -57,16 +57,19 @@ public class GCommandG02 extends GCommand{
 			Y3 = cif.getY();	
 			R = radius;
 		}else{
-			X3 = (double)this.I;
-			Y3 = (double)this.J;
-			R = Math.sqrt(Math.pow(X3 - X0, 2) + Math.pow(Y3 - Y0, 2));
 			
+			X3 = (double)this.I + X0;
+			Y3 = (double)this.J + Y0;
 			
-			if(Math.sqrt(Math.pow(X3 - X1, 2) + Math.pow(Y3 - Y1, 2)) != R){
-				System.err.println(Math.sqrt(Math.pow(X3 - X1, 2) + Math.pow(Y3 - Y1, 2)) + " != " + R);
-				drawError(g);
+			R = Math.sqrt(Math.pow(X3 - X0, 2) + Math.pow(Y3 - Y0, 2));			
+			double R1 = Math.sqrt(Math.pow(X3 - X1, 2) + Math.pow(Y3 - Y1, 2));
+			
+			if(!getRounded(R1).equals(getRounded(R))){
+				
+				System.err.println(getRounded(R) + " != " + getRounded(R1));
+				//drawError(g);
 				darawRadiusPoint(g, X3, Y3);
-				return;
+			//	return;
 			}
 		}
 				

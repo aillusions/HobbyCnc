@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -83,6 +84,13 @@ public abstract class GCommand {
 		this.Z = z;
 	}
 
+	
+	public static BigDecimal getRounded(double d){
+		BigDecimal bd = new BigDecimal(Math.round(d * 100));
+		bd = bd.divide(new BigDecimal(100));
+		return bd;
+	}
+	
 	public Float getX() {
 		if(X != null){
 			return X;
@@ -128,9 +136,9 @@ public abstract class GCommand {
 
 	@Override
 	public String toString() {
-		String strX = X != null ? " X" + X : "" ;
-		String strY = Y != null ? " Y" + Y : "";
-		String strZ = Z != null ? " Z" + Z : "";		
+		String strX = X != null ? " X" + getRounded(X) : "" ;
+		String strY = Y != null ? " Y" + getRounded(Y) : "";
+		String strZ = Z != null ? " Z" + getRounded(Z) : "";		
 		
 		return getCommandType() + " " + strX + strY + strZ;
 	}
