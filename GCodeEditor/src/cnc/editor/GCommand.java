@@ -96,7 +96,7 @@ public abstract class GCommand {
 		if(X != null){
 			return X;
 		}else{
-			return previousCmd.getX();
+			return  previousCmd != null ? previousCmd.getX() : null;
 		}
 	}
 
@@ -110,7 +110,7 @@ public abstract class GCommand {
 		if(Y != null){
 			return Y;
 		}else{
-			return previousCmd.getY();
+			return  previousCmd != null ? previousCmd.getY() : null;
 		}
 	}
 
@@ -124,7 +124,7 @@ public abstract class GCommand {
 		if(Z != null){
 			return Z;
 		}else{
-			return previousCmd.getZ();
+			return previousCmd != null ? previousCmd.getZ() : null;
 		}
 	}
 
@@ -141,7 +141,7 @@ public abstract class GCommand {
 		String strY = Y != null ? " Y" + getRounded(Y) : "";
 		String strZ = Z != null ? " Z" + getRounded(Z) : "";		
 		
-		return getCommandType() + " " + strX + strY + strZ;
+		return getCommandType() + strX + strY + strZ;
 	}
 	
 /*	@Override
@@ -165,16 +165,7 @@ public abstract class GCommand {
 	}
 
 	public void setPreviousCmd(GCommand previousCmd) {
-		//previousCmd.setNextCmd(this);
 		this.previousCmd = previousCmd;
 	}
-/*	public GCommand getNextCmd() {
-		return nextCmd;
-	}
-	public void setNextCmd(GCommand nextCmd) {
-		this.nextCmd = nextCmd;
-	}*/
-	
-	
 
 }

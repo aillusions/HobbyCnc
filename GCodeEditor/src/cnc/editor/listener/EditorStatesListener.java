@@ -59,19 +59,41 @@ public class EditorStatesListener implements ActionListener {
 		EditorStates es = EditorStates.getInstance();
 		Set<GCommand> gCommands = es.getSelectedGCommands();
 
-		if(gCommands != null && gCommands.size() == 1){
+		if(gCommands != null && gCommands.size() > 0){
 			
-			try{							
-				GCommand gc = (GCommand)gCommands.toArray()[0];
-				int editorLineIndex = EditorStates.getLineNumberInTextEditor(gc);
-				int lineStart = gCodesTextContainer.getLineStartOffset(editorLineIndex);
-				int lineEnd = gCodesTextContainer.getLineEndOffset(editorLineIndex);
+			try{		
+				
+				int minLineIndex = 0;
+				int maxLineIndex = 0;
+				
+				int i = 0;
+				
+				for(GCommand gc : gCommands){
+					
+					int currentLineIndex =  EditorStates.getLineNumberInTextEditor(gc);
+					if(i == 0){
+						minLineIndex = currentLineIndex;
+						maxLineIndex = currentLineIndex;
+					}else{
+						if(minLineIndex > currentLineIndex){
+							minLineIndex = currentLineIndex;
+						}
+						if(maxLineIndex < currentLineIndex){
+							maxLineIndex = currentLineIndex;
+						}
+					}
+					i ++;
+				}
+
+				int lineStart = gCodesTextContainer.getLineStartOffset(minLineIndex);
+				int lineEnd = gCodesTextContainer.getLineEndOffset(maxLineIndex);
 				
 				SwingUtilities.invokeLater(new Runnable() { 
 					public void run() {
-						gCodesTextContainer.requestFocus(); 
+					gCodesTextContainer.requestFocus(); 
 					}}); 
 		
+
 				gCodesTextContainer.select(lineStart, lineEnd);
 				gCodesTextContainer.scrollRectToVisible(new Rectangle(1,1,1,1));
 			} catch (BadLocationException e) {

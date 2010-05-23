@@ -21,12 +21,12 @@ public class Main {
 		
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
-		GCodesDocListener gcdl = new GCodesDocListener(gcc);			
-		EditorStates.getInstance().getDocument().addDocumentListener(gcdl);
-		
 		GCodesTextContainerListener gctcl = new GCodesTextContainerListener();
 		GCodesTextContainer gctc = new GCodesTextContainer(EditorStates.getInstance().getDocument(), gctcl);
 		EditorStates.getInstance().setgCodesTextContainer(gctc);
+		
+		GCodesDocListener gcdl = new GCodesDocListener(gctc);			
+		EditorStates.getInstance().getDocument().addDocumentListener(gcdl);
 		
 		EditorMainFrameListener emfl = new EditorMainFrameListener(editor);
 		EditorMainFrame emf = new EditorMainFrame(emfl, gctc, visualP);

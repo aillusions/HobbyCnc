@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 import cnc.editor.Editor.EditModeS;
 import cnc.editor.Editor.EditorTolls;
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.doc.MyPlainDocument;
 import cnc.editor.view.GCodesTextContainer;
 
 //Singleton
@@ -102,7 +102,7 @@ public class EditorStates {
 	private Set<GCommand> selectedCommands;
 	private Editor.EditModeS currentEditMode = EditModeS.DRAW;
 	private boolean importInProgress;
-	private final Document document = new PlainDocument();
+	private final MyPlainDocument document = new MyPlainDocument();
 	private GCodesTextContainer gCodesTextContainer;
 	private GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private Float arcRadius = 20f;
@@ -269,7 +269,7 @@ public class EditorStates {
 		this.importInProgress = importInProgress;
 	}
 	
-	public Document getDocument() {
+	public MyPlainDocument getDocument() {
 		return document;
 	}	
 	

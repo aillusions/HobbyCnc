@@ -87,9 +87,9 @@ public class Editor {
 				}
 				
 				liftHeadOrDownIfNeeded();	
-				gcc.addCommand(start);	
+				gcc.addCommand(start, this);	
 				downWorkHead();				
-				gcc.addCommand(end);
+				gcc.addCommand(end, this);
 								
 				List<GCommand> oneCmdList = new ArrayList<GCommand>();
 				oneCmdList.add(end);
@@ -124,7 +124,7 @@ public class Editor {
 					}
 				}
 				
-				gcc.addCommand(cmd);
+				gcc.addCommand(cmd, this);
 				es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 				isCurrentSelectedToolReset = true;
 			}
@@ -156,6 +156,7 @@ public class Editor {
 				dragStarted = true;	
 				
 			}else{
+				
 				if(!ctrl){
 					es.clearSelection();
 					es.getSelRegion().startSelection((int)x, (int)y);
@@ -196,7 +197,7 @@ public class Editor {
 					return;
 				}
 				
-				gcc.addCommand(new GCommandG01(cncX, cncY, null));
+				gcc.addCommand(new GCommandG01(cncX, cncY, null), this);
 				return;
 			}
 			
@@ -262,8 +263,8 @@ public class Editor {
 			bmpPrinter.setStore(store);
 			bmpPrinter.StartBuild();	
 			
-			gcc.clear();
-			gcc.addCommandsBunch(codesBuffer.toString());			
+			gcc.clear(this);
+			gcc.addCommandsBunch(codesBuffer.toString(), this);			
 
 			es.setImportInProgress(false);
 		}		
@@ -291,8 +292,8 @@ public class Editor {
 					codesBuffer.append("\r\n" + line);
 				}
 				
-				gcc.clear();
-				gcc.addCommandsBunch(codesBuffer.toString());
+				gcc.clear(this);
+				gcc.addCommandsBunch(codesBuffer.toString(), this);
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -312,7 +313,7 @@ public class Editor {
 		gCmd.setPreviousCmd(lastCmd);
 		
 		if(!lastCmd.equals(gCmd)){
-			gcc.addCommand(gCmd);	
+			gcc.addCommand(gCmd, this);	
 		}
 	}
 
@@ -326,7 +327,7 @@ public class Editor {
 		gCmd.setPreviousCmd(lastCmd);
 		
 		if(!lastCmd.equals(gCmd)){
-			gcc.addCommand(gCmd);	
+			gcc.addCommand(gCmd, this);	
 		}		
 	}
 	

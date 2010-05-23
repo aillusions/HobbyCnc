@@ -30,7 +30,7 @@ public class EditorMainFrameListener implements ActionListener {
 		}else if(e.getActionCommand().equals("AddGCodesFromFile")){
 			editor.addGCodesFromFile();
 		}else if(e.getActionCommand().equals("Clear")){
-			GCommandsContainer.getInstance().clear();
+			GCommandsContainer.getInstance().clear(this);
 		}else if(e.getActionCommand().equals("Scale")){
 			float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
 			es.setScale(scale);

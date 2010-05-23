@@ -10,10 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.listener.GCodesDocListener;
 
 //Singleton
 public class GCommandsContainer implements ActionListener {	
 	
+	public static final String CMD_COMMAND_REPLACED_MANUALLY = "commandReplacedManually";
 	public static final String CMD_REMOVED_COMMANDS = "removedCommands";
 	public static final String CMD_CLEAR_COMMANDS_CONATINER = "clear_commands_conatiner";
 	public static final String CMD_ADDED_BUNCH_OF_COMMANDS = "added_bunch_of_commands";
@@ -27,7 +29,7 @@ public class GCommandsContainer implements ActionListener {
 	private boolean butchOfCmdsAddingInProgress = false; 
 		
 	private GCommandsContainer(){
-		addCommand(new GCommandOrigin());
+		addCommand(new GCommandOrigin(), this);
 	}                        
 	
 	public static GCommandsContainer getInstance(){
@@ -36,6 +38,27 @@ public class GCommandsContainer implements ActionListener {
 		
 	public List<GCommand> getGCommandList() {
 		return gCommandList;
+	}
+	
+	public void replaceCommandManually(GCommand oldCmd, GCommand newCmd, Object source){
+		
+		int oldCommandIndex = getGCommandList().indexOf(oldCmd);	
+		
+		newCmd.setPreviousCmd(oldCmd.getPreviousCmd());
+		
+		
+		oldCmd.setPreviousCmd(null);
+		
+		if(getGCommandList().size() > (oldCommandIndex + 1)){
+			getGCommandList().get(oldCommandIndex + 1).setPreviousCmd(newCmd);
+		}
+		
+		getGCommandList().set(oldCommandIndex, newCmd);
+		
+		newCmd.addActionListener(this);
+		ActionEvent ae = new ActionEvent(this , -1, CMD_COMMAND_REPLACED_MANUALLY);
+		ae.setSource(source);
+		notifyAllAboutChanges(ae);	
 	}
 	
 	public void removeGCommands(Collection<GCommand> c){
@@ -61,7 +84,7 @@ public class GCommandsContainer implements ActionListener {
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void addCommand(GCommand c){
+	public void addCommand(GCommand c, Object source){
 		
 		if(c == null){
 			throw new RuntimeException("Argument of " + GCommandsContainer.class.toString()+ ".addCommand(..) can not be null.");
@@ -74,14 +97,18 @@ public class GCommandsContainer implements ActionListener {
 		c.addActionListener(this);
 		
 		if(!butchOfCmdsAddingInProgress) {
-			ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_ONE_COMMAND);
+			ActionEvent ae = new ActionEvent(source , -1, CMD_ADDED_ONE_COMMAND);
 			notifyAllAboutChanges(ae);
 		}
 	}
 
-	public void addCommandsBunch(String commands){
+	public void addCommandsBunch(String commands, Object source){
 		
 		butchOfCmdsAddingInProgress = true;
+		
+		//if(gCommandList.size() == 0){
+	//		addCommand(new GCommandOrigin(), source);
+		//}
 		
 		String[] cmdArray = commands.replace("\r", "").split("\n");		
 		
@@ -90,13 +117,13 @@ public class GCommandsContainer implements ActionListener {
 			GCommand gc = GCodeParser.parseCommand(cmdArray[i]);		
 			
 			if (gc != null) {				
-				addCommand(gc);
+				addCommand(gc, source);
 			}
 		}
 
-		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
+		ActionEvent ae = new ActionEvent(source , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
 		notifyAllAboutChanges(ae);	
-		
+			
 		butchOfCmdsAddingInProgress = false;
 	}
 
@@ -146,12 +173,17 @@ public class GCommandsContainer implements ActionListener {
 		return result;
 	}
 
-	public void clear() {
+	public void clear(Object source) {
 		
-		gCommandList.clear();	
-		notifyAllAboutChanges(new ActionEvent(this , -1, CMD_CLEAR_COMMANDS_CONATINER));
+		gCommandList.clear();
 		
-		addCommand(new GCommandOrigin());
+		if(!(source instanceof GCodesDocListener)){
+			
+			ActionEvent ae = new ActionEvent(source , -1, CMD_CLEAR_COMMANDS_CONATINER);
+			notifyAllAboutChanges(ae);			
+			addCommand(new GCommandOrigin(), source);
+		}
+
 	}
 
 	
