@@ -1,12 +1,11 @@
 package cnc.editor;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.math.CirclesIntersectionFinder;
 import cnc.editor.math.EquationOfArc;
-import cnc.editor.view.VisualisationPanel;
+import cnc.editor.view.GraphicsWrapper;
 
 public class GCommandG02 extends GCommand{
 	
@@ -36,7 +35,7 @@ public class GCommandG02 extends GCommand{
 	}
 
 	@Override
-	public void drawLine(Graphics g, VisualisationPanel drawer) {	
+	public void drawLine(GraphicsWrapper g) {	
 		
 		//Arc radius
 		double R;
@@ -70,29 +69,29 @@ public class GCommandG02 extends GCommand{
 			if(!getRounded(R1).equals(getRounded(R))){
 				
 				System.err.println(getRounded(R) + " != " + getRounded(R1));
-				drawError(g, drawer);
-				darawRadiusPoint(g, X3, Y3, drawer);
+				drawError(g);
+				darawRadiusPoint(g, X3, Y3);
 				return;
 			}
 		}
 				
 		if(X3 == null || Y3 == null){
-			drawError(g, drawer);
+			drawError(g);
 			return;
 		}
 		
-		darawRadiusPoint(g, X3, Y3, drawer);
+		darawRadiusPoint(g, X3, Y3);
 		EquationOfArc eoa = new EquationOfArc(X0, Y0, X1, Y1, X3, Y3, R, this.clockWise );
 		
 		int viewLeft = (int)EditorStates.convertPositionCnc_View((float)eoa.getLeft());
 		int viewTop = (int)EditorStates.convertPositionCnc_View((float)eoa.getTop());
 		int viewHeight = (int)EditorStates.convertLengthCnc_View((float)(eoa.getDiametr()));
 		
-		drawer.drawArc(g, viewLeft, viewTop, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
+		g.drawArc(viewLeft, viewTop, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
 
 	}
 	
-	public void drawError(Graphics g, VisualisationPanel drawer) {
+	public void drawError(GraphicsWrapper g) {
 		
 		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
 		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
@@ -102,19 +101,19 @@ public class GCommandG02 extends GCommand{
 		
 		Color c = g.getColor();
 		g.setColor(Color.magenta);
-		drawer.drawLine(g, prevX, prevY, newX, newY);
-		drawer.drawLine(g, prevX+1, prevY+1, newX+1, newY+1);
+		g.drawLine(prevX, prevY, newX, newY);
+		g.drawLine(prevX+1, prevY+1, newX+1, newY+1);
 		g.setColor(c);
 	}
 	
-	protected void darawRadiusPoint(Graphics g, double x, double y, VisualisationPanel drawer){
+	protected void darawRadiusPoint(GraphicsWrapper g, double x, double y){
 		
 		//Draw center of imagined circle
 		int centerX, centerY;
 		int size = 5;
 		centerX = (int)(EditorStates.convertPositionCnc_View((float)x)-size/2);
 		centerY = (int)(EditorStates.convertPositionCnc_View((float)y)-size/2);	
-		drawer.drawBullet(g, centerX, centerY, size);
+		g.drawBullet(centerX, centerY, size);
 	}
 		
 	@Override

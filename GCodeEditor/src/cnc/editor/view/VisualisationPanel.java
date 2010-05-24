@@ -29,27 +29,29 @@ public class VisualisationPanel extends JPanel{
 	public void paint(Graphics g) {
 		
 		super.paint(g);
+	
+		GraphicsWrapper gw = new GraphicsWrapper(g, this);
 		
-		drawGrid(g);
-		drawStrictBorders(g);		
-		drawCoordinates(g);		
-		drawSelectedRegion(g);
-		drawPicture(g);		
+		drawGrid(gw);
+		drawStrictBorders(gw);		
+		drawCoordinates(gw);		
+		drawSelectedRegion(gw);
+		drawPicture(gw);		
 	}
 	
-	private void drawSelectedRegion(Graphics g) {
+	private void drawSelectedRegion(GraphicsWrapper g) {
 		
 		Color color = g.getColor();
 		g.setColor(Color.ORANGE);
 		SelectedRegion sr = es.getSelRegion();		
-		drawLine(g, sr.getStartX(), sr.getStartY(), sr.getStartX(), sr.getEndY());
-		drawLine(g, sr.getStartX(), sr.getStartY(), sr.getEndX(), sr.getStartY());
-		drawLine(g, sr.getEndX(), sr.getStartY(), sr.getEndX(), sr.getEndY());
-		drawLine(g, sr.getStartX(), sr.getEndY(), sr.getEndX(), sr.getEndY());
+		g.drawLine(sr.getStartX(), sr.getStartY(), sr.getStartX(), sr.getEndY());
+		g.drawLine(sr.getStartX(), sr.getStartY(), sr.getEndX(), sr.getStartY());
+		g.drawLine(sr.getEndX(), sr.getStartY(), sr.getEndX(), sr.getEndY());
+		g.drawLine(sr.getStartX(), sr.getEndY(), sr.getEndX(), sr.getEndY());
 		g.setColor(color);
 	}
 
-	public void drawStrictBorders(Graphics g){
+	public void drawStrictBorders(GraphicsWrapper g){
 		
 		Color color = g.getColor();
 	    g.setColor(Color.gray);
@@ -63,7 +65,7 @@ public class VisualisationPanel extends JPanel{
 	    int x2 = x1;
 	    int y2 = maxCncY;
 	    
-	    drawLine(g, x1, y1, x2, y2);
+	    g.drawLine(x1, y1, x2, y2);
 	    
 	    // horizontal
 	    x1 = es.getGap();
@@ -71,11 +73,11 @@ public class VisualisationPanel extends JPanel{
 	    x2 = maxCncX;
 	    y2 = y1;
 	    
-	    drawLine(g, x1, y1, x2, y2);
+	    g.drawLine(x1, y1, x2, y2);
 		g.setColor(color);
 	}
 	
-	public void drawGrid(Graphics g){
+	public void drawGrid(GraphicsWrapper g){
 
 		int theGap = es.getGap();
 		double gridSteps = Math.round((es.getGridStep() / es.getScale()*10))/10;
@@ -109,12 +111,12 @@ public class VisualisationPanel extends JPanel{
 			int y1 = 0 + theGap;
 
 			g.setColor(Color.white);
-			drawLine(g, x1, y1, x1, (int)viewWidth);
+			g.drawLine(x1, y1, x1, (int)viewWidth);
 			
 			if(progress > 0){
 				DecimalFormat format = new DecimalFormat("###.#");
 				g.setColor(Color.gray);
-				drawString(g, format.format(progress), x1 - 6, theGap - 14);	
+				g.drawString(format.format(progress), x1 - 6, theGap - 14);	
 			}
 			progress += gridSteps;
 		}
@@ -127,12 +129,12 @@ public class VisualisationPanel extends JPanel{
 			int y1 = (int)EditorStates.convertPositionCnc_View(progress);
 			
 			g.setColor(Color.white);
-			drawLine(g, x1, y1, (int)viewWidth, y1);
+			g.drawLine(x1, y1, (int)viewWidth, y1);
 			
 			if(progress > 0){
 				DecimalFormat format = new DecimalFormat("###.#");
 				g.setColor(Color.gray);
-				drawString(g, format.format(progress), theGap - 23, y1 - 5);	
+				g.drawString(format.format(progress), theGap - 23, y1 - 5);	
 			}
 			progress += gridSteps;
 			
@@ -140,7 +142,7 @@ public class VisualisationPanel extends JPanel{
 		g.setColor(color);
 	}
 
-	private void drawPicture(Graphics g) {
+	private void drawPicture(GraphicsWrapper g) {
 		
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
@@ -164,47 +166,31 @@ public class VisualisationPanel extends JPanel{
 					this.revalidate();
 				}
 			
-				gc.draw(g, this);			
+				gc.draw(g);			
 			}
 		}
 	}
 	
-	private void drawCoordinates(Graphics g) {
+	private void drawCoordinates(GraphicsWrapper g) {
 		
 		Color color = g.getColor();
 	    g.setColor(Color.gray);
 	  
 	    int gap = es.getGap();
-		drawLine(g, gap, gap, es.getViewCoordLenghtX(), gap);
+		g.drawLine(gap, gap, es.getViewCoordLenghtX(), gap);
 		
-		drawLine(g, es.getViewCoordLenghtX() - 3, gap - 3, es.getViewCoordLenghtX(), gap);
-		drawLine(g, es.getViewCoordLenghtX() - 3, gap + 3, es.getViewCoordLenghtX(), gap);
+		g.drawLine(es.getViewCoordLenghtX() - 3, gap - 3, es.getViewCoordLenghtX(), gap);
+		g.drawLine(es.getViewCoordLenghtX() - 3, gap + 3, es.getViewCoordLenghtX(), gap);
 
-		drawLine(g, gap, gap, gap, es.getViewCoordLenghtY());
+		g.drawLine(gap, gap, gap, es.getViewCoordLenghtY());
 		
-		drawLine(g, gap - 3, es.getViewCoordLenghtY() - 3, gap, es.getViewCoordLenghtY());
-		drawLine(g, gap + 3, es.getViewCoordLenghtY() - 3, gap, es.getViewCoordLenghtY());
+		g.drawLine(gap - 3, es.getViewCoordLenghtY() - 3, gap, es.getViewCoordLenghtY());
+		g.drawLine(gap + 3, es.getViewCoordLenghtY() - 3, gap, es.getViewCoordLenghtY());
 
-		drawString(g, "X", es.getViewCoordLenghtX() + 5, gap + 5);
-		drawString(g, "Y", gap -3, es.getViewCoordLenghtY() + 15);
+		g.drawString("X", es.getViewCoordLenghtX() + 5, gap + 5);
+		g.drawString("Y", gap -3, es.getViewCoordLenghtY() + 15);
 		
 		g.setColor(color);
-	}
-	
-	public void drawLine(Graphics g, int x, int y, int endX, int endY){
-		g.drawLine(x, getViewY(y), endX, getViewY(endY));
-	}
-	
-	public void drawString(Graphics g, String s, int x, int y){
-		g.drawString(s, x, getViewY(y));
-	}
-	
-	public void drawBullet(Graphics g, int i, int j, int pointSize) {
-		g.fillOval((int)(i-pointSize/2), getViewY(j+pointSize/2), pointSize, pointSize);
-	}
-
-	public void drawArc(Graphics g, int viewLeft, int viewTop, int viewSide, int startAngle, int arcAngle) {
-		g.drawArc(viewLeft, getViewY(viewTop + viewSide), viewSide, viewSide, -startAngle, -arcAngle);
 	}
 	
 	public int getViewY(double realY){

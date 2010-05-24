@@ -13,7 +13,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
@@ -53,9 +52,9 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	
 	private JComboBox comBox_Scale;
 	
-	private JTextArea txtArea_GCodes;
+	//private JTextArea txtArea_GCodes;
 	
-	private JScrollPane scrollPane_GCodesEditor;
+	//private JScrollPane scrollPane_GCodesEditor;
 	private JScrollPane scrollPane_GraphicOutput;
 	
 	private ButtonGroup btnGr_commandTypes;
@@ -84,9 +83,9 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	}
 
 	//Constructor
-	public EditorMainFrame(EditorMainFrameListener editorViewListener, GCodesTextContainer textContainer, VisualisationPanel visualisationPanel) {
+	public EditorMainFrame(EditorMainFrameListener editorViewListener/*, GCodesTextContainer textContainer*/, VisualisationPanel visualisationPanel) {
 		
-		txtArea_GCodes = textContainer;
+		//txtArea_GCodes = textContainer;
 		
 		pnl_GraphicOutput = visualisationPanel;	
 		
@@ -94,9 +93,9 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		scrollPane_GraphicOutput.setBounds(6, 5, 740, 564);	
 		scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
 		
-		scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
-		scrollPane_GCodesEditor.setBounds(750, 5, 146, 564);	
-		scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		//scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
+		//scrollPane_GCodesEditor.setBounds(750, 5, 146, 564);	
+		//scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 			
 		btn_Clear = new JButton();
 		btn_Clear.setText("clear");
@@ -270,7 +269,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		setTitle("GCodes editor");
 		
 		add(scrollPane_GraphicOutput);
-		add(scrollPane_GCodesEditor);
+		//add(scrollPane_GCodesEditor);
 		add(btn_Clear);			
 		add(btn_ConvertImageToGCodes);			
 		add(btn_AddGCodesFromFile);	

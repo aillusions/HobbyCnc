@@ -8,14 +8,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.text.BadLocationException;
-import javax.swing.text.PlainDocument;
-
-import cnc.editor.Editor.EditModeS;
 import cnc.editor.Editor.EditorTolls;
 import cnc.editor.Editor.GcommandTypes;
-import cnc.editor.doc.MyPlainDocument;
-import cnc.editor.view.GCodesTextContainer;
 
 //Singleton
 public class EditorStates {
@@ -100,10 +94,10 @@ public class EditorStates {
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
 	private Set<GCommand> selectedCommands;
-	private Editor.EditModeS currentEditMode = EditModeS.DRAW;
+	//private Editor.EditModeS currentEditMode = EditModeS.DRAW;
 	private boolean importInProgress;
-	private final MyPlainDocument document = new MyPlainDocument();
-	private GCodesTextContainer gCodesTextContainer;
+	//private final MyPlainDocument document = new MyPlainDocument();
+	//private GCodesTextContainer gCodesTextContainer;
 	private GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private Float arcRadius = 20f;
 	private Float arcI;
@@ -122,18 +116,6 @@ public class EditorStates {
 	
 	//CNC coordinates (mm) - not pixels!!
 	private int maxCncX = 134;
-	
-	public int getLineStartOffset(int editorLineIndex) throws BadLocationException{
-		return gCodesTextContainer.getLineStartOffset(editorLineIndex);
-	}
-	
-	public int getLineEndOffset(int editorLineIndex) throws BadLocationException{
-		return gCodesTextContainer.getLineEndOffset(editorLineIndex);
-	}
-	
-	public int getLineOfOffset(int offset) throws BadLocationException{
-		return gCodesTextContainer.getLineOfOffset(offset);
-	}
 	
 	public static long convertPositionCnc_View(float cncCoord){
 		return Math.round(cncCoord * instance.getScale() * BMP_TO_CNC_COORD_RATIO)+ instance.getGap();
@@ -252,14 +234,6 @@ public class EditorStates {
 		ActionEvent ae = new ActionEvent(this , -1, CMD_CLEAR_SELECTION);
 		notifyAllAboutChanges(ae);
 	}
-		
-	public Editor.EditModeS getCurrentEditMode() {
-		return currentEditMode;
-	}
-
-	public void setCurrentEditMode(Editor.EditModeS currentEditMode) {
-		this.currentEditMode = currentEditMode;
-	}
 	
 	public boolean isImportInProgress() {
 		return importInProgress;
@@ -267,18 +241,6 @@ public class EditorStates {
 
 	public void setImportInProgress(boolean importInProgress) {
 		this.importInProgress = importInProgress;
-	}
-	
-	public MyPlainDocument getDocument() {
-		return document;
-	}	
-	
-	public GCodesTextContainer getgCodesTextContainer() {
-		return gCodesTextContainer;
-	}
-
-	public void setgCodesTextContainer(GCodesTextContainer gCodesTextContainer) {
-		this.gCodesTextContainer = gCodesTextContainer;
 	}
 	
 	/**

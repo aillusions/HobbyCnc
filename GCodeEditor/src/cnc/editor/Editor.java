@@ -18,7 +18,6 @@ import cnc.storage.memory.IDataStorage;
 
 public class Editor {
 	
-	public enum EditModeS{DRAW, TXT};
 	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT, CONTINUOUS_EDIT};
 	public enum GcommandTypes{ORIGIN, G00, G01, G02, G03}
 
@@ -31,8 +30,6 @@ public class Editor {
 	private double prevDragY;
 	
 	public void mousePressedAt(double x, double y, boolean ctrl){
-		
-		es.setCurrentEditMode(Editor.EditModeS.DRAW);
 		
 		float cncX = EditorStates.convertPositionView_Cnc((long)x);
 		float cncY = EditorStates.convertPositionView_Cnc((long)y);
@@ -87,9 +84,9 @@ public class Editor {
 				}
 				
 				liftHeadOrDownIfNeeded();	
-				gcc.addCommand(start, this);	
+				gcc.addCommand(start);	
 				downWorkHead();				
-				gcc.addCommand(end, this);
+				gcc.addCommand(end);
 								
 				List<GCommand> oneCmdList = new ArrayList<GCommand>();
 				oneCmdList.add(end);
@@ -124,7 +121,7 @@ public class Editor {
 					}
 				}
 				
-				gcc.addCommand(cmd, this);
+				gcc.addCommand(cmd);
 				es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 				isCurrentSelectedToolReset = true;
 			}
@@ -197,7 +194,7 @@ public class Editor {
 					return;
 				}
 				
-				gcc.addCommand(new GCommandG01(cncX, cncY, null), this);
+				gcc.addCommand(new GCommandG01(cncX, cncY, null));
 				return;
 			}
 			
@@ -263,8 +260,8 @@ public class Editor {
 			bmpPrinter.setStore(store);
 			bmpPrinter.StartBuild();	
 			
-			gcc.clear(this);
-			gcc.addCommandsBunch(codesBuffer.toString(), this);			
+			gcc.clear();
+			gcc.addCommandsBunch(codesBuffer.toString());			
 
 			es.setImportInProgress(false);
 		}		
@@ -292,8 +289,8 @@ public class Editor {
 					codesBuffer.append("\r\n" + line);
 				}
 				
-				gcc.clear(this);
-				gcc.addCommandsBunch(codesBuffer.toString(), this);
+				gcc.clear();
+				gcc.addCommandsBunch(codesBuffer.toString());
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -313,7 +310,7 @@ public class Editor {
 		gCmd.setPreviousCmd(lastCmd);
 		
 		if(!lastCmd.equals(gCmd)){
-			gcc.addCommand(gCmd, this);	
+			gcc.addCommand(gCmd);	
 		}
 	}
 
@@ -327,7 +324,7 @@ public class Editor {
 		gCmd.setPreviousCmd(lastCmd);
 		
 		if(!lastCmd.equals(gCmd)){
-			gcc.addCommand(gCmd, this);	
+			gcc.addCommand(gCmd);	
 		}		
 	}
 	
