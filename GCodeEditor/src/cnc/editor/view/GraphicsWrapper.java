@@ -2,6 +2,7 @@ package cnc.editor.view;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
 
 
 public class GraphicsWrapper{
@@ -41,6 +42,13 @@ public class GraphicsWrapper{
 	public void setColor(Color c) {
 		g.setColor(c);
 		
+	}
+
+	public void drawImage(Image image, int i, int j) {
+
+		int height;
+		height = image.getHeight(vp);		
+		g.drawImage(image, i, vp.getViewY(j + height), vp);
 	}
 		
 }

@@ -3,8 +3,16 @@ package cnc.editor.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageFilter;
+import java.awt.image.ImageProducer;
+import java.awt.image.ReplicateScaleFilter;
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import cnc.editor.EditorStates;
@@ -18,19 +26,40 @@ public class VisualisationPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	private EditorStates es = EditorStates.getInstance();
+	private Image image;
 	
 	public VisualisationPanel(VisualisationPanelListener  ml){
+		
 		addMouseListener(ml);
 		addMouseMotionListener(ml);
 		setLayout(null);
+		
+		try {
+			Image source = ImageIO.read(new File("d:\\cat.bmp"));
+			ImageFilter replicate = new ReplicateScaleFilter(source.getWidth(this), source.getHeight(this));
+			ImageProducer prod = new FilteredImageSource(source.getSource(),replicate);
+			
+			image = createImage(prod);
+		}catch(IOException e){
+			throw new RuntimeException(e);
+		}
 	}
+	
+	public void drawUnderlayer(GraphicsWrapper g) {	
+		
+	    g.drawImage(image, es.getGap(), es.getGap());
+
+	}
+
 
 	@Override
 	public void paint(Graphics g) {
 		
 		super.paint(g);
-	
+		
 		GraphicsWrapper gw = new GraphicsWrapper(g, this);
+		
+		drawUnderlayer(gw);
 		
 		drawGrid(gw);
 		drawStrictBorders(gw);		

@@ -142,22 +142,6 @@ public abstract class GCommand {
 		return getCommandType() + strX + strY + strZ;
 	}
 	
-/*	@Override
-	public boolean equals(Object arg0) {
-		boolean res = false;
-		if(arg0 != null && arg0 instanceof GCommand)
-		{
-			GCommand gCommand = (GCommand) arg0;
-			if((getCommandType() == gCommand.getCommandType()) 
-					&& ((getX() == null && gCommand.getX() == null) ||(getX() != null && gCommand.getX() != null && getX().equals(gCommand.getX())))
-					&& ((getY() == null && gCommand.getY() == null) ||(getY() != null && gCommand.getY() != null && getY().equals(gCommand.getY()))) 
-					&& ((getZ() == null && gCommand.getZ() == null) ||(getZ() != null && gCommand.getZ() != null && getZ().equals(gCommand.getZ())))){
-				res = true;
-			}
-		}		
-		return res;
-	}*/
-
 	public GCommand getPreviousCmd() {
 		return previousCmd;
 	}

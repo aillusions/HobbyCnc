@@ -90,7 +90,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		pnl_GraphicOutput = visualisationPanel;	
 		
 		scrollPane_GraphicOutput = new JScrollPane();			
-		scrollPane_GraphicOutput.setBounds(6, 5, 740, 564);	
+		scrollPane_GraphicOutput.setBounds(6, 5, 888, 564);	
 		scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
 		
 		//scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
