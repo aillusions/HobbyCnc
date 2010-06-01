@@ -40,7 +40,7 @@ public class GCodeParser {
 					result = gCmdFactory.getCommand();
 				}		
 			}else{
-				throw new RuntimeException("Wrong command string: '" + stringToParse + "'.");
+				throw new IllegalArgumentException("Wrong command string: '" + stringToParse + "'.");
 			}
 		}catch(Exception e){
 			throw new RuntimeException(e);

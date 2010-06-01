@@ -2,10 +2,8 @@ package cnc.editor.listener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Set;
 
 import cnc.editor.EditorStates;
-import cnc.editor.GCommand;
 import cnc.editor.view.EditorMainFrame;
 import cnc.editor.view.VisualisationPanel;
 
@@ -47,34 +45,7 @@ public class EditorStatesListener implements ActionListener {
 			}
 						
 		}
-				
-		EditorStates es = EditorStates.getInstance();
-		Set<GCommand> gCommands = es.getSelectedGCommands();
 
-		if(gCommands != null && gCommands.size() > 0){
-
-			int minLineIndex = 0;
-			int maxLineIndex = 0;
-			
-			int i = 0;
-			
-			for(GCommand gc : gCommands){
-				
-				int currentLineIndex =  EditorStates.getLineNumberInTextEditor(gc);
-				if(i == 0){
-					minLineIndex = currentLineIndex;
-					maxLineIndex = currentLineIndex;
-				}else{
-					if(minLineIndex > currentLineIndex){
-						minLineIndex = currentLineIndex;
-					}
-					if(maxLineIndex < currentLineIndex){
-						maxLineIndex = currentLineIndex;
-					}
-				}
-				i ++;
-			}
-		}
 		visualisationPanel.repaint();
 	}
 

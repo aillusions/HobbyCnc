@@ -66,13 +66,13 @@ public class GCommandG02 extends GCommand{
 			R = Math.sqrt(Math.pow(X3 - X0, 2) + Math.pow(Y3 - Y0, 2));			
 			double R1 = Math.sqrt(Math.pow(X3 - X1, 2) + Math.pow(Y3 - Y1, 2));
 			
-			if(!getRounded(R1).equals(getRounded(R))){
+/*			if(!getRounded(R1).equals(getRounded(R))){
 				
 				System.err.println(getRounded(R) + " != " + getRounded(R1));
 				drawError(g);
 				darawRadiusPoint(g, X3, Y3);
 				return;
-			}
+			}*/
 		}
 				
 		if(X3 == null || Y3 == null){
@@ -80,7 +80,7 @@ public class GCommandG02 extends GCommand{
 			return;
 		}
 		
-		//darawRadiusPoint(g, X3, Y3);
+		darawRadiusPoint(g, X3, Y3);
 		EquationOfArc eoa = new EquationOfArc(X0, Y0, X1, Y1, X3, Y3, R, this.clockWise );
 		
 		int viewLeft = (int)EditorStates.convertPositionCnc_View((float)eoa.getLeft());

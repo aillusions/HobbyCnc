@@ -125,7 +125,6 @@ public class GCommandsContainer implements ActionListener {
 		float rigth = Math.max(startX, endX);
 		float bottom = Math.max(startY, endY);
 				
-		//EditorStates es = EditorStates.getInstance();
 		List<GCommand> result = new ArrayList<GCommand>();
 		for(GCommand v : gCommandList){
 			if(left <= v.getX() 

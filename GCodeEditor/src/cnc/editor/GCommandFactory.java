@@ -4,12 +4,12 @@ import cnc.editor.Editor.GcommandTypes;
 
 public class GCommandFactory {
 	
-	private Float x = null;
-	private Float y = null;
-	private Float z = null;
-	private Float r = null;
-	private Float i = null;
-	private Float j = null;
+	private Float x;
+	private Float y;
+	private Float z;
+	private Float r;
+	private Float i;
+	private Float j;
 
 	private GcommandTypes cmdType;
 			

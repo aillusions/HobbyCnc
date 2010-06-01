@@ -21,6 +21,7 @@ import cnc.editor.view.VisualisationPanel;
 public class VisualisationPanelListener implements MouseListener, MouseMotionListener {
 
 	private Editor editor;
+	private EditorStates es = EditorStates.getInstance();
 
 	public VisualisationPanelListener(Editor editor){
 		this.editor = editor;
@@ -31,7 +32,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 		VisualisationPanel vPanel = ((VisualisationPanel)e.getSource());
 		
 		double x = e.getPoint().getX();
-		double y = vPanel.getRealY(e.getPoint().getY());	
+		double y = vPanel.getEditorY(e.getPoint().getY());	
 		
 		if(e.getButton() == 1){
 			
@@ -56,9 +57,12 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 		VisualisationPanel vPanel = ((VisualisationPanel)e.getSource());
 		
 		double x = e.getPoint().getX();
-		double y = vPanel.getRealY(e.getPoint().getY());		
+		double y = vPanel.getEditorY(e.getPoint().getY());		
 
 		editor.viewMouseDraggedTo(x,y);
+		
+		Point p = new Point(((int)e.getPoint().getX()), ((VisualisationPanel)e.getSource()).getEditorY(e.getPoint().getY()));
+		es.setMousePosition(p);
 
 	}
 	
@@ -66,6 +70,8 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 		
 		//TODO add condition - vertex hover
 		((JPanel)e.getSource()).setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		Point p = new Point(((int)e.getPoint().getX()), ((VisualisationPanel)e.getSource()).getEditorY(e.getPoint().getY()));
+		es.setMousePosition(p);
 	}
 
 	public void focusGained(FocusEvent e) {
@@ -81,7 +87,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 		VisualisationPanel vPanel = ((VisualisationPanel)e.getSource());
 		
 		double x = e.getPoint().getX();
-		double y = vPanel.getRealY(e.getPoint().getY());	
+		double y = vPanel.getEditorY(e.getPoint().getY());	
 		
 		editor.viewMouseReleasedAt(x, y);
 	}

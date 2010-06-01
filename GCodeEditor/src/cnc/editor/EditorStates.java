@@ -1,5 +1,6 @@
 package cnc.editor;
 
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -23,68 +24,10 @@ public class EditorStates {
 	public static final float NODE_CIRCLE_SIZE = 8f;
 	public static final float BMP_TO_CNC_COORD_RATIO = 5f;	
 	
-	private EditorStates(){}
-	
 	private static final EditorStates instance = new EditorStates();
+	
 	public static EditorStates getInstance(){
 		return instance;
-	}	
-	
-	/**
-	 * measured in view coordinates: pixel
-	 */
-	public class SelectedRegion{
-		
-		private boolean selectionStarted = false;
-		private int startX;
-		private int startY;
-		private int endX;
-		private int endY;
-		
-		public boolean isSelectionStarted() {
-			return selectionStarted;
-		}
-
-		public void startSelection(int x, int y){
-			startX = x;
-			startY = y;
-			endX = x;
-			endY = y;
-			selectionStarted = true;
-		}
-		
-		public void setEndOfSelection(int x, int y){
-			
-			if(!selectionStarted){
-				throw new RuntimeException("selection was not started");
-			}
-			endX = x;
-			endY = y;
-			
-			ActionEvent ae = new ActionEvent(this, -1, "changedSelectedRegion");
-			notifyAllAboutChanges(ae);
-		}
-		
-		public int getStartX() {
-			return startX;
-		}
-		public int getStartY() {
-			return startY;
-		}
-		public int getEndX() {
-			return endX;
-		}
-		public int getEndY() {
-			return endY;
-		}
-
-		public void clear() {
-			startX = 0;
-			startY = 0;
-			endX = 0;
-			endY = 0;
-			selectionStarted = false;
-		}
 	}
 	
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
@@ -94,28 +37,25 @@ public class EditorStates {
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
 	private Set<GCommand> selectedCommands;
-	//private Editor.EditModeS currentEditMode = EditModeS.DRAW;
 	private boolean importInProgress;
-	//private final MyPlainDocument document = new MyPlainDocument();
-	//private GCodesTextContainer gCodesTextContainer;
 	private GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private Float arcRadius = 20f;
 	private Float arcI;
 	private Float arcJ;
 	private boolean liftForEachStroke = false;
 	private boolean displayOnlyZ0 = false;
-	
+	private Point mousePosition = new Point();
+	private boolean drawFacilities = true;
 	//View coordinates (pixels)
 	private SelectedRegion selectedRegion;
-	
 	//CNC coordinates (mm) - not pixels!!
-	private int gridStep = 5;
-	
+	private int gridStep = 5;	
 	//CNC coordinates (mm) - not pixels!!
-	private int maxCncY = 46;
-	
+	private int maxCncY = 46;	
 	//CNC coordinates (mm) - not pixels!!
 	private int maxCncX = 134;
+	
+	private EditorStates(){}
 	
 	public static long convertPositionCnc_View(float cncCoord){
 		return Math.round(cncCoord * instance.getScale() * BMP_TO_CNC_COORD_RATIO)+ instance.getGap();
@@ -132,15 +72,6 @@ public class EditorStates {
 	public static float convertLengthView_Cnc(long viewCoord){
 		return (viewCoord) / instance.getScale() / BMP_TO_CNC_COORD_RATIO;
 	}	
-	
-	//In case there is no spaces in text editor
-	public static int getLineNumberInTextEditor(GCommand cmd){
-		return GCommandsContainer.getInstance().getCommandList().indexOf(cmd);
-	}
-	//In case there is no spaces in text editor
-	public static int getGCommandByLineNumber(int lineNumber){
-		return lineNumber;
-	}
 	
 	//Getters - setters
 	public float getScale(){
@@ -392,7 +323,30 @@ public class EditorStates {
 			al.actionPerformed(ae);
 		}
 	}
+	
+	
+	public boolean isDrawFacilities() {
+		return drawFacilities;
+	}
 
+	public void setDrawFacilities(boolean drawFacilities) {
+		
+		this.drawFacilities = drawFacilities;
+		
+		ActionEvent ae = new ActionEvent(this, -1, "drawFacilitiesSwitched");
+		notifyAllAboutChanges(ae);
+	}
+	
+	public Point getMousePosition() {
+		return mousePosition;
+	}
 
+	public void setMousePosition(Point mousePosition) {
+		
+		this.mousePosition = mousePosition;
+		
+		ActionEvent ae = new ActionEvent(this, -1, "mouseMoved");
+		notifyAllAboutChanges(ae);
+	}
 
 }

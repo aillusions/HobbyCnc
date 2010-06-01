@@ -1,7 +1,6 @@
 package cnc.editor;
 
 import java.awt.Color;
-import java.awt.Graphics;
 
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.view.GraphicsWrapper;
@@ -31,11 +30,11 @@ public class GCommandG00 extends GCommand{
 		g.drawLine(prevX, prevY, newX, newY);
 		
 		if(EditorStates.getInstance().getScale() >= 5){
-			//drawArrowEnd(g);						
+			drawArrowEnd(g);						
 		}	
 	}
 	
-	private void drawArrowEnd(Graphics g){
+	private void drawArrowEnd(GraphicsWrapper g){
 		
 		Color color = g.getColor();
 		g.setColor(Color.green);

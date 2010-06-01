@@ -1,9 +1,12 @@
 package cnc.editor.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Stroke;
 import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.ImageProducer;
@@ -18,7 +21,6 @@ import javax.swing.JPanel;
 import cnc.editor.EditorStates;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
-import cnc.editor.EditorStates.SelectedRegion;
 import cnc.editor.listener.VisualisationPanelListener;
 
 public class VisualisationPanel extends JPanel{
@@ -27,16 +29,18 @@ public class VisualisationPanel extends JPanel{
 	
 	private EditorStates es = EditorStates.getInstance();
 	private Image image;
+	private int theGap = es.getGap();
 	
 	public VisualisationPanel(VisualisationPanelListener  ml){
 		
 		addMouseListener(ml);
 		addMouseMotionListener(ml);
+		setBackground(Color.white);
 		setLayout(null);
 		
 		try {
 			Image source = ImageIO.read(new File("d:\\cat.bmp"));
-			ImageFilter replicate = new ReplicateScaleFilter((int)(source.getWidth(this)*1.5), (int)(source.getHeight(this)*1.5));
+			ImageFilter replicate = new ReplicateScaleFilter((int)(source.getWidth(this)*0.5), (int)(source.getHeight(this)*0.5));
 			ImageProducer prod = new FilteredImageSource(source.getSource(),replicate);
 			
 			image = createImage(prod);
@@ -45,12 +49,9 @@ public class VisualisationPanel extends JPanel{
 		}
 	}
 	
-	public void drawUnderlayer(GraphicsWrapper g) {	
-		
-	   g.drawImage(image, es.getGap(), es.getGap());
-
+	public void drawUnderlayer(GraphicsWrapper gw) {			
+		gw.drawImage(image, es.getGap(), es.getGap());
 	}
-
 
 	@Override
 	public void paint(Graphics g) {
@@ -59,25 +60,64 @@ public class VisualisationPanel extends JPanel{
 		
 		GraphicsWrapper gw = new GraphicsWrapper(g, this);
 		
-		drawUnderlayer(gw);
-		
-		drawGrid(gw);
-		drawStrictBorders(gw);		
+		if(es.isDrawFacilities()){			
+			//drawUnderlayer(gw);			
+			drawGrid(gw);
+			drawStrictBorders(gw);	
+		}		
+	
 		drawCoordinates(gw);		
+		
+		drawPicture(gw);
+		
+		if(es.isDrawFacilities()){
+			drawMousePosition(gw);	
+		}
+		
 		drawSelectedRegion(gw);
-		drawPicture(gw);		
 	}
 	
-	private void drawSelectedRegion(GraphicsWrapper g) {
+	private void drawMousePosition(GraphicsWrapper gw) {
 		
-		Color color = g.getColor();
-		g.setColor(Color.ORANGE);
-		SelectedRegion sr = es.getSelRegion();		
-		g.drawLine(sr.getStartX(), sr.getStartY(), sr.getStartX(), sr.getEndY());
-		g.drawLine(sr.getStartX(), sr.getStartY(), sr.getEndX(), sr.getStartY());
-		g.drawLine(sr.getEndX(), sr.getStartY(), sr.getEndX(), sr.getEndY());
-		g.drawLine(sr.getStartX(), sr.getEndY(), sr.getEndX(), sr.getEndY());
-		g.setColor(color);
+		int viewHeight = (int)getSize().getHeight();
+		int viewWidth = (int)getSize().getWidth();
+		
+		int x1 = es.getMousePosition().x;
+		int y1 = es.getMousePosition().y;
+
+		gw.setColor(Color.LIGHT_GRAY);
+		
+	    Graphics2D g2 = (Graphics2D)gw.getG();
+		float thickness = 1.0f;	
+		Stroke s = new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f, new float[]{4f}, 3f);
+		Stroke olds = g2.getStroke();
+		g2.setStroke(s);	
+		
+		gw.drawLine(x1, theGap, x1, viewHeight);
+		gw.drawLine(theGap, y1, viewWidth, y1);
+		g2.setStroke(s);	
+		
+	}
+
+	private void drawSelectedRegion(GraphicsWrapper gw) {
+		
+		Color color = gw.getColor();
+		gw.setColor(Color.ORANGE);
+		cnc.editor.SelectedRegion sr = es.getSelRegion();	
+		
+	    Graphics2D g2 = (Graphics2D)gw.getG();
+		float thickness = 2.0f;	
+		Stroke s = new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f, new float[]{4f}, 3f);
+		Stroke olds = g2.getStroke();
+		g2.setStroke(s);	
+		
+		gw.drawLine(sr.getStartX(), sr.getStartY(), sr.getStartX(), sr.getEndY());
+		gw.drawLine(sr.getStartX(), sr.getStartY(), sr.getEndX(), sr.getStartY());
+		gw.drawLine(sr.getEndX(), sr.getStartY(), sr.getEndX(), sr.getEndY());
+		gw.drawLine(sr.getStartX(), sr.getEndY(), sr.getEndX(), sr.getEndY());
+		
+		gw.setColor(color);		
+		g2.setStroke(olds);
 	}
 
 	public void drawStrictBorders(GraphicsWrapper g){
@@ -108,7 +148,6 @@ public class VisualisationPanel extends JPanel{
 	
 	public void drawGrid(GraphicsWrapper g){
 
-		int theGap = es.getGap();
 		double gridSteps = Math.round((es.getGridStep() / es.getScale()*10))/10;
 	
 		if(gridSteps < 1){
@@ -139,7 +178,7 @@ public class VisualisationPanel extends JPanel{
 			int x1 = (int)EditorStates.convertPositionCnc_View(progress);
 			int y1 = 0 + theGap;
 
-			g.setColor(Color.white);
+			g.setColor(Color.LIGHT_GRAY);
 			g.drawLine(x1, y1, x1, (int)viewWidth);
 			
 			if(progress > 0){
@@ -157,7 +196,7 @@ public class VisualisationPanel extends JPanel{
 			int x1 = 0 + theGap;
 			int y1 = (int)EditorStates.convertPositionCnc_View(progress);
 			
-			g.setColor(Color.white);
+			g.setColor(Color.LIGHT_GRAY);
 			g.drawLine(x1, y1, (int)viewWidth, y1);
 			
 			if(progress > 0){
@@ -205,6 +244,8 @@ public class VisualisationPanel extends JPanel{
 		Color color = g.getColor();
 	    g.setColor(Color.gray);
 	  
+
+ 
 	    int gap = es.getGap();
 		g.drawLine(gap, gap, es.getViewCoordLenghtX(), gap);
 		
@@ -217,17 +258,17 @@ public class VisualisationPanel extends JPanel{
 		g.drawLine(gap + 3, es.getViewCoordLenghtY() - 3, gap, es.getViewCoordLenghtY());
 
 		g.drawString("X", es.getViewCoordLenghtX() + 5, gap + 5);
-		g.drawString("Y", gap -3, es.getViewCoordLenghtY() + 15);
+		g.drawString("Y", gap + 3, es.getViewCoordLenghtY() + 4);
 		
 		g.setColor(color);
 	}
 	
-	public int getViewY(double realY){
+	public int getViewY(double editorY){
 		double panelHeight = this.getSize().getHeight();
-		return 	(int)(panelHeight - realY);		
+		return 	(int)(panelHeight - editorY);		
 	}
 	
-	public int getRealY(double viewY){
+	public int getEditorY(double viewY){
 		double panelHeight = this.getSize().getHeight();
 		return 	(int)(panelHeight - viewY);		
 	}

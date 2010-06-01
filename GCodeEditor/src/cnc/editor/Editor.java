@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.GCodeAcceptor;
-import cnc.editor.EditorStates.SelectedRegion;
 import cnc.editor.view.EditorMainFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
