@@ -287,11 +287,14 @@ public class Editor {
 				final StringBuffer codesBuffer = new StringBuffer();
 				
 				while ((line = br.readLine()) != null) {
-					codesBuffer.append("\r\n" + line);
+					
+					if(!line.trim().equals("")){
+						codesBuffer.append("\r\n" + line);
+					}
 				}
 				
 				gcc.clear();
-				gcc.addCommandsBunch(codesBuffer.toString());
+				gcc.addCommandsBunch(codesBuffer.toString().trim());
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
