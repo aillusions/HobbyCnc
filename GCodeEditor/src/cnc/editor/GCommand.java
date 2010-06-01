@@ -122,7 +122,7 @@ public abstract class GCommand {
 		if(Z != null){
 			return Z;
 		}else{
-			return 0f;//previousCmd != null ? previousCmd.getZ() : null;
+			return previousCmd != null ? previousCmd.getZ() : null;
 		}
 	}
 
