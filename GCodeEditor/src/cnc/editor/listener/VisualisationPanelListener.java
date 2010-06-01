@@ -1,6 +1,8 @@
 package cnc.editor.listener;
 
+import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
@@ -133,6 +135,8 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    	int y = (int)(vp.getViewY(EditorStates.convertPositionCnc_View(cmd.getY().intValue())));
 	    	
 	    	final JTextField textField = new JTextField(cmd.toString());
+	    	textField.setFont(new Font("Arial", 0, 13));
+	    	textField.setForeground(Color.red);
 	    	textField.setBounds(x, y, 150, 21);
 	    	textField.setMargin(new java.awt.Insets(0, 0, 0, 0));
 	    	
