@@ -166,7 +166,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    } 
 	 
 	    public void actionPerformed(ActionEvent e){ 
-	    	
+	    	EditorStates.getInstance().setSelectedGCommands(GCommandsContainer.getInstance().getCommandList());
 	    } 
 	 
 	    public boolean isEnabled(){ 
