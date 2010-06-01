@@ -40,7 +40,7 @@ public class VisualisationPanel extends JPanel{
 		setLayout(null);
 		
 		try {
-			Image source = ImageIO.read(new File("d:\\cat.bmp"));
+			Image source = ImageIO.read(new File("d:/prj/HobbyCnc/GCodeEditor/logo.bmp"));
 			ImageFilter replicate = new ReplicateScaleFilter((int)(source.getWidth(this)*0.5), (int)(source.getHeight(this)*0.5));
 			ImageProducer prod = new FilteredImageSource(source.getSource(),replicate);
 			

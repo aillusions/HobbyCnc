@@ -38,7 +38,7 @@ public class GCommandG02 extends GCommand{
 	}
 
 	@Override
-	public void drawLine(GraphicsWrapper g) {	
+	public void drawLine(GraphicsWrapper gw) {	
 		
 		//Arc radius
 		double R;
@@ -69,32 +69,32 @@ public class GCommandG02 extends GCommand{
 			R = Math.sqrt(Math.pow(X3 - X0, 2) + Math.pow(Y3 - Y0, 2));			
 			double R1 = Math.sqrt(Math.pow(X3 - X1, 2) + Math.pow(Y3 - Y1, 2));
 			
-/*			if(!getRounded(R1).equals(getRounded(R))){
+			if(!getRounded(R1).equals(getRounded(R))){
 				
 				System.err.println(getRounded(R) + " != " + getRounded(R1));
-				drawError(g);
-				darawRadiusPoint(g, X3, Y3);
+				drawError(gw);
+				darawRadiusPoint(gw, X3, Y3);
 				return;
-			}*/
+			}
 		}
 				
 		if(X3 == null || Y3 == null){
-			drawError(g);
+			drawError(gw);
 			return;
 		}
 		
-		darawRadiusPoint(g, X3, Y3);
+		darawRadiusPoint(gw, X3, Y3);
 		EquationOfArc eoa = new EquationOfArc(X0, Y0, X1, Y1, X3, Y3, R, this.clockWise );
 		
 		int viewLeft = (int)EditorStates.convertPositionCnc_View((float)eoa.getLeft());
 		int viewTop = (int)EditorStates.convertPositionCnc_View((float)eoa.getTop());
 		int viewHeight = (int)EditorStates.convertLengthCnc_View((float)(eoa.getDiametr()));
 		
-		g.drawArc(viewLeft, viewTop, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
+		gw.drawArc(viewLeft, viewTop, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
 
 	}
 	
-	public void drawError(GraphicsWrapper g) {
+	public void drawError(GraphicsWrapper gw) {
 		
 		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
 		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
@@ -102,29 +102,29 @@ public class GCommandG02 extends GCommand{
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
 		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
 		
-		Color c = g.getColor();
-		g.setColor(Color.magenta);
+		Color c = gw.getColor();
+		gw.setColor(Color.magenta);
 		
-	    Graphics2D g2 = (Graphics2D)g.getG();
+	    Graphics2D g2 = (Graphics2D)gw.getG();
 		float thickness = 2.0f;	
 		Stroke s = new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f, new float[]{4f}, 3f);
 		Stroke olds = g2.getStroke();
 		g2.setStroke(s);	
 		
-		g.drawLine(prevX, prevY, newX, newY);
+		gw.drawLine(prevX, prevY, newX, newY);
 		
-		g.setColor(c);
+		gw.setColor(c);
 		g2.setStroke(olds);
 	}
 	
-	protected void darawRadiusPoint(GraphicsWrapper g, double x, double y){
+	protected void darawRadiusPoint(GraphicsWrapper gw, double x, double y){
 		
 		//Draw center of imagined circle
 		int centerX, centerY;
-		int size = 5;
-		centerX = (int)(EditorStates.convertPositionCnc_View((float)x)-size/2);
-		centerY = (int)(EditorStates.convertPositionCnc_View((float)y)-size/2);	
-		g.drawBullet(centerX, centerY, size);
+		int size = 4;
+		centerX = (int)(EditorStates.convertPositionCnc_View((float)x));
+		centerY = (int)(EditorStates.convertPositionCnc_View((float)y));	
+		gw.drawBullet(centerX, centerY, size);
 	}
 		
 	@Override

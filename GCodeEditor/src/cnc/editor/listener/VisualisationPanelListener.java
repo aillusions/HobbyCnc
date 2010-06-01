@@ -137,7 +137,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    	final JTextField textField = new JTextField(cmd.toString());
 	    	textField.setFont(new Font("Arial", 0, 13));
 	    	textField.setForeground(Color.red);
-	    	textField.setBounds(x, y, 150, 21);
+	    	textField.setBounds(x, y, 200, 21);
 	    	textField.setMargin(new java.awt.Insets(0, 0, 0, 0));
 	    	
 	    	textField.addFocusListener(new FocusListener() {
@@ -171,14 +171,21 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 					int key = e.getKeyCode();
 					
 					if (key == KeyEvent.VK_ENTER) {
+						
 						GCommand newGC = GCodeParser.parseCommand(textField.getText());
 						GCommandsContainer.getInstance().replaceGCommand(cmd, newGC);
 						
 						JTextField thisTextField = (JTextField)e.getSource();
 						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
 						mainVPanel.remove(thisTextField);
-						mainVPanel.repaint();
-						
+						mainVPanel.repaint();						
+					}
+					
+					if (key == KeyEvent.VK_ESCAPE) {
+						JTextField thisTextField = (JTextField)e.getSource();
+						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
+						mainVPanel.remove(thisTextField);
+						mainVPanel.repaint();	
 					}
 				}
 

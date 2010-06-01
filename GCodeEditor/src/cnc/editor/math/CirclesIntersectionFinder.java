@@ -4,7 +4,6 @@ import cnc.editor.GCommand;
 
 /**
  * from 2circle.gif
- * @author Oleksandr_Zaliznyak
  *
  */
 public class CirclesIntersectionFinder {
@@ -44,14 +43,14 @@ public class CirclesIntersectionFinder {
 
 		if(2*R < d){
 			
-			System.err.println("drawLine can not be run: no intersections!");		
+			System.err.println("There is no intersections!");		
 			
 		}else if(2*R == d){	
 			
-			System.err.println(" 1 intersections -- untreated");		
+			x = (X0 + X1) / 2;
+			y = (Y0 + Y1) / 2;
 		
 		}else if(2*R > d){
-			//System.out.println("2 intersections");
 			
 			double a = d/2;			
 			double h = Math.sqrt(R*R - a*a);			

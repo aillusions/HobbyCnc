@@ -84,8 +84,8 @@ public abstract class GCommand {
 	}
 	
 	public static BigDecimal getRounded(double d){
-		BigDecimal bd = new BigDecimal(Math.round(d * 100));
-		bd = bd.divide(new BigDecimal(100));
+		BigDecimal bd = new BigDecimal(Math.round(d * 1000000));
+		bd = bd.divide(new BigDecimal(1000000));
 		return bd;
 	}
 	
