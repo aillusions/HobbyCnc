@@ -29,7 +29,7 @@ public class EquationOfArc {
 		double X3 = Rx;
 		double Y3 = Ry;
 
-		double angleA = getAngle(X3, Y3, X0, Y0);
+		double angleA = getAngle(X3, Y3, X0, Y0);		
 		double angleB = getAngle(X3, Y3, X1, Y1);		
 
 		//Needed angle between two vectors
@@ -51,9 +51,9 @@ public class EquationOfArc {
 		
 		if(clockWise){
 		
-			if(bda.compareTo(new BigDecimal(0)) == 1){
+			if(bda.compareTo(new BigDecimal(0)) == -1){
 				angleC = bda.doubleValue();
-			}else if(bda.compareTo(new BigDecimal(0)) == -1){
+			}else if(bda.compareTo(new BigDecimal(0)) == 1){
 				angleC = bdb.doubleValue();
 			}else if(bda.compareTo(new BigDecimal(0)) == 0){
 				if(radius < 0){
@@ -63,9 +63,9 @@ public class EquationOfArc {
 				}
 			}
 		}else{
-			if(bda.compareTo(new BigDecimal(0)) == -1){
+			if(bda.compareTo(new BigDecimal(0)) == 1){
 				angleC = bda.doubleValue();
-			}else if(bda.compareTo(new BigDecimal(0)) == 1){
+			}else if(bda.compareTo(new BigDecimal(0)) == -1){
 				angleC = bdb.doubleValue();
 			}else if(bda.compareTo(new BigDecimal(0)) == 0){
 				if(radius < 0){
@@ -94,7 +94,7 @@ public class EquationOfArc {
 		//Direction of movement: from A to B.	
 		
 		double tg = ((yStart-yEnd)/(xEnd-xStart));			
-		double angle = (180/Math.PI) * Math.atan(tg);
+		double angle = Math.abs((180/Math.PI) * Math.atan(tg));
 		int quarter = 0;
 
 		if(xStart == xEnd){
@@ -117,22 +117,22 @@ public class EquationOfArc {
 			
 			if(xEnd < xStart){
 				if(yEnd < yStart)
-					quarter = 2;
+					quarter = 3;
 				else if(yEnd > yStart)
-					quarter =  3;
+					quarter =  2;
 			}else if(xEnd > xStart){
 				if(yEnd < yStart)
-					quarter = 1;
-				else if(yEnd > yStart)
 					quarter = 4;
+				else if(yEnd > yStart)
+					quarter = 1;
 			}
 			
 			if(quarter == 2){
-				angle = angle + 180;
+				angle = 180 - angle;
 			}else if(quarter == 3){
 				angle = angle + 180;
 			}else if(quarter == 4){
-				angle = angle + 360;
+				angle = 360 - angle;
 			}
 		}
 		

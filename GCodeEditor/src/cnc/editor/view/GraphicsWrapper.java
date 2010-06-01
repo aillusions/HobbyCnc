@@ -32,7 +32,7 @@ public class GraphicsWrapper{
 	}
 
 	public void drawArc(int viewLeft, int viewTop, int viewSide, int startAngle, int arcAngle) {
-		g.drawArc(viewLeft, vp.getViewY(viewTop + viewSide), viewSide, viewSide, -startAngle, -arcAngle);
+		g.drawArc(viewLeft, vp.getViewY(viewTop + viewSide), viewSide, viewSide, startAngle, arcAngle);
 	}
 	
 	public Color getColor() {
