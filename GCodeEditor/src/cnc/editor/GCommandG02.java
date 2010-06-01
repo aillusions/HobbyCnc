@@ -1,6 +1,9 @@
 package cnc.editor;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Stroke;
 
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.math.CirclesIntersectionFinder;
@@ -101,9 +104,17 @@ public class GCommandG02 extends GCommand{
 		
 		Color c = g.getColor();
 		g.setColor(Color.magenta);
+		
+	    Graphics2D g2 = (Graphics2D)g.getG();
+		float thickness = 2.0f;	
+		Stroke s = new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f, new float[]{4f}, 3f);
+		Stroke olds = g2.getStroke();
+		g2.setStroke(s);	
+		
 		g.drawLine(prevX, prevY, newX, newY);
-		g.drawLine(prevX+1, prevY+1, newX+1, newY+1);
+		
 		g.setColor(c);
+		g2.setStroke(olds);
 	}
 	
 	protected void darawRadiusPoint(GraphicsWrapper g, double x, double y){

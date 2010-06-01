@@ -273,7 +273,6 @@ public class Editor {
 		
 		File file = null;
 		List<String> exts = new ArrayList<String>();
-		exts.add("cnc");
 		exts.add("ncc");
 		
 		if ((file = EditorMainFrame.openFileChooser("./gcodes", exts))!= null) {
@@ -378,7 +377,6 @@ public class Editor {
 	public void save() {
 		File file = null;
 		List<String> exts = new ArrayList<String>();
-		exts.add("cnc");
 		exts.add("ncc");
 		
 		if ((file = EditorMainFrame.openFileChooser("./gcodes", exts))!= null) {
