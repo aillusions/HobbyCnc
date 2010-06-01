@@ -1,9 +1,12 @@
 package cnc.editor;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -304,7 +307,7 @@ public class Editor {
 		
 		//GcommandTypes.G00,
 		GCommand gCmd = new GCommandG00(null, null, 2f);
-		GCommand lastCmd = gcc.getGCommandList().get(gcc.getGCommandList().size()-1);
+		GCommand lastCmd = gcc.getCommandList().get(gcc.getCommandList().size()-1);
 		
 		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand
 		gCmd.setPreviousCmd(lastCmd);
@@ -318,7 +321,7 @@ public class Editor {
 		
 		//GcommandTypes.G00
 		GCommand gCmd = new GCommandG00(null, null, 0f);
-		GCommand lastCmd = gcc.getGCommandList().get(gcc.getGCommandList().size()-1);
+		GCommand lastCmd = gcc.getCommandList().get(gcc.getCommandList().size()-1);
 		
 		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand
 		gCmd.setPreviousCmd(lastCmd);
@@ -332,7 +335,7 @@ public class Editor {
 		
 		if(es.isLiftForEachStroke()){
 			
-			List<GCommand> cmdList = gcc.getGCommandList();
+			List<GCommand> cmdList = gcc.getCommandList();
 			int lastIndex = cmdList.size() - 1;
 			GCommand lastCmd = null;
 			GCommand preLastCmd = null;
@@ -372,4 +375,32 @@ public class Editor {
 		
 	}
 
+
+	public void save() {
+		File file = null;
+		List<String> exts = new ArrayList<String>();
+		exts.add("cnc");
+		exts.add("ncc");
+		
+		if ((file = EditorMainFrame.openFileChooser("./gcodes", exts))!= null) {
+			
+			es.setImportInProgress(true);
+			
+			try {
+				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(file)));
+				
+				for(GCommand gc : gcc.getCommandList()){
+					bw.write(gc.toString() + "\r\n");
+				}
+				bw.flush();
+				bw.close();
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+			
+			es.setImportInProgress(false);
+		}	
+	}
+		
 }

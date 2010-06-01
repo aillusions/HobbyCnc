@@ -135,7 +135,7 @@ public class EditorStates {
 	
 	//In case there is no spaces in text editor
 	public static int getLineNumberInTextEditor(GCommand cmd){
-		return GCommandsContainer.getInstance().getGCommandList().indexOf(cmd);
+		return GCommandsContainer.getInstance().getCommandList().indexOf(cmd);
 	}
 	//In case there is no spaces in text editor
 	public static int getGCommandByLineNumber(int lineNumber){

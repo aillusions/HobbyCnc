@@ -96,7 +96,7 @@ public class BmpParser implements ICncParser {
 					
 					if( ndata[counter] != -1)
 					{
-						ParserVertex v = new ParserVertex(i, j, 0);
+						ParserVertex v = new ParserVertex(nheight - i, nwidth - j, 0);
 						storage.addVertex(v);
 						index++;
 					}

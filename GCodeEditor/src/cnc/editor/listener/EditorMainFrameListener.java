@@ -29,6 +29,8 @@ public class EditorMainFrameListener implements ActionListener {
 			editor.convertImageToGCodes();
 		}else if(e.getActionCommand().equals("AddGCodesFromFile")){
 			editor.addGCodesFromFile();
+		}else if(e.getActionCommand().equals("Save")){
+			editor.save();
 		}else if(e.getActionCommand().equals("Clear")){
 			GCommandsContainer.getInstance().clear();
 		}else if(e.getActionCommand().equals("Scale")){

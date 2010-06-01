@@ -26,7 +26,7 @@ public class Main {
 		
 		GCommandsContainerListener gccl = new GCommandsContainerListener(visualP);
 		gcc.addActionListener(gccl);
-				
+			
 		emf.setVisible(true);
 	}
 }

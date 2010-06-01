@@ -80,7 +80,7 @@ public class GCommandG02 extends GCommand{
 			return;
 		}
 		
-		darawRadiusPoint(g, X3, Y3);
+		//darawRadiusPoint(g, X3, Y3);
 		EquationOfArc eoa = new EquationOfArc(X0, Y0, X1, Y1, X3, Y3, R, this.clockWise );
 		
 		int viewLeft = (int)EditorStates.convertPositionCnc_View((float)eoa.getLeft());

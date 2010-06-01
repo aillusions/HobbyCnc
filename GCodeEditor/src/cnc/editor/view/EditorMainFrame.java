@@ -11,6 +11,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -37,6 +38,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private JButton btn_AddGCodesFromFile;
 	private JButton btn_ConvertImageToGCodes;
 	private JButton btn_Clear;
+	private JButton btn_Save;
 	
 	private JButton btn_Undo;
 	private JButton btn_Redo;
@@ -52,7 +54,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	
 	private JComboBox comBox_Scale;
 	
-	//private JTextArea txtArea_GCodes;
+	private JPanel panel_Tools;
 	
 	//private JScrollPane scrollPane_GCodesEditor;
 	private JScrollPane scrollPane_GraphicOutput;
@@ -84,36 +86,41 @@ public class EditorMainFrame extends javax.swing.JFrame {
 
 	//Constructor
 	public EditorMainFrame(EditorMainFrameListener editorViewListener/*, GCodesTextContainer textContainer*/, VisualisationPanel visualisationPanel) {
-		
-		//txtArea_GCodes = textContainer;
-		
+
 		pnl_GraphicOutput = visualisationPanel;	
 		
 		scrollPane_GraphicOutput = new JScrollPane();			
-		scrollPane_GraphicOutput.setBounds(6, 5, 888, 564);	
+		scrollPane_GraphicOutput.setBounds(5, 5, 1070, 730);	
 		scrollPane_GraphicOutput.setViewportView(pnl_GraphicOutput);
 		
-		//scrollPane_GCodesEditor = new JScrollPane(txtArea_GCodes);
-		//scrollPane_GCodesEditor.setBounds(750, 5, 146, 564);	
-		//scrollPane_GCodesEditor.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-			
+		panel_Tools = new JPanel();
+		panel_Tools.setBounds(1075, 5, 200, 730);	
+		panel_Tools.setLayout(null);
+		
 		btn_Clear = new JButton();
 		btn_Clear.setText("clear");
-		btn_Clear.setBounds(901, 10, 84, 21);
+		btn_Clear.setBounds(5, 5, 85, 21);
 		btn_Clear.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_Clear.setActionCommand("Clear");
 		btn_Clear.addActionListener(editorViewListener);
 		
+		btn_Save = new JButton();
+		btn_Save.setText("save");
+		btn_Save.setBounds(5, 29, 85, 21);
+		btn_Save.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_Save.setActionCommand("Save");
+		btn_Save.addActionListener(editorViewListener);
+		
 		btn_ConvertImageToGCodes = new JButton();
 		btn_ConvertImageToGCodes.setText("image");
-		btn_ConvertImageToGCodes.setBounds(901, 40, 84, 21);
+		btn_ConvertImageToGCodes.setBounds(5, 53, 85, 21);
 		btn_ConvertImageToGCodes.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_ConvertImageToGCodes.setActionCommand("ConvertImageToGCodes");
 		btn_ConvertImageToGCodes.addActionListener(editorViewListener);
 				
 		btn_AddGCodesFromFile = new JButton();			
 		btn_AddGCodesFromFile.setText("open");
-		btn_AddGCodesFromFile.setBounds(901, 70, 84, 21);
+		btn_AddGCodesFromFile.setBounds(5, 77, 85, 21);
 		btn_AddGCodesFromFile.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_AddGCodesFromFile.setActionCommand("AddGCodesFromFile");
 		btn_AddGCodesFromFile.addActionListener(editorViewListener);
@@ -121,21 +128,21 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		//Tool bar controls
 		rbtn_Tool_SimpleDraw = new JRadioButton();		
 		rbtn_Tool_SimpleDraw.setText("line");
-		rbtn_Tool_SimpleDraw.setBounds(901, 100, 84, 21);
+		rbtn_Tool_SimpleDraw.setBounds(5, 100, 84, 21);
 		rbtn_Tool_SimpleDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Tool_SimpleDraw.addActionListener(editorViewListener);
 		rbtn_Tool_SimpleDraw.setActionCommand("switchToolsTo_SimpleDraw");
 		
 		rbtn_Tool_ContinuousDraw = new JRadioButton();
 		rbtn_Tool_ContinuousDraw.setText("pen");
-		rbtn_Tool_ContinuousDraw.setBounds(901, 120, 84, 21);
+		rbtn_Tool_ContinuousDraw.setBounds(5, 120, 84, 21);
 		rbtn_Tool_ContinuousDraw.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Tool_ContinuousDraw.addActionListener(editorViewListener);
 		rbtn_Tool_ContinuousDraw.setActionCommand("switchToolsTo_ContinuousDraw");
 		
 		rbtn_Tool_SelectVertex = new JRadioButton();
 		rbtn_Tool_SelectVertex.setText("select");
-		rbtn_Tool_SelectVertex.setBounds(901, 140, 84, 21);
+		rbtn_Tool_SelectVertex.setBounds(5, 140, 84, 21);
 		rbtn_Tool_SelectVertex.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Tool_SelectVertex.addActionListener(editorViewListener);
 		rbtn_Tool_SelectVertex.setActionCommand("switchToolsTo_SelectVertexes");
@@ -149,13 +156,13 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		ComboBoxModel comBoxModel_Scale = new DefaultComboBoxModel(scaleValues);						
 		comBox_Scale = new JComboBox();			
 		comBox_Scale.setModel(comBoxModel_Scale);
-		comBox_Scale.setBounds(901, 190, 84, 21);
+		comBox_Scale.setBounds(5, 190, 84, 21);
 		comBox_Scale.setActionCommand("Scale");
 		comBox_Scale.addActionListener(editorViewListener);
 		
 		rbtn_Lift = new JRadioButton();
 		rbtn_Lift.setText("UP");
-		rbtn_Lift.setBounds(901, 220, 84, 21);
+		rbtn_Lift.setBounds(5, 220, 84, 21);
 		rbtn_Lift.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Lift.setActionCommand("LiftWorkHead");
 		rbtn_Lift.addActionListener(editorViewListener);
@@ -163,7 +170,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		
 		rbtn_Down = new JRadioButton();
 		rbtn_Down.setText("DOWN");
-		rbtn_Down.setBounds(901, 240, 84, 21);
+		rbtn_Down.setBounds(5, 240, 84, 21);
 		rbtn_Down.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_Down.setActionCommand("DescendWorkHead");
 		rbtn_Down.addActionListener(editorViewListener);
@@ -175,7 +182,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 				
 		rbtn_commandType_G00 = new JRadioButton();
 		rbtn_commandType_G00.setText("G00");
-		rbtn_commandType_G00.setBounds(901, 270, 45, 21);
+		rbtn_commandType_G00.setBounds(5, 270, 45, 21);
 		rbtn_commandType_G00.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_commandType_G00.setActionCommand("SetFutureCommandsType_G00");
 		rbtn_commandType_G00.addActionListener(editorViewListener);
@@ -183,21 +190,21 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		
 		rbtn_commandType_G01 = new JRadioButton();
 		rbtn_commandType_G01.setText("G01");
-		rbtn_commandType_G01.setBounds(951, 270, 45, 21);
+		rbtn_commandType_G01.setBounds(50, 270, 45, 21);
 		rbtn_commandType_G01.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_commandType_G01.setActionCommand("SetFutureCommandsType_G01");
 		rbtn_commandType_G01.addActionListener(editorViewListener);
 		
 		rbtn_commandType_G02 = new JRadioButton();
 		rbtn_commandType_G02.setText("G02");
-		rbtn_commandType_G02.setBounds(901, 290, 45, 21);
+		rbtn_commandType_G02.setBounds(5, 290, 45, 21);
 		rbtn_commandType_G02.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_commandType_G02.setActionCommand("SetFutureCommandsType_G02");
 		rbtn_commandType_G02.addActionListener(editorViewListener);
 		
 		rbtn_commandType_G03 = new JRadioButton();
 		rbtn_commandType_G03.setText("G03");
-		rbtn_commandType_G03.setBounds(951, 290, 45, 21);
+		rbtn_commandType_G03.setBounds(50, 290, 45, 21);
 		rbtn_commandType_G03.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		rbtn_commandType_G03.setActionCommand("SetFutureCommandsType_G03");
 		rbtn_commandType_G03.addActionListener(editorViewListener);
@@ -210,48 +217,48 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		
 		txtFld_ArcR = new JTextField();
 		txtFld_ArcR.setText("20");
-		txtFld_ArcR.setBounds(998, 290, 30, 21);
+		txtFld_ArcR.setBounds(100, 290, 30, 21);
 		txtFld_ArcR.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		txtFld_ArcR.addKeyListener(new SetRaduisKeyListener());
 		
 		txtFld_ArcI = new JTextField();
-		txtFld_ArcI.setText("0");
-		txtFld_ArcI.setBounds(1029, 290, 30, 21);
+		txtFld_ArcI.setText("");
+		txtFld_ArcI.setBounds(130, 290, 30, 21);
 		txtFld_ArcI.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		txtFld_ArcI.addKeyListener(new SetIKeyListener());
 		
 		txtFld_ArcJ = new JTextField();
-		txtFld_ArcJ.setText("0");
-		txtFld_ArcJ.setBounds(1060, 290, 30, 21);
+		txtFld_ArcJ.setText("");
+		txtFld_ArcJ.setBounds(160, 290, 30, 21);
 		txtFld_ArcJ.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		txtFld_ArcJ.addKeyListener(new SetJKeyListener());
 		
 		lab_R = new JLabel("R");
-		lab_R.setBounds(998, 270, 30, 21);
+		lab_R.setBounds(100, 270, 30, 21);
 		
 		lab_I = new JLabel("I");
-		lab_I.setBounds(1029, 270, 30, 21);
+		lab_I.setBounds(129, 270, 30, 21);
 		
 		lab_J = new JLabel("J");
-		lab_J.setBounds(1060, 270, 30, 21);
+		lab_J.setBounds(160, 270, 30, 21);
 		
 		chkBx_liftForEachStroke = new JCheckBox();
 		chkBx_liftForEachStroke.setText("auto lift");
-		chkBx_liftForEachStroke.setBounds(901, 320, 84, 21);
+		chkBx_liftForEachStroke.setBounds(5, 320, 84, 21);
 		chkBx_liftForEachStroke.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		chkBx_liftForEachStroke.setActionCommand(CMD_LIFT_FOR_EACH_STROKE);
 		chkBx_liftForEachStroke.addActionListener(editorViewListener);		
 		
 		btn_Undo = new JButton();
 		btn_Undo.setText(CMD_UNDO);
-		btn_Undo.setBounds(901, 345, 40, 21);
+		btn_Undo.setBounds(5, 345, 40, 21);
 		btn_Undo.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_Undo.setActionCommand(CMD_UNDO);
 		btn_Undo.addActionListener(editorViewListener);
 		
 		btn_Redo = new JButton();
 		btn_Redo.setText(CMD_REDO);
-		btn_Redo.setBounds(947, 345, 40, 21);
+		btn_Redo.setBounds(47, 345, 40, 21);
 		btn_Redo.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		btn_Redo.setActionCommand(CMD_REDO);
 		btn_Redo.addActionListener(editorViewListener);
@@ -259,7 +266,7 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		
 		chkBx_showOnlyZ0 = new JCheckBox();
 		chkBx_showOnlyZ0.setText("show Z0");
-		chkBx_showOnlyZ0.setBounds(901, 160, 84, 21);;
+		chkBx_showOnlyZ0.setBounds(5, 160, 84, 21);;
 		chkBx_showOnlyZ0.setMargin(new java.awt.Insets(0, 0, 0, 0));
 		chkBx_showOnlyZ0.setActionCommand(CMD_SHOW_ONLY_Z0_SWITCHED);
 		chkBx_showOnlyZ0.addActionListener(editorViewListener);
@@ -268,37 +275,40 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		getContentPane().setLayout(null);
 		setTitle("GCodes editor");
 		
+		panel_Tools.add(btn_Clear);			
+		panel_Tools.add(btn_Save);			
+		panel_Tools.add(btn_ConvertImageToGCodes);			
+		panel_Tools.add(btn_AddGCodesFromFile);	
+		panel_Tools.add(rbtn_Tool_SimpleDraw);		
+		panel_Tools.add(rbtn_Tool_ContinuousDraw);		
+		panel_Tools.add(rbtn_Tool_SelectVertex);		
+		panel_Tools.add(comBox_Scale);
+		panel_Tools.add(rbtn_Down);
+		panel_Tools.add(rbtn_Lift);
+		panel_Tools.add(rbtn_commandType_G00);
+		panel_Tools.add(rbtn_commandType_G02);
+		panel_Tools.add(rbtn_commandType_G01);
+		panel_Tools.add(rbtn_commandType_G03);
+		panel_Tools.add(txtFld_ArcR);
+		panel_Tools.add(chkBx_liftForEachStroke);
+		panel_Tools.add(txtFld_ArcI);
+		panel_Tools.add(txtFld_ArcJ);	
+		
+		panel_Tools.add(lab_R);
+		panel_Tools.add(lab_I);
+		panel_Tools.add(lab_J);
+		
+		panel_Tools.add(btn_Undo);
+		panel_Tools.add(btn_Redo);
+		panel_Tools.add(chkBx_showOnlyZ0);
+		
 		add(scrollPane_GraphicOutput);
-		//add(scrollPane_GCodesEditor);
-		add(btn_Clear);			
-		add(btn_ConvertImageToGCodes);			
-		add(btn_AddGCodesFromFile);	
-		add(rbtn_Tool_SimpleDraw);		
-		add(rbtn_Tool_ContinuousDraw);		
-		add(rbtn_Tool_SelectVertex);		
-		add(comBox_Scale);
-		add(rbtn_Down);
-		add(rbtn_Lift);
-		add(rbtn_commandType_G00);
-		add(rbtn_commandType_G02);
-		add(rbtn_commandType_G01);
-		add(rbtn_commandType_G03);
-		add(txtFld_ArcR);
-		add(chkBx_liftForEachStroke);
-		add(txtFld_ArcI);
-		add(txtFld_ArcJ);
+		add(panel_Tools);
 		
-		add(lab_R);
-		add(lab_I);
-		add(lab_J);
-		
-		add(btn_Undo);
-		add(btn_Redo);
-		add(chkBx_showOnlyZ0);
-		
+	
 		pack();
-		setSize(1100, 600);	
-		setLocationRelativeTo(null);
+		setSize(1280, 770);
+		setLocation(0, 0);
 	}
 
 	public void setRadiusValue(String str){

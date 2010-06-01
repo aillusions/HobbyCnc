@@ -36,7 +36,7 @@ public class VisualisationPanel extends JPanel{
 		
 		try {
 			Image source = ImageIO.read(new File("d:\\cat.bmp"));
-			ImageFilter replicate = new ReplicateScaleFilter(source.getWidth(this), source.getHeight(this));
+			ImageFilter replicate = new ReplicateScaleFilter((int)(source.getWidth(this)*1.5), (int)(source.getHeight(this)*1.5));
 			ImageProducer prod = new FilteredImageSource(source.getSource(),replicate);
 			
 			image = createImage(prod);
@@ -47,7 +47,7 @@ public class VisualisationPanel extends JPanel{
 	
 	public void drawUnderlayer(GraphicsWrapper g) {	
 		
-	    g.drawImage(image, es.getGap(), es.getGap());
+	   // g.drawImage(image, es.getGap(), es.getGap());
 
 	}
 
@@ -115,13 +115,13 @@ public class VisualisationPanel extends JPanel{
 			gridSteps = 1;
 		}
 		
-		if(es.getScale() >= 10){
+/*		if(es.getScale() >= 10){
 			gridSteps = 0.5;
 		}
 		
 		if(es.getScale() >= 50){
 			gridSteps = 0.1;
-		}
+		}*/
 		
 		long viewHeight = (long)getSize().getHeight();
 		long viewWidth = (long)getSize().getWidth();
@@ -175,14 +175,14 @@ public class VisualisationPanel extends JPanel{
 		
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
-		if(gcc.getGCommandList().size() == 1){
+		if(gcc.getCommandList().size() == 1){
 			
 			setPreferredSize(new Dimension(1, 1));
 			revalidate();
 			
 		}else{
 			
-			for(GCommand gc : gcc.getGCommandList()){			
+			for(GCommand gc : gcc.getCommandList()){			
 					
 				int newX = (int)EditorStates.convertPositionCnc_View(gc.getX()); 
 				int newY = (int)EditorStates.convertPositionCnc_View(gc.getY()); 				

@@ -35,7 +35,7 @@ public class GCommandsContainer implements ActionListener {
 		return instance;
 	}
 		
-	public List<GCommand> getGCommandList() {
+	public List<GCommand> getCommandList() {
 		return gCommandList;
 	}
 	
