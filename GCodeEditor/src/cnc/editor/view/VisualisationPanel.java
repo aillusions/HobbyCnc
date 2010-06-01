@@ -47,7 +47,7 @@ public class VisualisationPanel extends JPanel{
 	
 	public void drawUnderlayer(GraphicsWrapper g) {	
 		
-	   // g.drawImage(image, es.getGap(), es.getGap());
+	   g.drawImage(image, es.getGap(), es.getGap());
 
 	}
 

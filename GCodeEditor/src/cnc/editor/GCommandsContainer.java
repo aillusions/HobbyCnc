@@ -88,11 +88,15 @@ public class GCommandsContainer implements ActionListener {
 		
 		for (int i = 0; i < cmdArray.length; i++) {
 			
-			GCommand gc = GCodeParser.parseCommand(cmdArray[i]);		
-			
-			if (gc != null) {				
-				addCommand(gc);
+			try{
+				GCommand gc = GCodeParser.parseCommand(cmdArray[i]);
+				if (gc != null) {				
+					addCommand(gc);
+				}		
+			}catch(Exception e){
+				System.err.println(e);
 			}
+		
 		}
 
 		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);

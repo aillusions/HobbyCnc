@@ -82,7 +82,6 @@ public abstract class GCommand {
 		this.Y = y;
 		this.Z = z;
 	}
-
 	
 	public static BigDecimal getRounded(double d){
 		BigDecimal bd = new BigDecimal(Math.round(d * 100));

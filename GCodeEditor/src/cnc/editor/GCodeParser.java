@@ -4,95 +4,69 @@ import cnc.editor.Editor.GcommandTypes;
 
 public class GCodeParser {	
 
-	public static GCommand parseCommand(String cmd){
+	public static GCommand parseCommand(String stringToParse){
 		
 		GCommand result = null;
 		
-		try{
-			
-			if(cmd != null && !cmd.trim().equals("") && cmd.trim().length() > 3){
+		try{			
+			if(stringToParse != null && !stringToParse.trim().equals("") && stringToParse.trim().length() > 3){
 				
-				cmd = cmd.trim().toUpperCase().replaceAll("\\s+", " ");
-				GcommandTypes cmdType = null;
+				stringToParse = stringToParse.trim().toUpperCase().replaceAll("\\s+", " ");				
+				GcommandTypes cmdType = findType(stringToParse);
 				
-				if(cmd.contains("G00 ") || cmd.contains("G0 ")){
-					
-					cmdType = GcommandTypes.G00;
-					
-				}else if(cmd.contains("G01 ") || cmd.contains("G1 ")){		
-					
-					cmdType = GcommandTypes.G01;
-					
-				}else if(cmd.contains("G02 ") || cmd.contains("G2 ")){		
-					
-					cmdType = GcommandTypes.G02;
-					
-				}else if(cmd.contains("G03 ") || cmd.contains("G3 ")){		
-					
-					cmdType = GcommandTypes.G03;
-				}else if(cmd.contains("ORIGIN ")){		
-					
-					cmdType = GcommandTypes.ORIGIN;
-				} 
-
 				if(cmdType != null){
 					
-					String withoutType = cmd.replace(cmdType.toString(), "").trim();
+					GCommandFactory gCmdFactory = new GCommandFactory();
+					gCmdFactory.setCmdType(cmdType);					
+					String withoutType = stringToParse.replace(cmdType.toString(), "").trim();
 					String[] args = withoutType.split(" ");
-					
-					Float x = null, y = null, z = null, r = null, i = null, j = null;
-					
+
 					for(int k = 0; k < args.length; k ++){
 						if(args[k].indexOf("X") != -1){
-							x = Float.parseFloat(args[k].replace("X", ""));
+							gCmdFactory.setX(Float.parseFloat(args[k].replace("X", "")));
 						}else if(args[k].indexOf("Y") != -1){
-							y = Float.parseFloat(args[k].replace("Y", ""));
+							gCmdFactory.setY(Float.parseFloat(args[k].replace("Y", "")));
 						}else if(args[k].indexOf("Z") != -1){
-							z = Float.parseFloat(args[k].replace("Z", ""));
+							gCmdFactory.setZ(Float.parseFloat(args[k].replace("Z", "")));
 						}else if(args[k].indexOf("R") != -1){
-							r = Float.parseFloat(args[k].replace("R", ""));
+							gCmdFactory.setR(Float.parseFloat(args[k].replace("R", "")));
 						}else if(args[k].indexOf("I") != -1){
-							i = Float.parseFloat(args[k].replace("I", ""));
+							gCmdFactory.setI(Float.parseFloat(args[k].replace("I", "")));
 						}else if(args[k].indexOf("J") != -1){
-							j = Float.parseFloat(args[k].replace("J", ""));
+							gCmdFactory.setJ(Float.parseFloat(args[k].replace("J", "")));
 						}
 					}
 					
-					switch(cmdType){
-						case G00: 
-							result = new GCommandG00(x,y,z);
-							break;
-						case G01:
-							result = new GCommandG01(x,y,z);
-							break;
-						case G02: 
-							if(r != null){
-								result = new GCommandG02(x,y,z,r);
-							}else{
-								result = new GCommandG02(x,y,z,i,j);
-							}
-							break;
-						case G03: 
-							if(r != null){
-								result =   new GCommandG03(x,y,z,r);
-							}else{
-								result =   new GCommandG03(x,y,z,i,j);
-							}
-							break;
-						case ORIGIN:
-							result = new GCommandOrigin();
-							break;
-						default:
-							throw new RuntimeException("UNDEF");
-					}
+					result = gCmdFactory.getCommand();
 				}		
-			} 
+			}else{
+				throw new RuntimeException("Wrong command string: '" + stringToParse + "'.");
+			}
 		}catch(Exception e){
-			//throw new RuntimeException(e);
-			System.err.println(e);
+			throw new RuntimeException(e);
 		}
 
 		return result;
 	}	
+	
+	
+	private static GcommandTypes findType(String cmdStr){
+		
+		GcommandTypes cmdType = null;
+		
+		if(cmdStr.contains("G00 ") || cmdStr.contains("G0 ")){			
+			cmdType = GcommandTypes.G00;			
+		}else if(cmdStr.contains("G01 ") || cmdStr.contains("G1 ")){				
+			cmdType = GcommandTypes.G01;			
+		}else if(cmdStr.contains("G02 ") || cmdStr.contains("G2 ")){			
+			cmdType = GcommandTypes.G02;			
+		}else if(cmdStr.contains("G03 ") || cmdStr.contains("G3 ")){	
+			cmdType = GcommandTypes.G03;
+		}else if(cmdStr.contains("ORIGIN ")){
+			cmdType = GcommandTypes.ORIGIN;
+		} 
+
+		return cmdType;
+	}
 
 }
