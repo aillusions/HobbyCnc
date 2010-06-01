@@ -45,7 +45,6 @@ public class GraphicsWrapper{
 	}
 
 	public void drawImage(Image image, int i, int j) {
-
 		int height;
 		height = image.getHeight(vp);		
 		g.drawImage(image, i, vp.getViewY(j + height), vp);

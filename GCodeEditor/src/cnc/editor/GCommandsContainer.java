@@ -182,4 +182,24 @@ public class GCommandsContainer implements ActionListener {
 		}
 	}
 
+	public void replaceGCommand(GCommand cmd, GCommand newGC) {
+		
+		int position = gCommandList.indexOf(cmd);		
+		
+		if((position - 1)  >= 0){
+			newGC.setPreviousCmd(gCommandList.get(position - 1));
+		}
+		if((position + 1) < gCommandList.size()){
+			gCommandList.get(position + 1).setPreviousCmd(newGC);
+		}
+		
+		gCommandList.remove(cmd);
+		newGC.addActionListener(this);
+		gCommandList.add(position, newGC);
+		
+		ActionEvent ae = new ActionEvent(this , -1, "CommandWasReplaced");
+		notifyAllAboutChanges(ae);
+		
+	}
+
 }

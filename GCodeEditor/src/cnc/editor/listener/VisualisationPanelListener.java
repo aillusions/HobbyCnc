@@ -4,17 +4,25 @@ import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.Set;
 
 import javax.swing.AbstractAction;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
+import cnc.editor.GCodeParser;
+import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
 import cnc.editor.view.VisualisationPanel;
 
@@ -28,6 +36,8 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	}
 	
 	public void mousePressed(MouseEvent e) {
+		
+		((VisualisationPanel)e.getSource()).requestFocusInWindow();
 	
 		VisualisationPanel vPanel = ((VisualisationPanel)e.getSource());
 		
@@ -43,6 +53,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	        JPopupMenu menu = new JPopupMenu(); 
 	        menu.add(new EditAction()); 
 	        menu.add(new DeleteAction()); 
+	        menu.add(new FrezeAction()); 
 	        menu.addSeparator(); 
 	        menu.add(new MergeAction()); 
 	        menu.add(new SelectAllAction()); 
@@ -74,13 +85,6 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 		es.setMousePosition(p);
 	}
 
-	public void focusGained(FocusEvent e) {
-					
-	}
-	
-	public void focusLost(FocusEvent e) {
-		
-	}
 	
 	public void mouseReleased(MouseEvent e) {	
 		
@@ -93,7 +97,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		
+		((VisualisationPanel)e.getSource()).requestFocusInWindow();
 	}
 
 	public void mouseEntered(MouseEvent e) {
@@ -113,7 +117,71 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    } 
 	 
 	    public void actionPerformed(ActionEvent e){ 
+	    
+	    	Set<GCommand> cmds = EditorStates.getInstance().getSelectedGCommands();
+	    	if(cmds.size() != 1){
+	    		return;
+	    	}    		    	
 	    	
+	    	final GCommand cmd = cmds.iterator().next();
+	    	
+	    	JMenuItem menuItem  = (JMenuItem)e.getSource();
+	    	JPopupMenu menu = (JPopupMenu)menuItem.getParent();
+	    	VisualisationPanel vp = (VisualisationPanel)menu.getInvoker();	    	
+	    
+	    	int x = (int)EditorStates.convertPositionCnc_View(cmd.getX().intValue());	    	
+	    	int y = (int)(vp.getViewY(EditorStates.convertPositionCnc_View(cmd.getY().intValue())));
+	    	
+	    	final JTextField textField = new JTextField(cmd.toString());
+	    	textField.setBounds(x, y, 150, 21);
+	    	textField.setMargin(new java.awt.Insets(0, 0, 0, 0));
+	    	
+	    	textField.addFocusListener(new FocusListener() {
+				
+				public void focusLost(FocusEvent e) {
+					JTextField thisTextField = (JTextField)e.getSource();
+					VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
+					if(mainVPanel != null){
+						mainVPanel.remove(thisTextField);
+						mainVPanel.repaint();
+					}
+				}
+				
+				public void focusGained(FocusEvent e) {
+					
+				}
+			});
+	    	
+			textField.addKeyListener(new KeyListener() {
+
+				public void keyTyped(KeyEvent e) {
+
+				}
+
+				public void keyReleased(KeyEvent e) {
+
+				}
+
+				public void keyPressed(KeyEvent e) {
+					
+					int key = e.getKeyCode();
+					
+					if (key == KeyEvent.VK_ENTER) {
+						GCommand newGC = GCodeParser.parseCommand(textField.getText());
+						GCommandsContainer.getInstance().replaceGCommand(cmd, newGC);
+						
+						JTextField thisTextField = (JTextField)e.getSource();
+						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
+						mainVPanel.remove(thisTextField);
+						mainVPanel.repaint();
+						
+					}
+				}
+
+			});
+	    	
+	    	vp.add(textField);
+	    	textField.requestFocus();
 	    } 
 	 
 	    public boolean isEnabled(){ 
@@ -129,12 +197,27 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	        super("Merge"); 
 	    } 
 	 
+	    public void actionPerformed(ActionEvent e){ 	    	
+	    } 
+	 
+	    public boolean isEnabled(){ 
+	       return false;
+	    } 
+	}
+	class FrezeAction extends AbstractAction{ 
+		
+		private static final long serialVersionUID = 1L;
+
+		public FrezeAction(){ 
+	        super("Freze"); 
+	    } 
+	 
 	    public void actionPerformed(ActionEvent e){ 
 	    	
 	    } 
 	 
 	    public boolean isEnabled(){ 
-	       return true;
+	       return false;
 	    } 
 	}
 	
