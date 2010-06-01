@@ -103,7 +103,7 @@ public class EquationOfArc {
 			}else if(yStart > yEnd){
 				angle = 270;
 			}else{
-				throw new RuntimeException("inposible");
+				throw new RuntimeException("imposible");
 			}
 		}else if(yStart == yEnd){
 			if(xStart < xEnd){
@@ -111,7 +111,7 @@ public class EquationOfArc {
 			}else if(xStart > xEnd){
 				angle = 180;
 			}else{
-				throw new RuntimeException("inposible");
+				throw new RuntimeException("imposible");
 			}
 		}else{
 			
