@@ -18,8 +18,8 @@ public class GCodeParser {
 					
 					GCommandFactory gCmdFactory = new GCommandFactory();
 					gCmdFactory.setCmdType(cmdType);					
-					String withoutType = stringToParse.replace(cmdType.toString(), "").trim();
-					String[] args = withoutType.split(" ");
+					//String withoutType = stringToParse.replace(cmdType.toString(), "").trim();
+					String[] args = stringToParse.split(" ");
 
 					for(int k = 0; k < args.length; k ++){
 						if(args[k].indexOf("X") != -1){
@@ -64,6 +64,8 @@ public class GCodeParser {
 			cmdType = GcommandTypes.G03;
 		}else if(cmdStr.contains("ORIGIN ")){
 			cmdType = GcommandTypes.ORIGIN;
+		}else if(cmdStr.contains("G41 ")){
+			cmdType = GcommandTypes.G00;
 		} 
 
 		return cmdType;

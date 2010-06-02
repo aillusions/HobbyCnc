@@ -42,16 +42,17 @@ public abstract class GCommand {
 			pointColor = Color.gray;
 			pointSize = size;
 		}
-
-		if(selectedCCmd != null && selectedCCmd.contains(this)){
-			pointColor = Color.red;
-			lineColor = Color.red;	
-			pointSize = size;			
-		}
 		
 		if(this.getZ() > 0){
 			lineColor = Color.blue;
 		}
+		
+		if(selectedCCmd != null && selectedCCmd.contains(this)){
+			pointColor = Color.ORANGE;
+			lineColor = Color.ORANGE;	
+			pointSize = size;			
+		}	
+
 		
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
 		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
@@ -84,8 +85,8 @@ public abstract class GCommand {
 	}
 	
 	public static BigDecimal getRounded(double d){
-		BigDecimal bd = new BigDecimal(Math.round(d * 1000000));
-		bd = bd.divide(new BigDecimal(1000000));
+		BigDecimal bd = new BigDecimal(Math.round(d * 100));
+		bd = bd.divide(new BigDecimal(100));
 		return bd;
 	}
 	
