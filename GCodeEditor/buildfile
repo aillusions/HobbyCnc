@@ -1,0 +1,19 @@
+repositories.remote << 'http://www.ibiblio.org/maven2'
+
+HIBERNATE = "org.hibernate:hibernate::3.0.5"
+
+define 'GCodeEditor' do
+
+  project.version = '0.1'
+  
+  manifest_data = [
+	'Main-Class' => 'cnc.editor.Main'
+  ]
+  
+  project.manifest = Buildr::Packaging::Java::Manifest.new(manifest_data)
+  
+  compile('src').with(HIBERNATE)
+  
+  pack=package(:jar)
+  
+end
