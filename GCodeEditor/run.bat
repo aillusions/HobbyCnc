@@ -1,1 +1,1 @@
-java -jar target/GCodeEditor-0.1.jar 
+java -jar GCodeEditor-0.1.jar 
