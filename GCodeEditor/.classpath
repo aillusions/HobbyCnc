@@ -1,5 +1,5 @@
 <classpath>
-  <classpathentry kind="src" path="src" excluding="**/.svn/|**/CVS/"/>
+  <classpathentry kind="src" path="src/main/java" />
   <classpathentry kind="output" path="target/classes"/>
   <classpathentry kind="var" path="M2_REPO/org/hibernate/hibernate/3.0.5/hibernate-3.0.5.jar" sourcepath="M2_REPO/org/hibernate/hibernate/3.0.5/hibernate-3.0.5-sources.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
