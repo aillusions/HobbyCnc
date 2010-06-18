@@ -1,6 +1,5 @@
 require 'ftools'
 
-
 repositories.remote << 'http://www.ibiblio.org/maven2'
 
 HIBERNATE = "org.hibernate:hibernate::3.0.5"
@@ -15,10 +14,10 @@ define 'GCodeEditor' do
   
   project.manifest = Buildr::Packaging::Java::Manifest.new(manifest_data)
   
-  compile('src').with(HIBERNATE)
+  compile('src').with(HIBERNATE).enhance{
+	File.copy('run.bat', 'target/run.bat');
+  }
   
-  pack=package(:jar)
-  
-  File.copy('run.bat', 'target/run.bat');
+  pack=package(:jar) 
   
 end
