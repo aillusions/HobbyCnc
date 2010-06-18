@@ -12,7 +12,7 @@ define 'GCodeEditor' do
   
   project.manifest = Buildr::Packaging::Java::Manifest.new(manifest_data)
   
-  compile.with(org.hibernate:hibernate::3.0.5).enhance{
+  compile.with("org.hibernate:hibernate::3.0.5").enhance{
 	File.copy('run.bat', 'target/run.bat');
   }
   
