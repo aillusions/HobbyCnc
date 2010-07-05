@@ -18,9 +18,6 @@ public class BmpFilePrinter {
 	private Integer lastShiftX; 
 	private Integer lastShiftY; 
 	private Integer lastShiftZ; 
-	
-	private boolean lastWasSkipped = false;
-
 			
 	public BmpFilePrinter(GCodeAcceptor gCodeInterpreter) {
 		this.gCodeInterpreter = gCodeInterpreter;
@@ -57,8 +54,11 @@ public class BmpFilePrinter {
 			previousPoint = currentPoint;			
 			store.removeVertex(currentPoint);
 		}
+		
+		//last point
+		notifyMovement(lastX, lastY, lastZ);
+		
 		liftUp();
-		//moveTo(0, 0, null);
 		
 	}
 	
@@ -89,22 +89,9 @@ public class BmpFilePrinter {
 		
 	private void moveToIfNecessarily(Integer x, Integer y, Integer z){		
 		
-		boolean skipCurrent = false;
-		
-		if(isSameDirection(x,y,z)){		
-			
-			skipCurrent = true;	
-			
-		}else{
-			
-			skipCurrent = false;
-			
-			if(lastWasSkipped){
-				notifyMovement(lastX, lastY, lastZ);
-			}	
-			
-			notifyMovement(x,y,z);
-		}
+		if(!isSameDirection(x,y,z)){		
+			notifyMovement(lastX, lastY, lastZ);
+		}	
 
 		lastShiftX = calculateShift(x, lastX);
 		lastShiftY = calculateShift(y, lastY);
@@ -113,8 +100,6 @@ public class BmpFilePrinter {
 		lastX = x;
 		lastY = y;
 		lastZ = z;
-		
-		lastWasSkipped = skipCurrent;
 
 	}
 	
@@ -137,6 +122,10 @@ public class BmpFilePrinter {
 	}
 	
 	private void notifyMovement(Integer x, Integer y, Integer z){
+		
+		if(x == null && y == null && z == null){
+			return;
+		}
 		
 		String xString = "";
 		String yString = "";
