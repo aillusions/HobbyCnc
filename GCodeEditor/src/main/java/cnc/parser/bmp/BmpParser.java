@@ -3,7 +3,7 @@ package cnc.parser.bmp;
 import java.io.FileInputStream;
 
 import cnc.parser.ICncParser;
-import cnc.parser.bmp.ParserVertex;
+import cnc.parser.bmp.Point2D;
 import cnc.storage.memory.IDataStorage;
 
 
@@ -96,7 +96,7 @@ public class BmpParser implements ICncParser {
 					
 					if( ndata[counter] != -1)
 					{
-						ParserVertex v = new ParserVertex(nheight - i, nwidth - j, 0);
+						Point2D v = new Point2D(i,nheight - j);
 						storage.addVertex(v);
 						index++;
 					}

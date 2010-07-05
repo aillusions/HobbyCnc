@@ -260,10 +260,10 @@ public class Editor {
 			});			
 			
 			bmpPrinter.setStore(store);
-			bmpPrinter.StartBuild();	
+			bmpPrinter.startBuild();	
 			
 			gcc.clear();
-			gcc.addCommandsBunch(codesBuffer.toString());			
+			gcc.addCommandsBunch(codesBuffer.toString().trim());			
 
 			es.setImportInProgress(false);
 		}		

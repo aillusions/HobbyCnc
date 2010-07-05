@@ -1,31 +1,27 @@
 package cnc.storage.memory;
 
-import cnc.parser.bmp.ParserVertex;
+import cnc.parser.bmp.Point2D;
 
 public class BitMapArrayDataStorage implements IDataStorage {
 	
 	private char [][] bitMap = new char[1000][1000];
 	
-	private ParserVertex lastVertex = null;
+	private Point2D lastVertex = null;
 	
-	private void setNewCurrentVertex(ParserVertex lastVertex){
-		this.lastVertex = lastVertex;
-	}
-	
-	public void addVertex(ParserVertex vertex){		
+	public void addVertex(Point2D vertex){		
 		bitMap[(int)vertex.getX()][(int)vertex.getY()] = 1;
 	}
 	
-	public void saveVertex(ParserVertex vertex){
+	public void removeVertex(Point2D vertex){
 		bitMap[(int)vertex.getX()][(int)vertex.getY()] = 0;
 	}
 	
-	public ParserVertex getNextVertex(){
+	public Point2D getNextVertex(){
 		if(lastVertex == null){
 			for(int i = 0; i < 1000; i++){
 				for(int j = 0; j < 1000; j++){
 					if(bitMap[i][j]==1){
-						setNewCurrentVertex(new ParserVertex(i,j,0));
+						setNewCurrentVertex(new Point2D(i,j));
 						return lastVertex;
 					}
 				}
@@ -38,7 +34,7 @@ public class BitMapArrayDataStorage implements IDataStorage {
 				for (int i = lastX - a; i <= lastX + a; i++) {
 					for (int j = lastY - a; j <= lastY + a; j++) {
 						if (i < 1000 && j < 1000 && i > -1 && j > -1 && bitMap[i][j] == 1) {
-							setNewCurrentVertex(new ParserVertex(i, j, 0));
+							setNewCurrentVertex(new Point2D(i, j));
 							return lastVertex;
 						}
 					}
@@ -47,16 +43,9 @@ public class BitMapArrayDataStorage implements IDataStorage {
 		}
 		return null;
 	}
-
 	
-	//----------------------------------------------------------
-	//----------------------------------------------------------
-	//----------------------------------------------------------
-	
-
-	public void clearStorage() {
-		// TODO Auto-generated method stub
-		
+	private void setNewCurrentVertex(Point2D lastVertex){
+		this.lastVertex = lastVertex;
 	}
-
+	
 }
