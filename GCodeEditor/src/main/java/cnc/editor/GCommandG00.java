@@ -7,14 +7,12 @@ import cnc.editor.view.GraphicsWrapper;
 
 public class GCommandG00 extends GCommand{
 
-	public GCommandG00(Float x, Float y, Float z) {
-		
+	public GCommandG00(Float x, Float y, Float z) {		
 		super(x, y, z);
 	}
 
 	@Override
-	public GcommandTypes getCommandType() {
-		
+	public GcommandTypes getCommandType() {		
 		return GcommandTypes.G00;
 	}
 
@@ -27,7 +25,7 @@ public class GCommandG00 extends GCommand{
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
 		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
 
-		g.drawLine(prevX, prevY, newX, newY);
+		g.drawLineWithScaleThickness(prevX, prevY, newX, newY);
 		
 		if(EditorStates.getInstance().getScale() >= 5){
 			drawArrowEnd(g);						

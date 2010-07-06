@@ -1,8 +1,13 @@
 package cnc.editor.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Stroke;
+
+import cnc.editor.EditorStates;
 
 
 public class GraphicsWrapper{
@@ -19,8 +24,25 @@ public class GraphicsWrapper{
 		return g;
 	}
 	
-	public void drawLine(int x, int y, int endX, int endY){
+	public void drawLineWithScaleThickness(int x, int y, int endX, int endY){
+		
+	    Graphics2D g2 = (Graphics2D)g;
+		float thickness = EditorStates.getInstance().getScale();	
+		Stroke s = new BasicStroke(thickness);
+		Stroke olds = g2.getStroke();
+		g2.setStroke(s);	
+		
 		g.drawLine(x, vp.getViewY(y), endX, vp.getViewY(endY));
+		
+		g2.setStroke(olds);
+		
+		
+	}
+	
+	public void drawLine(int x, int y, int endX, int endY){
+		
+		g.drawLine(x, vp.getViewY(y), endX, vp.getViewY(endY));
+	
 	}
 	
 	public void drawString(String s, int x, int y){

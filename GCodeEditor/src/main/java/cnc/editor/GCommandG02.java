@@ -111,7 +111,7 @@ public class GCommandG02 extends GCommand{
 		Stroke olds = g2.getStroke();
 		g2.setStroke(s);	
 		
-		gw.drawLine(prevX, prevY, newX, newY);
+		gw.drawLineWithScaleThickness(prevX, prevY, newX, newY);
 		
 		gw.setColor(c);
 		g2.setStroke(olds);
