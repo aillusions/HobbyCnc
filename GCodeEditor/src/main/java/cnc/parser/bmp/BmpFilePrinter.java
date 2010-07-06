@@ -1,84 +1,131 @@
 package cnc.parser.bmp;
 
 import cnc.GCodeAcceptor;
-import cnc.parser.bmp.ParserVertex;
+import cnc.parser.bmp.Point2D;
 import cnc.storage.memory.IDataStorage;
 
 public class BmpFilePrinter {
-	
-	private GCodeAcceptor gCodeInterpreter;
-	private IDataStorage store; 
-	
-	private ParserVertex originOfCoordinates;
-	private ParserVertex prevVertex;
-	private ParserVertex currVertex;
 
+	private GCodeAcceptor gCodeInterpreter;
+	private IDataStorage store;	
+	private Point2D previousPoint;
+	private Point2D currentPoint;
+	
+	private Integer lastX; 
+	private Integer lastY; 
+	private Integer lastZ; 
+	
+	private Integer lastShiftX; 
+	private Integer lastShiftY; 
+	private Integer lastShiftZ; 
 			
 	public BmpFilePrinter(GCodeAcceptor gCodeInterpreter) {
-		originOfCoordinates = new ParserVertex(0, 0, 0);
 		this.gCodeInterpreter = gCodeInterpreter;
 	}	
 	
-	public void StartBuild() {	
+	public void startBuild() {	
 		
-		prevVertex = originOfCoordinates;
-		currVertex = null;
-		ParserVertex scipedVertex = null;
+		previousPoint = null;
+		currentPoint = null;
 		
-		while((currVertex = store.getNextVertex()) != null ) {	
+		while((currentPoint = store.getNextVertex()) != null ) {	
 
-			long shiftPCX = Math.abs(currVertex.getX() - prevVertex.getX());
-			long shiftPCY = Math.abs(currVertex.getY() - prevVertex.getY());
-			
-/*			Long shiftPSX = null;
-			Long shiftPSY = null;
-			
-		if(scipedVertex!= null){
-				shiftPSX = Math.abs(scipedVertex.getX() - prevVertex.getX());
-				shiftPSY = Math.abs(scipedVertex.getY() - prevVertex.getY());
-			}
-			
-			if(shiftPCX == 0  || shiftPCY == 0 ){
+			if(previousPoint == null){
 				
-				if((scipedVertex == null) || ((scipedVertex != null) && (shiftPCX > shiftPSX) && (shiftPCY > shiftPSY))){
-					
-					scipedVertex = currVertex;
-					currVertex.setUsed(true);
-					store.saveVertex(currVertex);				
-					continue;
+				liftUp();
+				moveToIfNecessarily(currentPoint.getX(), currentPoint.getY(), null);
+				liftDown();
+				
+			}else{		
+				
+				long shiftPCX = Math.abs(currentPoint.getX() - previousPoint.getX());
+				long shiftPCY = Math.abs(currentPoint.getY() - previousPoint.getY());
+				
+				if(shiftPCX > 2 || shiftPCY > 2) {	
+					liftUp();
+					moveToIfNecessarily(currentPoint.getX(), currentPoint.getY(), null);
+					liftDown();
+				}
+				else{				
+					moveToIfNecessarily(currentPoint.getX(), currentPoint.getY(), null);
 				}
 			}
 			
-			if(scipedVertex != null){
-				moveTo(scipedVertex.getX(), scipedVertex.getY(), null);
-				scipedVertex = null;
-			}*/
-
-			if( shiftPCX > 2 || shiftPCY > 2 ) {					
-				liftUp();
-
-				moveTo(currVertex.getX(), currVertex.getY(), null);
-				liftDown();
-			}		
-			else{
-				moveTo(currVertex.getX(), currVertex.getY(), null);
-			}			
-			
-			currVertex.setUsed(true);
-			prevVertex = currVertex;			
-			store.saveVertex(currVertex);
-		}
-		if(scipedVertex != null){
-			moveTo(scipedVertex.getX(), scipedVertex.getY(), null);
-			scipedVertex = null;
+			previousPoint = currentPoint;			
+			store.removeVertex(currentPoint);
 		}
 		
+		//last point
+		notifyMovement(lastX, lastY, lastZ);
+		
 		liftUp();
-		moveTo(0L, 0L, null);
 		
 	}
 	
-	private void moveTo(Long x, Long y, Long z){
+	public void setStore(IDataStorage store) {
+		this.store = store;
+	}
+		
+	private boolean isCoordinateInSameDirection(Integer newValue, Integer lastValue, Integer lastShift){
+		
+		boolean result = false;
+		
+		if(lastValue != null){
+			
+			if(newValue != null){
+				
+				int shift = newValue - lastValue;
+				
+				if(lastShift != null && shift == lastShift){
+					result = true;
+				}
+			}
+		}else if(newValue == null){
+			result = true;
+		}
+			
+		return result;
+	}
+		
+	private void moveToIfNecessarily(Integer x, Integer y, Integer z){		
+		
+		if(!isSameDirection(x,y,z)){		
+			notifyMovement(lastX, lastY, lastZ);
+		}	
+
+		lastShiftX = calculateShift(x, lastX);
+		lastShiftY = calculateShift(y, lastY);
+		lastShiftZ = calculateShift(z, lastZ);
+		
+		lastX = x;
+		lastY = y;
+		lastZ = z;
+
+	}
+	
+	private Integer calculateShift(Integer newVal, Integer lastVal){
+		
+		if(newVal == null){
+			return 0;
+		}else if(lastVal == null){
+			return newVal;
+		}else{
+			return newVal - lastVal;
+		}
+	}
+	
+	private boolean isSameDirection(Integer x, Integer y, Integer z){
+		
+		return isCoordinateInSameDirection(x, lastX, lastShiftX) 
+				&& isCoordinateInSameDirection(y, lastY, lastShiftY) 
+				&& isCoordinateInSameDirection(z, lastZ, lastShiftZ);
+	}
+	
+	private void notifyMovement(Integer x, Integer y, Integer z){
+		
+		if(x == null && y == null && z == null){
+			return;
+		}
 		
 		String xString = "";
 		String yString = "";
@@ -94,23 +141,16 @@ public class BmpFilePrinter {
 		
 		if(z!= null){
 			zString = " Z" + z/5d;
-		}		
+		}
+		
 		gCodeInterpreter.putGCode("G00" + xString + yString + zString);
 	}
 	
 	private void liftUp(){
-		moveTo(null, null, 10L);
+		moveToIfNecessarily(null, null, 10);
 	}
 	
 	private void liftDown(){
-		moveTo(null, null, 0L);
+		moveToIfNecessarily(null, null, 0);
 	}
-	
-	public IDataStorage getStore() {
-		return store;
-	}
-
-	public void setStore(IDataStorage store) {
-		this.store = store;
-	}	
 }

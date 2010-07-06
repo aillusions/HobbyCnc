@@ -94,7 +94,7 @@ public class GCommandsContainer implements ActionListener {
 					addCommand(gc);
 				}		
 			}catch(Exception e){
-				System.err.println(e);
+				e.printStackTrace();
 			}
 		
 		}
