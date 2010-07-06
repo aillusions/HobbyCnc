@@ -15,6 +15,7 @@ import cnc.editor.Editor.GcommandTypes;
 //Singleton
 public class EditorStates {
 
+	public static final String CMD_SET_SCALE = "setScale";
 	public static final String CMD_REFRESH_ARC_RADUIS = "refreshArcRaduis";
 	public static final String CMD_REFRESH_ARC_J = "refreshArcJ";
 	public static final String CMD_REFRESH_ARC_I = "refreshArcI";
@@ -80,7 +81,7 @@ public class EditorStates {
 	
 	public void setScale(float scale){
 		viewScale = scale;
-		ActionEvent ae = new ActionEvent(this, -1, "setScale");
+		ActionEvent ae = new ActionEvent(this, -1, CMD_SET_SCALE);
 		notifyAllAboutChanges(ae);
 	}
 	

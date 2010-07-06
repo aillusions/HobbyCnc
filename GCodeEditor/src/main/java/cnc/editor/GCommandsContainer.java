@@ -102,6 +102,7 @@ public class GCommandsContainer implements ActionListener {
 		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
 		notifyAllAboutChanges(ae);	
 			
+		System.out.println(gCommandList.size());
 		butchOfCmdsAddingInProgress = false;
 	}
 

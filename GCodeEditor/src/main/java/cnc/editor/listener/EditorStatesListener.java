@@ -44,6 +44,8 @@ public class EditorStatesListener implements ActionListener {
 				editorMainFrame.setJValue("");
 			}
 						
+		}else if(arg0.getActionCommand().equals(EditorStates.CMD_SET_SCALE)){
+			visualisationPanel.scaleImage();						
 		}
 
 		visualisationPanel.repaint();

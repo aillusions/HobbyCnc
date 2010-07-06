@@ -31,6 +31,7 @@ public class VisualisationPanel extends JPanel{
 	private EditorStates es = EditorStates.getInstance();
 	private Image image;
 	private int theGap = es.getGap();
+	private Image source;
 	
 	public VisualisationPanel(VisualisationPanelListener  ml){
 		
@@ -40,14 +41,19 @@ public class VisualisationPanel extends JPanel{
 		setLayout(null);
 		
 		try {
-			Image source = ImageIO.read(new File("d:/prj/HobbyCnc/GCodeEditor/logo.bmp"));
-			ImageFilter replicate = new ReplicateScaleFilter((int)(source.getWidth(this)*0.5), (int)(source.getHeight(this)*0.5));
-			ImageProducer prod = new FilteredImageSource(source.getSource(),replicate);
-			
-			image = createImage(prod);
+			source = ImageIO.read(new File("d:/1/Plata_ok.bmp"));
+			scaleImage();
 		}catch(IOException e){
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public void scaleImage(){
+		
+		ImageFilter replicate = new ReplicateScaleFilter((int)(source.getWidth(this) *0.45 * es.getScale()) , (int)(source.getHeight(this)*0.45 * es.getScale()));
+		ImageProducer prod = new FilteredImageSource(source.getSource(),replicate);
+		
+		image = createImage(prod);
 	}
 	
 	public void drawUnderlayer(GraphicsWrapper gw) {			
@@ -62,7 +68,7 @@ public class VisualisationPanel extends JPanel{
 		GraphicsWrapper gw = new GraphicsWrapper(g, this);
 		
 		if(es.isDrawFacilities()){			
-			//drawUnderlayer(gw);			
+			drawUnderlayer(gw);			
 			drawGrid(gw);
 			drawStrictBorders(gw);	
 		}		
