@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cnc.GCodeAcceptor;
-import cnc.editor.domain.FigureLine;
-import cnc.editor.domain.FigurePoint;
 import cnc.editor.domain.FiguresContainer;
+import cnc.editor.domain.figure.FLine;
+import cnc.editor.domain.figure.FPoint;
 import cnc.editor.view.EditorMainFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
@@ -135,13 +135,13 @@ public class Editor {
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
 			
-			List<FigurePoint> vertexes;
+			List<FPoint> vertexes;
 			
 			vertexes = gcc.findPointsNear(cncX, cncY);
 
 			if(vertexes.size() > 0){
 				
-				List<FigurePoint> oneCmdList = new ArrayList<FigurePoint>();
+				List<FPoint> oneCmdList = new ArrayList<FPoint>();
 				oneCmdList.add(vertexes.get(0));
 				
 				if(es.getSelectedGCommands() != null && es.getSelectedGCommands().containsAll(vertexes)){
@@ -212,10 +212,10 @@ public class Editor {
 			float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
 			float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
 			
-			List<FigurePoint> gcs = es.getSelectedGCommands();
+			List<FPoint> gcs = es.getSelectedGCommands();
 			if(gcs != null && gcs.size() > 0){
 
-				for(FigurePoint gc : gcs){					
+				for(FPoint gc : gcs){					
 					if(gc != null){							
 						gc.setX(gc.getX() - shiftX);
 						gc.setY(gc.getY() - shiftY);
@@ -236,7 +236,7 @@ public class Editor {
 			float endX = EditorStates.convertPositionView_Cnc(sr.getEndX());
 			float endY = EditorStates.convertPositionView_Cnc(sr.getEndY());
 			
-			List<FigurePoint> cmds = gcc.findVertexesInRegion(startX, startY, endX, endY);
+			List<FPoint> cmds = gcc.findVertexesInRegion(startX, startY, endX, endY);
 			es.setSelectedGCommands(cmds);
 		}				
 				
@@ -334,9 +334,9 @@ public class Editor {
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
 						new FileOutputStream(file)));
 				
-				FigurePoint lastPointTo = null;
+				FPoint lastPointTo = null;
 				
-				for(FigureLine gc : gcc.getAllLinesList()){
+				for(FLine gc : gcc.getAllLinesList()){
 					
 					if(lastPointTo == null || !lastPointTo.equals(gc.getPointFrom())){
 						

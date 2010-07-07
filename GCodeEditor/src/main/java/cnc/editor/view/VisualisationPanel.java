@@ -20,8 +20,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import cnc.editor.EditorStates;
-import cnc.editor.domain.FigurePoint;
 import cnc.editor.domain.FiguresContainer;
+import cnc.editor.domain.figure.FPoint;
 import cnc.editor.listener.VisualisationPanelListener;
 
 public class VisualisationPanel extends JPanel{
@@ -225,7 +225,7 @@ public class VisualisationPanel extends JPanel{
 		
 		FiguresContainer gcc = FiguresContainer.getInstance();				
 			
-		for(FigurePoint gc : gcc.getAllPointsList()){			
+		for(FPoint gc : gcc.getAllPointsList()){			
 				
 			int newX = (int)EditorStates.convertPositionCnc_View(gc.getX()); 
 			int newY = (int)EditorStates.convertPositionCnc_View(gc.getY()); 				

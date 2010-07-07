@@ -1,4 +1,4 @@
-package cnc.editor.domain;
+package cnc.editor.domain.figure;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +9,7 @@ import java.util.List;
 import cnc.editor.EditorStates;
 import cnc.editor.view.GraphicsWrapper;
 
-public class FigurePoint {
+public class FPoint {
 	
 	public static final String CMD_COORDINATE_CHANGED = "cmd_coordinate_changed";
 	
@@ -39,7 +39,7 @@ public class FigurePoint {
 		}
 	}
 
-	public FigurePoint(Float x, Float y) {
+	public FPoint(Float x, Float y) {
 		this.X = x;
 		this.Y = y;
 	}
@@ -74,23 +74,19 @@ public class FigurePoint {
 		return EditorStates.getInstance().getCuttingDepth();
 	}
 
-	
-
 	@Override
 	public String toString() {
-		String strX = X != null ? " X" + getRounded(X) : "" ;
+		String strX = X != null ? "X" + getRounded(X) : "" ;
 		String strY = Y != null ? " Y" + getRounded(Y) : "";
-		//String strZ = Z != null ? " Z" + getRounded(Z) : "";		
 		
 		return strX + strY;
 	}
 
 	@Override
-	public boolean equals(Object arg0) {
-		
-		if (arg0 != null && arg0 instanceof FigurePoint) {
+	public boolean equals(Object arg0) {		
+		if (arg0 != null && arg0 instanceof FPoint) {
 			
-			FigurePoint inVertex = (FigurePoint) arg0;
+			FPoint inVertex = (FPoint) arg0;
 			
 			if (X.equals(inVertex.getX()) && Y.equals(inVertex.getY())){
 				
@@ -103,7 +99,6 @@ public class FigurePoint {
 
 	@Override
 	public int hashCode() {
-
 		return  X.hashCode()*5 + Y.hashCode()*3 ;
 	}
 

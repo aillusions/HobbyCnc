@@ -9,6 +9,9 @@ import java.util.List;
 import cnc.editor.EditorStates;
 import cnc.editor.GCodeParser;
 import cnc.editor.GCommand;
+import cnc.editor.domain.figure.Figure;
+import cnc.editor.domain.figure.FLine;
+import cnc.editor.domain.figure.FPoint;
 import cnc.editor.view.GraphicsWrapper;
 
 public class FiguresContainer {
@@ -52,13 +55,13 @@ public class FiguresContainer {
 		}
 	}
 	
-	public List<FigurePoint> findPointsNear(float cncX, float cncY) {
+	public List<FPoint> findPointsNear(float cncX, float cncY) {
 		
 		EditorStates es = EditorStates.getInstance();
-		List<FigurePoint> result = new ArrayList<FigurePoint>();
+		List<FPoint> result = new ArrayList<FPoint>();
 		
 		for(Figure v : figuresList){
-			for(FigurePoint p : v.getFigurePoints()){
+			for(FPoint p : v.getFigurePoints()){
 				if(0.8/es.getScale() > Math.abs(p.getX() - cncX) 
 						&& 0.8/es.getScale() > Math.abs(p.getY() - cncY)){
 					result.add(p);
@@ -68,17 +71,17 @@ public class FiguresContainer {
 		return result;
 	}
 		
-	public List<FigurePoint> findVertexesInRegion(float startX, float startY, float endX, float endY) {
+	public List<FPoint> findVertexesInRegion(float startX, float startY, float endX, float endY) {
 		
 		float left = Math.min(startX, endX);
 		float top = Math.min(startY, endY);
 		float rigth = Math.max(startX, endX);
 		float bottom = Math.max(startY, endY);
 				
-		List<FigurePoint> result = new ArrayList<FigurePoint>();
+		List<FPoint> result = new ArrayList<FPoint>();
 		
 		for(Figure v : figuresList){
-			for(FigurePoint p : v.getFigurePoints()){
+			for(FPoint p : v.getFigurePoints()){
 				if(left <= p.getX() 
 					&& rigth >= p.getX() 
 					&& top <= p.getY()
@@ -90,9 +93,9 @@ public class FiguresContainer {
 		return result;
 	}
 	
-	public List<FigurePoint> getNeighbourVertexes(FigurePoint gCommand) {
+	public List<FPoint> getNeighbourVertexes(FPoint gCommand) {
 		
-		List<FigurePoint> result = new ArrayList<FigurePoint>();
+		List<FPoint> result = new ArrayList<FPoint>();
 		
 		for(Figure v : figuresList){
 			
@@ -147,9 +150,9 @@ public class FiguresContainer {
 		notifyAllAboutChanges(ae);
 	}
 
-	public List<FigurePoint> getAllPointsList() {
+	public List<FPoint> getAllPointsList() {
 
-		List<FigurePoint> result = new ArrayList<FigurePoint>();
+		List<FPoint> result = new ArrayList<FPoint>();
 		
 		for(Figure v : figuresList){
 			result.addAll(v.getFigurePoints());		
@@ -157,9 +160,9 @@ public class FiguresContainer {
 		return result;
 	}
 	
-	public List<FigureLine> getAllLinesList() {
+	public List<FLine> getAllLinesList() {
 
-		List<FigureLine> result = new ArrayList<FigureLine>();
+		List<FLine> result = new ArrayList<FLine>();
 		
 		for(Figure v : figuresList){
 			result.addAll(v.getFigureLines());		
@@ -167,7 +170,7 @@ public class FiguresContainer {
 		return result;
 	}
 
-	public void removePoints(List<FigurePoint> selectedPoints) {
+	public void removePoints(List<FPoint> selectedPoints) {
 	
 		for(Figure f : figuresList){			
 			f.removePoints(selectedPoints);

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.editor.Editor.GcommandTypes;
-import cnc.editor.domain.FigurePoint;
+import cnc.editor.domain.figure.FPoint;
 
 //Singleton
 public class GCommandsContainer implements ActionListener {	

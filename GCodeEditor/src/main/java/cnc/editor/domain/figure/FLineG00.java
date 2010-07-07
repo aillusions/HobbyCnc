@@ -1,12 +1,12 @@
-package cnc.editor.domain;
+package cnc.editor.domain.figure;
 
 import cnc.editor.EditorStates;
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.view.GraphicsWrapper;
 
-public class FigureLineG00 extends FigureLine{	
+public class FLineG00 extends FLine{	
 
-	public FigureLineG00(FigurePoint from, FigurePoint to) {		
+	public FLineG00(FPoint from, FPoint to) {		
 		super(from, to);
 	}
 	

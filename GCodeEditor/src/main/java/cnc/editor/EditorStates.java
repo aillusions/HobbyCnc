@@ -1,6 +1,6 @@
 package cnc.editor;
 
-import java.awt.Point;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -9,8 +9,8 @@ import java.util.List;
 
 import cnc.editor.Editor.EditorTolls;
 import cnc.editor.Editor.GcommandTypes;
-import cnc.editor.domain.FigurePoint;
 import cnc.editor.domain.FiguresContainer;
+import cnc.editor.domain.figure.FPoint;
 
 //Singleton
 public class EditorStates {
@@ -44,7 +44,7 @@ public class EditorStates {
 	private int viewCoordLenghtX = 600;		
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
-	private List<FigurePoint> selectedCommands;
+	private List<FPoint> selectedCommands;
 	private boolean importInProgress;
 	private GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private Float arcRadius = 20f;
@@ -52,7 +52,7 @@ public class EditorStates {
 	private Float arcJ;
 	private boolean liftForEachStroke = false;
 	private boolean displayOnlyZ0 = false;
-	private Point mousePosition = new Point();
+	private java.awt.Point mousePosition = new java.awt.Point();
 	private boolean drawFacilities = true;
 	//View coordinates (pixels)
 	private SelectedRegion selectedRegion;
@@ -130,36 +130,36 @@ public class EditorStates {
 		this.currentSelectedTool = currentSelectedTool;
 	}
 	
-	public List<FigurePoint> getSelectedGCommands() {
+	public List<FPoint> getSelectedGCommands() {
 		return selectedCommands;
 	}
 
-	public List<FigurePoint> getNearSelectedGCommands() {
+	public List<FPoint> getNearSelectedGCommands() {
 		
 		if(selectedCommands != null && selectedCommands.size() == 1){
-			return FiguresContainer.getInstance().getNeighbourVertexes(((FigurePoint)selectedCommands.toArray()[0]));
+			return FiguresContainer.getInstance().getNeighbourVertexes(((FPoint)selectedCommands.toArray()[0]));
 		}
 		return null;
 	}
 	
-	public void removeGCommandsFromSelected(Collection<FigurePoint> vertexes) {
+	public void removeGCommandsFromSelected(Collection<FPoint> vertexes) {
 		selectedCommands.removeAll(vertexes);
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void setSelectedGCommands(List<FigurePoint> selectedGCommands) {
+	public void setSelectedGCommands(List<FPoint> selectedGCommands) {
 
-		this.selectedCommands = new ArrayList<FigurePoint>();
+		this.selectedCommands = new ArrayList<FPoint>();
 		this.selectedCommands.addAll(selectedGCommands);
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void addToSelectedGCommands(List<FigurePoint> selectedGCommands) {
+	public void addToSelectedGCommands(List<FPoint> selectedGCommands) {
 	
 		if(this.selectedCommands == null){
-			this.selectedCommands = new ArrayList<FigurePoint>();
+			this.selectedCommands = new ArrayList<FPoint>();
 		}
 
 		this.selectedCommands.addAll(selectedGCommands);
@@ -345,11 +345,11 @@ public class EditorStates {
 		notifyAllAboutChanges(ae);
 	}
 	
-	public Point getMousePosition() {
+	public java.awt.Point getMousePosition() {
 		return mousePosition;
 	}
 
-	public void setMousePosition(Point mousePosition) {
+	public void setMousePosition(java.awt.Point mousePosition) {
 		
 		this.mousePosition = mousePosition;
 		
