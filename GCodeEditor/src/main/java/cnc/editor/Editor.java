@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.GCodeAcceptor;
+import cnc.editor.domain.FigureLine;
 import cnc.editor.domain.FigurePoint;
 import cnc.editor.domain.FiguresContainer;
 import cnc.editor.view.EditorMainFrame;
@@ -300,8 +301,8 @@ public class Editor {
 					}
 				}
 				
-				//gcc.clear();
-				//gcc.addCommandsBunch(codesBuffer.toString().trim());
+				gcc.clear();
+				gcc.addCommandsBunch(codesBuffer.toString().trim());
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -310,69 +311,6 @@ public class Editor {
 			es.setImportInProgress(false);
 		}	
 	}
-
-/*	public void liftWorkHead() {
-		
-		//GcommandTypes.G00,
-		GCommand gCmd = new GCommandG00(null, null, 2f);
-		GCommand lastCmd = gcc.getCommandList().get(gcc.getCommandList().size()-1);
-		
-		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand
-		gCmd.setPreviousCmd(lastCmd);
-		
-		if(!lastCmd.equals(gCmd)){
-			gcc.addCommand(gCmd);	
-		}
-	}
-
-	public void downWorkHead() {
-		
-		//GcommandTypes.G00
-		GCommand gCmd = new GCommandG00(null, null, 0f);
-		GCommand lastCmd = gcc.getCommandList().get(gcc.getCommandList().size()-1);
-		
-		//Hypothetically (preliminary) set - JUST to be able to compare gCmd with another GCommand
-		gCmd.setPreviousCmd(lastCmd);
-		
-		if(!lastCmd.equals(gCmd)){
-			gcc.addCommand(gCmd);	
-		}		
-	}*/
-	
-/*	private void liftHeadOrDownIfNeeded(){
-		
-		if(es.isLiftForEachStroke()){
-			
-			List<GCommand> cmdList = gcc.getCommandList();
-			int lastIndex = cmdList.size() - 1;
-			GCommand lastCmd = null;
-			GCommand preLastCmd = null;
-			
-			if(lastIndex > -1){
-				lastCmd = cmdList.get(lastIndex);
-			}
-			if((lastIndex - 1) > -1){
-				preLastCmd = cmdList.get(lastIndex - 1);
-			}
-			
-			if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){	
-					
-				if(lastCmd.getZ() > 0 && (preLastCmd != null)){				
-					downWorkHead();
-				}else if(preLastCmd != null && preLastCmd.getZ() <= 0){
-					liftWorkHead();
-				}
-					
-			}else if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){		
-				if(preLastCmd != null && preLastCmd.getZ() <= 0){
-					liftWorkHead();
-				}else if(lastCmd.getZ() > 0){
-					
-				}
-			}
-		}
-	}*/
-
 
 	public void undo() {
 	
@@ -397,9 +335,21 @@ public class Editor {
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
 						new FileOutputStream(file)));
 				
-		/*		for(GCommand gc : gcc.getCommandList()){
-					bw.write(gc.toString() + "\r\n");
-				}*/
+				FigurePoint lastPointTo = null;
+				
+				for(FigureLine gc : gcc.getAllLinesList()){
+					
+					if(lastPointTo == null || !lastPointTo.equals(gc.getPointFrom())){
+						
+						bw.write(new GCommandG00(null, null, 2f) + "\r\n");
+						bw.write(new GCommandG00(gc.getPointFrom().getX(), gc.getPointFrom().getY(), null) + "\r\n");
+						bw.write(new GCommandG00(null, null, es.getCuttingDepth()) + "\r\n");
+					}
+							
+					bw.write(new GCommandG00(gc.getPointTo().getX(), gc.getPointTo().getY(), null) + "\r\n");
+					
+					lastPointTo = gc.getPointTo();
+				}
 				bw.flush();
 				bw.close();
 			} catch (Exception e) {

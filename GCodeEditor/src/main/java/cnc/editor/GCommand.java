@@ -91,11 +91,12 @@ public abstract class GCommand {
 	}
 	
 	public Float getX() {
-		if(X != null){
+		return X;
+/*		if(X != null){
 			return X;
 		}else{
 			return  previousCmd != null ? previousCmd.getX() : 0;
-		}
+		}*/
 	}
 
 	public void setX(Float x) {
@@ -105,11 +106,12 @@ public abstract class GCommand {
 	}
 
 	public Float getY() {
-		if(Y != null){
+		return Y;
+/*		if(Y != null){
 			return Y;
 		}else{
 			return  previousCmd != null ? previousCmd.getY() : 0;
-		}
+		}*/
 	}
 
 	public void setY(Float y) {
@@ -119,11 +121,12 @@ public abstract class GCommand {
 	}
 
 	public Float getZ() {
-		if(Z != null){
+		return Z;
+	/*	if(Z != null){
 			return Z;
 		}else{
 			return previousCmd != null ? previousCmd.getZ() : 0;
-		}
+		}*/
 	}
 
 	public void setZ(Float z) {

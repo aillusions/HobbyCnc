@@ -262,7 +262,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    } 
 	 
 	    public void actionPerformed(ActionEvent e){ 
-	    	EditorStates.getInstance().setSelectedGCommands(FiguresContainer.getInstance().getAllPointList());
+	    	EditorStates.getInstance().setSelectedGCommands(FiguresContainer.getInstance().getAllPointsList());
 	    } 
 	 
 	    public boolean isEnabled(){ 

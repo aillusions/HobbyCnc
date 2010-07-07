@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.editor.EditorStates;
+import cnc.editor.GCodeParser;
+import cnc.editor.GCommand;
 import cnc.editor.view.GraphicsWrapper;
 
 public class FiguresContainer {
@@ -147,12 +149,22 @@ public class FiguresContainer {
 		notifyAllAboutChanges(ae);
 	}
 
-	public List<FigurePoint> getAllPointList() {
+	public List<FigurePoint> getAllPointsList() {
 
 		List<FigurePoint> result = new ArrayList<FigurePoint>();
 		
 		for(Figure v : figuresList){
 			result.addAll(v.getFigurePoints());		
+		}
+		return result;
+	}
+	
+	public List<FigureLine> getAllLinesList() {
+
+		List<FigureLine> result = new ArrayList<FigureLine>();
+		
+		for(Figure v : figuresList){
+			result.addAll(v.getFigureLines());		
 		}
 		return result;
 	}
@@ -165,6 +177,44 @@ public class FiguresContainer {
 		
 		ActionEvent ae = new ActionEvent(this , -1, CMD_REMOVED_COMMANDS);
 		notifyAllAboutChanges(ae);
+	}
+
+	public void addCommandsBunch(String commands) {
+		
+		//butchOfCmdsAddingInProgress = true;
+		
+		String[] cmdArray = commands.replace("\r", "").split("\n");		
+		
+		for (int i = 0; i < cmdArray.length; i++) {
+			
+			try{
+				
+				GCommand gc = GCodeParser.parseCommand(cmdArray[i]);
+				
+				if (gc != null) {	
+					
+					if(((gc.getX() == null) && (gc.getY() == null)) && gc.getZ() != null &&  gc.getZ() > 0){
+						
+						if(getCurrentFigure().getFigurePoints().size()>0){						
+							createNewFigure();
+						}
+						continue;
+					}
+					
+					getCurrentFigure().addPoint(gc.getX(), gc.getY(), gc.getCommandType());					
+				}	
+				
+			}catch(Exception e){
+				e.printStackTrace();
+			}		
+		}
+
+		ActionEvent ae = new ActionEvent(this , -1, CMD_ADDED_BUNCH_OF_COMMANDS);
+		notifyAllAboutChanges(ae);	
+			
+		//System.out.println(gCommandList.size());
+		//butchOfCmdsAddingInProgress = false;
+		
 	}
 
 }

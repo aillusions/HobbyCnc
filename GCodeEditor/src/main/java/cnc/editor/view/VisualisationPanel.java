@@ -225,7 +225,7 @@ public class VisualisationPanel extends JPanel{
 		
 		FiguresContainer gcc = FiguresContainer.getInstance();				
 			
-		for(FigurePoint gc : gcc.getAllPointList()){			
+		for(FigurePoint gc : gcc.getAllPointsList()){			
 				
 			int newX = (int)EditorStates.convertPositionCnc_View(gc.getX()); 
 			int newY = (int)EditorStates.convertPositionCnc_View(gc.getY()); 				
