@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.GCodeAcceptor;
+import cnc.editor.domain.FigurePoint;
+import cnc.editor.domain.FiguresContainer;
 import cnc.editor.view.EditorMainFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
@@ -20,13 +22,14 @@ import cnc.storage.memory.IDataStorage;
 
 public class Editor {
 	
-	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT, CONTINUOUS_EDIT};
-	public enum GcommandTypes{ORIGIN, G00, G01, G02, G03}
+	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT/*, CONTINUOUS_EDIT*/};
+	public enum GcommandTypes{/*ORIGIN,*/ G00, G01, G02, G03}
 
-	private GCommandsContainer gcc = GCommandsContainer.getInstance();
+	//private GCommandsContainer gcc = GCommandsContainer.getInstance();
+	private FiguresContainer gcc = FiguresContainer.getInstance();
 	private EditorStates es = EditorStates.getInstance();
 	
-	private boolean continuousDrawStarted = false;
+	//private boolean continuousDrawStarted = false;
 	private boolean dragStarted = false;
 	private double prevDragX;
 	private double prevDragY;
@@ -38,15 +41,15 @@ public class Editor {
 		
 		boolean isCurrentSelectedToolReset = false;
 		
-		List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
+		//List<GCommand> vertexes = gcc.findVertexesNear(cncX, cncY);
 				
 		//Start moving selected items
-		if(vertexes != null && vertexes.size() > 0 && es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
+/*		if(vertexes != null && vertexes.size() > 0 && es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){
 			es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 			isCurrentSelectedToolReset = true;
-		}
+		}*/
 		
-		if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){				
+/*		if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){				
 			
 			continuousDrawStarted = true;
 			
@@ -56,54 +59,54 @@ public class Editor {
 			if(es.isLiftForEachStroke()){
 				downWorkHead();
 			}
-		}
+		}*/
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.SIMPLE_EDIT){			
 						
-			if(es.isLiftForEachStroke()){
-				
-				GCommand end = null;				
-				GCommand start = new GCommandG00(cncX, cncY, null);
+//			if(es.isLiftForEachStroke()){
+//				
+//				GCommand end = null;				
+//				GCommand start = new GCommandG00(cncX, cncY, null);
+//				
+//				GcommandTypes cType = es.getCurrentGCmdType();
+//				
+//				if(cType == GcommandTypes.G00){					
+//					end = new GCommandG00(cncX, cncY, null);
+//				}else if(cType == GcommandTypes.G01){
+//					end = new GCommandG01(cncX, cncY, null);
+//				}else if(cType == GcommandTypes.G02){
+//					if(es.getArcR() != null){
+//						end = new GCommandG02(cncX, cncY, null, es.getArcR());
+//					}else{
+//						end = new GCommandG02(cncX, cncY, null, es.getArcI(), es.getArcJ());
+//					}
+//				}else if(cType == GcommandTypes.G03) {
+//					if(es.getArcR() != null){
+//						end = new GCommandG03(cncX, cncY, null, es.getArcR());
+//					}else{
+//						end = new GCommandG03(cncX, cncY, null, es.getArcI(), es.getArcJ());
+//					}
+//				}
+//				
+//				liftHeadOrDownIfNeeded();	
+//				gcc.addCommand(start);	
+//				downWorkHead();				
+//				gcc.addCommand(end);
+//								
+//				List<GCommand> oneCmdList = new ArrayList<GCommand>();
+//				oneCmdList.add(end);
+//					
+//				es.setSelectedGCommands(oneCmdList);
+//					
+//				prevDragX = x;
+//				prevDragY = y;
+//				dragStarted = true;
+//				
+//			}else{	
 				
 				GcommandTypes cType = es.getCurrentGCmdType();
 				
-				if(cType == GcommandTypes.G00){					
-					end = new GCommandG00(cncX, cncY, null);
-				}else if(cType == GcommandTypes.G01){
-					end = new GCommandG01(cncX, cncY, null);
-				}else if(cType == GcommandTypes.G02){
-					if(es.getArcR() != null){
-						end = new GCommandG02(cncX, cncY, null, es.getArcR());
-					}else{
-						end = new GCommandG02(cncX, cncY, null, es.getArcI(), es.getArcJ());
-					}
-				}else if(cType == GcommandTypes.G03) {
-					if(es.getArcR() != null){
-						end = new GCommandG03(cncX, cncY, null, es.getArcR());
-					}else{
-						end = new GCommandG03(cncX, cncY, null, es.getArcI(), es.getArcJ());
-					}
-				}
-				
-				liftHeadOrDownIfNeeded();	
-				gcc.addCommand(start);	
-				downWorkHead();				
-				gcc.addCommand(end);
-								
-				List<GCommand> oneCmdList = new ArrayList<GCommand>();
-				oneCmdList.add(end);
-					
-				es.setSelectedGCommands(oneCmdList);
-					
-				prevDragX = x;
-				prevDragY = y;
-				dragStarted = true;
-				
-			}else{	
-				
-				GcommandTypes cType = es.getCurrentGCmdType();
-				
-				GCommand cmd = null;
+/*				GCommand cmd = null;
 				
 				if(cType == GcommandTypes.G00){					
 					cmd = new GCommandG00(cncX, cncY, null);
@@ -121,21 +124,24 @@ public class Editor {
 					}else{
 						cmd = new GCommandG03(cncX, cncY, null, es.getArcI(), es.getArcJ());
 					}
-				}
+				}*/
 				
-				gcc.addCommand(cmd);
+				gcc.getCurrentFigure().addPoint(cncX, cncY, cType);
+				
 				es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 				isCurrentSelectedToolReset = true;
-			}
+			//}
 		}
 		
 		if(es.getCurrentSelectedTool() == EditorTolls.VERTEX_SELECT){
-
-			vertexes = gcc.findVertexesNear(cncX, cncY);
+			
+			List<FigurePoint> vertexes;
+			
+			vertexes = gcc.findPointsNear(cncX, cncY);
 
 			if(vertexes.size() > 0){
 				
-				List<GCommand> oneCmdList = new ArrayList<GCommand>();
+				List<FigurePoint> oneCmdList = new ArrayList<FigurePoint>();
 				oneCmdList.add(vertexes.get(0));
 				
 				if(es.getSelectedGCommands() != null && es.getSelectedGCommands().containsAll(vertexes)){
@@ -172,9 +178,9 @@ public class Editor {
 	
 	public void viewMouseReleasedAt(double x, double y){
 		
-		if(continuousDrawStarted){
+/*		if(continuousDrawStarted){
 			continuousDrawStarted = false;
-		}		
+		}	*/	
 		
 		dragStarted = false;
 		prevDragX = 0;
@@ -184,31 +190,32 @@ public class Editor {
 	
 	public void viewMouseDraggedTo(double x, double y){
 			
-		if(continuousDrawStarted){
-			
-			float cncX = EditorStates.convertPositionView_Cnc((long)x);
-			float cncY = EditorStates.convertPositionView_Cnc((long)y);
-			
-			if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
-				
-				if(es.getCurrentGCmdType() != GcommandTypes.G01){
-					System.err.println("Continuous drawing works only for " + GcommandTypes.G01 + "command type");
-					return;
-				}
-				
-				gcc.addCommand(new GCommandG01(cncX, cncY, null));
-				return;
-			}
-			
-		}else if(dragStarted){
+//		if(continuousDrawStarted){
+//			
+//			float cncX = EditorStates.convertPositionView_Cnc((long)x);
+//			float cncY = EditorStates.convertPositionView_Cnc((long)y);
+//			
+//			if(es.getCurrentSelectedTool() == EditorTolls.CONTINUOUS_EDIT){
+//				
+//				if(es.getCurrentGCmdType() != GcommandTypes.G01){
+//					System.err.println("Continuous drawing works only for " + GcommandTypes.G01 + "command type");
+//					return;
+//				}
+//				
+//				gcc.addCommand(new GCommandG01(cncX, cncY, null));
+//				return;
+//			}
+//			
+//		}else 
+		if(dragStarted){
 				
 			float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
 			float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
 			
-			Set<GCommand> gcs = es.getSelectedGCommands();
+			Set<FigurePoint> gcs = es.getSelectedGCommands();
 			if(gcs != null && gcs.size() > 0){
 
-				for(GCommand gc : gcs){					
+				for(FigurePoint gc : gcs){					
 					if(gc != null){							
 						gc.setX(gc.getX() - shiftX);
 						gc.setY(gc.getY() - shiftY);
@@ -229,7 +236,7 @@ public class Editor {
 			float endX = EditorStates.convertPositionView_Cnc(sr.getEndX());
 			float endY = EditorStates.convertPositionView_Cnc(sr.getEndY());
 			
-			List<GCommand> cmds = gcc.findVertexesInRegion(startX, startY, endX, endY);
+			List<FigurePoint> cmds = gcc.findVertexesInRegion(startX, startY, endX, endY);
 			es.setSelectedGCommands(cmds);
 		}				
 				
@@ -262,8 +269,8 @@ public class Editor {
 			bmpPrinter.setStore(store);
 			bmpPrinter.startBuild();	
 			
-			gcc.clear();
-			gcc.addCommandsBunch(codesBuffer.toString().trim());			
+			//gcc.clear();
+			//gcc.addCommandsBunch(codesBuffer.toString().trim());			
 
 			es.setImportInProgress(false);
 		}		
@@ -293,8 +300,8 @@ public class Editor {
 					}
 				}
 				
-				gcc.clear();
-				gcc.addCommandsBunch(codesBuffer.toString().trim());
+				//gcc.clear();
+				//gcc.addCommandsBunch(codesBuffer.toString().trim());
 				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
@@ -304,7 +311,7 @@ public class Editor {
 		}	
 	}
 
-	public void liftWorkHead() {
+/*	public void liftWorkHead() {
 		
 		//GcommandTypes.G00,
 		GCommand gCmd = new GCommandG00(null, null, 2f);
@@ -330,9 +337,9 @@ public class Editor {
 		if(!lastCmd.equals(gCmd)){
 			gcc.addCommand(gCmd);	
 		}		
-	}
+	}*/
 	
-	private void liftHeadOrDownIfNeeded(){
+/*	private void liftHeadOrDownIfNeeded(){
 		
 		if(es.isLiftForEachStroke()){
 			
@@ -364,7 +371,7 @@ public class Editor {
 				}
 			}
 		}
-	}
+	}*/
 
 
 	public void undo() {
@@ -390,9 +397,9 @@ public class Editor {
 				BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(
 						new FileOutputStream(file)));
 				
-				for(GCommand gc : gcc.getCommandList()){
+		/*		for(GCommand gc : gcc.getCommandList()){
 					bw.write(gc.toString() + "\r\n");
-				}
+				}*/
 				bw.flush();
 				bw.close();
 			} catch (Exception e) {

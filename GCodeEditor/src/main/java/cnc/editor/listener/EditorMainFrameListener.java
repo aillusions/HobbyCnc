@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
-import cnc.editor.GCommandsContainer;
+import cnc.editor.domain.FiguresContainer;
 import cnc.editor.view.EditorMainFrame;
 
 public class EditorMainFrameListener implements ActionListener {
@@ -32,7 +32,7 @@ public class EditorMainFrameListener implements ActionListener {
 		}else if(e.getActionCommand().equals("Save")){
 			editor.save();
 		}else if(e.getActionCommand().equals("Clear")){
-			GCommandsContainer.getInstance().clear();
+			FiguresContainer.getInstance().clear();
 		}else if(e.getActionCommand().equals("Scale")){
 			float scale = Float.parseFloat(((JComboBox)e.getSource()).getSelectedItem().toString());
 			es.setScale(scale);
@@ -40,13 +40,13 @@ public class EditorMainFrameListener implements ActionListener {
 			es.setCurrentSelectedTool(Editor.EditorTolls.SIMPLE_EDIT);
 		}else if(e.getActionCommand().equals("switchToolsTo_SelectVertexes")){
 			es.setCurrentSelectedTool(Editor.EditorTolls.VERTEX_SELECT);
-		}else if(e.getActionCommand().equals("switchToolsTo_ContinuousDraw")){
+		}/*else if(e.getActionCommand().equals("switchToolsTo_ContinuousDraw")){
 			es.setCurrentSelectedTool(Editor.EditorTolls.CONTINUOUS_EDIT);
 		}else if(e.getActionCommand().equals("LiftWorkHead")){
 			editor.liftWorkHead();
 		}else if(e.getActionCommand().equals("DescendWorkHead")){
 			editor.downWorkHead();
-		}else if(e.getActionCommand().equals("SetFutureCommandsType_G02")){
+		}*/else if(e.getActionCommand().equals("SetFutureCommandsType_G02")){
 			es.setCurrentGCmdType(Editor.GcommandTypes.G02);
 		}else if(e.getActionCommand().equals("SetFutureCommandsType_G00")){
 			es.setCurrentGCmdType(Editor.GcommandTypes.G00);
@@ -56,10 +56,10 @@ public class EditorMainFrameListener implements ActionListener {
 			es.setCurrentGCmdType(Editor.GcommandTypes.G03);
 		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_SHOW_ONLY_Z0_SWITCHED)){
 			es.setDisplayOnlyZ0(((JCheckBox)e.getSource()).isSelected());
-		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_LIFT_FOR_EACH_STROKE)){
+		}/*else if(e.getActionCommand().equals(EditorMainFrame.CMD_LIFT_FOR_EACH_STROKE)){
 			es.setLiftForEachStroke(((JCheckBox)e.getSource()).isSelected());
 			
-		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_UNDO)){
+		}*/else if(e.getActionCommand().equals(EditorMainFrame.CMD_UNDO)){
 			
 			editor.undo();
 			
@@ -67,7 +67,13 @@ public class EditorMainFrameListener implements ActionListener {
 			
 			editor.redo();
 			
+		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_CREATE_NEW_FIGURE)){
+			FiguresContainer.getInstance().createNewFigure();
+		}else if(e.getActionCommand().equals(EditorMainFrame.CMD_CLOSE_CURRENT_FIGURE)){
+			FiguresContainer.getInstance().closeFigure();
 		}
+		
+
 	}
 
 	public static class SetRaduisKeyListener extends KeyAdapter{ 

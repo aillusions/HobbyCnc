@@ -1,5 +1,6 @@
 package cnc.editor;
 
+import cnc.editor.domain.FiguresContainer;
 import cnc.editor.listener.EditorMainFrameListener;
 import cnc.editor.listener.EditorStatesListener;
 import cnc.editor.listener.GCommandsContainerListener;
@@ -16,7 +17,8 @@ public class Main {
 		VisualisationPanelListener vpl = new VisualisationPanelListener(editor);
 		VisualisationPanel visualP = new VisualisationPanel(vpl);		
 		
-		GCommandsContainer gcc = GCommandsContainer.getInstance();		
+		//GCommandsContainer gcc = GCommandsContainer.getInstance();		
+		FiguresContainer gcc = FiguresContainer.getInstance();		
 		
 		EditorMainFrameListener emfl = new EditorMainFrameListener(editor);
 		EditorMainFrame emf = new EditorMainFrame(emfl, visualP);

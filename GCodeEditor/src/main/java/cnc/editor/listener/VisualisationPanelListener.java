@@ -26,6 +26,8 @@ import cnc.editor.EditorStates;
 import cnc.editor.GCodeParser;
 import cnc.editor.GCommand;
 import cnc.editor.GCommandsContainer;
+import cnc.editor.domain.FigurePoint;
+import cnc.editor.domain.FiguresContainer;
 import cnc.editor.view.VisualisationPanel;
 
 public class VisualisationPanelListener implements MouseListener, MouseMotionListener {
@@ -120,79 +122,79 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	 
 	    public void actionPerformed(ActionEvent e){ 
 	    
-	    	Set<GCommand> cmds = EditorStates.getInstance().getSelectedGCommands();
-	    	if(cmds.size() != 1){
-	    		return;
-	    	}    		    	
-	    	
-	    	final GCommand cmd = cmds.iterator().next();
-	    	
-	    	JMenuItem menuItem  = (JMenuItem)e.getSource();
-	    	JPopupMenu menu = (JPopupMenu)menuItem.getParent();
-	    	VisualisationPanel vp = (VisualisationPanel)menu.getInvoker();	    	
-	    
-	    	int x = (int)EditorStates.convertPositionCnc_View(cmd.getX().intValue());	    	
-	    	int y = (int)(vp.getViewY(EditorStates.convertPositionCnc_View(cmd.getY().intValue())));
-	    	
-	    	final JTextField textField = new JTextField(cmd.toString());
-	    	textField.setFont(new Font("Arial", 0, 13));
-	    	textField.setForeground(Color.red);
-	    	textField.setBounds(x, y, 200, 21);
-	    	textField.setMargin(new java.awt.Insets(0, 0, 0, 0));
-	    	
-	    	textField.addFocusListener(new FocusListener() {
-				
-				public void focusLost(FocusEvent e) {
-					JTextField thisTextField = (JTextField)e.getSource();
-					VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
-					if(mainVPanel != null){
-						mainVPanel.remove(thisTextField);
-						mainVPanel.repaint();
-					}
-				}
-				
-				public void focusGained(FocusEvent e) {
-					
-				}
-			});
-	    	
-			textField.addKeyListener(new KeyListener() {
-
-				public void keyTyped(KeyEvent e) {
-
-				}
-
-				public void keyReleased(KeyEvent e) {
-
-				}
-
-				public void keyPressed(KeyEvent e) {
-					
-					int key = e.getKeyCode();
-					
-					if (key == KeyEvent.VK_ENTER) {
-						
-						GCommand newGC = GCodeParser.parseCommand(textField.getText());
-						GCommandsContainer.getInstance().replaceGCommand(cmd, newGC);
-						
-						JTextField thisTextField = (JTextField)e.getSource();
-						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
-						mainVPanel.remove(thisTextField);
-						mainVPanel.repaint();						
-					}
-					
-					if (key == KeyEvent.VK_ESCAPE) {
-						JTextField thisTextField = (JTextField)e.getSource();
-						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
-						mainVPanel.remove(thisTextField);
-						mainVPanel.repaint();	
-					}
-				}
-
-			});
-	    	
-	    	vp.add(textField);
-	    	textField.requestFocus();
+//	    	Set<FigurePoint> cmds = EditorStates.getInstance().getSelectedGCommands();
+//	    	if(cmds.size() != 1){
+//	    		return;
+//	    	}    		    	
+//	    	
+//	    	final FigurePoint cmd = cmds.iterator().next();
+//	    	
+//	    	JMenuItem menuItem  = (JMenuItem)e.getSource();
+//	    	JPopupMenu menu = (JPopupMenu)menuItem.getParent();
+//	    	VisualisationPanel vp = (VisualisationPanel)menu.getInvoker();	    	
+//	    
+//	    	int x = (int)EditorStates.convertPositionCnc_View(cmd.getX().intValue());	    	
+//	    	int y = (int)(vp.getViewY(EditorStates.convertPositionCnc_View(cmd.getY().intValue())));
+//	    	
+//	    	final JTextField textField = new JTextField(cmd.toString());
+//	    	textField.setFont(new Font("Arial", 0, 13));
+//	    	textField.setForeground(Color.red);
+//	    	textField.setBounds(x, y, 200, 21);
+//	    	textField.setMargin(new java.awt.Insets(0, 0, 0, 0));
+//	    	
+//	    	textField.addFocusListener(new FocusListener() {
+//				
+//				public void focusLost(FocusEvent e) {
+//					JTextField thisTextField = (JTextField)e.getSource();
+//					VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
+//					if(mainVPanel != null){
+//						mainVPanel.remove(thisTextField);
+//						mainVPanel.repaint();
+//					}
+//				}
+//				
+//				public void focusGained(FocusEvent e) {
+//					
+//				}
+//			});
+//	    	
+//			textField.addKeyListener(new KeyListener() {
+//
+//				public void keyTyped(KeyEvent e) {
+//
+//				}
+//
+//				public void keyReleased(KeyEvent e) {
+//
+//				}
+//
+//				public void keyPressed(KeyEvent e) {
+//					
+//					int key = e.getKeyCode();
+//					
+//					if (key == KeyEvent.VK_ENTER) {
+//						
+//						GCommand newGC = GCodeParser.parseCommand(textField.getText());
+//						GCommandsContainer.getInstance().replaceGCommand(cmd, newGC);
+//						
+//						JTextField thisTextField = (JTextField)e.getSource();
+//						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
+//						mainVPanel.remove(thisTextField);
+//						mainVPanel.repaint();						
+//					}
+//					
+//					if (key == KeyEvent.VK_ESCAPE) {
+//						JTextField thisTextField = (JTextField)e.getSource();
+//						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();
+//						mainVPanel.remove(thisTextField);
+//						mainVPanel.repaint();	
+//					}
+//				}
+//
+//			});
+//	    	
+//	    	vp.add(textField);
+//	    	textField.requestFocus();
 	    } 
 	 
 	    public boolean isEnabled(){ 
@@ -242,7 +244,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	 
 	    public void actionPerformed(ActionEvent e){ 
 
-	    	GCommandsContainer.getInstance().removeGCommands(EditorStates.getInstance().getSelectedGCommands());
+	    	FiguresContainer.getInstance().removePoints(EditorStates.getInstance().getSelectedGCommands());
 	    	EditorStates.getInstance().clearSelection();
 	    } 
 	 
@@ -260,7 +262,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    } 
 	 
 	    public void actionPerformed(ActionEvent e){ 
-	    	EditorStates.getInstance().setSelectedGCommands(GCommandsContainer.getInstance().getCommandList());
+	    	EditorStates.getInstance().setSelectedGCommands(FiguresContainer.getInstance().getAllPointList());
 	    } 
 	 
 	    public boolean isEnabled(){ 

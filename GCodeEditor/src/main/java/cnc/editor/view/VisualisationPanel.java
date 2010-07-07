@@ -20,8 +20,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import cnc.editor.EditorStates;
-import cnc.editor.GCommand;
-import cnc.editor.GCommandsContainer;
+import cnc.editor.domain.FigurePoint;
+import cnc.editor.domain.FiguresContainer;
 import cnc.editor.listener.VisualisationPanelListener;
 
 public class VisualisationPanel extends JPanel{
@@ -68,7 +68,7 @@ public class VisualisationPanel extends JPanel{
 		GraphicsWrapper gw = new GraphicsWrapper(g, this);
 		
 		if(es.isDrawFacilities()){			
-			drawUnderlayer(gw);			
+			//drawUnderlayer(gw);			
 			drawGrid(gw);
 			drawStrictBorders(gw);	
 		}		
@@ -223,31 +223,24 @@ public class VisualisationPanel extends JPanel{
 
 	private void drawPicture(GraphicsWrapper g) {
 		
-		GCommandsContainer gcc = GCommandsContainer.getInstance();
-		
-		if(gcc.getCommandList().size() == 1){
+		FiguresContainer gcc = FiguresContainer.getInstance();				
 			
-			setPreferredSize(new Dimension(1, 1));
-			revalidate();
-			
-		}else{
-			
-			for(GCommand gc : gcc.getCommandList()){			
-					
-				int newX = (int)EditorStates.convertPositionCnc_View(gc.getX()); 
-				int newY = (int)EditorStates.convertPositionCnc_View(gc.getY()); 				
-	
-				double panelWidth = this.getSize().getWidth();
-				double panelHeight = this.getSize().getHeight();	
+		for(FigurePoint gc : gcc.getAllPointList()){			
 				
-				if(panelWidth < newX + 50 || panelHeight < newY + 50){	
-					this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)Math.max(newY, panelHeight) + 50));
-					this.revalidate();
-				}
+			int newX = (int)EditorStates.convertPositionCnc_View(gc.getX()); 
+			int newY = (int)EditorStates.convertPositionCnc_View(gc.getY()); 				
+
+			double panelWidth = this.getSize().getWidth();
+			double panelHeight = this.getSize().getHeight();	
 			
-				gc.draw(g);			
-			}
+			if(panelWidth < newX + 50 || panelHeight < newY + 50){	
+				this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)Math.max(newY, panelHeight) + 50));
+				this.revalidate();
+			}	
 		}
+		
+		gcc.draw(g);	
+
 	}
 	
 	private void drawCoordinates(GraphicsWrapper g) {
@@ -255,8 +248,6 @@ public class VisualisationPanel extends JPanel{
 		Color color = g.getColor();
 	    g.setColor(Color.gray);
 	  
-
- 
 	    int gap = es.getGap();
 		g.drawLine(gap, gap, es.getViewCoordLenghtX(), gap);
 		

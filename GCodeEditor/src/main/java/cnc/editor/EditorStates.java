@@ -11,6 +11,8 @@ import java.util.Set;
 
 import cnc.editor.Editor.EditorTolls;
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.domain.FigurePoint;
+import cnc.editor.domain.FiguresContainer;
 
 //Singleton
 public class EditorStates {
@@ -31,13 +33,20 @@ public class EditorStates {
 		return instance;
 	}
 	
+	private float cuttingDepth = 0f;
+	
+	
+	public float getCuttingDepth() {
+		return cuttingDepth;
+	}
+
 	private List<ActionListener> listeners = new ArrayList<ActionListener>();		
 	private EditorTolls currentSelectedTool = EditorTolls.SIMPLE_EDIT;		
 	private int theGap = 25;
 	private int viewCoordLenghtX = 600;		
 	private int viewCoordLenghtY = 200;		
 	private float viewScale = 1;	
-	private Set<GCommand> selectedCommands;
+	private Set<FigurePoint> selectedCommands;
 	private boolean importInProgress;
 	private GcommandTypes currentGCmdType = Editor.GcommandTypes.G00;
 	private Float arcRadius = 20f;
@@ -123,36 +132,36 @@ public class EditorStates {
 		this.currentSelectedTool = currentSelectedTool;
 	}
 	
-	public Set<GCommand> getSelectedGCommands() {
+	public Set<FigurePoint> getSelectedGCommands() {
 		return selectedCommands;
 	}
 
-	public Set<GCommand> getNearSelectedGCommands() {
+	public Set<FigurePoint> getNearSelectedGCommands() {
 		
 		if(selectedCommands != null && selectedCommands.size() == 1){
-			return GCommandsContainer.getInstance().getNeighbourVertexes(((GCommand)selectedCommands.toArray()[0]));
+			return FiguresContainer.getInstance().getNeighbourVertexes(((FigurePoint)selectedCommands.toArray()[0]));
 		}
 		return null;
 	}
 	
-	public void removeGCommandsFromSelected(Collection<GCommand> vertexes) {
+	public void removeGCommandsFromSelected(Collection<FigurePoint> vertexes) {
 		selectedCommands.removeAll(vertexes);
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void setSelectedGCommands(List<GCommand> selectedGCommands) {
+	public void setSelectedGCommands(List<FigurePoint> selectedGCommands) {
 
-		this.selectedCommands = new HashSet<GCommand>();
+		this.selectedCommands = new HashSet<FigurePoint>();
 		this.selectedCommands.addAll(selectedGCommands);
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void addToSelectedGCommands(List<GCommand> selectedGCommands) {
+	public void addToSelectedGCommands(List<FigurePoint> selectedGCommands) {
 	
 		if(this.selectedCommands == null){
-			this.selectedCommands = new HashSet<GCommand>();
+			this.selectedCommands = new HashSet<FigurePoint>();
 		}
 
 		this.selectedCommands.addAll(selectedGCommands);

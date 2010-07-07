@@ -1,69 +1,30 @@
-package cnc.editor;
+package cnc.editor.domain;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.EditorStates;
 import cnc.editor.view.GraphicsWrapper;
 
-public abstract class GCommand {
+public class FigurePoint {
 	
 	public static final String CMD_COORDINATE_CHANGED = "cmd_coordinate_changed";
 	
 	protected EditorStates es = EditorStates.getInstance();	
-	protected GCommand previousCmd;
 	
 	private Float X;
 	private Float Y;
-	private Float Z;	
-
-	public abstract GcommandTypes getCommandType();	
-	public abstract void drawLine(GraphicsWrapper g);
 
 	public void draw(GraphicsWrapper g){
 		
-		Color lineColor = Color.black;
-		Color pointColor = Color.black;
-		int pointSize;
-		
-		/*Set<GCommand> selectedCCmd = es.getSelectedGCommands();
-		Set<GCommand> nearSelection = es.getNearSelectedGCommands();
-		int size = (int)EditorStates.NODE_CIRCLE_SIZE;
+		int newX = (int)EditorStates.convertPositionCnc_View(X); 
+		int newY = (int)EditorStates.convertPositionCnc_View(Y); 	
 
-		pointSize = 2;
-		lineColor = Color.black;
-		
-		if(nearSelection != null && nearSelection.contains(this)){
-			pointColor = Color.gray;
-			pointSize = size;
-		}
-		
-		if(this.getZ() > 0){
-			lineColor = Color.blue;
-		}
-		
-		if(selectedCCmd != null && selectedCCmd.contains(this)){
-			pointColor = Color.ORANGE;
-			lineColor = Color.ORANGE;	
-			pointSize = size;			
-		}	
-*/
-/*		
-		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
-		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
-		
-		g.setColor(pointColor);		
-		g.drawBullet(newX, newY, pointSize);
-		
-		if(!es.isDisplayOnlyZ0() || this.getZ() <= 0){
-			g.setColor(lineColor);
-			drawLine(g);	
-		}*/
+		float thickness = EditorStates.getInstance().getScale();	
+		g.drawBullet(newX, newY, (int)(thickness * 3));
 	}
 	
 	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
@@ -78,10 +39,10 @@ public abstract class GCommand {
 		}
 	}
 
-	public GCommand(Float x, Float y, Float z) {
+	public FigurePoint(Float x, Float y/*, Float z*/) {
 		this.X = x;
 		this.Y = y;
-		this.Z = z;
+		//this.Z = z;
 	}
 	
 	public static BigDecimal getRounded(double d){
@@ -91,11 +52,12 @@ public abstract class GCommand {
 	}
 	
 	public Float getX() {
-		if(X != null){
+		return X;
+/*		if(X != null){
 			return X;
 		}else{
 			return  previousCmd != null ? previousCmd.getX() : 0;
-		}
+		}*/
 	}
 
 	public void setX(Float x) {
@@ -105,11 +67,13 @@ public abstract class GCommand {
 	}
 
 	public Float getY() {
-		if(Y != null){
+		
+		return Y;
+/*		if(Y != null){
 			return Y;
 		}else{
 			return  previousCmd != null ? previousCmd.getY() : 0;
-		}
+		}*/
 	}
 
 	public void setY(Float y) {
@@ -119,35 +83,30 @@ public abstract class GCommand {
 	}
 
 	public Float getZ() {
-		if(Z != null){
+		
+		return EditorStates.getInstance().getCuttingDepth();
+/*		if(Z != null){
 			return Z;
 		}else{
 			return previousCmd != null ? previousCmd.getZ() : 0;
-		}
+		}*/
 	}
 
-	public void setZ(Float z) {
+/*	public void setZ(Float z) {
 		this.Z = z;
 		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
 		notifyAllAboutChanges(ae);
-	}
+	}*/
 
 
 	@Override
 	public String toString() {
 		String strX = X != null ? " X" + getRounded(X) : "" ;
 		String strY = Y != null ? " Y" + getRounded(Y) : "";
-		String strZ = Z != null ? " Z" + getRounded(Z) : "";		
+		//String strZ = Z != null ? " Z" + getRounded(Z) : "";		
 		
-		return getCommandType() + strX + strY + strZ;
-	}
-	
-	public GCommand getPreviousCmd() {
-		return previousCmd;
+		return strX + strY;
 	}
 
-	public void setPreviousCmd(GCommand previousCmd) {
-		this.previousCmd = previousCmd;
-	}
 
 }

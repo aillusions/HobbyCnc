@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.domain.FigurePoint;
 
 //Singleton
 public class GCommandsContainer implements ActionListener {	
@@ -28,7 +29,7 @@ public class GCommandsContainer implements ActionListener {
 	private boolean butchOfCmdsAddingInProgress = false; 
 		
 	private GCommandsContainer(){
-		addCommand(new GCommandOrigin());
+		//addCommand(new GCommandOrigin());
 	}                        
 	
 	public static GCommandsContainer getInstance(){
@@ -47,15 +48,19 @@ public class GCommandsContainer implements ActionListener {
 		
 		for(GCommand cmd : c){
 			
-			if(cmd.getCommandType() != GcommandTypes.ORIGIN){
+			//if(cmd.getCommandType() != GcommandTypes.ORIGIN){
 				int rmIndex = gCommandList.indexOf(cmd);
 				
-				if((rmIndex + 1) < gCommandList.size() && rmIndex >= 0){
+				if((rmIndex + 1) < gCommandList.size() && (rmIndex - 1) >= 0){
 					gCommandList.get(rmIndex + 1).setPreviousCmd(gCommandList.get(rmIndex - 1));
+				}else{
+					if((rmIndex + 1) < gCommandList.size()){
+						gCommandList.get(rmIndex + 1).setPreviousCmd(null);
+					}
 				}
 				
 				gCommandList.remove(rmIndex);
-			}
+			//}
 		}
 		
 		ActionEvent ae = new ActionEvent(this , -1, CMD_REMOVED_COMMANDS);
@@ -156,10 +161,9 @@ public class GCommandsContainer implements ActionListener {
 		gCommandList.clear();
 	
 		ActionEvent ae = new ActionEvent(this , -1, CMD_CLEAR_COMMANDS_CONATINER);
-		notifyAllAboutChanges(ae);			
-		addCommand(new GCommandOrigin());
-	}
+		notifyAllAboutChanges(ae);		
 
+	}
 	
 	//---------------------
 	public void actionPerformed(ActionEvent e) {
@@ -202,5 +206,7 @@ public class GCommandsContainer implements ActionListener {
 		notifyAllAboutChanges(ae);
 		
 	}
+
+
 
 }

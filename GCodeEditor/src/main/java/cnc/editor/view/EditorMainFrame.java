@@ -25,6 +25,8 @@ import cnc.editor.listener.EditorMainFrameListener.SetRaduisKeyListener;
 
 public class EditorMainFrame extends javax.swing.JFrame {
 
+	public static final String CMD_CLOSE_CURRENT_FIGURE = "CloseCurrentFigure";
+	public static final String CMD_CREATE_NEW_FIGURE = "CreateNewFigure";
 	public static final String CMD_REDO = "redo";
 	public static final String CMD_UNDO = "undo";
 	public static final String CMD_LIFT_FOR_EACH_STROKE = "liftForEachStroke";
@@ -43,9 +45,12 @@ public class EditorMainFrame extends javax.swing.JFrame {
 	private JButton btn_Undo;
 	private JButton btn_Redo;
 	
-	private ButtonGroup btnGr_headPosition;
-	private JRadioButton rbtn_Lift;
-	private JRadioButton rbtn_Down;
+//	private ButtonGroup btnGr_headPosition;
+//	private JRadioButton rbtn_Lift;
+//	private JRadioButton rbtn_Down;
+	
+	private JButton btn_CreateNewFigure;
+	private JButton btn_CloseFigure;
 	
 	private ButtonGroup btnGr_toolBar;
 	private JRadioButton rbtn_Tool_SimpleDraw;
@@ -160,25 +165,25 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		comBox_Scale.setActionCommand("Scale");
 		comBox_Scale.addActionListener(editorViewListener);
 		
-		rbtn_Lift = new JRadioButton();
-		rbtn_Lift.setText("UP");
-		rbtn_Lift.setBounds(5, 220, 84, 21);
-		rbtn_Lift.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		rbtn_Lift.setActionCommand("LiftWorkHead");
-		rbtn_Lift.addActionListener(editorViewListener);
-		rbtn_Lift.setSelected(true);
+		btn_CreateNewFigure = new JButton();
+		btn_CreateNewFigure.setText("new f");
+		btn_CreateNewFigure.setBounds(5, 220, 84, 21);
+		btn_CreateNewFigure.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_CreateNewFigure.setActionCommand(CMD_CREATE_NEW_FIGURE);
+		btn_CreateNewFigure.addActionListener(editorViewListener);
+		btn_CreateNewFigure.setSelected(true);
 		
-		rbtn_Down = new JRadioButton();
-		rbtn_Down.setText("DOWN");
-		rbtn_Down.setBounds(5, 240, 84, 21);
-		rbtn_Down.setMargin(new java.awt.Insets(0, 0, 0, 0));
-		rbtn_Down.setActionCommand("DescendWorkHead");
-		rbtn_Down.addActionListener(editorViewListener);
-
+		btn_CloseFigure = new JButton();
+		btn_CloseFigure.setText("close f");
+		btn_CloseFigure.setBounds(5, 245, 84, 21);
+		btn_CloseFigure.setMargin(new java.awt.Insets(0, 0, 0, 0));
+		btn_CloseFigure.setActionCommand(CMD_CLOSE_CURRENT_FIGURE);
+		btn_CloseFigure.addActionListener(editorViewListener);
+/*
 		
 		btnGr_headPosition = new ButtonGroup();
 		btnGr_headPosition.add(rbtn_Lift);
-		btnGr_headPosition.add(rbtn_Down);
+		btnGr_headPosition.add(rbtn_Down);*/
 				
 		rbtn_commandType_G00 = new JRadioButton();
 		rbtn_commandType_G00.setText("G00");
@@ -283,8 +288,11 @@ public class EditorMainFrame extends javax.swing.JFrame {
 		panel_Tools.add(rbtn_Tool_ContinuousDraw);		
 		panel_Tools.add(rbtn_Tool_SelectVertex);		
 		panel_Tools.add(comBox_Scale);
-		panel_Tools.add(rbtn_Down);
-		panel_Tools.add(rbtn_Lift);
+		//panel_Tools.add(rbtn_Down);
+		//panel_Tools.add(rbtn_Lift);
+		panel_Tools.add(btn_CreateNewFigure);
+		panel_Tools.add(btn_CloseFigure);
+		
 		panel_Tools.add(rbtn_commandType_G00);
 		panel_Tools.add(rbtn_commandType_G02);
 		panel_Tools.add(rbtn_commandType_G01);

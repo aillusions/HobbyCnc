@@ -29,18 +29,18 @@ public class GraphicsWrapper{
 	    Graphics2D g2 = (Graphics2D)g;
 		float thickness = EditorStates.getInstance().getScale();	
 		Stroke s = new BasicStroke(thickness);
-		Stroke olds = g2.getStroke();
+		Stroke old = g2.getStroke();
 		g2.setStroke(s);	
 		
 		g.drawLine(x, vp.getViewY(y), endX, vp.getViewY(endY));
-		
-		g2.setStroke(olds);
+
+		g2.setStroke(old);
 		
 		
 	}
 	
 	public void drawLine(int x, int y, int endX, int endY){
-		
+
 		g.drawLine(x, vp.getViewY(y), endX, vp.getViewY(endY));
 	
 	}
