@@ -23,8 +23,8 @@ public class FigurePoint {
 		int newX = (int)EditorStates.convertPositionCnc_View(X); 
 		int newY = (int)EditorStates.convertPositionCnc_View(Y); 	
 
-		float thickness = EditorStates.getInstance().getScale();	
-		g.drawBullet(newX, newY, (int)(thickness * 3));
+		int thickness = (int)(EditorStates.getInstance().getScale() + 5);	
+		g.drawBullet(newX, newY, thickness);
 	}
 	
 	private final List<ActionListener> listeners = new ArrayList<ActionListener>();
@@ -98,6 +98,8 @@ public class FigurePoint {
 		notifyAllAboutChanges(ae);
 	}*/
 
+	
+	
 
 	@Override
 	public String toString() {
@@ -106,6 +108,27 @@ public class FigurePoint {
 		//String strZ = Z != null ? " Z" + getRounded(Z) : "";		
 		
 		return strX + strY;
+	}
+
+	@Override
+	public boolean equals(Object arg0) {
+		
+		if (arg0 != null && arg0 instanceof FigurePoint) {
+			
+			FigurePoint inVertex = (FigurePoint) arg0;
+			
+			if (X.equals(inVertex.getX()) && Y.equals(inVertex.getY())){
+				
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return  X.hashCode()*5 + Y.hashCode()*3 ;
 	}
 
 

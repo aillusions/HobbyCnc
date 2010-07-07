@@ -17,10 +17,17 @@ public class Figure {
 	
 	protected EditorStates es = EditorStates.getInstance();	
 
-	public void addPoint(float x, float y, Editor.GcommandTypes lineType){
+	public void addPoint(float x, float y, Editor.GcommandTypes lineType){		
 		
+		boolean useExisting = false;
 		FigurePoint fp = new FigurePoint(x, y);
 		
+		if(figurePoints.contains(fp)){
+			int index = figurePoints.indexOf(fp);
+			fp = figurePoints.get(index);
+			useExisting = true;
+		}
+			
 		if(figurePoints.size() > 0){
 			
 			if(lineType.equals(Editor.GcommandTypes.G00)){
@@ -29,7 +36,10 @@ public class Figure {
 			}
 		}
 		
-		figurePoints.add(fp);		
+		if(!useExisting){
+			figurePoints.add(fp);	
+		}
+			
 	}
 	
 	public void draw(GraphicsWrapper g){

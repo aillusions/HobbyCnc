@@ -27,7 +27,7 @@ public class GraphicsWrapper{
 	public void drawLineWithScaleThickness(int x, int y, int endX, int endY){
 		
 	    Graphics2D g2 = (Graphics2D)g;
-		float thickness = EditorStates.getInstance().getScale();	
+		float thickness = EditorStates.getInstance().getScale()/2;	
 		Stroke s = new BasicStroke(thickness);
 		Stroke old = g2.getStroke();
 		g2.setStroke(s);	

@@ -193,9 +193,9 @@ public class FiguresContainer {
 				
 				if (gc != null) {	
 					
-					if(((gc.getX() == null) && (gc.getY() == null)) && gc.getZ() != null &&  gc.getZ() > 0){
+					if(gc.getZ() != null){
 						
-						if(getCurrentFigure().getFigurePoints().size()>0){						
+						if(gc.getZ() > 0 && getCurrentFigure().getFigurePoints().size()>0){						
 							createNewFigure();
 						}
 						continue;

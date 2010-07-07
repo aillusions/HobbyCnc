@@ -42,13 +42,7 @@ public abstract class FigureLine {
 	public void addActionListener(ActionListener al){
 		listeners.add(al);
 	}
-/*	
-	private void notifyAllAboutChanges(ActionEvent ae){		
-		for(ActionListener al : listeners){			
-			al.actionPerformed(ae);
-		}
-	}
-*/
+
 	public FigureLine(FigurePoint pointFrom, FigurePoint pointTo) {
 		this.pointFrom = pointFrom;
 		this.pointTo = pointTo;
