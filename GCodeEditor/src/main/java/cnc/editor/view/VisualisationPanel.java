@@ -78,7 +78,7 @@ public class VisualisationPanel extends JPanel{
 		drawPicture(gw);
 		
 		if(es.isDrawFacilities()){
-			drawMousePosition(gw);	
+			//drawMousePosition(gw);	
 		}
 		
 		drawSelectedRegion(gw);
@@ -134,7 +134,7 @@ public class VisualisationPanel extends JPanel{
 	public void drawStrictBorders(GraphicsWrapper g){
 		
 		Color color = g.getColor();
-	    g.setColor(Color.gray);
+	    g.setColor(Color.red);
 	    
 	    int maxCncX = (int)EditorStates.convertPositionCnc_View(es.getMaxCncX());
 	    int maxCncY = (int)EditorStates.convertPositionCnc_View(es.getMaxCncY());

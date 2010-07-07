@@ -3,10 +3,8 @@ package cnc.editor.domain;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import cnc.editor.EditorStates;
 import cnc.editor.GCodeParser;
@@ -92,9 +90,9 @@ public class FiguresContainer {
 		return result;
 	}
 	
-	public Set<FigurePoint> getNeighbourVertexes(FigurePoint gCommand) {
+	public List<FigurePoint> getNeighbourVertexes(FigurePoint gCommand) {
 		
-		Set<FigurePoint> result = new HashSet<FigurePoint>();
+		List<FigurePoint> result = new ArrayList<FigurePoint>();
 		
 		for(Figure v : figuresList){
 			
@@ -169,7 +167,7 @@ public class FiguresContainer {
 		return result;
 	}
 
-	public void removePoints(Set<FigurePoint> selectedPoints) {
+	public void removePoints(List<FigurePoint> selectedPoints) {
 	
 		for(Figure f : figuresList){			
 			f.removePoints(selectedPoints);

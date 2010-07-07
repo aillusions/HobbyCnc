@@ -1,32 +1,19 @@
 package cnc.editor.listener;
 
-import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.Set;
 
 import javax.swing.AbstractAction;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
-import cnc.editor.GCodeParser;
-import cnc.editor.GCommand;
-import cnc.editor.GCommandsContainer;
-import cnc.editor.domain.FigurePoint;
 import cnc.editor.domain.FiguresContainer;
 import cnc.editor.view.VisualisationPanel;
 

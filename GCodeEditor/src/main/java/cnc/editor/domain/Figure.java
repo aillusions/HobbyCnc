@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
@@ -44,8 +43,8 @@ public class Figure {
 	
 	public void draw(GraphicsWrapper g){
 		
-		Set<FigurePoint> selectedCCmd = es.getSelectedGCommands();
-		Set<FigurePoint> nearSelection = es.getNearSelectedGCommands();
+		List<FigurePoint> selectedCCmd = es.getSelectedGCommands();
+		List<FigurePoint> nearSelection = es.getNearSelectedGCommands();
 
 		for(FigureLine l : figureLines){
 			
@@ -104,7 +103,7 @@ public class Figure {
 		return result;
 	}
 	
-	public void removePoints(Set<FigurePoint> selectedPoints) {
+	public void removePoints(List<FigurePoint> selectedPoints) {
 		
 		List<FigureLine> toRemove = new ArrayList<FigureLine>();
 		

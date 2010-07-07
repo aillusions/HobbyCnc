@@ -39,10 +39,9 @@ public class FigurePoint {
 		}
 	}
 
-	public FigurePoint(Float x, Float y/*, Float z*/) {
+	public FigurePoint(Float x, Float y) {
 		this.X = x;
 		this.Y = y;
-		//this.Z = z;
 	}
 	
 	public static BigDecimal getRounded(double d){
@@ -53,11 +52,6 @@ public class FigurePoint {
 	
 	public Float getX() {
 		return X;
-/*		if(X != null){
-			return X;
-		}else{
-			return  previousCmd != null ? previousCmd.getX() : 0;
-		}*/
 	}
 
 	public void setX(Float x) {
@@ -66,14 +60,8 @@ public class FigurePoint {
 		notifyAllAboutChanges(ae);
 	}
 
-	public Float getY() {
-		
+	public Float getY() {		
 		return Y;
-/*		if(Y != null){
-			return Y;
-		}else{
-			return  previousCmd != null ? previousCmd.getY() : 0;
-		}*/
 	}
 
 	public void setY(Float y) {
@@ -82,23 +70,10 @@ public class FigurePoint {
 		notifyAllAboutChanges(ae);
 	}
 
-	public Float getZ() {
-		
+	public Float getZ() {		
 		return EditorStates.getInstance().getCuttingDepth();
-/*		if(Z != null){
-			return Z;
-		}else{
-			return previousCmd != null ? previousCmd.getZ() : 0;
-		}*/
 	}
 
-/*	public void setZ(Float z) {
-		this.Z = z;
-		ActionEvent ae = new ActionEvent(this , -1, CMD_COORDINATE_CHANGED);
-		notifyAllAboutChanges(ae);
-	}*/
-
-	
 	
 
 	@Override
@@ -128,6 +103,7 @@ public class FigurePoint {
 
 	@Override
 	public int hashCode() {
+
 		return  X.hashCode()*5 + Y.hashCode()*3 ;
 	}
 

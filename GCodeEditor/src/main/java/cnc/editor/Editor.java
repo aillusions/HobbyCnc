@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import cnc.GCodeAcceptor;
 import cnc.editor.domain.FigureLine;
@@ -213,7 +212,7 @@ public class Editor {
 			float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
 			float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
 			
-			Set<FigurePoint> gcs = es.getSelectedGCommands();
+			List<FigurePoint> gcs = es.getSelectedGCommands();
 			if(gcs != null && gcs.size() > 0){
 
 				for(FigurePoint gc : gcs){					
