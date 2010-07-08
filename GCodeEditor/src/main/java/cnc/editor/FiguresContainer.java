@@ -58,10 +58,14 @@ public class FiguresContainer {
 		EditorStates es = EditorStates.getInstance();
 		List<FPoint> result = new ArrayList<FPoint>();
 		
+		float cncScale =  EditorStates.convertLengthView_Cnc((int)es.getScale());
+
+		
 		for(Figure v : figuresList){
 			for(FPoint p : v.getFigurePoints()){
-				if(0.8/es.getScale() > Math.abs(p.getX() - cncX) 
-						&& 0.8/es.getScale() > Math.abs(p.getY() - cncY)){
+				
+				if(cncScale * 0.5 > Math.abs(p.getX() - cncX) 
+						&& cncScale * 0.5 > Math.abs(p.getY() - cncY)){
 					result.add(p);
 				}
 			}

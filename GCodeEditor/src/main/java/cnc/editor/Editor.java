@@ -111,7 +111,7 @@ public class Editor {
 //				
 //			}else{	
 				
-				GcommandTypes cType = es.getCurrentGCmdType();
+				//GcommandTypes cType = es.getCurrentGCmdType();
 				
 /*				GCommand cmd = null;
 				
