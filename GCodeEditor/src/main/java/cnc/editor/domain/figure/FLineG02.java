@@ -11,7 +11,7 @@ import cnc.editor.math.CirclesIntersectionFinder;
 import cnc.editor.math.EquationOfArc;
 import cnc.editor.view.GraphicsWrapper;
 
-public class LineG02  extends FLine {
+public class FLineG02  extends FLine {
 
 	@Override
 	public GcommandTypes getLineType() {
@@ -29,14 +29,14 @@ public class LineG02  extends FLine {
 	protected boolean radiusSpecified;
 	protected boolean clockWise;
 	
-	public LineG02(FPoint from, FPoint to, Float radius) {
+	public FLineG02(FPoint from, FPoint to, Float radius) {
 		super(from, to);
 		this.radius = radius;
 		this.radiusSpecified = true;
 		this.clockWise = true;
 	}	
 	
-	public LineG02(FPoint from, FPoint to, Float i, Float j) {
+	public FLineG02(FPoint from, FPoint to, Float i, Float j) {
 		super(from, to);
 		this.I = i;
 		this.J = j;
@@ -97,7 +97,7 @@ public class LineG02  extends FLine {
 		int viewTop = (int)EditorStates.convertPositionCnc_View((float)eoa.getTop());
 		int viewHeight = (int)EditorStates.convertLengthCnc_View((float)(eoa.getDiametr()));
 		
-		gw.drawArc(viewLeft, viewTop, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
+		gw.drawArcWithScaleThickness(viewLeft, viewTop, viewHeight, (int)eoa.getStartAngle(), (int)eoa.getArcAngle());
 
 	}
 	

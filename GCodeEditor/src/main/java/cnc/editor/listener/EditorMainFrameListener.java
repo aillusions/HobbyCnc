@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
-import cnc.editor.domain.FiguresContainer;
+import cnc.editor.FiguresContainer;
 import cnc.editor.view.EditorMainFrame;
 
 public class EditorMainFrameListener implements ActionListener {

@@ -1,4 +1,4 @@
-package cnc.editor;
+package cnc.editor.domain.gcmd;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import cnc.editor.Editor;
+import cnc.editor.EditorStates;
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.view.GraphicsWrapper;
 

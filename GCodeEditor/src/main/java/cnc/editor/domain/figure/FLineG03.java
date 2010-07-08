@@ -2,14 +2,14 @@ package cnc.editor.domain.figure;
 
 import cnc.editor.Editor.GcommandTypes;
 
-public class LineG03 extends LineG02  {
+public class FLineG03 extends FLineG02  {
 
-	public LineG03(FPoint from, FPoint to, Float radius) {
+	public FLineG03(FPoint from, FPoint to, Float radius) {
 		super(from, to, radius);	
 		this.clockWise = false;
 	}
 	
-	public LineG03(FPoint from, FPoint to, Float i, Float j) {
+	public FLineG03(FPoint from, FPoint to, Float i, Float j) {
 		super(from, to, i, j);
 		this.clockWise = false;
 	}

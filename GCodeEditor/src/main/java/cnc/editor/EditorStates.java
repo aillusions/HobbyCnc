@@ -9,7 +9,6 @@ import java.util.List;
 
 import cnc.editor.Editor.EditorTolls;
 import cnc.editor.Editor.GcommandTypes;
-import cnc.editor.domain.FiguresContainer;
 import cnc.editor.domain.figure.FPoint;
 
 //Singleton

@@ -1,6 +1,7 @@
 package cnc.editor;
 
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.domain.gcmd.GCommand;
 
 public class GCodeParser {	
 

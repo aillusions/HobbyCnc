@@ -1,6 +1,6 @@
 package cnc.editor.math;
 
-import cnc.editor.GCommand;
+import cnc.editor.domain.gcmd.GCommand;
 
 /**
  * from 2circle.gif

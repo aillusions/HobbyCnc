@@ -1,4 +1,4 @@
-package cnc.editor;
+package cnc.editor.domain.gcmd;
 
 import cnc.editor.Editor.GcommandTypes;
 

@@ -2,7 +2,7 @@ package cnc.editor.math;
 
 import java.math.BigDecimal;
 
-import cnc.editor.GCommand;
+import cnc.editor.domain.gcmd.GCommand;
 
 public class EquationOfArc {
 

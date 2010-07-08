@@ -53,10 +53,36 @@ public abstract class FLine {
 		bd = bd.divide(new BigDecimal(100));
 		return bd;
 	}
+	
+	
 
 	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof FLine) {
+			
+			FLine lineObj = (FLine) obj;
+			
+			if (pointFrom.equals(lineObj.pointFrom) && pointTo.equals(lineObj.pointTo)){				
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return  pointFrom.hashCode()*5 + pointTo.hashCode()*3 ;
+	}
+	@Override
 	public String toString() {		
-		return getLineType().toString()+ " from: " + pointFrom.toString() + " to: " + pointTo.toString();
+		//return getLineType().toString()+ " from: " + pointFrom.toString() + " to: " + pointTo.toString();
+		
+		String strX = pointTo.getX() != null ? " X" + getRounded(pointTo.getX()) : "" ;
+		String strY = pointTo.getY() != null ? " Y" + getRounded(pointTo.getY()) : "";
+
+		
+		return getLineType() + strX + strY;
 	}
 	
 }

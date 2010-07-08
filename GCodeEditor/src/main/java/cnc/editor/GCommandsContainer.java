@@ -11,6 +11,7 @@ import java.util.Set;
 
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.domain.figure.FPoint;
+import cnc.editor.domain.gcmd.GCommand;
 
 //Singleton
 public class GCommandsContainer implements ActionListener {	

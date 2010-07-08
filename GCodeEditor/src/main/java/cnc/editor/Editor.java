@@ -11,9 +11,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cnc.GCodeAcceptor;
-import cnc.editor.domain.FiguresContainer;
 import cnc.editor.domain.figure.FLine;
+import cnc.editor.domain.figure.FLineG00;
 import cnc.editor.domain.figure.FPoint;
+import cnc.editor.domain.figure.FLineG01;
+import cnc.editor.domain.figure.FLineG02;
+import cnc.editor.domain.figure.FLineG03;
+import cnc.editor.domain.gcmd.GCommand;
+import cnc.editor.domain.gcmd.GCommandG00;
+import cnc.editor.domain.gcmd.GCommandG02;
+import cnc.editor.domain.gcmd.GCommandG03;
 import cnc.editor.view.EditorMainFrame;
 import cnc.parser.bmp.BmpFilePrinter;
 import cnc.parser.bmp.BmpParser;
@@ -126,7 +133,7 @@ public class Editor {
 					}
 				}*/
 				
-				gcc.getCurrentFigure().addPoint(cncX, cncY, cType);
+				gcc.getCurrentFigure().addPoint(cncX, cncY/*, cType*/);
 				
 				es.setCurrentSelectedTool(EditorTolls.VERTEX_SELECT);
 				isCurrentSelectedToolReset = true;
@@ -310,6 +317,64 @@ public class Editor {
 			es.setImportInProgress(false);
 		}	
 	}
+	
+	public static FLine createLine(FPoint pFrom, FPoint pTo, GCommand gCmd){
+		
+		FLine line = null;
+		
+		Editor.GcommandTypes lineType = gCmd.getCommandType();
+		
+		if(lineType == GcommandTypes.G00){					
+			line = new FLineG00(pFrom, pTo);
+		}else if(lineType == GcommandTypes.G01){
+			line = new FLineG01(pFrom, pTo);
+		}else if(lineType == GcommandTypes.G02){
+			GCommandG02 g02 = (GCommandG02)gCmd;
+			if(g02.getRadius() != null){
+				line = new FLineG02(pFrom, pTo, g02.getRadius());
+			}else{
+				line = new FLineG02(pFrom, pTo, g02.getI(), g02.getJ());
+			}
+		}else if(lineType == GcommandTypes.G03) {
+			
+			GCommandG03 g03 = (GCommandG03)gCmd;
+			if(g03.getRadius() != null){
+				line = new FLineG03(pFrom, pTo, g03.getRadius());
+			}else{
+				line = new FLineG03(pFrom, pTo, g03.getI(), g03.getJ());
+			}
+		}
+		
+		return line;
+	}
+	
+	public static FLine createLine(FPoint pFrom, FPoint pTo){
+		
+		FLine line = null;
+		
+		EditorStates es = EditorStates.getInstance();		
+		Editor.GcommandTypes lineType = es.getCurrentGCmdType();
+		
+		if(lineType == GcommandTypes.G00){					
+			line = new FLineG00(pFrom, pTo);
+		}else if(lineType == GcommandTypes.G01){
+			line = new FLineG01(pFrom, pTo);
+		}else if(lineType == GcommandTypes.G02){
+			if(es.getArcR() != null){
+				line = new FLineG02(pFrom, pTo, es.getArcR());
+			}else{
+				line = new FLineG02(pFrom, pTo, es.getArcI(), es.getArcJ());
+			}
+		}else if(lineType == GcommandTypes.G03) {
+			if(es.getArcR() != null){
+				line = new FLineG03(pFrom, pTo, es.getArcR());
+			}else{
+				line = new FLineG03(pFrom, pTo, es.getArcI(), es.getArcJ());
+			}
+		}
+		
+		return line;
+	}
 
 	public void undo() {
 	
@@ -336,21 +401,23 @@ public class Editor {
 				
 				FPoint lastPointTo = null;
 				
-				for(FLine gc : gcc.getAllLinesList()){
+				for(FLine fLine : gcc.getAllLinesList()){
 					
-					if(lastPointTo == null || !lastPointTo.equals(gc.getPointFrom())){
+					if(lastPointTo == null || !lastPointTo.equals(fLine.getPointFrom())){
 						
 						bw.write(new GCommandG00(null, null, 2f) + "\r\n");
-						bw.write(new GCommandG00(gc.getPointFrom().getX(), gc.getPointFrom().getY(), null) + "\r\n");
+						bw.write(new GCommandG00(fLine.getPointFrom().getX(), fLine.getPointFrom().getY(), null) + "\r\n");
 						bw.write(new GCommandG00(null, null, es.getCuttingDepth()) + "\r\n");
 					}
 							
-					bw.write(new GCommandG00(gc.getPointTo().getX(), gc.getPointTo().getY(), null) + "\r\n");
+					//bw.write(new GCommandG00(fLine.getPointTo().getX(), fLine.getPointTo().getY(), null) + "\r\n");
+					bw.write(fLine.toString()+ "\r\n");
 					
-					lastPointTo = gc.getPointTo();
+					lastPointTo = fLine.getPointTo();
 				}
 				bw.flush();
 				bw.close();
+				
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

@@ -1,7 +1,8 @@
-package cnc.editor;
+package cnc.editor.domain.gcmd;
 
 import java.awt.Color;
 
+import cnc.editor.EditorStates;
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.view.GraphicsWrapper;
 

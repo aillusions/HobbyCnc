@@ -1,10 +1,11 @@
-package cnc.editor;
+package cnc.editor.domain.gcmd;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
 
+import cnc.editor.EditorStates;
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.math.CirclesIntersectionFinder;
 import cnc.editor.math.EquationOfArc;
@@ -14,6 +15,22 @@ public class GCommandG02 extends GCommand{
 	
 	private Float radius;
 	private Float I;
+	public Float getI() {
+		return I;
+	}
+
+	public void setI(Float i) {
+		I = i;
+	}
+
+	public Float getJ() {
+		return J;
+	}
+
+	public void setJ(Float j) {
+		J = j;
+	}
+
 	private Float J;
 	
 	//flag which means type of command definition.

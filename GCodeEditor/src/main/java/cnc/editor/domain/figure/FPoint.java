@@ -86,9 +86,9 @@ public class FPoint {
 	public boolean equals(Object arg0) {		
 		if (arg0 != null && arg0 instanceof FPoint) {
 			
-			FPoint inVertex = (FPoint) arg0;
+			FPoint pointObj = (FPoint) arg0;
 			
-			if (X.equals(inVertex.getX()) && Y.equals(inVertex.getY())){
+			if (X.equals(pointObj.getX()) && Y.equals(pointObj.getY())){
 				
 				return true;
 			}

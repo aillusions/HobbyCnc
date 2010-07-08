@@ -1,6 +1,5 @@
 package cnc.editor;
 
-import cnc.editor.domain.FiguresContainer;
 import cnc.editor.listener.EditorMainFrameListener;
 import cnc.editor.listener.EditorStatesListener;
 import cnc.editor.listener.GCommandsContainerListener;

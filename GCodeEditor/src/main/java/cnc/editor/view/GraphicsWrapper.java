@@ -9,7 +9,6 @@ import java.awt.Stroke;
 
 import cnc.editor.EditorStates;
 
-
 public class GraphicsWrapper{
 	
 	private Graphics g;
@@ -24,8 +23,7 @@ public class GraphicsWrapper{
 		return g;
 	}
 	
-	public void drawLineWithScaleThickness(int x, int y, int endX, int endY){
-		
+	public void drawLineWithScaleThickness(int x, int y, int endX, int endY){		
 	    Graphics2D g2 = (Graphics2D)g;
 		float thickness = EditorStates.getInstance().getScale()/1.5f;	
 		Stroke s = new BasicStroke(thickness);
@@ -34,15 +32,11 @@ public class GraphicsWrapper{
 		
 		g.drawLine(x, vp.getViewY(y), endX, vp.getViewY(endY));
 
-		g2.setStroke(old);
-		
-		
+		g2.setStroke(old);			
 	}
 	
 	public void drawLine(int x, int y, int endX, int endY){
-
-		g.drawLine(x, vp.getViewY(y), endX, vp.getViewY(endY));
-	
+		g.drawLine(x, vp.getViewY(y), endX, vp.getViewY(endY));	
 	}
 	
 	public void drawString(String s, int x, int y){
@@ -55,6 +49,21 @@ public class GraphicsWrapper{
 
 	public void drawArc(int viewLeft, int viewTop, int viewSide, int startAngle, int arcAngle) {
 		g.drawArc(viewLeft, vp.getViewY(viewTop + viewSide), viewSide, viewSide, startAngle, arcAngle);
+	}
+	
+	public void drawArcWithScaleThickness(int viewLeft, int viewTop, int viewSide, int startAngle, int arcAngle) {
+		
+		Graphics2D g2 = (Graphics2D)g;
+		float thickness = EditorStates.getInstance().getScale()/1.5f;	
+		Stroke s = new BasicStroke(thickness);
+		Stroke old = g2.getStroke();
+		g2.setStroke(s);	
+		
+		g.drawArc(viewLeft, vp.getViewY(viewTop + viewSide), viewSide, viewSide, startAngle, arcAngle);
+
+		g2.setStroke(old);			
+		
+		
 	}
 	
 	public Color getColor() {

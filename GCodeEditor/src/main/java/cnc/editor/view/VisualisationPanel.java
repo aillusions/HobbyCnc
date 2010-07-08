@@ -20,7 +20,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import cnc.editor.EditorStates;
-import cnc.editor.domain.FiguresContainer;
+import cnc.editor.FiguresContainer;
 import cnc.editor.domain.figure.FPoint;
 import cnc.editor.listener.VisualisationPanelListener;
 

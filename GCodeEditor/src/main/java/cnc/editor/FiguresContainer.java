@@ -1,4 +1,4 @@
-package cnc.editor.domain;
+package cnc.editor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,12 +6,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cnc.editor.EditorStates;
-import cnc.editor.GCodeParser;
-import cnc.editor.GCommand;
 import cnc.editor.domain.figure.Figure;
 import cnc.editor.domain.figure.FLine;
 import cnc.editor.domain.figure.FPoint;
+import cnc.editor.domain.gcmd.GCommand;
 import cnc.editor.view.GraphicsWrapper;
 
 public class FiguresContainer {
@@ -144,7 +142,8 @@ public class FiguresContainer {
 	}
 
 	public void closeFigure() {
-		currentFigure.close(es.getCurrentGCmdType());
+		
+		currentFigure.closeFigure(es.getCurrentGCmdType());
 		
 		ActionEvent ae = new ActionEvent(this , -1, CMD_CLOSE_CURRENT_FIGURE);
 		notifyAllAboutChanges(ae);
@@ -202,7 +201,7 @@ public class FiguresContainer {
 						continue;
 					}
 					
-					getCurrentFigure().addPoint(gc.getX(), gc.getY(), gc.getCommandType());					
+					getCurrentFigure().addPoint(gc);					
 				}	
 				
 			}catch(Exception e){

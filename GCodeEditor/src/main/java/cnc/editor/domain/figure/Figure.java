@@ -7,7 +7,7 @@ import java.util.List;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
-import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.domain.gcmd.GCommand;
 import cnc.editor.view.GraphicsWrapper;
 
 public class Figure {
@@ -17,7 +17,7 @@ public class Figure {
 	
 	protected EditorStates es = EditorStates.getInstance();	
 
-	public void addPoint(float x, float y, Editor.GcommandTypes lineType){		
+	public void addPoint(float x, float y/*, Editor.GcommandTypes lineType*/){		
 		
 		boolean useExisting = false;
 		FPoint fp = new FPoint(x, y);
@@ -30,28 +30,40 @@ public class Figure {
 			
 		if(figurePoints.size() > 0){
 			
-			FLine line = null;
-			
-			if(lineType == GcommandTypes.G00){					
-				line = new FLineG00(figurePoints.get(figurePoints.size()-1), fp);
-			}else if(lineType == GcommandTypes.G01){
-				line = new LineG01(figurePoints.get(figurePoints.size()-1), fp);
-			}else if(lineType == GcommandTypes.G02){
-				if(es.getArcR() != null){
-					line = new LineG02(figurePoints.get(figurePoints.size()-1), fp, es.getArcR());
-				}else{
-					line = new LineG02(figurePoints.get(figurePoints.size()-1), fp, es.getArcI(), es.getArcJ());
-				}
-			}else if(lineType == GcommandTypes.G03) {
-				if(es.getArcR() != null){
-					line = new LineG03(figurePoints.get(figurePoints.size()-1), fp, es.getArcR());
-				}else{
-					line = new LineG03(figurePoints.get(figurePoints.size()-1), fp, es.getArcI(), es.getArcJ());
-				}
-			}
-			
+			FLine line = Editor.createLine(figurePoints.get(figurePoints.size()-1), fp);
+
 			if(line != null){
 				figureLines.add(line);
+			}else{
+				throw new RuntimeException("Line was not created!");
+			}
+		}
+		
+		if(!useExisting){
+			figurePoints.add(fp);	
+		}
+			
+	}
+	
+	public void addPoint(GCommand gc){		
+		
+		boolean useExisting = false;
+		FPoint fp = new FPoint(gc.getX(), gc.getY());
+		
+		if(figurePoints.contains(fp)){
+			int index = figurePoints.indexOf(fp);
+			fp = figurePoints.get(index);
+			useExisting = true;
+		}
+			
+		if(figurePoints.size() > 0){
+			
+			FLine line = Editor.createLine(figurePoints.get(figurePoints.size()-1), fp, gc);
+
+			if(line != null){
+				figureLines.add(line);
+			}else{
+				throw new RuntimeException("Line was not created!");
 			}
 		}
 		
@@ -100,14 +112,19 @@ public class Figure {
 		return figureLines;
 	}
 
-	public void close(Editor.GcommandTypes lineType) {
-		if(figurePoints.size() > 1){
-			
-			if(lineType.equals(Editor.GcommandTypes.G00)){
-				FLine line = new FLineG00(figurePoints.get(figurePoints.size()-1), figurePoints.get(0));
+	public void closeFigure(Editor.GcommandTypes lineType) {
+		
+		FLine line = Editor.createLine(figurePoints.get(figurePoints.size()-1), figurePoints.get(0));	
+		
+		if(line != null){
+			if(!figureLines.contains(line)){
 				figureLines.add(line);
+			}else{
+				System.err.println("Line already exists.");
 			}
-		}		
+		}else{
+			throw new RuntimeException("Line was not created!");
+		}	
 	}
 
 	

@@ -1,6 +1,11 @@
 package cnc.editor;
 
 import cnc.editor.Editor.GcommandTypes;
+import cnc.editor.domain.gcmd.GCommand;
+import cnc.editor.domain.gcmd.GCommandG00;
+import cnc.editor.domain.gcmd.GCommandG01;
+import cnc.editor.domain.gcmd.GCommandG02;
+import cnc.editor.domain.gcmd.GCommandG03;
 
 public class GCommandFactory {
 	

@@ -14,7 +14,7 @@ import javax.swing.SwingUtilities;
 
 import cnc.editor.Editor;
 import cnc.editor.EditorStates;
-import cnc.editor.domain.FiguresContainer;
+import cnc.editor.FiguresContainer;
 import cnc.editor.view.VisualisationPanel;
 
 public class VisualisationPanelListener implements MouseListener, MouseMotionListener {
