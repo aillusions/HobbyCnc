@@ -233,13 +233,13 @@ public class VisualisationPanel extends JPanel{
 			double panelWidth = this.getSize().getWidth();
 			double panelHeight = this.getSize().getHeight();	
 			
-			if(panelWidth < newX + 50){
-				this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)panelHeight));
+			if(panelWidth < newX + 100){
+				this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 100, (int)panelHeight));
 				this.revalidate();
 			} 
 			
-			if(panelHeight < newY + 50){	
-				this.setPreferredSize(new Dimension((int)panelWidth, (int)Math.max(newY, panelHeight) + 50));
+			if(panelHeight < newY + 100){	
+				this.setPreferredSize(new Dimension((int)panelWidth, (int)Math.max(newY, panelHeight) + 100));
 				this.revalidate();
 			}	
 		}

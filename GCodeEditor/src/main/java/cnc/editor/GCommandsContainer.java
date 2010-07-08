@@ -9,8 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import cnc.editor.Editor.GcommandTypes;
-import cnc.editor.domain.figure.FPoint;
+import cnc.editor.domain.figure.FLine;
 import cnc.editor.domain.gcmd.GCommand;
 
 //Singleton
@@ -207,7 +206,5 @@ public class GCommandsContainer implements ActionListener {
 		notifyAllAboutChanges(ae);
 		
 	}
-
-
 
 }

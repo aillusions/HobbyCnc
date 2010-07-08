@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import cnc.editor.domain.figure.Figure;
 import cnc.editor.domain.figure.FLine;
 import cnc.editor.domain.figure.FPoint;
+import cnc.editor.domain.figure.Figure;
 import cnc.editor.domain.gcmd.GCommand;
 import cnc.editor.view.GraphicsWrapper;
 
@@ -218,6 +218,47 @@ public class FiguresContainer {
 			
 		//System.out.println(gCommandList.size());
 		//butchOfCmdsAddingInProgress = false;
+		
+	}
+
+	public List<FLine> getLinesForPointTo(FPoint cmd) {
+		
+		List<FLine> result = new ArrayList<FLine>();
+		
+		for(Figure v : figuresList){
+			for(FLine l : v.getFigureLines()){
+				if(cmd.equals(l.getPointTo())){
+					result.add(l);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public Figure getFigureByLine(FLine line){		
+		
+		for(Figure v : figuresList){
+			if(v.getFigureLines().contains(line)){
+				return v;
+			}
+		}
+		
+		return null;
+	}
+
+	public void replaceLine(FPoint cmd, FLine line, GCommand newGC) {
+		
+		Figure f = getFigureByLine(line);
+		
+		cmd.setX(newGC.getX());
+		cmd.setY(newGC.getY());
+				
+		int lineIndex = f.getFigureLines().indexOf(line);
+		
+		FLine newLine = Editor.createLine(line.getPointFrom(), line.getPointTo(), newGC);
+		
+		f.getFigureLines().set(lineIndex, newLine);
 		
 	}
 

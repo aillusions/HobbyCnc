@@ -25,6 +25,7 @@ import cnc.editor.Editor;
 import cnc.editor.EditorStates;
 import cnc.editor.FiguresContainer;
 import cnc.editor.GCodeParser;
+import cnc.editor.domain.figure.FLine;
 import cnc.editor.domain.figure.FPoint;
 import cnc.editor.domain.gcmd.GCommand;
 import cnc.editor.view.VisualisationPanel;
@@ -126,16 +127,22 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    		return;
 	    	}    		    	
 	    	
-	    	final FPoint cmd = cmds.iterator().next();
+	    	final FPoint fPoint = cmds.iterator().next();
 	    	
 	    	JMenuItem menuItem  = (JMenuItem)e.getSource();
 	    	JPopupMenu menu = (JPopupMenu)menuItem.getParent();
 	    	VisualisationPanel vp = (VisualisationPanel)menu.getInvoker();	    	
 	    
-	    	int x = (int)EditorStates.convertPositionCnc_View(cmd.getX().intValue());	    	
-	    	int y = (int)(vp.getViewY(EditorStates.convertPositionCnc_View(cmd.getY().intValue())));
+	    	int x = (int)EditorStates.convertPositionCnc_View(fPoint.getX().intValue());	    	
+	    	int y = (int)(vp.getViewY(EditorStates.convertPositionCnc_View(fPoint.getY().intValue())));
 	    	
-	    	final JTextField textField = new JTextField(cmd.toString());
+	    	List<FLine> lineList = FiguresContainer.getInstance().getLinesForPointTo(fPoint);
+	    	
+	    	final FLine fLine = lineList.get(0);
+	    	
+	    	
+	    	final JTextField textField = new JTextField(fLine.toString());
+	    	
 	    	textField.setFont(new Font("Arial", 0, 13));
 	    	textField.setForeground(Color.red);
 	    	textField.setBounds(x, y, 200, 21);
@@ -174,7 +181,8 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 					if (key == KeyEvent.VK_ENTER) {
 						
 						GCommand newGC = GCodeParser.parseCommand(textField.getText());
-						//GCommandsContainer.getInstance().replaceGCommand(cmd, newGC);
+
+						FiguresContainer.getInstance().replaceLine(fPoint, fLine, newGC);
 						
 						JTextField thisTextField = (JTextField)e.getSource();
 						VisualisationPanel mainVPanel = (VisualisationPanel)thisTextField.getParent();

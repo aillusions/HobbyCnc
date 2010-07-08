@@ -39,7 +39,10 @@ public class GCodeParser {
 					}
 					
 					result = gCmdFactory.getCommand();
-				}		
+					
+				}else{
+					throw new IllegalArgumentException("Command type was not find. Wrong command string: '" + stringToParse + "'.");
+				}
 			}else{
 				throw new IllegalArgumentException("Wrong command string: '" + stringToParse + "'.");
 			}

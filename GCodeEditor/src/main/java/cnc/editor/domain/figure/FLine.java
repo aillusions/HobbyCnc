@@ -76,11 +76,9 @@ public abstract class FLine {
 	}
 	@Override
 	public String toString() {		
-		//return getLineType().toString()+ " from: " + pointFrom.toString() + " to: " + pointTo.toString();
-		
+
 		String strX = pointTo.getX() != null ? " X" + getRounded(pointTo.getX()) : "" ;
 		String strY = pointTo.getY() != null ? " Y" + getRounded(pointTo.getY()) : "";
-
 		
 		return getLineType() + strX + strY;
 	}
