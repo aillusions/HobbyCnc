@@ -151,16 +151,16 @@ public class Editor {
 				List<FPoint> oneCmdList = new ArrayList<FPoint>();
 				oneCmdList.add(vertexes.get(0));
 				
-				if(es.getSelectedGCommands() != null && es.getSelectedGCommands().containsAll(vertexes)){
+				if(es.getSelectedPoints() != null && es.getSelectedPoints().containsAll(vertexes)){
 					
 					//remove from selected:
 					if(ctrl){
-						es.removeGCommandsFromSelected(vertexes);
+						es.removePointsFromSelected(vertexes);
 					}
 				}else if(ctrl){
-					es.addToSelectedGCommands(oneCmdList);
+					es.addToSelectedPoints(oneCmdList);
 				}else{
-					es.setSelectedGCommands(oneCmdList);
+					es.setSelectedPoints(oneCmdList);
 				}	
 				
 				prevDragX = x;
@@ -219,7 +219,7 @@ public class Editor {
 			float shiftX = EditorStates.convertLengthView_Cnc((long)(prevDragX - x));
 			float shiftY = EditorStates.convertLengthView_Cnc((long)(prevDragY - y));
 			
-			List<FPoint> gcs = es.getSelectedGCommands();
+			List<FPoint> gcs = es.getSelectedPoints();
 			if(gcs != null && gcs.size() > 0){
 
 				for(FPoint gc : gcs){					
@@ -244,7 +244,7 @@ public class Editor {
 			float endY = EditorStates.convertPositionView_Cnc(sr.getEndY());
 			
 			List<FPoint> cmds = gcc.findVertexesInRegion(startX, startY, endX, endY);
-			es.setSelectedGCommands(cmds);
+			es.setSelectedPoints(cmds);
 		}				
 				
 	}

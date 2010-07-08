@@ -72,12 +72,12 @@ public class Figure {
 		}
 			
 	}
-	
 
-
-	public void closeFigure(Editor.GcommandTypes lineType) {
+	public void closeFigure(FPoint p1, FPoint p2) {
 		
-		FLine line = Editor.createLine(figurePoints.get(figurePoints.size()-1), figurePoints.get(0));	
+		//FLine line = Editor.createLine(figurePoints.get(figurePoints.size()-1), figurePoints.get(0));	
+		
+		FLine line = Editor.createLine(p1, p2);	
 		
 		if(line != null){
 			if(!figureLines.contains(line)){
@@ -138,8 +138,8 @@ public class Figure {
 	
 	public void draw(GraphicsWrapper g){
 		
-		List<FPoint> selectedCCmd = es.getSelectedGCommands();
-		List<FPoint> nearSelection = es.getNearSelectedGCommands();
+		List<FPoint> selectedCCmd = es.getSelectedPoints();
+		List<FPoint> nearSelection = es.getNearSelectedPoints();
 
 		for(FLine l : figureLines){
 			

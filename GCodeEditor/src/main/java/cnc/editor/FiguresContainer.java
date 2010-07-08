@@ -147,7 +147,19 @@ public class FiguresContainer {
 
 	public void closeFigure() {
 		
-		currentFigure.closeFigure(es.getCurrentGCmdType());
+    	List<FPoint> selectedPoints = EditorStates.getInstance().getSelectedPoints();
+    	
+    	if(selectedPoints == null || selectedPoints.size() != 2){
+    		return;
+    	}
+    	
+    	if(FiguresContainer.getInstance().getLinesForPointTo(selectedPoints.get(0)).size() == 1){
+    		currentFigure.closeFigure(selectedPoints.get(0), selectedPoints.get(1));
+    	}else if(FiguresContainer.getInstance().getLinesForPointFrom(selectedPoints.get(0)).size() == 1){
+    		currentFigure.closeFigure(selectedPoints.get(1), selectedPoints.get(0));
+    	}
+
+    
 		
 		ActionEvent ae = new ActionEvent(this , -1, CMD_CLOSE_CURRENT_FIGURE);
 		notifyAllAboutChanges(ae);
@@ -228,6 +240,21 @@ public class FiguresContainer {
 		for(Figure v : figuresList){
 			for(FLine l : v.getFigureLines()){
 				if(cmd.equals(l.getPointTo())){
+					result.add(l);
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	public List<FLine> getLinesForPointFrom(FPoint cmd) {
+		
+		List<FLine> result = new ArrayList<FLine>();
+		
+		for(Figure v : figuresList){
+			for(FLine l : v.getFigureLines()){
+				if(cmd.equals(l.getPointFrom())){
 					result.add(l);
 				}
 			}
