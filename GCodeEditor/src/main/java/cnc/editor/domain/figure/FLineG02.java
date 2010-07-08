@@ -128,7 +128,7 @@ public class FLineG02  extends FLine {
 		
 		//Draw center of imagined circle
 		int centerX, centerY;
-		int size = 4;
+		int size = 2;
 		centerX = (int)(EditorStates.convertPositionCnc_View((float)x));
 		centerY = (int)(EditorStates.convertPositionCnc_View((float)y));	
 		gw.drawBullet(centerX, centerY, size);

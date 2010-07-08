@@ -17,7 +17,7 @@ public class Figure {
 	
 	protected EditorStates es = EditorStates.getInstance();	
 
-	public void addPoint(float x, float y/*, Editor.GcommandTypes lineType*/){		
+	public void addPoint(float x, float y){		
 		
 		boolean useExisting = false;
 		FPoint fp = new FPoint(x, y);
@@ -73,44 +73,7 @@ public class Figure {
 			
 	}
 	
-	public void draw(GraphicsWrapper g){
-		
-		List<FPoint> selectedCCmd = es.getSelectedGCommands();
-		List<FPoint> nearSelection = es.getNearSelectedGCommands();
 
-		for(FLine l : figureLines){
-			
-			if(selectedCCmd != null && selectedCCmd.contains(l.getPointTo())){
-				g.setColor(Color.ORANGE);	
-			}else{
-				g.setColor(Color.black);
-			}
-			
-			l.draw(g);
-		}
-		
-		for(FPoint p : figurePoints){
-				
-			if(selectedCCmd != null && selectedCCmd.contains(p)){
-				g.setColor(Color.ORANGE);
-			}else if(nearSelection != null && nearSelection.contains(p)){
-				g.setColor(Color.gray);	
-			}else{
-				g.setColor(Color.black);	
-			}
-						
-			p.draw(g);
-		}
-		
-	}
-
-	public List<FPoint> getFigurePoints() {
-		return figurePoints;
-	}
-
-	public List<FLine> getFigureLines() {
-		return figureLines;
-	}
 
 	public void closeFigure(Editor.GcommandTypes lineType) {
 		
@@ -171,6 +134,45 @@ public class Figure {
 		figureLines.removeAll(toRemove);
 		
 		figurePoints.removeAll(selectedPoints);		
+	}
+	
+	public void draw(GraphicsWrapper g){
+		
+		List<FPoint> selectedCCmd = es.getSelectedGCommands();
+		List<FPoint> nearSelection = es.getNearSelectedGCommands();
+
+		for(FLine l : figureLines){
+			
+			if(selectedCCmd != null && selectedCCmd.contains(l.getPointTo())){
+				g.setColor(Color.ORANGE);	
+			}else{
+				g.setColor(Color.black);
+			}
+			
+			l.draw(g);
+		}
+		
+		for(FPoint p : figurePoints){
+				
+			if(selectedCCmd != null && selectedCCmd.contains(p)){
+				g.setColor(Color.ORANGE);
+			}else if(nearSelection != null && nearSelection.contains(p)){
+				g.setColor(Color.gray);	
+			}else{
+				g.setColor(Color.green);	
+			}
+						
+			p.draw(g);
+		}
+		
+	}
+	
+	public List<FPoint> getFigurePoints() {
+		return figurePoints;
+	}
+
+	public List<FLine> getFigureLines() {
+		return figureLines;
 	}
 	
 }

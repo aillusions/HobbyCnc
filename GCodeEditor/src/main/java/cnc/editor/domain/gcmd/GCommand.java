@@ -33,8 +33,8 @@ public abstract class GCommand {
 		Color pointColor = Color.black;
 		int pointSize;
 		
-		/*Set<GCommand> selectedCCmd = es.getSelectedGCommands();
-		Set<GCommand> nearSelection = es.getNearSelectedGCommands();
+		List<GCommand> selectedCCmd = null;  //es.getSelectedGCommands();
+		List<GCommand> nearSelection = null; //es.getNearSelectedGCommands();
 		int size = (int)EditorStates.NODE_CIRCLE_SIZE;
 
 		pointSize = 2;
@@ -54,8 +54,7 @@ public abstract class GCommand {
 			lineColor = Color.ORANGE;	
 			pointSize = size;			
 		}	
-*/
-/*		
+		
 		int newX = (int)EditorStates.convertPositionCnc_View(getX()); 
 		int newY = (int)EditorStates.convertPositionCnc_View(getY()); 	
 		
@@ -65,7 +64,7 @@ public abstract class GCommand {
 		if(!es.isDisplayOnlyZ0() || this.getZ() <= 0){
 			g.setColor(lineColor);
 			drawLine(g);	
-		}*/
+		}
 	}
 	
 	private final List<ActionListener> listeners = new ArrayList<ActionListener>();

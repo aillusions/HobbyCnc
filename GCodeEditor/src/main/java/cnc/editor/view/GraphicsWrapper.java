@@ -25,7 +25,7 @@ public class GraphicsWrapper{
 	
 	public void drawLineWithScaleThickness(int x, int y, int endX, int endY){		
 	    Graphics2D g2 = (Graphics2D)g;
-		float thickness = EditorStates.getInstance().getScale()/1.5f;	
+		float thickness = EditorStates.getInstance().getScale()/1.8f;	
 		Stroke s = new BasicStroke(thickness);
 		Stroke old = g2.getStroke();
 		g2.setStroke(s);	
@@ -54,7 +54,7 @@ public class GraphicsWrapper{
 	public void drawArcWithScaleThickness(int viewLeft, int viewTop, int viewSide, int startAngle, int arcAngle) {
 		
 		Graphics2D g2 = (Graphics2D)g;
-		float thickness = EditorStates.getInstance().getScale()/1.5f;	
+		float thickness = EditorStates.getInstance().getScale()/1.8f;	
 		Stroke s = new BasicStroke(thickness);
 		Stroke old = g2.getStroke();
 		g2.setStroke(s);	

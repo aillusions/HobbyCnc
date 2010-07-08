@@ -41,7 +41,7 @@ public class VisualisationPanel extends JPanel{
 		setLayout(null);
 		
 		try {
-			source = ImageIO.read(new File("Plata_ok.bmp"));
+			source = ImageIO.read(new File("Plata_ok_tr.bmp"));
 			scaleImage();
 		}catch(IOException e){
 			throw new RuntimeException(e);
@@ -233,8 +233,13 @@ public class VisualisationPanel extends JPanel{
 			double panelWidth = this.getSize().getWidth();
 			double panelHeight = this.getSize().getHeight();	
 			
-			if(panelWidth < newX + 50 || panelHeight < newY + 50){	
-				this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)Math.max(newY, panelHeight) + 50));
+			if(panelWidth < newX + 50){
+				this.setPreferredSize(new Dimension((int)Math.max(newX, panelWidth) + 50, (int)panelHeight));
+				this.revalidate();
+			} 
+			
+			if(panelHeight < newY + 50){	
+				this.setPreferredSize(new Dimension((int)panelWidth, (int)Math.max(newY, panelHeight) + 50));
 				this.revalidate();
 			}	
 		}

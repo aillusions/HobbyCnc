@@ -23,7 +23,7 @@ public class FPoint {
 		int newX = (int)EditorStates.convertPositionCnc_View(X); 
 		int newY = (int)EditorStates.convertPositionCnc_View(Y); 	
 
-		int thickness = (int)(EditorStates.getInstance().getScale() + 5);	
+		int thickness = (int)(EditorStates.getInstance().getScale()+1);	
 		g.drawBullet(newX, newY, thickness);
 	}
 	
