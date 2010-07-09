@@ -6,9 +6,7 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import cnc.editor.Editor;
 import cnc.editor.EditorStates;
 import cnc.editor.Editor.GcommandTypes;
 import cnc.editor.view.GraphicsWrapper;

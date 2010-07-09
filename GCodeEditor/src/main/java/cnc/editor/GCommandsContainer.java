@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import cnc.editor.domain.figure.FLine;
 import cnc.editor.domain.gcmd.GCommand;
 
 //Singleton
