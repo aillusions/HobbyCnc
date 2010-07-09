@@ -27,6 +27,7 @@ import cnc.editor.FiguresContainer;
 import cnc.editor.GCodeParser;
 import cnc.editor.domain.figure.FLine;
 import cnc.editor.domain.figure.FPoint;
+import cnc.editor.domain.figure.Figure;
 import cnc.editor.domain.gcmd.GCommand;
 import cnc.editor.view.VisualisationPanel;
 
@@ -58,7 +59,10 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	        menu.add(new EditAction()); 
 	        menu.add(new DeleteAction()); 
 	        menu.add(new FrezeAction()); 
-	        menu.addSeparator(); 
+	        menu.addSeparator(); 	    	
+	        menu.add(new SplitLinesAction()); 
+	        menu.add(new SetCurrentAction()); 
+	        menu.add(new JoinPointsAction()); 
 	        menu.add(new MergeAction()); 
 	        menu.add(new SelectAllAction()); 
 	        
@@ -122,7 +126,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	 
 	    public void actionPerformed(ActionEvent e){ 
 	    
-	    	List<FPoint> cmds = EditorStates.getInstance().getSelectedGCommands();
+	    	List<FPoint> cmds = EditorStates.getInstance().getSelectedPoints();
 	    	if(cmds.size() != 1){
 	    		return;
 	    	}    		    	
@@ -251,7 +255,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	 
 	    public void actionPerformed(ActionEvent e){ 
 
-	    	FiguresContainer.getInstance().removePoints(EditorStates.getInstance().getSelectedGCommands());
+	    	FiguresContainer.getInstance().removePoints(EditorStates.getInstance().getSelectedPoints());
 	    	EditorStates.getInstance().clearSelection();
 	    } 
 	 
@@ -259,6 +263,82 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	       return true;
 	    } 
 	}
+	
+	class SplitLinesAction extends AbstractAction{ 
+		
+		private static final long serialVersionUID = 1L;
+
+		public SplitLinesAction(){ 
+	        super("Split"); 
+	    } 
+	 
+	    public void actionPerformed(ActionEvent e){ 
+	    	
+	    	List<FPoint> selectedPoints = EditorStates.getInstance().getSelectedPoints();
+	    	
+	    	if(selectedPoints == null){
+	    		return;
+	    	}
+	    	
+	    	for(FPoint p : selectedPoints){
+	    		
+	    		List<FLine> linesFrom = FiguresContainer.getInstance().getLinesForPointFrom(p);
+	    		
+	    		for(FLine l : linesFrom){
+	    			
+	    			Figure f = FiguresContainer.getInstance().getFigureByLine(l);	    			
+	    			FPoint newPoint = new FPoint(p.getX()+ 1, p.getY() + 1);
+	    			f.getFigurePoints().add(newPoint);	    			
+	    			l.setPointFrom(newPoint);
+	    		}
+	    		//FiguresContainer.getInstance().getLinesForPointTo(p);
+	    	}
+	    	
+	    	
+	    	///FiguresContainer.getInstance().removePoints(EditorStates.getInstance().getSelectedGCommands());
+	    	//EditorStates.getInstance().clearSelection();
+	    	//EditorStates.getInstance().setSelectedGCommands(FiguresContainer.getInstance().getAllPointsList());
+	    } 
+	 
+	    public boolean isEnabled(){ 
+	       return true;
+	    } 
+	}
+
+	class JoinPointsAction extends AbstractAction{ 
+		
+		private static final long serialVersionUID = 1L;
+
+		public JoinPointsAction(){ 
+	        super("Join"); 
+	    } 
+	 
+	    public void actionPerformed(ActionEvent e){ 
+	    	//EditorStates.getInstance().setSelectedGCommands(FiguresContainer.getInstance().getAllPointsList());
+	    } 
+	 
+	    public boolean isEnabled(){ 
+	       return true;
+	    } 
+	}
+	
+	class SetCurrentAction extends AbstractAction{ 
+		
+		private static final long serialVersionUID = 1L;
+
+		public SetCurrentAction(){ 
+	        super("Set current"); 
+	    } 
+	 
+	    public void actionPerformed(ActionEvent e){ 
+	    	//EditorStates.getInstance().setSelectedGCommands(FiguresContainer.getInstance().getAllPointsList());
+	    } 
+	 
+	    public boolean isEnabled(){ 
+	       return true;
+	    } 
+	}
+	
 	
 	class SelectAllAction extends AbstractAction{ 
 		
@@ -269,7 +349,7 @@ public class VisualisationPanelListener implements MouseListener, MouseMotionLis
 	    } 
 	 
 	    public void actionPerformed(ActionEvent e){ 
-	    	EditorStates.getInstance().setSelectedGCommands(FiguresContainer.getInstance().getAllPointsList());
+	    	EditorStates.getInstance().setSelectedPoints(FiguresContainer.getInstance().getAllPointsList());
 	    } 
 	 
 	    public boolean isEnabled(){ 

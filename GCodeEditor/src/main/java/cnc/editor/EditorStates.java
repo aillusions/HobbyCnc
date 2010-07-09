@@ -129,11 +129,11 @@ public class EditorStates {
 		this.currentSelectedTool = currentSelectedTool;
 	}
 	
-	public List<FPoint> getSelectedGCommands() {
+	public List<FPoint> getSelectedPoints() {
 		return selectedCommands;
 	}
 
-	public List<FPoint> getNearSelectedGCommands() {
+	public List<FPoint> getNearSelectedPoints() {
 		
 		if(selectedCommands != null && selectedCommands.size() == 1){
 			return FiguresContainer.getInstance().getNeighbourVertexes(((FPoint)selectedCommands.toArray()[0]));
@@ -141,13 +141,13 @@ public class EditorStates {
 		return null;
 	}
 	
-	public void removeGCommandsFromSelected(Collection<FPoint> vertexes) {
+	public void removePointsFromSelected(Collection<FPoint> vertexes) {
 		selectedCommands.removeAll(vertexes);
 		ActionEvent ae = new ActionEvent(this, -1, "setSelectedVertex");
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void setSelectedGCommands(List<FPoint> selectedGCommands) {
+	public void setSelectedPoints(List<FPoint> selectedGCommands) {
 
 		this.selectedCommands = new ArrayList<FPoint>();
 		this.selectedCommands.addAll(selectedGCommands);
@@ -155,7 +155,7 @@ public class EditorStates {
 		notifyAllAboutChanges(ae);
 	}
 	
-	public void addToSelectedGCommands(List<FPoint> selectedGCommands) {
+	public void addToSelectedPoints(List<FPoint> selectedGCommands) {
 	
 		if(this.selectedCommands == null){
 			this.selectedCommands = new ArrayList<FPoint>();
