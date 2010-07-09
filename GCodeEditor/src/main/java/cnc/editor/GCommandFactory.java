@@ -32,8 +32,8 @@ public class GCommandFactory {
 				}else{
 					return new GCommandG03(x,y,z,i,j);
 				}
-			case ORIGIN:
-				return new GCommandOrigin();
+/*			case ORIGIN:
+				return new GCommandOrigin();*/
 			default:
 				throw new RuntimeException("Command type was not recognized.");
 		}

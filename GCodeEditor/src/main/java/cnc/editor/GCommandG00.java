@@ -19,6 +19,10 @@ public class GCommandG00 extends GCommand{
 	@Override
 	public void drawLine(GraphicsWrapper g) {
 		
+		if(previousCmd == null){
+			return;
+		}
+		
 		int prevX = (int)EditorStates.convertPositionCnc_View(previousCmd.getX());
 		int prevY = (int)EditorStates.convertPositionCnc_View(previousCmd.getY());
 		
@@ -27,9 +31,9 @@ public class GCommandG00 extends GCommand{
 
 		g.drawLineWithScaleThickness(prevX, prevY, newX, newY);
 		
-		if(EditorStates.getInstance().getScale() >= 5){
+/*		if(EditorStates.getInstance().getScale() >= 5){
 			drawArrowEnd(g);						
-		}	
+		}	*/
 	}
 	
 	private void drawArrowEnd(GraphicsWrapper g){

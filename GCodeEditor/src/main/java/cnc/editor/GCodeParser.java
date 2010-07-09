@@ -62,8 +62,8 @@ public class GCodeParser {
 			cmdType = GcommandTypes.G02;			
 		}else if(cmdStr.contains("G03 ") || cmdStr.contains("G3 ")){	
 			cmdType = GcommandTypes.G03;
-		}else if(cmdStr.contains("ORIGIN ")){
-			cmdType = GcommandTypes.ORIGIN;
+/*		}else if(cmdStr.contains("ORIGIN ")){
+			cmdType = GcommandTypes.ORIGIN;*/
 		}else if(cmdStr.contains("G41 ")){
 			cmdType = GcommandTypes.G00;
 		} 

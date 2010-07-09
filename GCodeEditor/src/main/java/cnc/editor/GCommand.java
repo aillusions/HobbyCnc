@@ -43,9 +43,9 @@ public abstract class GCommand {
 			pointSize = size;
 		}
 		
-		if(this.getZ() > 0){
+/*		if(this.getZ() > 0){
 			lineColor = Color.blue;
-		}
+		}*/
 		
 		if(selectedCCmd != null && selectedCCmd.contains(this)){
 			pointColor = Color.ORANGE;

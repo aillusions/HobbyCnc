@@ -28,7 +28,7 @@ public class GCommandsContainer implements ActionListener {
 	private boolean butchOfCmdsAddingInProgress = false; 
 		
 	private GCommandsContainer(){
-		addCommand(new GCommandOrigin());
+		//addCommand(new GCommandOrigin());
 	}                        
 	
 	public static GCommandsContainer getInstance(){
@@ -47,7 +47,7 @@ public class GCommandsContainer implements ActionListener {
 		
 		for(GCommand cmd : c){
 			
-			if(cmd.getCommandType() != GcommandTypes.ORIGIN){
+			//if(cmd.getCommandType() != GcommandTypes.ORIGIN){
 				int rmIndex = gCommandList.indexOf(cmd);
 				
 				if((rmIndex + 1) < gCommandList.size() && rmIndex >= 0){
@@ -55,7 +55,7 @@ public class GCommandsContainer implements ActionListener {
 				}
 				
 				gCommandList.remove(rmIndex);
-			}
+			//}
 		}
 		
 		ActionEvent ae = new ActionEvent(this , -1, CMD_REMOVED_COMMANDS);
@@ -157,7 +157,7 @@ public class GCommandsContainer implements ActionListener {
 	
 		ActionEvent ae = new ActionEvent(this , -1, CMD_CLEAR_COMMANDS_CONATINER);
 		notifyAllAboutChanges(ae);			
-		addCommand(new GCommandOrigin());
+		//addCommand(new GCommandOrigin());
 	}
 
 	

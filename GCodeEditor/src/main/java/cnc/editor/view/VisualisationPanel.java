@@ -68,7 +68,7 @@ public class VisualisationPanel extends JPanel{
 		GraphicsWrapper gw = new GraphicsWrapper(g, this);
 		
 		if(es.isDrawFacilities()){			
-			drawUnderlayer(gw);			
+			//drawUnderlayer(gw);			
 			drawGrid(gw);
 			drawStrictBorders(gw);	
 		}		
@@ -225,12 +225,12 @@ public class VisualisationPanel extends JPanel{
 		
 		GCommandsContainer gcc = GCommandsContainer.getInstance();
 		
-		if(gcc.getCommandList().size() == 1){
+/*		if(gcc.getCommandList().size() == 1){
 			
 			setPreferredSize(new Dimension(1, 1));
 			revalidate();
 			
-		}else{
+		}else{*/
 			
 			for(GCommand gc : gcc.getCommandList()){			
 					
@@ -247,7 +247,7 @@ public class VisualisationPanel extends JPanel{
 			
 				gc.draw(g);			
 			}
-		}
+		//}
 	}
 	
 	private void drawCoordinates(GraphicsWrapper g) {

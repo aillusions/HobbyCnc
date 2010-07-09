@@ -21,7 +21,7 @@ import cnc.storage.memory.IDataStorage;
 public class Editor {
 	
 	public enum EditorTolls{SIMPLE_EDIT, VERTEX_SELECT, CONTINUOUS_EDIT};
-	public enum GcommandTypes{ORIGIN, G00, G01, G02, G03}
+	public enum GcommandTypes{/*ORIGIN, */G00, G01, G02, G03}
 
 	private GCommandsContainer gcc = GCommandsContainer.getInstance();
 	private EditorStates es = EditorStates.getInstance();
