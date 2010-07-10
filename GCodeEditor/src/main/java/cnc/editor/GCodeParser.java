@@ -23,9 +23,9 @@ public class GCodeParser {
 
 					for(int k = 0; k < args.length; k ++){
 						if(args[k].indexOf("X") != -1){
-							gCmdFactory.setX(Float.parseFloat(args[k].replace("X", "")));
+							gCmdFactory.setX(Float.parseFloat(args[k].replace("X", ""))/1.1f);
 						}else if(args[k].indexOf("Y") != -1){
-							gCmdFactory.setY(Float.parseFloat(args[k].replace("Y", "")));
+							gCmdFactory.setY(Float.parseFloat(args[k].replace("Y", ""))/1.1f);
 						}else if(args[k].indexOf("Z") != -1){
 							gCmdFactory.setZ(Float.parseFloat(args[k].replace("Z", "")));
 						}else if(args[k].indexOf("R") != -1){

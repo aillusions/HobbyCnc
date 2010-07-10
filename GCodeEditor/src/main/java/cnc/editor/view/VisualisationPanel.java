@@ -41,7 +41,7 @@ public class VisualisationPanel extends JPanel{
 		setLayout(null);
 		
 		try {
-			source = ImageIO.read(new File("d:/1/Plata_ok.bmp"));
+			source = ImageIO.read(new File("../Plata_ok.bmp"));
 			scaleImage();
 		}catch(IOException e){
 			throw new RuntimeException(e);
@@ -68,7 +68,7 @@ public class VisualisationPanel extends JPanel{
 		GraphicsWrapper gw = new GraphicsWrapper(g, this);
 		
 		if(es.isDrawFacilities()){			
-			drawUnderlayer(gw);			
+			//drawUnderlayer(gw);			
 			drawGrid(gw);
 			drawStrictBorders(gw);	
 		}		
