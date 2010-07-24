@@ -68,7 +68,7 @@ public class VisualisationPanel extends JPanel{
 		GraphicsWrapper gw = new GraphicsWrapper(g, this);
 		
 		if(es.isDrawFacilities()){			
-			drawUnderlayer(gw);			
+			//drawUnderlayer(gw);			
 			drawGrid(gw);
 			drawStrictBorders(gw);	
 		}		
